@@ -1,0 +1,58 @@
+{
+  // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
+      "installRoot": "${workspaceRoot}\\..\\__install-output",
+      "cmakeCommandArgs": "",
+      "variables": [
+        {
+          "name": "option_DownloadLibrariesLocally:BOOL",
+          "value": "NO"
+        }
+      ],
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": ""
+    },
+    {
+      "name": "x64-Release",
+      "generator": "Ninja",
+      "configurationType": "RelWithDebInfo",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
+      "installRoot": "${workspaceRoot}\\..\\__install-output",
+      "cmakeCommandArgs": "",
+      "variables": [
+        {
+          "name": "option_DownloadLibrariesLocally:BOOL",
+          "value": "NO"
+        }
+      ],
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": ""
+    },
+    ////////////////////////////////////////////////////////////////////////////
+    // MSVC-VS2017-x64-Debug
+    ////////////////////////////////////////////////////////////////////////////
+    {
+      "name": "MSVC-VS2017-x64-Debug",
+      "generator": "Visual Studio 15 2017 Win64",
+      "configurationType": "Debug",
+      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
+      "installRoot": "${workspaceRoot}\\..\\__install-output",
+      "cmakeCommandArgs": "",
+      "variables": [
+        {
+          "name": "option_DownloadLibrariesLocally:BOOL",
+          "value": "NO"
+        }
+      ],
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": ""
+    }
+  ]
+}
