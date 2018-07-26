@@ -1,10 +1,13 @@
 ################################################################################
 cmake_minimum_required (VERSION 3.10)
 ################################################################################
+message ("CMake version: " ${CMAKE_VERSION})
+################################################################################
 
 ################################################################################
-# Modules: find_package () modules
+# Project properties
 ################################################################################
+# find_package () modules
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/__cmake/Modules")
 ################################################################################
 
@@ -18,15 +21,37 @@ project ("GunBox")
 # Targets
 ################################################################################
 
+add_executable (${PROJECT_NAME}
+  # Platform resources (Windows)
+  $<$<PLATFORM_ID:Windows>:Resources/Windows/DpiAwareness.manifest>
+  $<$<PLATFORM_ID:Windows>:Resources/Windows/GunBox.rc>
+  # Source files
+  "Sources/System/Geometry.cpp"
+  "Sources/System/Geometry.hpp"
+  "Sources/System/Monitor.cpp"
+  "Sources/System/Monitor.hpp"
+  "Sources/System/Preferences.cpp"
+  "Sources/System/Preferences.hpp"
+  "Sources/System/Window.cpp"
+  "Sources/System/Window.hpp"
+  "Sources/main.cpp"
+)
+
+# Enable C++17 standard complience
+set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+target_compile_options (${PROJECT_NAME}
+  PRIVATE
+    $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+    $<$<CXX_COMPILER_ID:MSVC>:/JMC>
+)
+
+# Find external libraries
 find_package (SDL2 REQUIRED)
 if (NOT SDL2_FOUND)
   message ("ERROR: SDL2 SDK was not found in the search path!")
 endif()
 list (APPEND SharedLibraries ${SDL2_SHARED_LIBRARY})
 
-add_executable (${PROJECT_NAME}
-  "Sources/main.cpp"
-)
 target_link_libraries (${PROJECT_NAME}
   REngine::SDL2
 )
@@ -44,9 +69,6 @@ endforeach ()
 
 # Set installation path
 set (InstallationPath ${CMAKE_INSTALL_PREFIX})
-get_filename_component (InstallationPath
-  "${InstallationFolder}" ABSOLUTE
-)
 
 # Install targets
 install (

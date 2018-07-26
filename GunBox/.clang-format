@@ -1,1 +1,2 @@
-BasedOnStyle: LLVM
+# Available default styles: LLVM, Google, Chromium, Mozilla, WebKit
+BasedOnStyle: Mozilla

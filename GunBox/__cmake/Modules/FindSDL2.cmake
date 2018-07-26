@@ -71,7 +71,7 @@ find_path (SDL2_INCLUDE_DIR
   HINTS
     ENV SDLDIR
     "${SDL2_DIR}"
-    "$ENV{IVENT_SOTS_EXTERNALIBS}/SDL2"
+    "$ENV{__EXTERNAL_LIBS}/SDL2"
   PATH_SUFFIXES
     "/SDL2"
     # path suffixes to search inside ENV{SDLDIR}
@@ -97,12 +97,13 @@ find_library (SDL2_LIBRARY
     ${LibraryFile}
   HINTS
     ENV SDLDIR
+    "$ENV{__EXTERNAL_LIBS}/SDL2"
     "${SDL2_DIR}"
-    "$ENV{IVENT_SOTS_EXTERNALIBS}/SDL2"
   PATH_SUFFIXES
     "lib"
     "${VC_LIB_PATH_SUFFIX}"
 )
+
 set (SDL2_LIBRARY_TEMP ${SDL2_LIBRARY})
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
   set (LibraryFile "${LibraryFile}.dll")
@@ -110,7 +111,7 @@ if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
     NAMES
       ${LibraryFile}
     PATHS
-      "$ENV{IVENT_SOTS_EXTERNALIBS}/SDL2"
+      "$ENV{__EXTERNAL_LIBS}/SDL2"
     PATH_SUFFIXES
       ${VC_LIB_PATH_SUFFIX}
   )
@@ -133,8 +134,8 @@ if (NOT SDL2_BUILDING_LIBRARY)
         ${LibraryFile}
       HINTS
         ENV SDLDIR
+        "$ENV{__EXTERNAL_LIBS}/SDL2"
         "${SDL2_DIR}"
-        "$ENV{IVENT_SOTS_EXTERNALIBS}/SDL2"
       PATH_SUFFIXES
         "lib"
         "${VC_LIB_PATH_SUFFIX}"
@@ -234,22 +235,23 @@ endif ()
 ################################################################################
 
 include (FindPackageHandleStandardArgs)
-find_package_handle_standard_args (SDL2
-  REQUIRED_VARS
-    SDL2_INCLUDE_DIR
-    SDL2_LIBRARY
-    SDL2_LIBRARIES
-    SDL2_SHARED_LIBRARY
-  VERSION_VAR
-    SDL2_VERSION_STRING
-)
 
-mark_as_advanced (
+set (PackageVariables
   SDL2_INCLUDE_DIR
   SDL2_LIBRARY
   SDL2_LIBRARIES
-  SDL2_SHARED_LIBRARY
 )
+if (SDL2_SHARED_LIBRARY)
+  set (PackageVariables ${PackageVariables} SDL2_SHARED_LIBRARY)
+endif ()
+
+find_package_handle_standard_args (SDL2
+  REQUIRED_VARS
+    ${PackageVariables}
+  VERSION_VAR
+    SDL2_VERSION_STRING
+)
+mark_as_advanced (${PackageVariables})
 
 ################################################################################
 # Imported target

@@ -10,10 +10,6 @@
       "installRoot": "${workspaceRoot}\\..\\__install-output",
       "cmakeCommandArgs": "",
       "variables": [
-        {
-          "name": "option_DownloadLibrariesLocally:BOOL",
-          "value": "NO"
-        }
       ],
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
@@ -27,10 +23,6 @@
       "installRoot": "${workspaceRoot}\\..\\__install-output",
       "cmakeCommandArgs": "",
       "variables": [
-        {
-          "name": "option_DownloadLibrariesLocally:BOOL",
-          "value": "NO"
-        }
       ],
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
@@ -46,10 +38,6 @@
       "installRoot": "${workspaceRoot}\\..\\__install-output",
       "cmakeCommandArgs": "",
       "variables": [
-        {
-          "name": "option_DownloadLibrariesLocally:BOOL",
-          "value": "NO"
-        }
       ],
       "buildCommandArgs": "-m -v:minimal",
       "ctestCommandArgs": ""
