@@ -1,7 +1,12 @@
 #pragma once
 
+// Project headers - Common
+#include "Common/Macros/Base.hpp"
+
+// Project headers - System
 #include "Geometry.hpp"
 
+NAMESPACE_START(System)
 
 class Monitor
 {
@@ -16,3 +21,5 @@ public:
 private:
   Rectangle2D rectangle;
 };
+
+NAMESPACE_END(System)

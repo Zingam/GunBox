@@ -26,12 +26,16 @@ add_executable (${PROJECT_NAME}
   $<$<PLATFORM_ID:Windows>:Resources/Windows/DpiAwareness.manifest>
   $<$<PLATFORM_ID:Windows>:Resources/Windows/GunBox.rc>
   # Source files
+  "Sources/Common/Macros/Base.cpp"
+  "Sources/Common/Macros/Base.hpp"
   "Sources/System/Geometry.cpp"
   "Sources/System/Geometry.hpp"
   "Sources/System/Monitor.cpp"
   "Sources/System/Monitor.hpp"
   "Sources/System/Preferences.cpp"
   "Sources/System/Preferences.hpp"
+  "Sources/System/RendererBase.cpp"
+  "Sources/System/RendererBase.hpp"
   "Sources/System/Window.cpp"
   "Sources/System/Window.hpp"
   "Sources/main.cpp"
@@ -41,8 +45,16 @@ add_executable (${PROJECT_NAME}
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 target_compile_options (${PROJECT_NAME}
   PRIVATE
-    $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+    # Enable the standard compliant C preprocessor
+    $<$<CXX_COMPILER_ID:MSVC>:/experimental:preprocessor>
+    # Enable Just My Code debugging
     $<$<CXX_COMPILER_ID:MSVC>:/JMC>
+    # Enable C++ Standard compliance
+    $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+)
+target_include_directories (${PROJECT_NAME}
+  PRIVATE
+    "Sources"
 )
 
 # Find external libraries

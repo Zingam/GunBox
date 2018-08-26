@@ -1,12 +1,17 @@
 // Self
 #include "Preferences.hpp"
+
 // Third party libraries
 #include <SDL.h>
-// C++ Standard Library
+
+// C Standard Library
 #include <cassert>
+// C++ Standard Library
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
+NAMESPACE_START(System)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors
@@ -31,17 +36,18 @@ Preferences::Preferences(const char* organizationName,
   data.offset_2 += sizeof(data.version);
   data.offset_2 += sizeof(data.offset_2);
   // Add each member size individually due to data alignment in structs
-  data.offset_2 += sizeof(data.window.coordinates.x);
-  data.offset_2 += sizeof(data.window.coordinates.y);
-  data.offset_2 += sizeof(data.window.height);
-  data.offset_2 += sizeof(data.window.width);
+  data.offset_2 += sizeof(data.mainWindowMetrics.Coordinate.X);
+  data.offset_2 += sizeof(data.mainWindowMetrics.Coordinate.Y);
+  data.offset_2 += sizeof(data.mainWindowMetrics.Size.Height);
+  data.offset_2 += sizeof(data.mainWindowMetrics.Size.Width);
   data.offset_2 += sizeof(data.fullscreen);
-  //   Rectangle2D window;
-  SetDefaultValues();
+  //   Rectangle2D mainWindowMetrics;
+  SetMainWindowDefaultValues();
   //   bool fullscreen;
   data.fullscreen = false;
   //   size_t hash_2;
   data.hash_2 = 0;
+  data.rendererType = RendererType::Unknown;
   // };
 }
 
@@ -95,7 +101,6 @@ Preferences::LoadFromFile()
   preferencesFile.seekg(data.offset_2, std::fstream::beg);
   preferencesFile.read(reinterpret_cast<char*>(&data.hash_2),
                        sizeof(data.hash_2));
-  assert(std::char_traits<char>::eof() == preferencesFile.peek());
   const auto hash_2 = CalculateHash(preferencesFile, { 0, data.offset_2 });
   if (hash_2 != data.hash_2) {
     return { "Invalid hash value: " + filepath.str() };
@@ -104,16 +109,24 @@ Preferences::LoadFromFile()
   preferencesFile.seekg(returnPos, std::fstream::beg);
 
   // Read each member size individually due to data alignment in structs
-  preferencesFile.read(reinterpret_cast<char*>(&data.window.coordinates.x),
-                       sizeof(data.window.coordinates.x));
-  preferencesFile.read(reinterpret_cast<char*>(&data.window.coordinates.y),
-                       sizeof(data.window.coordinates.y));
-  preferencesFile.read(reinterpret_cast<char*>(&data.window.height),
-                       sizeof(data.window.height));
-  preferencesFile.read(reinterpret_cast<char*>(&data.window.width),
-                       sizeof(data.window.width));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.mainWindowMetrics.Coordinate.X),
+    sizeof(data.mainWindowMetrics.Coordinate.X));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.mainWindowMetrics.Coordinate.Y),
+    sizeof(data.mainWindowMetrics.Coordinate.Y));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.mainWindowMetrics.Size.Height),
+    sizeof(data.mainWindowMetrics.Size.Height));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.mainWindowMetrics.Size.Width),
+    sizeof(data.mainWindowMetrics.Size.Width));
   preferencesFile.read(reinterpret_cast<char*>(&data.fullscreen),
                        sizeof(data.fullscreen));
+  // Skip data.hash_2 bytes
+  preferencesFile.ignore(sizeof(data.hash_2));
+  preferencesFile.read(reinterpret_cast<char*>(&data.rendererType),
+                       sizeof(data.rendererType));
 
   if (preferencesFile.bad()) {
     return { "Read error: " + filepath.str() };
@@ -147,19 +160,23 @@ Preferences::SaveToFile()
                         sizeof(data.offset_2));
   // Read each member size individually due to data alignment in structs
   preferencesFile.write(
-    reinterpret_cast<char const*>(&data.window.coordinates.x),
-    sizeof(data.window.coordinates.x));
+    reinterpret_cast<char const*>(&data.mainWindowMetrics.Coordinate.X),
+    sizeof(data.mainWindowMetrics.Coordinate.X));
   preferencesFile.write(
-    reinterpret_cast<char const*>(&data.window.coordinates.y),
-    sizeof(data.window.coordinates.y));
-  preferencesFile.write(reinterpret_cast<char const*>(&data.window.height),
-                        sizeof(data.window.height));
-  preferencesFile.write(reinterpret_cast<char const*>(&data.window.width),
-                        sizeof(data.window.width));
+    reinterpret_cast<char const*>(&data.mainWindowMetrics.Coordinate.Y),
+    sizeof(data.mainWindowMetrics.Coordinate.Y));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.mainWindowMetrics.Size.Height),
+    sizeof(data.mainWindowMetrics.Size.Height));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.mainWindowMetrics.Size.Width),
+    sizeof(data.mainWindowMetrics.Size.Width));
   preferencesFile.write(reinterpret_cast<char const*>(&data.fullscreen),
                         sizeof(data.fullscreen));
   preferencesFile.write(reinterpret_cast<char const*>(&data.hash_2),
                         sizeof(data.hash_2));
+  preferencesFile.write(reinterpret_cast<const char*>(&data.rendererType),
+                        sizeof(data.rendererType));
 
   preferencesFile.seekp(data.offset_2, std::fstream::beg);
   const auto hash_2 = CalculateHash(preferencesFile, { 0, data.offset_2 });
@@ -177,12 +194,12 @@ Preferences::SaveToFile()
 }
 
 void
-Preferences::SetDefaultValues()
+Preferences::SetMainWindowDefaultValues()
 {
-  data.window.coordinates.x = 0;
-  data.window.coordinates.y = 0;
-  data.window.height = 640;
-  data.window.width = 480;
+  data.mainWindowMetrics.Coordinate.X = 0;
+  data.mainWindowMetrics.Coordinate.Y = 0;
+  data.mainWindowMetrics.Size.Height = 480;
+  data.mainWindowMetrics.Size.Width = 640;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -229,3 +246,5 @@ Preferences::CalculateHash(std::fstream& fstream,
 
   return hash_djb2 + hash_sdbm;
 }
+
+NAMESPACE_END(System)

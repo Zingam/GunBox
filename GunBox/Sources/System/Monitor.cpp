@@ -1,4 +1,7 @@
+// Self
 #include "Monitor.hpp"
+
+NAMESPACE_START(System)
 
 Monitor::Monitor(Rectangle2D rectangle)
   : rectangle{ rectangle }
@@ -11,7 +14,7 @@ Monitor::Monitor(int x, int y, int width, int height)
 bool
 Monitor::IsPrimary()
 {
-  if ((0 == rectangle.coordinates.x) && (0 == rectangle.coordinates.y)) {
+  if ((0 == rectangle.Coordinate.X) && (0 == rectangle.Coordinate.Y)) {
     return true;
   } else {
     return false;
@@ -21,7 +24,9 @@ Monitor::IsPrimary()
 Point2D
 Monitor::MidPoint()
 {
-  auto x = rectangle.width % 2;
-  auto y = rectangle.height % 2;
+  auto x = rectangle.Size.Width % 2;
+  auto y = rectangle.Size.Height % 2;
   return { x, y };
 }
+
+NAMESPACE_END(System)

@@ -1,6 +1,12 @@
 #pragma once
 
+// Project headers - Common
+#include "Common/Macros/Base.hpp"
+
+// Project headers - System
 #include "Geometry.hpp"
+
+NAMESPACE_START(System)
 
 class Window
 {
@@ -12,6 +18,8 @@ public:
   };
 
 public:
-  Window(Point2D coordinates, int width, int height);
-  Window(Flags flags, int width, int height);
+  Window(Point2D coordinate, Dimensions size);
+  Window(Flags flags, Dimensions size);
 };
+
+NAMESPACE_END(System)
