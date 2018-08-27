@@ -1,6 +1,9 @@
 // Self
 #include "Monitor.hpp"
 
+// Third party
+#include <SDL_video.h>
+
 NAMESPACE_START(System)
 
 Monitor::Monitor(Rectangle2D rectangle)

@@ -1,7 +1,16 @@
 // Project headers
 #include "System/Preferences.hpp"
+#include "System/Window.hpp"
 
 // Third party libraries
+#if defined(_WIN32)
+// Defining APIENTRY manually will prevent 'glad' from including "Windows.h"
+#  define APIENTRY __stdcall
+#endif
+#include <glad/glad.h>
+#if defined(_WINDOWS_)
+#  error Windows.h was included!
+#endif
 #include <SDL.h>
 
 // C Standard library
@@ -13,7 +22,33 @@
 #include <sstream>
 #include <vector>
 
-#define SDL_IfFailed(function_call) if (0 > function_call)
+#if !defined(SDL_IfFailed)
+#  define SDL_IfFailed(function_call) if (0 > function_call)
+#else
+#  error SDL_IfFailed is already defined
+#endif
+
+#if !defined(SDL_LogError)
+#  define SDL_LogError(...)                                                    \
+    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, __VA_ARGS__)
+#else
+#  error SDL_LogError is already defined
+#endif
+
+#define USE_INTEGRATED_GPU
+
+#if !defined(USE_INTEGRATED_GPU)
+// NVIDIA
+extern "C"
+{
+  __declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
+}
+// AMD
+extern "C"
+{
+  __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+#endif
 
 int
 main(int argc, char* argv[])
@@ -31,26 +66,25 @@ main(int argc, char* argv[])
 
     // Main window
     preferences.SetMainWindowDefaultValues();
-    // Set default position
-    preferences.MainWindowMetrics().Coordinate.X = SDL_WINDOWPOS_CENTERED;
-    preferences.MainWindowMetrics().Coordinate.Y = SDL_WINDOWPOS_CENTERED;
-    preferences.RendererType() = System::RendererType::OpenGL;
   }
 
   SDL_IfFailed(
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER))
   {
-    SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+    SDL_LogError("Unable to initialize SDL: %s", SDL_GetError());
     return -1;
   }
+  // Clean up
+  atexit(SDL_Quit);
 
   auto videoDriverCount = SDL_GetNumVideoDrivers();
   SDL_IfFailed(videoDriverCount)
   {
-    SDL_Log("Unable to get video driver count: %s", SDL_GetError());
+    SDL_LogError("Unable to get video driver count: %s", SDL_GetError());
     return -1;
   }
 
+  SDL_Log("Video:");
   for (auto i = 0; i < videoDriverCount; ++i) {
     SDL_Log("  Video driver: %s", SDL_GetVideoDriver(i));
   }
@@ -58,7 +92,7 @@ main(int argc, char* argv[])
   auto videoDisplayCount = SDL_GetNumVideoDisplays();
   SDL_IfFailed(videoDisplayCount)
   {
-    SDL_Log("Unable to get video display count: %s", SDL_GetError());
+    SDL_LogError("Unable to get video display count: %s", SDL_GetError());
     return -1;
   }
 
@@ -68,35 +102,77 @@ main(int argc, char* argv[])
     SDL_Log("  Video display name: %s", SDL_GetDisplayName(i));
   }
 
-  Uint32 windowFlags = 0;
-  switch (preferences.RendererType()) {
-    case System::RendererType::OpenGL: {
-      windowFlags |= SDL_WINDOW_OPENGL;
-      break;
+  System::Window::Properties properties;
+  properties.Coordinate.X = preferences.MainWindowMetrics().Coordinate.X;
+  properties.Coordinate.Y = preferences.MainWindowMetrics().Coordinate.Y;
+  if (preferences.Fullscreen()) {
+    properties.Fullscreen =
+      System::Window::Properties::FullscreenState_t::Desktop;
+  } else {
+    properties.Fullscreen =
+      System::Window::Properties::FullscreenState_t::Windowed;
+  }
+  if (hasLoadingError) {
+    properties.Location = System::Window::Properties::Location_t::Centered;
+  } else {
+    properties.Location = System::Window::Properties::Location_t::Custom;
+  }
+  properties.RendererAPI = preferences.RendererAPI();
+  properties.Size.Height = preferences.MainWindowMetrics().Size.Height;
+  properties.Size.Width = preferences.MainWindowMetrics().Size.Width;
+
+  SDL_GL_LoadLibrary(NULL);
+  System::Window window{ "GunBox", properties };
+  window.Show();
+
+  SDL_GLContext glContext = nullptr;
+  SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+  // Search for the highest possible context version
+  for (int version = 6; 0 <= version; --version) {
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, version);
+    glContext = SDL_GL_CreateContext(window.Id());
+    if (nullptr == glContext) {
+      continue;
     }
-    case System::RendererType::Vulkan: {
-      windowFlags |= SDL_WINDOW_VULKAN;
-      break;
-    }
-    default:
-    {
-      // Unsupported renderer
-      assert(0 != windowFlags);
-    }
+    break;
+  }
+  if (nullptr == glContext) {
+    SDL_LogError("Unable to create OpenGL context: %s", SDL_GetError());
+    return -1;
   }
 
-  SDL_Window* window =
-    SDL_CreateWindow("GunBox",
-                     preferences.MainWindowMetrics().Coordinate.X,
-                     preferences.MainWindowMetrics().Coordinate.Y,
-                     preferences.MainWindowMetrics().Size.Width,
-                     preferences.MainWindowMetrics().Size.Height,
-                     windowFlags);
+  if (gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+    auto vendor = glGetString(GL_VENDOR);
+    auto renderer = glGetString(GL_RENDERER);
+    auto version = glGetString(GL_VERSION);
+    auto glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+
+    SDL_Log("OpenGL:");
+    SDL_Log("  Vendor:       %s", vendor);
+    SDL_Log("  Renderer:     %s", renderer);
+    SDL_Log("  Version:      %s", version);
+    SDL_Log("  GLSL version: %s", glslVersion);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_GL_SwapWindow(window.Id());
+  } else {
+    SDL_GL_DeleteContext(glContext);
+    SDL_LogError("Failed to load OpenGL functions pointers.");
+    return -1;
+  }
 
   std::map<Sint32, SDL_GameController*> gameControllers;
 
   bool isRunning = true;
   bool isQuitting = false;
+
+  float r = 0.0f;
+  float g = 0.0f;
+  float b = 0.0f;
 
   // Event handler
   SDL_Event e;
@@ -112,7 +188,7 @@ main(int argc, char* argv[])
         auto deviceId = e.cdevice.which;
         auto gameController = SDL_GameControllerOpen(deviceId);
         if (gameController == nullptr) {
-          SDL_Log("Unable to open game controller");
+          SDL_LogError("Unable to open game controller");
         } else {
           gameControllers[deviceId] = gameController;
         }
@@ -134,6 +210,12 @@ main(int argc, char* argv[])
         }
       }
     }
+    r = (1.0f < r) ? (0.0f) : (r + 0.01f);
+    g = (1.0f < g) ? (0.0f) : (g + 0.02f);
+    b = (1.0f < b) ? (0.0f) : (b + 0.03f);
+    glClearColor(r, g, b, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+    SDL_GL_SwapWindow(window.Id());
   }
 
   for (auto [id, gameController] : gameControllers) {
@@ -141,23 +223,20 @@ main(int argc, char* argv[])
     gameControllers[id] = nullptr;
   }
 
-  SDL_GetWindowPosition(window,
-                        &preferences.MainWindowMetrics().Coordinate.X,
-                        &preferences.MainWindowMetrics().Coordinate.Y);
+  SDL_GL_DeleteContext(glContext);
 
-  SDL_DestroyWindow(window);
+  auto position = window.Position();
+  preferences.MainWindowMetrics().Coordinate.X = position.X;
+  preferences.MainWindowMetrics().Coordinate.Y = position.Y;
 
   auto hasSaveError = preferences.SaveToFile();
   if (hasSaveError) {
     std::string errorMessage{ "Unable to save preferences!\n"
-                              "Error:\n" };
+                              "    Error:\n" };
     errorMessage += hasSaveError.value();
     SDL_ShowSimpleMessageBox(
       SDL_MESSAGEBOX_ERROR, "GunBox", errorMessage.c_str(), nullptr);
   }
-
-  // Clean up
-  SDL_Quit();
 
   return 0;
 }

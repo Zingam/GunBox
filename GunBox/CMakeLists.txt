@@ -1,5 +1,5 @@
 ################################################################################
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.11)
 ################################################################################
 message ("CMake version: " ${CMAKE_VERSION})
 ################################################################################
@@ -20,6 +20,8 @@ project ("GunBox")
 ################################################################################
 # Targets
 ################################################################################
+
+add_subdirectory ("ThirdParty")
 
 add_executable (${PROJECT_NAME}
   # Platform resources (Windows)
@@ -64,8 +66,15 @@ if (NOT SDL2_FOUND)
 endif()
 list (APPEND SharedLibraries ${SDL2_SHARED_LIBRARY})
 
+find_package (OpenGL REQUIRED)
+if (NOT OPENGL_FOUND)
+  message ("ERROR: OpenGL was not found in the search path!")
+endif()
+
 target_link_libraries (${PROJECT_NAME}
   REngine::SDL2
+  OpenGL::GL
+  glad
 )
 
 ################################################################################

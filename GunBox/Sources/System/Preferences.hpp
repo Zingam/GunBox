@@ -29,7 +29,7 @@ class Preferences
     Rectangle2D mainWindowMetrics;
     bool fullscreen;
     hash_t hash_2;
-    RendererType rendererType;
+    Renderer::API_t rendererApi;
   };
 
 public:
@@ -43,7 +43,7 @@ public:
 public:
   auto Fullscreen() -> bool&;
   auto MainWindowMetrics() -> Rectangle2D&;
-  auto RendererType() -> RendererType&;
+  auto RendererAPI() -> Renderer::API_t&;
 
 private:
   auto CalculateHash(std::fstream& fstream,
@@ -68,10 +68,10 @@ Preferences::MainWindowMetrics()
   return data.mainWindowMetrics;
 }
 
-inline RendererType&
-Preferences::RendererType()
+inline Renderer::API_t&
+Preferences::RendererAPI()
 {
-  return data.rendererType;
+  return data.rendererApi;
 }
 
 NAMESPACE_END(SYSTEM)

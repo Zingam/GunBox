@@ -47,7 +47,7 @@ Preferences::Preferences(const char* organizationName,
   data.fullscreen = false;
   //   size_t hash_2;
   data.hash_2 = 0;
-  data.rendererType = RendererType::Unknown;
+  data.rendererApi = Renderer::API_t::Unknown;
   // };
 }
 
@@ -125,8 +125,8 @@ Preferences::LoadFromFile()
                        sizeof(data.fullscreen));
   // Skip data.hash_2 bytes
   preferencesFile.ignore(sizeof(data.hash_2));
-  preferencesFile.read(reinterpret_cast<char*>(&data.rendererType),
-                       sizeof(data.rendererType));
+  preferencesFile.read(reinterpret_cast<char*>(&data.rendererApi),
+                       sizeof(data.rendererApi));
 
   if (preferencesFile.bad()) {
     return { "Read error: " + filepath.str() };
@@ -175,8 +175,8 @@ Preferences::SaveToFile()
                         sizeof(data.fullscreen));
   preferencesFile.write(reinterpret_cast<char const*>(&data.hash_2),
                         sizeof(data.hash_2));
-  preferencesFile.write(reinterpret_cast<const char*>(&data.rendererType),
-                        sizeof(data.rendererType));
+  preferencesFile.write(reinterpret_cast<const char*>(&data.rendererApi),
+                        sizeof(data.rendererApi));
 
   preferencesFile.seekp(data.offset_2, std::fstream::beg);
   const auto hash_2 = CalculateHash(preferencesFile, { 0, data.offset_2 });
@@ -200,6 +200,7 @@ Preferences::SetMainWindowDefaultValues()
   data.mainWindowMetrics.Coordinate.Y = 0;
   data.mainWindowMetrics.Size.Height = 480;
   data.mainWindowMetrics.Size.Width = 640;
+  data.rendererApi = System::Renderer::API_t::OpenGL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
