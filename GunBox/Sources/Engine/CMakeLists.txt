@@ -8,16 +8,34 @@ cmake_minimum_required (VERSION 3.11)
 project ("GunBox_Engine")
 ################################################################################
 
+################################################################################
+# Project settings
+################################################################################
+
+set (ENGINE_LIBRARY_TYPE "STATIC")
+
+option (option_ENGINE_LIBRARY_AS_SHARED NO)
+
+if (option_ENGINE_LIBRARY_AS_SHARED)
+  set (ENGINE_LIBRARY_TYPE "SHARED")
+endif ()
+
+################################################################################
+
+################################################################################
+# Third party libraries
+################################################################################
 add_subdirectory (
   "${CMAKE_SOURCE_DIR}/Sources/ThirdParty"
   "${PROJECT_BINARY_DIR}/../ThirdParty"
 )
+################################################################################
 
 ################################################################################
 # Targets
 ################################################################################
 
-add_library (${PROJECT_NAME} STATIC
+add_library (${PROJECT_NAME} ${ENGINE_LIBRARY_TYPE}
   # Source files
   "Sources/Common/Macros/Base.cpp"
   "Sources/Common/Macros/Base.hpp"
@@ -36,6 +54,13 @@ add_library (${PROJECT_NAME} STATIC
 
 # Enable C++17 standard complience
 set_property (TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+if (WIN32 AND option_ENGINE_LIBRARY_AS_SHARED)
+  set_property (TARGET ${PROJECT_NAME} PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+endif ()
+target_compile_definitions (${PROJECT_NAME}
+  PUBLIC
+  $<$<PLATFORM_ID:Windows>:WIN32_LEAN_AND_MEAN>
+)
 target_compile_options (${PROJECT_NAME}
   PUBLIC
     # Enable the standard compliant C preprocessor
@@ -82,6 +107,16 @@ endforeach ()
 
 # Set installation path
 set (InstallationPath ${CMAKE_INSTALL_PREFIX})
+
+if (option_ENGINE_LIBRARY_AS_SHARED)
+  # Install targets
+  install (
+    TARGETS
+      ${PROJECT_NAME}
+    RUNTIME DESTINATION
+      ${InstallationPath}
+  )
+endif ()
 
 # Install required files
 install (

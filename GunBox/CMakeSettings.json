@@ -7,9 +7,13 @@
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output",
+      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
       "cmakeCommandArgs": "",
       "variables": [
+        {
+          "name": "option_ENGINE_LIBRARY_AS_SHARED:BOOL",
+          "value": "YES"
+        }
       ],
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
@@ -20,9 +24,13 @@
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x64_x64" ],
       "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output",
+      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
       "cmakeCommandArgs": "",
       "variables": [
+        {
+          "name": "option_ENGINE_LIBRARY_AS_SHARED:BOOL",
+          "value": "YES"
+        }
       ],
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
@@ -35,9 +43,13 @@
       "generator": "Visual Studio 15 2017 Win64",
       "configurationType": "Debug",
       "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output",
+      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
       "cmakeCommandArgs": "",
       "variables": [
+        {
+          "name": "option_ENGINE_LIBRARY_AS_SHARED:BOOL",
+          "value": "YES"
+        }
       ],
       "buildCommandArgs": "-m -v:minimal",
       "ctestCommandArgs": ""
