@@ -146,6 +146,8 @@ target_compile_options (${PROJECT_NAME}_Base
 
 add_library (${PROJECT_NAME} ${ENGINE_LIBRARY_TYPE}
   # Source files
+  "Sources/Application/CommandLineArgs.cpp"
+  "Sources/Application/CommandLineArgs.hpp"
   "Sources/Common/Macros/Base.cpp"
   "Sources/Common/Macros/Base.hpp"
   "Sources/System/Geometry.cpp"

@@ -7,6 +7,7 @@
 #endif
 
 // Project headers
+#include "Application/CommandLineArgs.hpp"
 #include "System/Preferences.hpp"
 #include "System/Window.hpp"
 
@@ -66,9 +67,17 @@ extern "C"
 int
 main(int argc, char* argv[])
 {
-  std::vector<std::string> args;
-  for (int i = 0; i < argc; ++i) {
-    args.emplace_back(argv[i]);
+  Application::CommandLineArgs commandLineArgs;
+  auto hasParsingError = commandLineArgs.Parse(argc, argv);
+  if (hasParsingError)
+  {
+    std::stringstream errorMessage;
+    errorMessage << "Error parsing command line arguments.\n";
+    errorMessage << hasParsingError.value() << "\n";
+
+    SDL_ShowSimpleMessageBox(
+      SDL_MESSAGEBOX_ERROR, "GunBox", errorMessage.str().c_str(), nullptr);
+    return -1;
   }
 
   System::Preferences preferences{ "RMM", "GunBox" };
