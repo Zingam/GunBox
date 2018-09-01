@@ -1,15 +1,28 @@
+#include "Common/Macros/Base.hpp"
+#if defined(WIN32_LEAN_AND_MEAN)
+// clang-format off
+#  pragma message(pragma_message_FileInfo(                                     \
+  "Compiling project with \"WIN32_LEAN_AND_MEAN\""))
+// clang-format on
+#endif
+
 // Project headers
 #include "System/Preferences.hpp"
 #include "System/Window.hpp"
 
 // Third party libraries
-#if defined(_WIN32)
+#if defined(_WIN32) && !defined(APIENTRY)
 // Defining APIENTRY manually will prevent 'glad' from including "Windows.h"
 #  define APIENTRY __stdcall
+#  define APIENTRY_DEFINED_BY_GLAD
 #endif
 #include <glad/glad.h>
-#if defined(_WINDOWS_)
-#  error Windows.h was included!
+#if defined(APIENTRY_DEFINED_BY_GLAD)
+#  if !defined(_WINDOWS_)
+#    undef APIENTRY
+#  else
+#    error Windows.h was included!
+#  endif
 #endif
 #include <SDL.h>
 
@@ -53,6 +66,11 @@ extern "C"
 int
 main(int argc, char* argv[])
 {
+  std::vector<std::string> args;
+  for (int i = 0; i < argc; ++i) {
+    args.emplace_back(argv[i]);
+  }
+
   System::Preferences preferences{ "RMM", "GunBox" };
   auto hasLoadingError = preferences.LoadFromFile();
   if (hasLoadingError) {
