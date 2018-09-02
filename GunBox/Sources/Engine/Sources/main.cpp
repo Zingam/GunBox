@@ -1,4 +1,8 @@
+// Project headers - Common
+#include "Common/Constants/GpuPreferences.hpp"
 #include "Common/Macros/Base.hpp"
+#include "Common/Macros/SDL2_ErrorChecking.hpp"
+
 #if defined(WIN32_LEAN_AND_MEAN)
 // clang-format off
 #  pragma message(pragma_message_FileInfo(                                     \
@@ -6,8 +10,13 @@
 // clang-format on
 #endif
 
-// Project headers
+// Project headers - Application
 #include "Application/CommandLineArgs.hpp"
+#include "Application/CoreApplication.hpp"
+#include "Application/CoreApplicationFactory.hpp"
+// Project headers - Renderer
+#include "Renderer/RendererBase.hpp"
+// Project headers - System
 #include "System/Preferences.hpp"
 #include "System/Window.hpp"
 
@@ -36,41 +45,12 @@
 #include <sstream>
 #include <vector>
 
-#if !defined(SDL_IfFailed)
-#  define SDL_IfFailed(function_call) if (0 > function_call)
-#else
-#  error SDL_IfFailed is already defined
-#endif
-
-#if !defined(SDL_LogError)
-#  define SDL_LogError(...)                                                    \
-    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, __VA_ARGS__)
-#else
-#  error SDL_LogError is already defined
-#endif
-
-#define USE_INTEGRATED_GPU
-
-#if !defined(USE_INTEGRATED_GPU)
-// NVIDIA
-extern "C"
-{
-  __declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
-}
-// AMD
-extern "C"
-{
-  __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
-}
-#endif
-
 int
 main(int argc, char* argv[])
 {
   Application::CommandLineArgs commandLineArgs;
   auto hasParsingError = commandLineArgs.Parse(argc, argv);
-  if (hasParsingError)
-  {
+  if (hasParsingError) {
     std::stringstream errorMessage;
     errorMessage << "Error parsing command line arguments.\n";
     errorMessage << hasParsingError.value() << "\n";
@@ -79,6 +59,10 @@ main(int argc, char* argv[])
       SDL_MESSAGEBOX_ERROR, "GunBox", errorMessage.str().c_str(), nullptr);
     return -1;
   }
+
+  auto& application = Application::Create("GunBox", commandLineArgs);
+  SDL_Log("Initalizing: %s", application.Name().c_str());
+  application.Execute();
 
   System::Preferences preferences{ "RMM", "GunBox" };
   auto hasLoadingError = preferences.LoadFromFile();

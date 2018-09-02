@@ -3,9 +3,10 @@
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
 
+// Project headers - Renderer
+#include "Renderer/RendererBase.hpp"
 // Project headers - System
 #include "Geometry.hpp"
-#include "RendererBase.hpp"
 
 // C++ Standard Library
 #include <string>

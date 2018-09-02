@@ -136,8 +136,6 @@ target_compile_features (${PROJECT_NAME}_Base
 )
 target_compile_options (${PROJECT_NAME}_Base
   INTERFACE
-    # Enable the standard compliant C preprocessor
-    #$<$<CXX_COMPILER_ID:MSVC>:/experimental:preprocessor>
     # Enable Just My Code debugging
     $<$<CXX_COMPILER_ID:MSVC>:/JMC>
     # Enable C++ Standard compliance
@@ -148,16 +146,32 @@ add_library (${PROJECT_NAME} ${ENGINE_LIBRARY_TYPE}
   # Source files
   "Sources/Application/CommandLineArgs.cpp"
   "Sources/Application/CommandLineArgs.hpp"
+  "Sources/Application/CoreApplication.cpp"
+  "Sources/Application/CoreApplication.hpp"
+  "Sources/Application/CoreApplicationFactory.cpp"
+  "Sources/Application/CoreApplicationFactory.hpp"
   "Sources/Common/Macros/Base.cpp"
   "Sources/Common/Macros/Base.hpp"
+  "Sources/Common/Macros/SDL2_ErrorChecking.cpp"
+  "Sources/Common/Macros/SDL2_ErrorChecking.hpp"
+  "Sources/Renderer/Renderer.cpp"
+  "Sources/Renderer/Renderer.hpp"
+  "Sources/Renderer/RendererBase.cpp"
+  "Sources/Renderer/RendererBase.hpp"
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform_Linux.cpp>
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform_Linux.hpp>
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform_Windows.cpp>
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform_Windows.hpp>
+  "Sources/System/Platforms/HostPlatform_Implementation.hpp"
+  "Sources/System/Geometry.hpp"
   "Sources/System/Geometry.cpp"
   "Sources/System/Geometry.hpp"
   "Sources/System/Monitor.cpp"
   "Sources/System/Monitor.hpp"
+  "Sources/System/HostPlatform.hpp"
+  "Sources/System/HostPlatform.cpp"
   "Sources/System/Preferences.cpp"
   "Sources/System/Preferences.hpp"
-  "Sources/System/RendererBase.cpp"
-  "Sources/System/RendererBase.hpp"
   "Sources/System/Window.cpp"
   "Sources/System/Window.hpp"
 )
@@ -191,9 +205,13 @@ target_link_libraries (${PROJECT_NAME}
     REngine::SDL2
 )
 
-
 add_library (${PROJECT_NAME}_main STATIC
+  "Sources/Common/Constants/GpuPreferences.hpp"
   "Sources/main.cpp"
+)
+target_compile_definitions (${PROJECT_NAME}_main
+  PRIVATE
+    $<$<PLATFORM_ID:Windows>:PREFER_DISCRETE_GPU>
 )
 target_link_libraries (${PROJECT_NAME}_main
   PUBLIC

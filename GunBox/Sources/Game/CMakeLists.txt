@@ -15,6 +15,7 @@ add_executable (${PROJECT_NAME}
   # Source files
   "Sources/Game.cpp"
   "Sources/Game.hpp"
+  "Sources/GameFactory.cpp"
 )
 
 if (WIN32)
