@@ -5,9 +5,11 @@
 
 NAMESPACE_START(System)
 
-class HostPlatform_Linux
-{};
-
-using HostPlatform_Implementation = HostPlatform_Linux;
+using HostPlatform_Implementation = class HostPlatform_Linux
+{
+public:
+  auto HideSystemConsole() -> void;
+  auto ShowSystemConsole() -> void;
+};
 
 NAMESPACE_END(System)

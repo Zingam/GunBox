@@ -6,6 +6,9 @@
 // Project headers - Application
 #include "CommandLineArgs.hpp"
 
+// Project headers - System
+#include "System/HostPlatform.hpp"
+
 // C++ Standard Library
 #include <memory>
 #include <string>
@@ -36,6 +39,7 @@ public:
 protected:
   std::string name;
   CommandLineArgs const& commandLineArgs;
+  System::HostPlatform hostPlatform;
 };
 
 NAMESPACE_END(Application)
