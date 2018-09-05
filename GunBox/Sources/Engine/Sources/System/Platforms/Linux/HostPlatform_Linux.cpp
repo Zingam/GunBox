@@ -4,11 +4,11 @@
 NAMESPACE_START(System)
 
 void
-HostPlatform_Windows::HideSystemConsole()
+HostPlatform_Linux::HideSystemConsole()
 {}
 
 void
-HostPlatform_Windows::ShowSystemConsole()
+HostPlatform_Linux::ShowSystemConsole()
 {}
 
 NAMESPACE_END(System)
