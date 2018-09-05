@@ -199,6 +199,9 @@ FakesAssemblies/
 #
 ###############################################################################
 
+# Visual Studio Code
+*.vscode/
+
 # Visual Studio - Miscellaneous files
 *.VC.opendb
 .vc/
