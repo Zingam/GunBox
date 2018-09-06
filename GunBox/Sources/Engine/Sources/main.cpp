@@ -17,6 +17,7 @@
 // Project headers - Renderer
 #include "Renderer/RendererBase.hpp"
 // Project headers - System
+#include "System/Monitor.hpp"
 #include "System/Preferences.hpp"
 #include "System/Window.hpp"
 
@@ -88,30 +89,7 @@ main(int argc, char* argv[])
   // Clean up
   atexit(SDL_Quit);
 
-  auto videoDriverCount = SDL_GetNumVideoDrivers();
-  SDL_IfFailed(videoDriverCount)
-  {
-    SDL_LogError("Unable to get video driver count: %s", SDL_GetError());
-    return -1;
-  }
-
-  SDL_Log("Video:");
-  for (auto i = 0; i < videoDriverCount; ++i) {
-    SDL_Log("  Video driver: %s", SDL_GetVideoDriver(i));
-  }
-
-  auto videoDisplayCount = SDL_GetNumVideoDisplays();
-  SDL_IfFailed(videoDisplayCount)
-  {
-    SDL_LogError("Unable to get video display count: %s", SDL_GetError());
-    return -1;
-  }
-
-  std::vector<SDL_Rect> displayBounds(videoDisplayCount);
-  for (auto i = 0; i < videoDisplayCount; ++i) {
-    SDL_GetDisplayBounds(i, &displayBounds[i]);
-    SDL_Log("  Video display name: %s", SDL_GetDisplayName(i));
-  }
+  auto monitors = System::EnumerateMonitors();
 
   System::Window::Properties properties;
   properties.Coordinate.X = preferences.MainWindowMetrics().Coordinate.X;
