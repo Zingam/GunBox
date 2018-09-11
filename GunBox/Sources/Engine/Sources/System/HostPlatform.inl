@@ -1,12 +1,19 @@
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_START(System)
 
 inline void
-System::HostPlatform::HideSystemConsole()
+HostPlatform::HideSystemConsole()
 {
   o_ptr->HideSystemConsole();
 }
 
 inline void
-System::HostPlatform::ShowSystemConsole()
+HostPlatform::ShowSystemConsole()
 {
   o_ptr->ShowSystemConsole();
 }
+
+NAMESPACE_END(System)

@@ -37,9 +37,9 @@ public:
   virtual auto Execute() const -> void = 0;
 
 protected:
-  std::string name;
   CommandLineArgs const& commandLineArgs;
   System::HostPlatform hostPlatform;
+  std::string name;
 };
 
 NAMESPACE_END(Application)

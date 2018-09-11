@@ -8,9 +8,9 @@ NAMESPACE_START(Application)
 ////////////////////////////////////////////////////////////////////////////////
 
 CoreApplication::CoreApplication(std::string const& name,
-                         CommandLineArgs const& commandLineArgs)
-  : name{ name }
-  , commandLineArgs{ commandLineArgs }
+                                 CommandLineArgs const& commandLineArgs)
+  : commandLineArgs{ commandLineArgs }
+  , name{ name }
 {}
 
 CoreApplication::~CoreApplication() {}

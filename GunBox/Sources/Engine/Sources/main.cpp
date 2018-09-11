@@ -91,7 +91,7 @@ main(int argc, char* argv[])
 
   auto monitors = System::EnumerateMonitors();
 
-  System::Window::Properties properties;
+  System::Window::Properties properties{};
   properties.Coordinate.X = preferences.MainWindowMetrics().Coordinate.X;
   properties.Coordinate.Y = preferences.MainWindowMetrics().Coordinate.Y;
   if (preferences.Fullscreen()) {
