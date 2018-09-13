@@ -11,7 +11,7 @@ NAMESPACE_START(System::EventHandlers::Application)
 struct Quit : public EventHandler
 {
   virtual ~Quit() final;
-  virtual auto Process(void* event) -> bool final;
+  virtual auto Process(SDL_Event const& event) -> bool final;
 };
 
 NAMESPACE_END(System::EventHandlers::Application)

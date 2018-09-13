@@ -18,7 +18,7 @@ EventProcessor::ProcessEvents()
     {
       for (auto& eventHandler : eventHandlers) {
         auto isProcessed =
-          eventHandler->Process(reinterpret_cast<void*>(&event));
+          eventHandler->Process(event);
         if (isProcessed) {
           break;
         }

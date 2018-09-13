@@ -10,9 +10,9 @@ Quit::~Quit()
 }
 
 bool
-Quit::Process(void* event)
+Quit::Process(SDL_Event const& event)
 {
-  if (SDL_QUIT != reinterpret_cast<SDL_Event*>(event)->type)
+  if (SDL_QUIT != event.type)
   {
     return false;
   }

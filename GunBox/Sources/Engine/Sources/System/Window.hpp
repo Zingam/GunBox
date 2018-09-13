@@ -17,7 +17,6 @@ NAMESPACE_START(System)
 
 class Window
 {
-
 public:
   struct Properties
   {

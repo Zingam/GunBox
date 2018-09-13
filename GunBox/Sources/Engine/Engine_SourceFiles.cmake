@@ -36,6 +36,8 @@ set (Engine_SourceFiles
   "Sources/System/HostPlatform.cpp"
   "Sources/System/HostPlatform.hpp"
   "Sources/System/HostPlatform.inl"
+  "Sources/System/InputProcessor.cpp"
+  "Sources/System/InputProcessor.hpp"
   "Sources/System/Monitor.cpp"
   "Sources/System/Monitor.hpp"
   "Sources/System/Preferences.cpp"
