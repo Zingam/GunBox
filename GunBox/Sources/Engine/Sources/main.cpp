@@ -15,6 +15,7 @@
 #include "Application/CoreApplication.hpp"
 #include "Application/CoreApplicationFactory.hpp"
 // Project headers - Renderer
+#include "Renderer/OpenGL/OpenGL_ErrorChecking.hpp"
 #include "Renderer/RendererBase.hpp"
 // Project headers - System
 #include "System/Monitor.hpp"
@@ -199,11 +200,14 @@ main(int argc, char* argv[])
         }
       }
     }
+
     r = (1.0f < r) ? (0.0f) : (r + 0.01f);
     g = (1.0f < g) ? (0.0f) : (g + 0.02f);
     b = (1.0f < b) ? (0.0f) : (b + 0.03f);
-    glClearColor(r, g, b, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+
+    GL__(glClearColor, r, g, b, 0.0f);
+    GL__(glClear, GL_COLOR_BUFFER_BIT);
+
     SDL_GL_SwapWindow(window.Id());
   }
 

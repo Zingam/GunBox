@@ -11,6 +11,8 @@ set (Engine_SourceFiles
   "Sources/Common/Macros/Base.hpp"
   "Sources/Common/Macros/SDL2_ErrorChecking.cpp"
   "Sources/Common/Macros/SDL2_ErrorChecking.hpp"
+  "Sources/Renderer/OpenGL/OpenGL_ErrorChecking.cpp"
+  "Sources/Renderer/OpenGL/OpenGL_ErrorChecking.hpp"
   "Sources/Renderer/Renderer.cpp"
   "Sources/Renderer/Renderer.hpp"
   "Sources/Renderer/RendererBase.cpp"
