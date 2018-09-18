@@ -2,7 +2,10 @@
   // See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
   "configurations": [
     {
-      "name": "x64-Debug",
+      ////////////////////////////////////////////////////////////////////////////
+      // Ninja-MSVC-x64
+      ////////////////////////////////////////////////////////////////////////////
+      "name": "Ninja-MSVC-x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -19,7 +22,7 @@
       "ctestCommandArgs": ""
     },
     {
-      "name": "x64-Release",
+      "name": "Ninja-MSVC-x64-RelWithDebInfo",
       "generator": "Ninja",
       "configurationType": "RelWithDebInfo",
       "inheritEnvironments": [ "msvc_x64_x64" ],
@@ -36,10 +39,30 @@
       "ctestCommandArgs": ""
     },
     ////////////////////////////////////////////////////////////////////////////
-    // MSVC-VS2017-x64-Debug
+    // Ninja-Clang-x64
     ////////////////////////////////////////////////////////////////////////////
     {
-      "name": "MSVC-VS2017-x64-Debug",
+      "name": "Ninja-Clang-x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "clang_cl_x64", "msvc_x64" ],
+      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
+      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
+      "cmakeCommandArgs": "${clang_cl_x64_env.CMakeCommandArgs}",
+      "variables": [
+        {
+          "name": "option_ENGINE_LIBRARY_AS_SHARED:BOOL",
+          "value": "YES"
+        }
+      ],
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": ""
+    },
+    ////////////////////////////////////////////////////////////////////////////
+    // VS2017-MSVC-x64-Debug
+    ////////////////////////////////////////////////////////////////////////////
+    {
+      "name": "VS2017-MSVC-x64-Debug",
       "generator": "Visual Studio 15 2017 Win64",
       "configurationType": "Debug",
       "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
@@ -53,6 +76,36 @@
       ],
       "buildCommandArgs": "-m -v:minimal",
       "ctestCommandArgs": ""
+    },
+    ////////////////////////////////////////////////////////////////////////////
+    // VS2017-Clang-x64-Debug
+    ////////////////////////////////////////////////////////////////////////////
+    {
+      "name": "VS2017-Clang-x64-Debug",
+      "generator": "Visual Studio 15 2017 Win64",
+      "configurationType": "Debug",
+      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
+      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
+      "cmakeCommandArgs": "-T llvm",
+      "variables": [
+        {
+          "name": "option_ENGINE_LIBRARY_AS_SHARED:BOOL",
+          "value": "YES"
+        }
+      ],
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": ""
+    }
+  ],
+  "environments": [
+    {
+      "environment": "clang_cl_x64",
+      "namespace": "clang_cl_x64_env",
+      "ClangPath": "\"C:/Program Files/LLVM/bin/clang-cl.exe\"",
+      "ClangFlags": "\"-m64\"",
+      "CMake_C_Compiler": "-DCMAKE_C_COMPILER=${clang_cl_x64_env.ClangPath}",
+      "CMake_CXX_Compiler": "-DCMAKE_CXX_COMPILER=${clang_cl_x64_env.ClangPath}",
+      "CMakeCommandArgs": "${clang_cl_x64_env.CMake_C_Compiler} ${clang_cl_x64_env.CMake_CXX_Compiler}"
     }
   ]
 }

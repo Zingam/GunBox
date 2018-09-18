@@ -140,6 +140,9 @@ target_compile_options (${PROJECT_NAME}_Base
     $<$<CXX_COMPILER_ID:MSVC>:/JMC>
     # Enable C++ Standard compliance
     $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+    $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:/std:c++latest>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:-Wno-pragma-pack>
+    $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:-Wno-\#pragma-messages>
 )
 
 include ("Engine_SourceFiles.cmake")

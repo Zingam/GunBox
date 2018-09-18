@@ -12,7 +12,7 @@ include (Game_SourceFiles.cmake)
 add_executable (${PROJECT_NAME}
   # Platform resources (Windows)
   $<$<PLATFORM_ID:Windows>:Resources/Windows/DpiAwareness.manifest>
-  $<$<PLATFORM_ID:Windows>:Resources/Windows/GunBox.rc>
+  $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:MSVC>>:Resources/Windows/GunBox.rc>
   # Source files
   ${Game_SourceFiles}
 )
