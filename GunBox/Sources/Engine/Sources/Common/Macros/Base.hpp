@@ -43,7 +43,7 @@
 /// Macro: $PRAGMA_MESSAGE_Stringize
 #  if !defined($PRAGMA_MESSAGE_Stringize)
 // Converts the parameter to a string without quotes (step 1)
-#    define $PRAGMA_MESSAGE_Stringize(string) ""##string
+#    define $PRAGMA_MESSAGE_Stringize(string) "" #    string
 // Note:
 // The '##' preprocessing operator performs token pasting. When a macro is
 // expanded, the two tokens on either side of each '##' operator are combined
@@ -107,6 +107,7 @@
 
 /// Macro: pragma_message_InfoBold
 #  if !defined(pragma_message_InfoBold)
+# if !defined (__clang__)
 #    define pragma_message_InfoBold(message)                                   \
       "\n"                                                                     \
       "=================================================================="     \
@@ -114,12 +115,16 @@
       "  INFO -> " $PRAGMA_MESSAGE_ToString(message) " \n"                     \
       "=================================================================="     \
       "==================================================================\n"
+#else
+#    define pragma_message_InfoBold(message) "" $PRAGMA_MESSAGE_ToString(message)
+#endif
 #  else
 #    error pragma_message_InfoBold is already defined
 #  endif
 
 /// Macro: pragma_message_FileInfo
 #  if !defined(pragma_message_FileInfo)
+# if !defined (__clang__)
 #    define pragma_message_FileInfo(message)                                   \
       "\n"                                                                     \
       "=================================================================="     \
@@ -128,6 +133,9 @@
       "          -> " __FILE__ " \n"                                           \
       "=================================================================="     \
       "==================================================================\n"
+#else
+#    define pragma_message_FileInfo(message) "" $PRAGMA_MESSAGE_ToString(message)
+#endif
 #  else
 #    error pragma_message_FileInfo is already defined
 #  endif

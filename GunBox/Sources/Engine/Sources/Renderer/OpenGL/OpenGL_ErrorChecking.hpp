@@ -34,13 +34,25 @@
 
 NAMESPACE_START(Renderer::OpenGL)
 
+////////////////////////////////////////////////////////////////////////////////
+// Macros
+////////////////////////////////////////////////////////////////////////////////
+
 #if defined(OPENGL_CHECK_ERROR__)
+/// <summary>
+/// Performs error checking for OpenGL function calls in debug mode if the
+/// preprocessor macro <c>OPENGL_CHECK_CALLS</c> is defined.
+/// </summary>
 #  define GL__(...)                                                            \
     Renderer::OpenGL::gl__(                                                    \
-      "'GL__(" #__VA_ARGS__##")'", __LINE__, __FILE__, __VA_ARGS__)
+      "'GL__(" #__VA_ARGS__ ")'", __LINE__, __FILE__, __VA_ARGS__)
 #else
 #  define GL__(...) Renderer::OpenGL::gl__(__VA_ARGS__)
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Functions
+////////////////////////////////////////////////////////////////////////////////
 
 #if defined(OPENGL_CHECK_ERROR__)
 auto
@@ -78,6 +90,10 @@ PrintOpenGLError(char const* call, int line, char const* filename) -> void
   }
 }
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Template functions
+////////////////////////////////////////////////////////////////////////////////
 
 template<typename GL_Function, typename... Args>
 inline auto
