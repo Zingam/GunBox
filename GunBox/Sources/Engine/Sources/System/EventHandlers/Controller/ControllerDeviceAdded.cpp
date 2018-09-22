@@ -18,6 +18,7 @@ DeviceAdded::Process(SDL_Event const& event)
   }
  
   inputProcessor.AddGameController(event.cdevice.which);
+
   return false;
 }
 
