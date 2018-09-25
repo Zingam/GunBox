@@ -1,13 +1,19 @@
 ################################################################################
 # Module: FindSDL2
 ################################################################################
+# Android - input variables:
+#  The following search paths need to be set for Android:
+#    SDL2_SOURCE_PATH         - Location of the SDL2 sources
+#    SDL2_LIBRARY_BINARY_PATH - Location of the SDL2 binaries
+#
+################################################################################
 # Defines:
 #   * Imported targets:
 #       REngine::SDL2
 #   * Variables:
 #       SDL2_FOUND          - If false, do not try to link to SDL
 #       SDL2_LIBRARY        - The name of the library to link against
-#       SDL2_LIBRARIES      - 
+#       SDL2_LIBRARIES      -
 #       SDL2_INCLUDE_DIR    - The location of SDL.h
 #       SDL2_VERSION_STRING - String containing the version of SDL
 ################################################################################
@@ -15,8 +21,8 @@
 # Flags:
 #   SDL2_BUILDING_LIBRARY
 #
-# If this is defined, then no SDL2_main will be linked in because only 
-# applications need main(). Otherwise, it is assumed you are building an 
+# If this is defined, then no SDL2_main will be linked in because only
+# applications need main(). Otherwise, it is assumed you are building an
 # application and this module will attempt to locate and set the proper link
 # flags as part of the returned SDL2_LIBRARY variable.
 #
@@ -57,6 +63,25 @@
 # because not all systems place things in SDL/ (see FreeBSD).
 ################################################################################
 
+function (AddImportedLibrary ImportedTargetName LibraryType LibraryName LibrarySearchPath)
+  list (APPEND options "SHARED" "STATIC")
+  if (NOT ${LibraryType} IN_LIST options)
+    message (FATAL_ERROR "Parameter SHARED or STATIC is required, found: ${LibraryType}")
+  endif ()
+  add_library (${ImportedTargetName} ${LibraryType} IMPORTED)
+  file (TO_CMAKE_PATH
+    ${LibrarySearchPath}/${LibraryName}
+    importedLibraryFile
+  )
+  set_property (TARGET ${ImportedTargetName}
+    PROPERTY
+      IMPORTED_LOCATION ${importedLibraryFile}
+  )
+  if (NOT TARGET ${ImportedTargetName})
+    message (FATAL_ERROR "===> Imported library ${ImportedTargetName}: file not found ${importedLibraryFile}")
+  endif ()
+endfunction()
+
 if (NOT SDL2_DIR)
   set (SDL2_DIR "" CACHE PATH "SDL2 directory")
 endif ()
@@ -65,18 +90,37 @@ endif ()
 # Header files
 ################################################################################
 
+if (ANDROID)
+  if (NOT SDL2_SOURCE_PATH)
+    message (FATAL_ERROR "SDL2_SOURCE_PATH is not set")
+  endif ()
+  file (TO_CMAKE_PATH
+    ${SDL2_SOURCE_PATH}
+    SDL_SourcePath
+  )
+  list (APPEND SDL2_IncludeDirHints
+    ${SDL_SourcePath}
+  )
+  set (NO_CMAKE_FIND_ROOT_PATH "NO_CMAKE_FIND_ROOT_PATH")
+else ()
+  list (APPEND SDL2_IncludeDirHints
+    $ENV{SDLDIR}
+    "${SDL2_DIR}"
+    "$ENV{__EXTERNAL_LIBS}/SDL2"
+  )
+endif ()
+
 find_path (SDL2_INCLUDE_DIR
   NAMES
     "SDL.h"
   HINTS
-    ENV SDLDIR
-    "${SDL2_DIR}"
-    "$ENV{__EXTERNAL_LIBS}/SDL2"
+    ${SDL2_IncludeDirHints}
   PATH_SUFFIXES
     "/SDL2"
     # path suffixes to search inside ENV{SDLDIR}
     "/include/SDL2"
     "/include"
+  ${NO_CMAKE_FIND_ROOT_PATH}
 )
 
 ################################################################################
@@ -92,17 +136,43 @@ endif ()
 # SDL-1.1 is the name used by FreeBSD ports...
 # don't confuse it for the version number.
 set (LibraryFile "SDL2")
-find_library (SDL2_LIBRARY
-  NAMES
-    ${LibraryFile}
-  HINTS
-    ENV SDLDIR
+if (ANDROID)
+  if (NOT SDL2_LIBRARY_BINARY_PATH)
+    message (FATAL_ERROR "SDL2_LIBRARY_BINARY_PATH is not set")
+  endif ()
+  list (APPEND SDL2_LibraryFileHints
+    "${SDL2_LIBRARY_BINARY_PATH}"
+  )
+else ()
+  list (APPEND SDL2_LibraryFileHints
+    $ENV{SDLDIR}
     "$ENV{__EXTERNAL_LIBS}/SDL2"
     "${SDL2_DIR}"
-  PATH_SUFFIXES
-    "lib"
-    "${VC_LIB_PATH_SUFFIX}"
-)
+  )
+endif ()
+if (ANDROID)
+  if (ANDROID_SDL2_LIBRARY_AS_STATIC)
+    AddImportedLibrary (SDL2 STATIC
+      "libSDL2.a"
+      "${SDL2_LIBRARY_BINARY_PATH}"
+      )
+  else ()
+    AddImportedLibrary (SDL2 SHARED
+      "libSDL2.so"
+      "${SDL2_LIBRARY_BINARY_PATH}"
+    )
+  endif ()
+else ()
+  find_library (SDL2_LIBRARY
+    NAMES
+      ${LibraryFile}
+    HINTS
+      ${SDL2_LibraryFileHints}
+    PATH_SUFFIXES
+      "lib"
+      "${VC_LIB_PATH_SUFFIX}"
+  )
+endif ()
 
 set (SDL2_LIBRARY_TEMP ${SDL2_LIBRARY})
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
@@ -128,23 +198,29 @@ if (NOT SDL2_BUILDING_LIBRARY)
     # SDLmain. This is mainly for Windows and OS X. Other (Unix) platforms
     # seem to provide SDLmain for compatibility even though they don't
     # necessarily need it.
-    set (LibraryFile "SDL2main")
-    find_library (SDL2MAIN_LIBRARY
-      NAMES
-        ${LibraryFile}
-      HINTS
-        ENV SDLDIR
-        "$ENV{__EXTERNAL_LIBS}/SDL2"
-        "${SDL2_DIR}"
-      PATH_SUFFIXES
-        "lib"
-        "${VC_LIB_PATH_SUFFIX}"
-      PATHS
-      "/sw"
-      "/opt/local"
-      "/opt/csw"
-      "/opt"
-    )
+    if (ANDROID)
+      AddImportedLibrary (SDL2main STATIC
+        "libSDL2main.a"
+        "${SDL2_LIBRARY_BINARY_PATH}"
+        )
+    else ()
+#     if (NOT ANDROID)
+      set (LibraryFile "SDL2main")
+      find_library (SDL2MAIN_LIBRARY
+        NAMES
+          ${LibraryFile}
+        HINTS
+          ${SDL2_LibraryFileHints}
+        PATH_SUFFIXES
+          "lib"
+          "${VC_LIB_PATH_SUFFIX}"
+        PATHS
+        "/sw"
+        "/opt/local"
+        "/opt/csw"
+        "/opt"
+      )
+    endif ()
   endif ()
 endif()
 
@@ -238,19 +314,24 @@ include (FindPackageHandleStandardArgs)
 
 set (PackageVariables
   SDL2_INCLUDE_DIR
-  SDL2_LIBRARY
-  SDL2_LIBRARIES
 )
-if (SDL2_SHARED_LIBRARY)
-  set (PackageVariables ${PackageVariables} SDL2_SHARED_LIBRARY)
+if (NOT ANDROID)
+  set (PackageVariables
+    ${PackageVariables}
+    SDL2_LIBRARY
+    SDL2_LIBRARIES
+  )
+  if (SDL2_SHARED_LIBRARY)
+    set (PackageVariables ${PackageVariables} SDL2_SHARED_LIBRARY)
+  endif ()
 endif ()
-
 find_package_handle_standard_args (SDL2
   REQUIRED_VARS
     ${PackageVariables}
   VERSION_VAR
     SDL2_VERSION_STRING
 )
+
 mark_as_advanced (${PackageVariables})
 
 ################################################################################
@@ -258,18 +339,31 @@ mark_as_advanced (${PackageVariables})
 ################################################################################
 
 if (SDL2_FOUND AND NOT TARGET REngine::SDL2)
-  add_library (REngine::SDL2 UNKNOWN IMPORTED)
-  set (InterfaceLinkLibraries ${SDL2_LIBRARIES})
-  list (REMOVE_ITEM InterfaceLinkLibraries ${SDL2_LIBRARY})
-  set_target_properties (REngine::SDL2
-    PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES
-        "${SDL2_INCLUDE_DIR}"
-      IMPORTED_LOCATION
-        "${SDL2_LIBRARY}"
-      INTERFACE_LINK_LIBRARIES
-        "${InterfaceLinkLibraries}"
-  )
+  if (ANDROID)
+    add_library (REngine::SDL2 INTERFACE IMPORTED)
+      set_property (TARGET REngine::SDL2
+      PROPERTY
+          INTERFACE_INCLUDE_DIRECTORIES
+          "${SDL2_INCLUDE_DIR}"
+    )
+    target_link_libraries(REngine::SDL2
+      INTERFACE
+        SDL2
+    )
+  else ()
+    add_library (REngine::SDL2 UNKNOWN IMPORTED)
+    set (InterfaceLinkLibraries ${SDL2_LIBRARIES})
+    list (REMOVE_ITEM InterfaceLinkLibraries ${SDL2_LIBRARY})
+    set_target_properties (REngine::SDL2
+        PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES
+            "${SDL2_INCLUDE_DIR}"
+        IMPORTED_LOCATION
+            "${SDL2_LIBRARY}"
+        INTERFACE_LINK_LIBRARIES
+            "${InterfaceLinkLibraries}"
+    )
+  endif ()
 endif ()
 
 ################################################################################

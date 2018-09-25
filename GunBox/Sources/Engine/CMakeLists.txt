@@ -161,24 +161,44 @@ target_include_directories (${PROJECT_NAME}
 )
 
 # Find external libraries
+if (ANDROID)
+  set (ANDROID_SDL2_LIBRARY_AS_STATIC "UseStaticSDL2Library")
+  set (SDL2_LIBRARY_BINARY_PATH "${NativeLibraryArtifactsOutputDir}/sdl2lib")
+  set (SDL2_SOURCE_PATH "${ExternalLibrariesRootDir}/SDL2")
+endif ()
 find_package (SDL2 REQUIRED)
 if (NOT SDL2_FOUND)
   message ("ERROR: SDL2 SDK was not found in the search path!")
 endif()
 list (APPEND SharedLibraries ${SDL2_SHARED_LIBRARY})
 
-find_package (OpenGL REQUIRED)
-if (NOT OPENGL_FOUND)
-  message ("ERROR: OpenGL was not found in the search path!")
-endif()
+if (NOT ANDROID)
+  find_package (OpenGL REQUIRED)
+  if (NOT OPENGL_FOUND)
+    message ("ERROR: OpenGL was not found in the search path!")
+  endif()
+endif ()
 
 target_link_libraries (${PROJECT_NAME}
   PUBLIC
     ${PROJECT_NAME}_Base
     glad
-    OpenGL::GL
     REngine::SDL2
 )
+if (ANDROID)
+  target_link_libraries (${PROJECT_NAME}
+    PUBLIC
+      # Links the target library to the libraries included in the NDK.
+      "android"
+      "GLESv3"
+      "log"
+  )
+else ()
+  target_link_libraries (${PROJECT_NAME}
+    PUBLIC
+    OpenGL::GL
+  )
+endif ()
 
 add_library (${PROJECT_NAME}_main STATIC
   "Sources/Common/Constants/GpuPreferences.hpp"
@@ -199,30 +219,32 @@ target_link_libraries (${PROJECT_NAME}_main
 # Installation
 ################################################################################
 
-message ("Shared libraries to install:")
-foreach (SharedLibrary ${SharedLibraries})
-  message ("    ${SharedLibrary}")
-endforeach ()
+if (NOT ANDROID)
+  message ("Shared libraries to install:")
+  foreach (SharedLibrary ${SharedLibraries})
+    message ("    ${SharedLibrary}")
+  endforeach ()
 
-# Set installation path
-set (InstallationPath ${CMAKE_INSTALL_PREFIX})
+  # Set installation path
+  set (InstallationPath ${CMAKE_INSTALL_PREFIX})
 
-if (option_ENGINE_LIBRARY_AS_SHARED)
-  # Install targets
+  if (option_ENGINE_LIBRARY_AS_SHARED)
+    # Install targets
+    install (
+      TARGETS
+        ${PROJECT_NAME}
+      RUNTIME DESTINATION
+        ${InstallationPath}
+    )
+  endif ()
+
+  # Install required files
   install (
-    TARGETS
-      ${PROJECT_NAME}
-    RUNTIME DESTINATION
+    FILES
+      ${SharedLibraries}
+    DESTINATION
       ${InstallationPath}
   )
 endif ()
-
-# Install required files
-install (
-  FILES
-    ${SharedLibraries}
-  DESTINATION
-    ${InstallationPath}
-)
 
 ################################################################################
