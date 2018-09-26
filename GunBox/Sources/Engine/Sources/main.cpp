@@ -193,8 +193,8 @@ main(int argc, char* argv[])
     g = (1.0f < g) ? (0.0f) : (g + 0.02f);
     b = (1.0f < b) ? (0.0f) : (b + 0.03f);
 
-    GL__(glClearColor, r, g, b, 0.0f);
-    GL__(glClear, GL_COLOR_BUFFER_BIT);
+    gl_(glClearColor, r, g, b, 0.0f);
+    gl_(glClear, GL_COLOR_BUFFER_BIT);
 
     SDL_GL_SwapWindow(window.Id());
   }

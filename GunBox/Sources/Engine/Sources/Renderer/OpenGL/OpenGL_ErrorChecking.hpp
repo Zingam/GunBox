@@ -31,11 +31,11 @@ NAMESPACE_START(Renderer::OpenGL)
 /// Performs error checking for OpenGL function calls in debug mode if the
 /// preprocessor macro <c>OPENGL_CHECK_CALLS</c> is defined.
 /// </summary>
-#  define GL__(...)                                                            \
+#  define gl_(...)                                                             \
     Renderer::OpenGL::gl__(                                                    \
-      "'GL__(" #__VA_ARGS__ ")'", __LINE__, __FILE__, __VA_ARGS__)
+      "'gl_(" #__VA_ARGS__ ")'", __LINE__, __FILE__, __VA_ARGS__)
 #else
-#  define GL__(...) Renderer::OpenGL::gl__(__VA_ARGS__)
+#  define gl_(...) Renderer::OpenGL::gl__(__VA_ARGS__)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +43,7 @@ NAMESPACE_START(Renderer::OpenGL)
 ////////////////////////////////////////////////////////////////////////////////
 
 #if defined(OPENGL_CHECK_ERROR__)
-auto
+inline auto
 PrintOpenGLError(char const* call, int line, char const* filename) -> void
 {
   auto glErrorCode = glGetError();
