@@ -15,7 +15,7 @@
 #include "Application/CoreApplication.hpp"
 #include "Application/CoreApplicationFactory.hpp"
 // Project headers - Renderer
-#include "Renderer/OpenGL/OpenGL_ErrorChecking.hpp"
+#include "Renderer/OpenGL/OpenGL.hpp"
 #include "Renderer/RendererBase.hpp"
 // Project headers - System
 #include "System/Monitor.hpp"
@@ -23,19 +23,6 @@
 #include "System/Window.hpp"
 
 // Third party libraries
-#if defined(_WIN32) && !defined(APIENTRY)
-// Defining APIENTRY manually will prevent 'glad' from including "Windows.h"
-#  define APIENTRY __stdcall
-#  define APIENTRY_DEFINED_BY_GLAD
-#endif
-#include <glad/glad.h>
-#if defined(APIENTRY_DEFINED_BY_GLAD)
-#  if !defined(_WINDOWS_)
-#    undef APIENTRY
-#  else
-#    error Windows.h was included!
-#  endif
-#endif
 #include <SDL.h>
 
 // C Standard library
@@ -134,7 +121,8 @@ main(int argc, char* argv[])
     return -1;
   }
 
-  if (gladLoadGLLoader((GLADloadproc)SDL_GL_GetProcAddress)) {
+  auto version = InitializeOpenGL((GLADloadfunc)SDL_GL_GetProcAddress);
+  if (0 != version) {
     auto vendor = glGetString(GL_VENDOR);
     auto renderer = glGetString(GL_RENDERER);
     auto version = glGetString(GL_VERSION);

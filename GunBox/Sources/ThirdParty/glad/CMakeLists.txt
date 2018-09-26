@@ -5,9 +5,11 @@ cmake_minimum_required (VERSION 3.11)
 project(glad)
 
 add_library (${PROJECT_NAME} STATIC
-  "include/glad/glad.h"
+  $<$<NOT:$<PLATFORM_ID:Android>>:include/glad/gl.h>
+  $<$<PLATFORM_ID:Android>:include/glad/gles2.h>
   "include/KHR/khrplatform.h"
-  "src/glad.c"
+  $<$<NOT:$<PLATFORM_ID:Android>>:src/gl.c>
+  $<$<PLATFORM_ID:Android>:src/gles2.c>
 )
 
 target_include_directories (${PROJECT_NAME}

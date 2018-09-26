@@ -4,20 +4,8 @@
 #include "Common/Macros/Base.hpp"
 #include "Common/Macros/SDL2_ErrorChecking.hpp"
 
-// Third party libraries
-#if defined(_WIN32) && !defined(APIENTRY)
-// Defining APIENTRY manually will prevent 'glad' from including "Windows.h"
-#  define APIENTRY __stdcall
-#  define APIENTRY_DEFINED_BY_GLAD
-#endif
-#include <glad/glad.h>
-#if defined(APIENTRY_DEFINED_BY_GLAD)
-#  if !defined(_WINDOWS_)
-#    undef APIENTRY
-#  else
-#    error Windows.h was included!
-#  endif
-#endif
+// Project headers - Renderer
+#include "Renderer/OpenGL/OpenGL_Loader.hpp"
 
 // C++ Standard Library
 #include <type_traits>
