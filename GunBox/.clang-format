@@ -4,5 +4,5 @@
 
 # Available default styles: LLVM, Google, Chromium, Mozilla, WebKit
 BasedOnStyle: Mozilla
-
+# Preprocessor directive indenting style to use
 IndentPPDirectives: AfterHash
