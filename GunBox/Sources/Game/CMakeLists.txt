@@ -29,6 +29,7 @@ if (WIN32)
 endif ()
 
 target_link_libraries (${PROJECT_NAME}
+  GunBox_Engine
   # Prevent SDL_main from being stripped when linked in a static library
   $<$<PLATFORM_ID:Android>:-Wl,--whole-archive>
   GunBox_Engine_main

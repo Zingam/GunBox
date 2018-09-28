@@ -145,6 +145,7 @@ target_compile_options (${PROJECT_NAME}_Base
     $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:-Wno-\#pragma-messages>
 )
 
+# Engine library target
 include ("Engine_SourceFiles.cmake")
 add_library (${PROJECT_NAME} ${ENGINE_LIBRARY_TYPE}
   # Source files
@@ -162,7 +163,7 @@ target_include_directories (${PROJECT_NAME}
 
 # Find external libraries
 if (ANDROID)
-  set (ANDROID_SDL2_LIBRARY_AS_STATIC "UseStaticSDL2Library")
+  set (ANDROID_SDL2_LIBRARY_AS_STATIC ${UseStaticSDL2Library})
   set (SDL2_LIBRARY_BINARY_PATH "${NativeLibraryArtifactsOutputDir}/sdl2lib")
   set (SDL2_SOURCE_PATH "${ExternalLibrariesRootDir}/SDL2")
 endif ()
@@ -182,8 +183,9 @@ endif ()
 target_link_libraries (${PROJECT_NAME}
   PUBLIC
     ${PROJECT_NAME}_Base
-    glad
     REngine::SDL2
+  PUBLIC
+    glad
 )
 if (ANDROID)
   target_link_libraries (${PROJECT_NAME}
@@ -195,11 +197,12 @@ if (ANDROID)
   )
 else ()
   target_link_libraries (${PROJECT_NAME}
-    PUBLIC
-    OpenGL::GL
+    INTERFACE
+      OpenGL::GL
   )
 endif ()
 
+# Main library target
 add_library (${PROJECT_NAME}_main STATIC
   "Sources/Common/Constants/GpuPreferences.hpp"
   "Sources/main.cpp"
@@ -209,7 +212,7 @@ target_compile_definitions (${PROJECT_NAME}_main
     $<$<PLATFORM_ID:Windows>:PREFER_DISCRETE_GPU>
 )
 target_link_libraries (${PROJECT_NAME}_main
-  PUBLIC
+  PRIVATE
     ${PROJECT_NAME}
 )
 
