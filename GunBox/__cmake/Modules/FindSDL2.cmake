@@ -3,10 +3,10 @@
 ################################################################################
 # Android - input variables
 #  Library type:
-#    ANDROID_SDL2_LIBRARY_AS_STATIC - If YES compile SDL2 as a static library
+#    ANDROID_ADD_SDL2_LIBRARY_AS_SHARED - "YES" will search for a shared library
 #  The following search paths need to be set for Android:
-#    SDL2_SOURCE_PATH               - Location of the SDL2 sources
-#    SDL2_LIBRARY_BINARY_PATH       - Location of the SDL2 binaries
+#    SDL2_SOURCE_PATH                   - Location of the SDL2 sources
+#    SDL2_LIBRARY_BINARY_PATH           - Location of the SDL2 binaries
 #
 ################################################################################
 # Defines:
@@ -153,14 +153,14 @@ else ()
   )
 endif ()
 if (ANDROID)
-  if (ANDROID_SDL2_LIBRARY_AS_STATIC)
-    AddImportedLibrary (SDL2 STATIC
-      "libSDL2.a"
+  if (ANDROID_ADD_SDL2_LIBRARY_AS_SHARED)
+    AddImportedLibrary (SDL2 SHARED
+      "libSDL2.so"
       "${SDL2_LIBRARY_BINARY_PATH}"
     )
   else ()
-    AddImportedLibrary (SDL2 SHARED
-      "libSDL2.so"
+    AddImportedLibrary (SDL2 STATIC
+      "libSDL2.a"
       "${SDL2_LIBRARY_BINARY_PATH}"
     )
   endif ()
@@ -200,12 +200,6 @@ if (NOT SDL2_BUILDING_LIBRARY)
     # SDLmain. This is mainly for Windows and OS X. Other (Unix) platforms
     # seem to provide SDLmain for compatibility even though they don't
     # necessarily need it.
-#    if (ANDROID)
-#      AddImportedLibrary (SDL2main STATIC
-#        "libSDL2main.a"
-#        "${SDL2_LIBRARY_BINARY_PATH}"
-#        )
-#    endif ()
     if (NOT ANDROID)
       set (LibraryFile "SDL2main")
       find_library (SDL2MAIN_LIBRARY
