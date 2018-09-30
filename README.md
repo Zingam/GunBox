@@ -32,6 +32,57 @@ An exercise in **SDL2 API** programming...
 6. C Standard Library headers
 7. C++ Standard Library headers
 
+### CMake
+
+* Identation is done by two space characters:
+  ```CMake
+  if (NOT DEFINED .MyVariable)
+    set (.MyVariable "...")
+  endif ()
+  ```
+* Function/Macro names start with a capital letter and use camel case names:
+  ```CMake
+  function (MyFunction ...)
+  ```
+* Function call syntax:
+  ```CMake
+  add_subdirectory ("SDL2")
+  set_target_properties (SDL2
+    PROPERTIES
+      ARCHIVE_OUTPUT_DIRECTORY
+       "${LibraryArtifactsOutputDirectory}/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
+      LIBRARY_OUTPUT_DIRECTORY
+       "${LibraryArtifactsOutputDirectory}/${CMAKE_BUILD_TYPE}/${ANDROID_ABI}"
+  )
+  ```
+* Variable names start with `.` followed by a capital letter and use camel case names:
+  ```CMake
+  set (.MyVariable ...)
+  ```
+* LocalVariables start with `__` followed by a capital letter and use camel case names and need to be unset when going out of scope:
+  ```CMake
+  set (__MyLocalVariable ...)
+  ...
+  unset (_MyLocalVariable)
+  ```
+* Variables represinting a string are allways quoted:
+  ```
+  set (.MyVariable "...")
+  if ("${.MyVariable}" STREQUAL "...")
+  ```
+* Use `if (DEFINED <variable>)` to check if a variable is set:
+  ```
+  if (DEFINED .MyVariable)
+  ...
+  endif ()
+  ```
+* Use `if (<variable>)` to check if a variable has a non-empty value:
+  ```
+  if (.MyVariable)
+  endif ()
+  ```
+
+
 ## Configuring an IDE
 
 ### Visual Studio Code / C/C++ for Visual Studio Code

@@ -5,7 +5,9 @@ cmake_minimum_required (VERSION 3.10)
 ################################################################################
 # Project name
 ################################################################################
+
 project ("GunBox_Engine")
+
 ################################################################################
 
 ################################################################################
@@ -13,11 +15,11 @@ project ("GunBox_Engine")
 ################################################################################
 
  # Build the targets as STATIC libraries by default
-option (option_ENGINE_LIBRARY_AS_SHARED NO)
+option (option_EngineLibraryAs_SHARED NO)
 
-set (ENGINE_LIBRARY_TYPE "STATIC")
-if (option_ENGINE_LIBRARY_AS_SHARED)
-  set (ENGINE_LIBRARY_TYPE "SHARED")
+set (.EngineLibraryType "STATIC")
+if (option_EngineLibraryAs_SHARED)
+  set (.EngineLibraryType "SHARED")
 endif ()
 
 ################################################################################
@@ -25,14 +27,16 @@ endif ()
 ################################################################################
 # Third party libraries
 ################################################################################
+
 add_subdirectory (
   "${CMAKE_SOURCE_DIR}/Sources/ThirdParty"
   "${PROJECT_BINARY_DIR}/../ThirdParty"
 )
+
 ################################################################################
 
 ################################################################################
-# Targets
+# Target: ${PROJECT_NAME}_Base
 ################################################################################
 
 add_library (${PROJECT_NAME}_Base INTERFACE)
@@ -145,15 +149,21 @@ target_compile_options (${PROJECT_NAME}_Base
     $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:-Wno-\#pragma-messages>
 )
 
+################################################################################
+# Target: ${PROJECT_NAME}
+################################################################################
+
 # Engine library target
 include ("Engine_SourceFiles.cmake")
-add_library (${PROJECT_NAME} ${ENGINE_LIBRARY_TYPE}
+add_library (${PROJECT_NAME} ${.EngineLibraryType}
   # Source files
-  ${Engine_SourceFiles}
+  ${.Engine_SourceFiles}
 )
 
-if (WIN32 AND option_ENGINE_LIBRARY_AS_SHARED)
-  set_property (TARGET ${PROJECT_NAME} PROPERTY WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+if (WIN32 AND option_EngineLibraryAs_SHARED)
+  set_property (TARGET ${PROJECT_NAME}
+    PROPERTY
+      WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
 endif ()
 
 target_include_directories (${PROJECT_NAME}
@@ -165,11 +175,11 @@ target_include_directories (${PROJECT_NAME}
 if (ANDROID)
   set (__VariantSubdir "${CMAKE_BUILD_TYPE}/${ANDROID_ABI}")
   # FreeType2 find_package configuration
-  set (FREETYPE2_LIBRARY_BINARY_PATH ${BinaryPath_FreeType2}/${__VariantSubdir})
+  set (.ANDROID_LibraryArtifactsPath_FreeType2 ${.LibraryArtifactsPath_FreeType2}/${__VariantSubdir})
   # SDL2 find_package configuration
-  set (ANDROID_ADD_SDL2_LIBRARY_AS_SHARED ${UseSharedSDL2Library})
-  set (SDL2_LIBRARY_BINARY_PATH ${BinaryPath_SDL2}/${__VariantSubdir})
-  set (SDL2_SOURCE_PATH "${ExternalLibrariesRootDir}/SDL2/SDL2")
+  set (.ANDROID_AddLibraryAs_SHARED_SDL2 ${.UseSharedLibrary_SDL2})
+  set (.ANDROID_LibraryArtifactsPath_SDL2 ${.LibraryArtifactsPath_SDL2}/${__VariantSubdir})
+  set (.ANDROID_SourcePath_SDL2 "${.ExternalLibrariesRootDir}/SDL2/SDL2")
   # Keep variables local
   unset (__VariantSubdir)
 endif ()
@@ -177,7 +187,7 @@ find_package (SDL2 REQUIRED)
 if (NOT SDL2_FOUND)
   message ("ERROR: SDL2 SDK was not found in the search path!")
 endif()
-list (APPEND SharedLibraries ${SDL2_SHARED_LIBRARY})
+list (APPEND .SharedLibraries ${SDL2_SHARED_LIBRARY})
 
 if (NOT ANDROID)
   find_package (OpenGL REQUIRED)
@@ -208,6 +218,10 @@ else ()
   )
 endif ()
 
+################################################################################
+# Target: ${PROJECT_NAME}_main
+################################################################################
+
 # Main library target
 add_library (${PROJECT_NAME}_main STATIC
   "Sources/Common/Constants/GpuPreferences.hpp"
@@ -230,29 +244,29 @@ target_link_libraries (${PROJECT_NAME}_main
 
 if (NOT ANDROID)
   message ("Shared libraries to install:")
-  foreach (SharedLibrary ${SharedLibraries})
-    message ("    ${SharedLibrary}")
+  foreach (__SharedLibrary ${.SharedLibraries})
+    message ("    ${__SharedLibrary}")
   endforeach ()
 
   # Set installation path
   set (InstallationPath ${CMAKE_INSTALL_PREFIX})
 
-  if (option_ENGINE_LIBRARY_AS_SHARED)
+  if (option_EngineLibraryAs_SHARED)
     # Install targets
     install (
       TARGETS
         ${PROJECT_NAME}
       RUNTIME DESTINATION
-        ${InstallationPath}
+        "${InstallationPath}"
     )
   endif ()
 
   # Install required files
   install (
     FILES
-      ${SharedLibraries}
+      ${.SharedLibraries}
     DESTINATION
-      ${InstallationPath}
+      "${InstallationPath}"
   )
 endif ()
 

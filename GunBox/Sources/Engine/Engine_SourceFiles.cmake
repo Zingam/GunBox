@@ -1,6 +1,6 @@
 include_guard ()
 
-set (Engine_SourceFiles
+set (.Engine_SourceFiles
   "Sources/Application/CommandLineArgs.cpp"
   "Sources/Application/CommandLineArgs.hpp"
   "Sources/Application/CoreApplication.cpp"
