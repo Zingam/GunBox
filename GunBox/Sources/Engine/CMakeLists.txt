@@ -163,9 +163,15 @@ target_include_directories (${PROJECT_NAME}
 
 # Find external libraries
 if (ANDROID)
+  set (__VariantSubdir "${CMAKE_BUILD_TYPE}/${ANDROID_ABI}")
+  # FreeType2 find_package configuration
+  set (FREETYPE2_LIBRARY_BINARY_PATH ${BinaryPath_FreeType2}/${__VariantSubdir})
+  # SDL2 find_package configuration
   set (ANDROID_ADD_SDL2_LIBRARY_AS_SHARED ${UseSharedSDL2Library})
-  set (SDL2_LIBRARY_BINARY_PATH ${BinaryPath_SDL2})
-  set (SDL2_SOURCE_PATH "${ExternalLibrariesRootDir}/SDL2")
+  set (SDL2_LIBRARY_BINARY_PATH ${BinaryPath_SDL2}/${__VariantSubdir})
+  set (SDL2_SOURCE_PATH "${ExternalLibrariesRootDir}/SDL2/SDL2")
+  # Keep variables local
+  unset (__VariantSubdir)
 endif ()
 find_package (SDL2 REQUIRED)
 if (NOT SDL2_FOUND)
