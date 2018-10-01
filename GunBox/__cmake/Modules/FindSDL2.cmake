@@ -107,13 +107,20 @@ if (ANDROID)
   if (NOT .ANDROID_SourcePath_SDL2)
     message (FATAL_ERROR ".ANDROID_SourcePath_SDL2 is not set")
   endif ()
+
   file (TO_CMAKE_PATH
     ${.ANDROID_SourcePath_SDL2}
-    .SDL_SourcePath
+    __LibrarySourcePath
   )
   list (APPEND .SDL2_IncludeDirHints
-    "${.SDL_SourcePath}"
+    "${__LibrarySourcePath}"
   )
+  unset (__SDL2_SourcePath)
+
+  # NO_CMAKE_FIND_ROOT_PATH tells CMake not to use the CMAKE_FIND_ROOT_PATH
+  # variable, which is a list of root paths to search on the filesystem. Instead
+  # CMake should search in the provided alternative paths. This is required when
+  # cross-compiling for Android.
   set (NO_CMAKE_FIND_ROOT_PATH "NO_CMAKE_FIND_ROOT_PATH")
 else ()
   list (APPEND .SDL2_IncludeDirHints
@@ -135,6 +142,8 @@ find_path (SDL2_INCLUDE_DIR
     "/include"
   ${NO_CMAKE_FIND_ROOT_PATH}
 )
+
+unset (.SDL2_IncludeDirHints)
 
 ################################################################################
 # Library files
