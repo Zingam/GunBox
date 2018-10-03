@@ -163,7 +163,8 @@ add_library (${PROJECT_NAME} ${.EngineLibraryType}
 if (WIN32 AND option_EngineLibraryAs_SHARED)
   set_property (TARGET ${PROJECT_NAME}
     PROPERTY
-      WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+      WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+  )
 endif ()
 
 target_include_directories (${PROJECT_NAME}
@@ -171,31 +172,43 @@ target_include_directories (${PROJECT_NAME}
     "Sources"
 )
 
-# Find external libraries
+# External libraries search paths and find_package variables
 if (ANDROID)
   set (__VariantSubdir "${CMAKE_BUILD_TYPE}/${ANDROID_ABI}")
+
   # FreeType2 find_package configuration
-  set (.ANDROID_LibraryArtifactsPath_FreeType2 ${.LibraryArtifactsPath_FreeType2}/${__VariantSubdir})
+  set (.ANDROID_LibraryArtifactsPath_FreeType2
+    "${.LibraryArtifactsPath_FreeType2}/${__VariantSubdir}"
+  )
+  set (.ANDROID_SourcePath_FreeType2
+    "${.ExternalLibrariesRootDir}/FreeType2/FreeType2"
+  )
   # SDL2 find_package configuration
-  set (.ANDROID_AddLibraryAs_SHARED_SDL2 ${.UseSharedLibrary_SDL2})
-  set (.ANDROID_LibraryArtifactsPath_SDL2 ${.LibraryArtifactsPath_SDL2}/${__VariantSubdir})
-  set (.ANDROID_SourcePath_SDL2 "${.ExternalLibrariesRootDir}/SDL2/SDL2")
+  set (.ANDROID_AddLibraryAs_SHARED_SDL2
+    ${.UseSharedLibrary_SDL2}
+  )
+  set (.ANDROID_LibraryArtifactsPath_SDL2
+    "${.LibraryArtifactsPath_SDL2}/${__VariantSubdir}"
+  )
+  set (.ANDROID_SourcePath_SDL2
+    "${.ExternalLibrariesRootDir}/SDL2/SDL2"
+  )
+
   # Keep variables local
   unset (__VariantSubdir)
 endif ()
+
+# Find the required packages
+find_package(FreeType2 REQUIRED)
+
 find_package (SDL2 REQUIRED)
-if (NOT SDL2_FOUND)
-  message ("ERROR: SDL2 SDK was not found in the search path!")
-endif()
 list (APPEND .SharedLibraries ${SDL2_SHARED_LIBRARY})
 
 if (NOT ANDROID)
   find_package (OpenGL REQUIRED)
-  if (NOT OPENGL_FOUND)
-    message ("ERROR: OpenGL was not found in the search path!")
-  endif()
 endif ()
 
+# Link the packages
 target_link_libraries (${PROJECT_NAME}
   PUBLIC
     ${PROJECT_NAME}_Base

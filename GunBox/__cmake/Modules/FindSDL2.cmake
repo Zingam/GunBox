@@ -17,6 +17,7 @@
 #       SDL2_LIBRARY        - The name of the library to link against
 #       SDL2_LIBRARIES      -
 #       SDL2_INCLUDE_DIR    - The location of SDL.h
+#       SDL2_SHARED_LIBRARY - The name of the shared library (if available)
 #       SDL2_VERSION_STRING - String containing the version of SDL2
 ################################################################################
 #
@@ -77,6 +78,7 @@ function (AddImportedLibrary
       "Parameter SHARED or STATIC is required, found: ${.LibraryType}"
     )
   endif ()
+
   add_library (${.ImportedTargetName} ${.LibraryType} IMPORTED)
   file (TO_CMAKE_PATH
     ${.LibrarySearchPath}/${.LibraryName}
@@ -87,12 +89,6 @@ function (AddImportedLibrary
       IMPORTED_LOCATION
         "${__ImportedLibraryFile}"
   )
-  if (NOT TARGET ${.ImportedTargetName})
-    message (FATAL_ERROR
-      "===> Imported library ${.ImportedTargetName}: file not found \
-       ${__ImportedLibraryFile}"
-    )
-  endif ()
 endfunction()
 
 if (NOT SDL2_DIR)
@@ -149,15 +145,6 @@ unset (.SDL2_IncludeDirHints)
 # Library files
 ################################################################################
 
-if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-  set (VC_LIB_PATH_SUFFIX lib/x64)
-else ()
-  set (VC_LIB_PATH_SUFFIX lib/x86)
-endif ()
-
-# SDL-1.1 is the name used by FreeBSD ports...
-# don't confuse it for the version number.
-set (.LibraryFile "SDL2")
 if (ANDROID)
   if (NOT .ANDROID_LibraryArtifactsPath_SDL2)
     message (FATAL_ERROR ".ANDROID_LibraryArtifactsPath_SDL2 is not set")
@@ -167,24 +154,38 @@ if (ANDROID)
   )
 else ()
   list (APPEND .SDL2_LibraryFileHints
-    $ENV{SDLDIR}
-    "$ENV{__EXTERNAL_LIBS}/SDL2"
+    "$ENV{SDLDIR}"
     "${SDL2_DIR}"
+    "$ENV{__EXTERNAL_LIBS}/SDL2"
   )
 endif ()
+
 if (ANDROID)
   if (.ANDROID_AddLibraryAs_SHARED_SDL2)
     AddImportedLibrary (SDL2 SHARED
       "libSDL2.so"
-      "${.ANDROID_LibraryArtifactsPath_SDL2}"
+      "${.SDL2_LibraryFileHints}"
     )
   else ()
     AddImportedLibrary (SDL2 STATIC
       "libSDL2.a"
-      "${.ANDROID_LibraryArtifactsPath_SDL2}"
+      "${.SDL2_LibraryFileHints}"
     )
   endif ()
 else ()
+  # SDL-1.1 is the name used by FreeBSD ports...
+  # don't confuse it for the version number.
+  set (.LibraryFile "SDL2")
+
+    # Set search path sufficies
+  if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    # If compile target is 64bit
+    set (.MSVC_libPathSuffix lib/x64)
+  else ()
+    # If compile target is 32bit
+    set (.MSVC_libPathSuffix lib/x86)
+  endif ()
+
   find_library (SDL2_LIBRARY
     NAMES
       "${.LibraryFile}"
@@ -192,26 +193,31 @@ else ()
       ${.SDL2_LibraryFileHints}
     PATH_SUFFIXES
       "lib"
-      "${VC_LIB_PATH_SUFFIX}"
+      "${.MSVC_libPathSuffix}"
   )
 endif ()
 
 set (SDL2_LIBRARY_TEMP ${SDL2_LIBRARY})
 if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-  set (.LibraryFile "${.LibraryFile}.dll")
+  set (__LibraryFile "${.LibraryFile}.dll")
+
   find_file (SDL2_SHARED_LIBRARY
     NAMES
-      "${.LibraryFile}"
-    PATHS
+      "${__LibraryFile}"
+    HINTS
       "$ENV{__EXTERNAL_LIBS}/SDL2"
     PATH_SUFFIXES
-      ${VC_LIB_PATH_SUFFIX}
+      ${.MSVC_libPathSuffix}
+    NO_DEFAULT_PATH
   )
+
   # Hide internal implementation details from user
   set_property (CACHE SDL2_SHARED_LIBRARY PROPERTY TYPE INTERNAL)
   if (NOT SDL2_SHARED_LIBRARY)
-    message (FATAL_ERROR "Unable to find library file: \"${.LibraryFile}\"")
+    message (FATAL_ERROR "Unable to find library file: \"${__LibraryFile}\"")
   endif ()
+
+  unset (__LibraryFile)
 endif ()
 
 if (NOT SDL2_BUILDING_LIBRARY)
@@ -229,7 +235,7 @@ if (NOT SDL2_BUILDING_LIBRARY)
           ${.SDL2_LibraryFileHints}
         PATH_SUFFIXES
           "lib"
-          "${VC_LIB_PATH_SUFFIX}"
+          "${.MSVC_libPathSuffix}"
         PATHS
         "/sw"
         "/opt/local"
@@ -239,6 +245,9 @@ if (NOT SDL2_BUILDING_LIBRARY)
     endif ()
   endif ()
 endif()
+
+unset (.MSVC_libPathSuffix)
+unset (.SDL2_LibraryFileHints)
 
 # SDL may require threads on your system.
 # The Apple build may not need an explicit flag because one of the
@@ -288,7 +297,7 @@ if (SDL2_LIBRARY_TEMP)
 
   # Set the final string here so the GUI reflects the final state.
   set (SDL2_LIBRARIES ${SDL2_LIBRARY_TEMP} CACHE STRING
-    "Where the SDL Library can be found"
+    "Where the SDL2 Library can be found"
   )
 endif ()
 
@@ -326,21 +335,23 @@ endif ()
 # find_package arguments
 ################################################################################
 
-include (FindPackageHandleStandardArgs)
-
-set (.PackageVariables
+list (APPEND .PackageVariables
   SDL2_INCLUDE_DIR
 )
 if (NOT ANDROID)
-  set (.PackageVariables
+  list (APPEND .PackageVariables
     ${.PackageVariables}
     SDL2_LIBRARY
     SDL2_LIBRARIES
   )
   if (SDL2_SHARED_LIBRARY)
-    set (.PackageVariables ${.PackageVariables} SDL2_SHARED_LIBRARY)
+    list (APPEND .PackageVariables
+      SDL2_SHARED_LIBRARY
+    )
   endif ()
 endif ()
+
+include (FindPackageHandleStandardArgs)
 find_package_handle_standard_args (SDL2
   REQUIRED_VARS
     ${.PackageVariables}
@@ -349,6 +360,8 @@ find_package_handle_standard_args (SDL2
 )
 
 mark_as_advanced (${.PackageVariables})
+
+unset (.PackageVariables)
 
 ################################################################################
 # Imported target
