@@ -23,6 +23,8 @@
 #include "System/Window.hpp"
 
 // Third party libraries
+#include <ft2build.h>
+#include FT_FREETYPE_H
 #include <SDL.h>
 
 // C Standard library
@@ -53,6 +55,13 @@ main(int argc, char* argv[])
   SDL_Log("Initalizing: %s", application.Name().c_str());
   application.Execute();
 
+  FT_Library library = nullptr;
+  auto error = FT_Init_FreeType(&library);
+  if (0 != error) {
+    SDL_LogError("Unable to initialize FreeType2: %s", SDL_GetError());
+    return -1;
+  }
+
   System::Preferences preferences{ "RMM", "GunBox" };
   auto hasLoadingError = preferences.LoadFromFile();
   if (hasLoadingError) {
@@ -71,7 +80,7 @@ main(int argc, char* argv[])
   SDL_IfFailed(
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMECONTROLLER))
   {
-    SDL_LogError("Unable to initialize SDL: %s", SDL_GetError());
+    SDL_LogError("Unable to initialize SDL2: %s", SDL_GetError());
     return -1;
   }
   // Clean up

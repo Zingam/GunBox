@@ -2,7 +2,9 @@
 # Module: FindFreeType2
 ################################################################################
 # Common input variables
-#    .UsePostfixedDebugLibrary_FreeType2     - such as "libfreetyped.so"
+#    .UsePostfixedDebugLibrary_FreeType2     - such as "libfreetyped.so",
+#                                              linking against the postfixed
+#                                              postfixed version is default
 # Android input variables
 #  Library type:
 #    .ANDROID_AddLibraryAs_SHARED_FreeType2  - "YES" will search for a shared
@@ -20,6 +22,7 @@
 #       FreeType2_LIBRARY        - The name of the library to link against
 #       FreeType2_LIBRARIES      -
 #       FreeType2_INCLUDE_DIR    - The location of FreeType2 header files
+#       FreeType2_SHARED_LIBRARY - The name of the shared library (if available)
 #       FreeType2_VERSION_STRING - String containing the version of FreeType2
 ################################################################################
 
@@ -35,6 +38,7 @@ function (AddImportedLibrary
       "Parameter SHARED or STATIC is required, found: ${.LibraryType}"
     )
   endif ()
+
   add_library (${.ImportedTargetName} ${.LibraryType} IMPORTED)
   file (TO_CMAKE_PATH
     ${.LibrarySearchPath}/${.LibraryName}
@@ -45,12 +49,6 @@ function (AddImportedLibrary
       IMPORTED_LOCATION
         "${__ImportedLibraryFile}"
   )
-  if (NOT TARGET ${.ImportedTargetName})
-    message (FATAL_ERROR
-      "===> Imported library ${.ImportedTargetName}: file not found \
-       ${__ImportedLibraryFile}"
-    )
-  endif ()
 endfunction()
 
 ################################################################################
@@ -99,9 +97,14 @@ unset (.FreeType2_find_path_Hints)
 ################################################################################
 # Library files
 ################################################################################
-
+message (".UsePostfixedDebugLibrary_FreeType2 ${.UsePostfixedDebugLibrary_FreeType2}")
+if (NOT DEFINED .UsePostfixedDebugLibrary_FreeType2)
+  # Link against the postfixed library by default
+  set (.UsePostfixedDebugLibrary_FreeType2 YES)
+endif ()
 if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Debug"
-  OR NOT UsePostfixedDebugLibrary_FreeType2
+  # If linking against a debug version but without the postfix "d"
+  OR NOT .UsePostfixedDebugLibrary_FreeType2
 )
   set (.BaseLibraryName "freetype")
 else ()
@@ -118,8 +121,8 @@ if (ANDROID)
 else ()
   list (APPEND .FreeType2_LibraryFileHints
     "$ENV{FREETYPE_DIR}"
-    "$ENV{__EXTERNAL_LIBS}/FreeType2"
     "${FreeType2_DIR}"
+    "$ENV{__EXTERNAL_LIBS}/FreeType2"
   )
 endif ()
 
@@ -143,10 +146,12 @@ else ()
     # Set search path sufficies
   if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     # If compile target is 64bit
-    set (.MSVC_libPathSuffix lib/x64)
+    set (.MSVC_binPathSuffix "bin/x64")
+    set (.MSVC_libPathSuffix "lib/x64")
   else ()
     # If compile target is 32bit
-    set (.MSVC_libPathSuffix lib/x86)
+    set (.MSVC_binPathSuffix "bin/x86")
+    set (.MSVC_libPathSuffix "lib/x86")
   endif ()
 
   find_library (FreeType2_LIBRARY
@@ -160,6 +165,30 @@ else ()
   )
 endif ()
 
+if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+  set (__LibraryFile "${.BaseLibraryName}.dll")
+
+  find_file (FreeType2_SHARED_LIBRARY
+    NAMES
+      "${__LibraryFile}"
+    HINTS
+      "$ENV{__EXTERNAL_LIBS}/FreeType2"
+    PATH_SUFFIXES
+      "${.MSVC_binPathSuffix}"
+      "${.MSVC_libPathSuffix}"
+    # Look only in the specified HINTS
+    NO_DEFAULT_PATH
+  )
+
+  if (NOT FreeType2_SHARED_LIBRARY)
+    message (FATAL_ERROR "Unable to find library file: \"${__LibraryFile}\"")
+  endif ()
+   # Hide internal implementation details from user
+  set_property (CACHE FreeType2_SHARED_LIBRARY PROPERTY TYPE INTERNAL)
+
+  unset (__LibraryFile)
+endif ()
+
 unset (.MSVC_libPathSuffix)
 unset (.BaseLibraryName)
 
@@ -167,9 +196,20 @@ unset (.BaseLibraryName)
 # find_package arguments
 ################################################################################
 
-set (.PackageVariables
+list (APPEND .PackageVariables
   FreeType2_INCLUDE_DIR
 )
+if (NOT ANDROID)
+  list (APPEND .PackageVariables
+    ${.PackageVariables}
+    FreeType2_LIBRARY
+  )
+  if (FreeType2_SHARED_LIBRARY)
+    list (APPEND .PackageVariables
+      FreeType2_SHARED_LIBRARY
+    )
+  endif ()
+endif ()
 
 include (FindPackageHandleStandardArgs)
 find_package_handle_standard_args (FreeType2
@@ -196,6 +236,15 @@ if (FreeType2_FOUND AND NOT TARGET REngine::FreeType2)
     target_link_libraries(REngine::FreeType2
       INTERFACE
         FreeType2
+    )
+  else ()
+    add_library (REngine::FreeType2 UNKNOWN IMPORTED)
+    set_target_properties (REngine::FreeType2
+      PROPERTIES
+        INTERFACE_INCLUDE_DIRECTORIES
+          "${FreeType2_INCLUDE_DIR}"
+        IMPORTED_LOCATION
+          "${FreeType2_LIBRARY}"
     )
   endif ()
 endif ()

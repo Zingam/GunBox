@@ -177,6 +177,9 @@ if (ANDROID)
   set (__VariantSubdir "${CMAKE_BUILD_TYPE}/${ANDROID_ABI}")
 
   # FreeType2 find_package configuration
+  set (.ANDROID_AddLibraryAs_SHARED_FreeType2
+    ${.UseSharedLibrary_FreeType2}
+  )
   set (.ANDROID_LibraryArtifactsPath_FreeType2
     "${.LibraryArtifactsPath_FreeType2}/${__VariantSubdir}"
   )
@@ -199,10 +202,14 @@ if (ANDROID)
 endif ()
 
 # Find the required packages
+if (WIN32)
+  set (.UsePostfixedDebugLibrary_FreeType2 NO)
+endif ()
 find_package(FreeType2 REQUIRED)
+list (APPEND .SharedLibraries "${FreeType2_SHARED_LIBRARY}")
 
 find_package (SDL2 REQUIRED)
-list (APPEND .SharedLibraries ${SDL2_SHARED_LIBRARY})
+list (APPEND .SharedLibraries "${SDL2_SHARED_LIBRARY}")
 
 if (NOT ANDROID)
   find_package (OpenGL REQUIRED)
@@ -212,6 +219,7 @@ endif ()
 target_link_libraries (${PROJECT_NAME}
   PUBLIC
     ${PROJECT_NAME}_Base
+    REngine::FreeType2
     REngine::SDL2
   PUBLIC
     glad
