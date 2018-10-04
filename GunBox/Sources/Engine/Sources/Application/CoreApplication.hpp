@@ -15,10 +15,9 @@
 
 NAMESPACE_START(Application)
 
-/// <remarks>
-///   <c>CoreApplication</c> is an abstract class due to its pure virtual
-///   destructor.
-/// </remarks>
+/// <summary>
+///   Abstract interface class.
+/// </summary>
 class CoreApplication
 {
 protected:
