@@ -24,6 +24,11 @@ else ()
   )
 endif ()
 
+target_include_directories (${PROJECT_NAME}
+  PRIVATE
+    "Sources"
+)
+
 if (WIN32)
   set_property (TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
 endif ()
