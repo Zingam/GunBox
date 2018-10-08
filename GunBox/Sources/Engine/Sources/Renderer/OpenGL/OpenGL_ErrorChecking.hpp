@@ -121,6 +121,7 @@ gl__(GL_Function glFunction, Args... args)
 #if defined(OPENGL_CHECK_ERROR__)
   PrintOpenGLError(call, line, filename);
 #endif
+
   return result;
 }
 

@@ -21,7 +21,7 @@ public:
 
   // Pure virtual methods
 public:
-  auto Execute() const -> void final;
+  auto Execute() const -> ExitCode final;
 };
 
 NAMESPACE_END(GunBox)

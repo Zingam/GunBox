@@ -97,7 +97,7 @@ unset (.FreeType2_find_path_Hints)
 ################################################################################
 # Library files
 ################################################################################
-message (".UsePostfixedDebugLibrary_FreeType2 ${.UsePostfixedDebugLibrary_FreeType2}")
+
 if (NOT DEFINED .UsePostfixedDebugLibrary_FreeType2)
   # Link against the postfixed library by default
   set (.UsePostfixedDebugLibrary_FreeType2 YES)

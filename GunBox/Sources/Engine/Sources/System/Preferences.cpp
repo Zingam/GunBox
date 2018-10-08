@@ -85,6 +85,7 @@ Preferences::LoadFromFile()
   // Check if this is a preferences file
   if (identifier != data.identifier) {
     preferencesFile.close();
+
     return { "Invalid file format: " + filepath.str() };
   }
 

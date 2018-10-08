@@ -11,8 +11,7 @@ NAMESPACE_START(System)
 
 InputProcessor ::~InputProcessor()
 {
-  for (auto& gameController : gameControllers)
-  {
+  for (auto& gameController : gameControllers) {
     SDL_GameControllerClose(gameController.second);
   }
 }

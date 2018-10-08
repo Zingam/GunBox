@@ -20,6 +20,13 @@ NAMESPACE_START(Application)
 /// </summary>
 class CoreApplication
 {
+public:
+  enum class ExitCode
+  {
+    GenericError = -1,
+    NoError = 0
+  };
+
 protected:
   CoreApplication(std::string const& name,
                   CommandLineArgs const& commandLineArgs);
@@ -33,7 +40,7 @@ public:
 
   // Pure virtual methods
 public:
-  virtual auto Execute() const -> void = 0;
+  virtual auto Execute() const -> ExitCode = 0;
 
 protected:
   CommandLineArgs const& commandLineArgs;

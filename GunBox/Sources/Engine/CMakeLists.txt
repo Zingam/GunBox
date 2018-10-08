@@ -135,7 +135,7 @@ target_compile_definitions (${PROJECT_NAME}_Base
 )
 target_compile_features (${PROJECT_NAME}_Base
   INTERFACE
-    # Enable C++17 standard complience
+    # Enable C++17 standard compliance
     cxx_std_17
 )
 target_compile_options (${PROJECT_NAME}_Base
