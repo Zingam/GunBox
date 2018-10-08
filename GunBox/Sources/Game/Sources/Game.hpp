@@ -15,13 +15,12 @@ NAMESPACE_START(GunBox)
 class Game : public Application::CoreApplication
 {
 public:
-  Game(std::string const& name,
-       Application::CommandLineArgs const& commandLineArgs);
+  Game(ProductInfo name);
   ~Game() final;
 
   // Pure virtual methods
 public:
-  auto Execute() const -> ExitCode final;
+  auto Execute() -> ExitCode final;
 };
 
 NAMESPACE_END(GunBox)

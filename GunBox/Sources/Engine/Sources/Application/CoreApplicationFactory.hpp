@@ -38,7 +38,7 @@ NAMESPACE_START(Application)
 ///   </code>
 /// </example>
 extern auto
-Create(std::string const& name, CommandLineArgs const& commandLineArgs)
+Create()
   -> CoreApplication&;
 
 ////////////////////////////////////////////////////////////////////////////////

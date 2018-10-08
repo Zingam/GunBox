@@ -1,5 +1,6 @@
 // Project headers
 #include "Game.hpp"
+#include "Configuration/Values.hpp"
 
 // Engine headers - Common
 #include "Common/Macros/Base.hpp"
@@ -21,9 +22,14 @@ NAMESPACE_START(Application)
 ///   Declared in <b>Engine</b> library.
 /// </remarks>
 CoreApplication&
-Create(std::string const& name, CommandLineArgs const& commandLineArgs)
+Create()
 {
-  static GunBox::Game game{ name, commandLineArgs };
+  static GunBox::Game game{ { Game_Developer,
+                              Game_Name,
+                              { Game_VersionMajor,
+                                Game_VersionMinor,
+                                Game_VersionPatch,
+                                Game_VersionBuildNumber } } };
 
   return game;
 }
