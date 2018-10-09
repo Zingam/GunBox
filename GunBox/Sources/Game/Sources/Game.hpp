@@ -4,9 +4,9 @@
 #include "Common/Macros/Base.hpp"
 
 // Engine headers - Application
+#include "Application/ApplicationInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
-#include "Application/ProductInfo.hpp"
 
 // C++ Standard Library
 #include <string>

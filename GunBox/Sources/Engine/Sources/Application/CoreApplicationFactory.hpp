@@ -4,8 +4,8 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - Application
-#include "CommandLineArgs.hpp"
-#include "CoreApplication.hpp"
+#include "Application/CommandLineArgs.hpp"
+#include "Application/CoreApplication.hpp"
 
 NAMESPACE_BEGIN(Application)
 

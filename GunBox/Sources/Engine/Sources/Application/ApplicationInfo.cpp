@@ -1,5 +1,5 @@
 // Self
-#include "ProductInfo.hpp"
+#include "ApplicationInfo.hpp"
 
 NAMESPACE_BEGIN(Application)
 

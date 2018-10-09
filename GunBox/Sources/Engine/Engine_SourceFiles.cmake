@@ -1,6 +1,9 @@
 include_guard ()
 
 set (.Engine_SourceFiles
+  "Sources/Application/ApplicationInfo.cpp"
+  "Sources/Application/ApplicationInfo.hpp"
+  "Sources/Application/ApplicationInfo.inl"
   "Sources/Application/CommandLineArgs.cpp"
   "Sources/Application/CommandLineArgs.hpp"
   "Sources/Application/CoreApplication.cpp"
@@ -11,9 +14,6 @@ set (.Engine_SourceFiles
   "Sources/Application/Preferences.cpp"
   "Sources/Application/Preferences.hpp"
   "Sources/Application/Preferences.inl"
-  "Sources/Application/ProductInfo.cpp"
-  "Sources/Application/ProductInfo.hpp"
-  "Sources/Application/ProductInfo.inl"
   "Sources/Common/Macros/Base.cpp"
   "Sources/Common/Macros/Base.hpp"
   "Sources/Common/Macros/SDL2_ErrorChecking.cpp"

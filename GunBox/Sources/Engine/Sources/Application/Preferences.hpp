@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - Application
-#include "ProductInfo.hpp"
+#include "Application/ApplicationInfo.hpp"
 // Project headers - Renderer
 #include "Renderer/RendererBase.hpp"
 // Project headers - System
@@ -57,22 +57,12 @@ private:
   ProductInfo const& productInfo;
 };
 
-inline bool&
-Preferences::Fullscreen()
-{
-  return data.fullscreen;
-}
-
-inline System::Rectangle2D&
-Preferences::MainWindowMetrics()
-{
-  return data.mainWindowMetrics;
-}
-
-inline System::Renderer::API_t&
-Preferences::RendererAPI()
-{
-  return data.rendererApi;
-}
-
 NAMESPACE_END(SYSTEM)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "Preferences.inl"
+
+////////////////////////////////////////////////////////////////////////////////

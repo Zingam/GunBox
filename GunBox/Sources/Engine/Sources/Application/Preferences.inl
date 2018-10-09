@@ -10,4 +10,22 @@ NAMESPACE_BEGIN(Application)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
+inline bool&
+Preferences::Fullscreen()
+{
+  return data.fullscreen;
+}
+
+inline System::Rectangle2D&
+Preferences::MainWindowMetrics()
+{
+  return data.mainWindowMetrics;
+}
+
+inline System::Renderer::API_t&
+Preferences::RendererAPI()
+{
+  return data.rendererApi;
+}
+
 NAMESPACE_END(Application)

@@ -6,7 +6,7 @@
 // Project headers - Renderer
 #include "Renderer/RendererBase.hpp"
 // Project headers - System
-#include "Geometry.hpp"
+#include "System/Geometry.hpp"
 
 // C++ Standard Library
 #include <string>

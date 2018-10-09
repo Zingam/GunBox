@@ -4,9 +4,9 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - Application
-#include "CommandLineArgs.hpp"
-#include "Preferences.hpp"
-#include "ProductInfo.hpp"
+#include "Application/ApplicationInfo.hpp"
+#include "Application/CommandLineArgs.hpp"
+#include "Application/Preferences.hpp"
 
 // Project headers - System
 #include "System/HostPlatform.hpp"
