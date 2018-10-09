@@ -4,14 +4,14 @@
 // Product strings
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(Game_Developer)
-#  define Game_Developer "RMM"
+#if !defined(Game_DeveloperOrganization)
+#  define Game_DeveloperOrganization "RMM"
 #else
 #  error Game_Developer is already defined...
 #endif
 
-#if !defined(Game_Name)
-#  define Game_Name "GunBox"
+#if !defined(Game_Title)
+#  define Game_Title "GunBox"
 #else
 #  error Game_Name is already defined...
 #endif

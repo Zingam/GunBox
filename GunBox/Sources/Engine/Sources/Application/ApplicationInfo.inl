@@ -11,25 +11,25 @@ NAMESPACE_BEGIN(Application)
 ////////////////////////////////////////////////////////////////////////////////
 
 inline std::string const
-ProductInfo::Developer() const
+ApplicationInfo::Organization() const
 {
-  return developer;
+  return organization;
 }
 
 inline std::string const&
-ProductInfo::Name() const
+ApplicationInfo::Title() const
 {
-  return name;
+  return title;
 }
 
-inline ProductInfo::Version_t const&
-ProductInfo::Version() const
+inline ApplicationInfo::Version_t const&
+ApplicationInfo::Version() const
 {
   return version;
 }
 
 inline std::string
-ProductInfo::VersionString() const
+ApplicationInfo::VersionString() const
 {
   std::stringstream ss;
   ss << VersionNumberMajor() << '.';
@@ -40,32 +40,32 @@ ProductInfo::VersionString() const
   return ss.str();
 }
 
-inline ProductInfo::Version_t
-ProductInfo::VersionNumber() const&
+inline ApplicationInfo::Version_t
+ApplicationInfo::VersionNumber() const&
 {
   return version;
 }
 
-inline ProductInfo::VersionBuildNumber_t
-ProductInfo::VersionNumberBuildNumber() const
+inline ApplicationInfo::VersionBuildNumber_t
+ApplicationInfo::VersionNumberBuildNumber() const
 {
   return std::get<3>(version);
 }
 
-inline ProductInfo::VersionMajor_t
-ProductInfo::VersionNumberMajor() const
+inline ApplicationInfo::VersionMajor_t
+ApplicationInfo::VersionNumberMajor() const
 {
   return std::get<0>(version);
 }
 
-inline ProductInfo::VersionMinor_t
-ProductInfo::VersionNumberMinor() const
+inline ApplicationInfo::VersionMinor_t
+ApplicationInfo::VersionNumberMinor() const
 {
   return std::get<1>(version);
 }
 
-inline ProductInfo::VersionPatch_t
-ProductInfo::VersionNumberPatch() const
+inline ApplicationInfo::VersionPatch_t
+ApplicationInfo::VersionNumberPatch() const
 {
   return std::get<2>(version);
 }

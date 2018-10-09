@@ -36,7 +36,7 @@ class Preferences
   };
 
 public:
-  Preferences(ProductInfo const& productInfo);
+  Preferences(ApplicationInfo const& applicationInfo);
 
 public:
   auto LoadFromFile() -> const std::optional<std::string>;
@@ -54,7 +54,7 @@ private:
 
 private:
   Data data;
-  ProductInfo const& productInfo;
+  ApplicationInfo const& applicationInfo;
 };
 
 NAMESPACE_END(SYSTEM)

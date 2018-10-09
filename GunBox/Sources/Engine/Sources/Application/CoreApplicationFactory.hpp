@@ -30,7 +30,7 @@ NAMESPACE_BEGIN(Application)
 ///   <code>
 ///   <![CDATA[
 ///   std::unique_ptr<CoreApplication>*
-///   CoreApplication::Create(std::string const& name,
+///   CoreApplication::Create(std::string const& title,
 ///                       CommandLineArgs const& commandLineArgs)
 ///   {
 ///     return new Game("NewGame", commandLineArgs);

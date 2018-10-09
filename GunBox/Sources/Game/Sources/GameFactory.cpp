@@ -1,6 +1,6 @@
 // Project headers
-#include "Game.hpp"
 #include "Configuration/Values.hpp"
+#include "Game.hpp"
 
 // Engine headers - Common
 #include "Common/Macros/Base.hpp"
@@ -24,8 +24,8 @@ NAMESPACE_BEGIN(Application)
 CoreApplication&
 Create()
 {
-  static GunBox::Game game{ { Game_Developer,
-                              Game_Name,
+  static GunBox::Game game{ { Game_DeveloperOrganization,
+                              Game_Title,
                               { Game_VersionMajor,
                                 Game_VersionMinor,
                                 Game_VersionPatch,

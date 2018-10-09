@@ -30,14 +30,14 @@ public:
   };
 
 protected:
-  CoreApplication(ProductInfo const& productInfo);
+  CoreApplication(ApplicationInfo const& info);
 
 public:
   virtual ~CoreApplication() = 0;
 
   // Properties
 public:
-  auto Info() const -> ProductInfo const&;
+  auto Info() const -> ApplicationInfo const&;
 
   // Pure virtual methods
 public:
@@ -53,7 +53,7 @@ protected:
   std::unique_ptr<CommandLineArgs> commandLineArgs;
   System::HostPlatform hostPlatform;
   std::unique_ptr<Preferences> preferences;
-  const ProductInfo productInfo;
+  const ApplicationInfo info;
 };
 
 NAMESPACE_END(Application)

@@ -7,11 +7,11 @@ NAMESPACE_BEGIN(Application)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-ProductInfo::ProductInfo(std::string const& developer,
-                         std::string const& name,
-                         Version_t const& version)
-  : developer{ developer }
-  , name{ name }
+ApplicationInfo::ApplicationInfo(std::string const& organization,
+                                 std::string const& title,
+                                 Version_t const& version)
+  : organization{ organization }
+  , title{ title }
   , version{ version }
 {}
 

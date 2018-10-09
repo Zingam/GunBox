@@ -16,7 +16,7 @@ NAMESPACE_BEGIN(GunBox)
 class Game : public Application::CoreApplication
 {
 public:
-  Game(Application::ProductInfo name);
+  Game(Application::ApplicationInfo title);
   ~Game() final;
 
   // Pure virtual methods

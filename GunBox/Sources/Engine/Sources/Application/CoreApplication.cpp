@@ -13,10 +13,10 @@ NAMESPACE_BEGIN(Application)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-CoreApplication::CoreApplication(ProductInfo const& productInfo)
-  : productInfo{ std::move(productInfo) }
+CoreApplication::CoreApplication(ApplicationInfo const& info)
+  : info{ std::move(info) }
 {
-  preferences = std::make_unique<Preferences>(this->productInfo);
+  preferences = std::make_unique<Preferences>(this->info);
 }
 
 CoreApplication::~CoreApplication() {}
@@ -29,7 +29,7 @@ auto
 CoreApplication::Finalize() -> void
 {
 #if defined(_DEBUG)
-  SDL_Log("Finalizing: %s", productInfo.Name().c_str());
+  SDL_Log("Finalizing: %s", info.Title().c_str());
 
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowSystemConsole()) {
@@ -48,7 +48,7 @@ CoreApplication::Initialize() -> void
       hostPlatform.ShowSystemConsole();
     }
 
-    SDL_Log("Initalizing: %s", productInfo.Name().c_str());
+    SDL_Log("Initalizing: %s", info.Title().c_str());
 
     if (commandLineArgs->Resolution()) {
       auto height = commandLineArgs->Resolution().value().Height;
@@ -56,7 +56,7 @@ CoreApplication::Initialize() -> void
       SDL_Log("Desired resolution: %dx%d", width, height);
     }
   } else {
-    SDL_Log("Initalizing: %s", productInfo.Name().c_str());
+    SDL_Log("Initalizing: %s", info.Title().c_str());
   }
 #endif
 
@@ -68,7 +68,7 @@ CoreApplication::Initialize() -> void
     errorMessage << "Using default values!";
 
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                             productInfo.Name().c_str(),
+                             info.Title().c_str(),
                              errorMessage.str().c_str(),
                              nullptr);
 

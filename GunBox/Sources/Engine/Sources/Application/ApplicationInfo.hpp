@@ -12,7 +12,7 @@
 
 NAMESPACE_BEGIN(Application)
 
-class ProductInfo
+class ApplicationInfo
 {
   // Types
 public:
@@ -25,25 +25,26 @@ public:
 
   // Constructors
 public:
-  ProductInfo(std::string const& Developer,
-              std::string const& Name,
-              Version_t const& version);
+  ApplicationInfo(std::string const& organization,
+                  std::string const& title,
+                  Version_t const& version);
 
   // Properties
 public:
-  auto Developer() const -> std::string const;
-  auto Name() const -> std::string const&;
+  auto Organization() const -> std::string const;
+  auto Title() const -> std::string const&;
   auto Version() const -> Version_t const&;
-  auto VersionNumber() const& -> ProductInfo::Version_t;
-  auto VersionNumberBuildNumber() const -> ProductInfo::VersionBuildNumber_t;
-  auto VersionNumberMajor() const -> ProductInfo::VersionMajor_t;
-  auto VersionNumberMinor() const -> ProductInfo::VersionMinor_t;
-  auto VersionNumberPatch() const -> ProductInfo::VersionPatch_t;
+  auto VersionNumber() const& -> ApplicationInfo::Version_t;
+  auto VersionNumberBuildNumber() const
+    -> ApplicationInfo::VersionBuildNumber_t;
+  auto VersionNumberMajor() const -> ApplicationInfo::VersionMajor_t;
+  auto VersionNumberMinor() const -> ApplicationInfo::VersionMinor_t;
+  auto VersionNumberPatch() const -> ApplicationInfo::VersionPatch_t;
   auto VersionString() const -> std::string;
 
 private:
-  std::string const developer;
-  std::string const name;
+  std::string const organization;
+  std::string const title;
   Version_t const version;
 };
 
