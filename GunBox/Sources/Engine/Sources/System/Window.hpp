@@ -13,7 +13,7 @@
 
 struct SDL_Window;
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 class Window
 {

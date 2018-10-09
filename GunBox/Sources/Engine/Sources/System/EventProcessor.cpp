@@ -7,7 +7,7 @@
 // Third party headers
 #include <SDL_events.h>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 void
 EventProcessor::ProcessEvents()

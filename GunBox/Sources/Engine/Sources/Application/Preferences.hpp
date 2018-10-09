@@ -16,7 +16,7 @@
 #include <string>
 #include <vector>
 
-NAMESPACE_START(Application)
+NAMESPACE_BEGIN(Application)
 
 class Preferences
 {

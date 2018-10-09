@@ -10,7 +10,7 @@
 // C Standard Library
 #include <cstdio>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 void
 HostPlatform_Windows::HideSystemConsole()

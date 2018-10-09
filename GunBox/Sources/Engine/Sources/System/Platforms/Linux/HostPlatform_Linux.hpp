@@ -3,7 +3,7 @@
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 using HostPlatform_Implementation = class HostPlatform_Linux
 {

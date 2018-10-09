@@ -10,4 +10,10 @@ NAMESPACE_BEGIN(Application)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
+inline ProductInfo const&
+CoreApplication::Info() const
+{
+  return productInfo;
+}
+
 NAMESPACE_END(Application)

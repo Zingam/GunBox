@@ -1,10 +1,10 @@
 #pragma once
 
-/// Macro: NAMESPACE_START(ns)
-#if !defined(NAMESPACE_START)
-#  define NAMESPACE_START(ns) namespace ns {
+/// Macro: NAMESPACE_BEGIN(ns)
+#if !defined(NAMESPACE_BEGIN)
+#  define NAMESPACE_BEGIN(ns) namespace ns {
 #else
-#  error NAMESPACE_START is already defined...
+#  error NAMESPACE_BEGIN is already defined...
 #endif
 
 /// Macro: NAMESPACE_END(ns)

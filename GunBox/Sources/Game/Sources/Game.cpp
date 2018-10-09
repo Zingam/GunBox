@@ -5,7 +5,7 @@
 #include <iostream>
 #include <memory>
 
-NAMESPACE_START(GunBox)
+NAMESPACE_BEGIN(GunBox)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors

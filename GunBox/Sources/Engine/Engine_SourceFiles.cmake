@@ -5,6 +5,7 @@ set (.Engine_SourceFiles
   "Sources/Application/CommandLineArgs.hpp"
   "Sources/Application/CoreApplication.cpp"
   "Sources/Application/CoreApplication.hpp"
+  "Sources/Application/CoreApplication.inl"
   "Sources/Application/CoreApplicationFactory.cpp"
   "Sources/Application/CoreApplicationFactory.hpp"
   "Sources/Application/Preferences.cpp"

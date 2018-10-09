@@ -7,7 +7,7 @@
 // Project headers - System
 #include "Platforms/HostPlatform_Implementation.hpp"
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 class HostPlatform : public implementedBy<HostPlatform_Implementation>
 {

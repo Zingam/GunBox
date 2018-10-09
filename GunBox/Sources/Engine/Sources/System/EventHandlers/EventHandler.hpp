@@ -5,7 +5,7 @@
 
 union SDL_Event;
 
-NAMESPACE_START(System::EventHandlers)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 struct EventHandler
 {

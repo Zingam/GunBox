@@ -2,7 +2,7 @@
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 inline void
 HostPlatform::HideSystemConsole()

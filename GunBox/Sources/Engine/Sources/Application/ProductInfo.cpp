@@ -1,7 +1,7 @@
 // Self
 #include "ProductInfo.hpp"
 
-NAMESPACE_START(Application)
+NAMESPACE_BEGIN(Application)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors

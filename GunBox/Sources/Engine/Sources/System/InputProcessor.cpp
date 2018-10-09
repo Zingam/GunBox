@@ -7,7 +7,7 @@
 // Third party
 #include <SDL_gamecontroller.h>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 InputProcessor ::~InputProcessor()
 {

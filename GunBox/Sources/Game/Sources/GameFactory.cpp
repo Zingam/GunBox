@@ -9,7 +9,7 @@
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
 
-NAMESPACE_START(Application)
+NAMESPACE_BEGIN(Application)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Factory functions

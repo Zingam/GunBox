@@ -6,7 +6,7 @@
 // Project headers - System
 #include "System/EventHandlers/EventHandler.hpp"
 
-NAMESPACE_START(System::EventHandlers::Application)
+NAMESPACE_BEGIN(System::EventHandlers::Application)
 
 struct Quit : public EventHandler
 {

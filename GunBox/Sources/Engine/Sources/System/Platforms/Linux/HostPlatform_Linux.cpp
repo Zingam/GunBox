@@ -1,7 +1,7 @@
 // Self
 #include "HostPlatform_Linux.hpp"
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 void
 HostPlatform_Linux::HideSystemConsole()

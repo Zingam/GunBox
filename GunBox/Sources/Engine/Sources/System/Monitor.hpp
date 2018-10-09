@@ -9,7 +9,7 @@
 // C++ Standard Library
 #include <vector>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 class Monitor
 {

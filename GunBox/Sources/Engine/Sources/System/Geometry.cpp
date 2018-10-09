@@ -1,6 +1,6 @@
 #include "Geometry.hpp"
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors

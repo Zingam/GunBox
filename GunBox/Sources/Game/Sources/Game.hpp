@@ -11,7 +11,7 @@
 // C++ Standard Library
 #include <string>
 
-NAMESPACE_START(GunBox)
+NAMESPACE_BEGIN(GunBox)
 
 class Game : public Application::CoreApplication
 {

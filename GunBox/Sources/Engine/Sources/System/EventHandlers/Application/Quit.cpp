@@ -3,7 +3,7 @@
 
 #include "SDL_events.h"
 
-NAMESPACE_START(System::EventHandlers::Application)
+NAMESPACE_BEGIN(System::EventHandlers::Application)
 
 Quit::~Quit()
 {

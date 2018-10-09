@@ -7,7 +7,7 @@
 // Third party
 #include <SDL_video.h>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors

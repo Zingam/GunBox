@@ -6,7 +6,7 @@
 // C++ Standard Library
 #include <regex>
 
-NAMESPACE_START(Application)
+NAMESPACE_BEGIN(Application)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors

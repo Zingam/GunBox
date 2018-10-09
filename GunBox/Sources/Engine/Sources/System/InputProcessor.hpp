@@ -12,7 +12,7 @@
 struct _SDL_GameController;
 using SDL_GameController = _SDL_GameController;
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 class InputProcessor
 {

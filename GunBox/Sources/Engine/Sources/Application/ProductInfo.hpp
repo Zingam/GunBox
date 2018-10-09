@@ -10,7 +10,7 @@
 #include <string>
 #include <tuple>
 
-NAMESPACE_START(Application)
+NAMESPACE_BEGIN(Application)
 
 class ProductInfo
 {

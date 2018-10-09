@@ -4,7 +4,7 @@
 // Third party
 #include <SDL_events.h>
 
-NAMESPACE_START(System::EventHandlers::Controller)
+NAMESPACE_BEGIN(System::EventHandlers::Controller)
 
 DeviceAdded::DeviceAdded(InputProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }

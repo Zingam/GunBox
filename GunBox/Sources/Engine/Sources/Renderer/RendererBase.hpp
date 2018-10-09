@@ -6,7 +6,7 @@
 // C Standard Library
 #include <cstdint>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 struct Renderer
 {

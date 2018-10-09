@@ -1,7 +1,7 @@
 // Self
 #include "EventHandler.hpp"
 
-NAMESPACE_START(System::EventHandlers)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 EventHandler::~EventHandler() {}
 

@@ -3,7 +3,7 @@
 
 #include <SDL_events.h>
 
-NAMESPACE_START(System::EventHandlers::Controller)
+NAMESPACE_BEGIN(System::EventHandlers::Controller)
 
 DeviceRemoved::DeviceRemoved(InputProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }

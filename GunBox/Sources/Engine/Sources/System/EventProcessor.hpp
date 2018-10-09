@@ -10,7 +10,7 @@
 #include <memory>
 #include <vector>
 
-NAMESPACE_START(System)
+NAMESPACE_BEGIN(System)
 
 class EventProcessor
 {

@@ -7,7 +7,7 @@
 #include "System/EventHandlers/EventHandler.hpp"
 #include "System/InputProcessor.hpp"
 
-NAMESPACE_START(System::EventHandlers::Controller)
+NAMESPACE_BEGIN(System::EventHandlers::Controller)
 
 class DeviceAdded : public EventHandler
 {
