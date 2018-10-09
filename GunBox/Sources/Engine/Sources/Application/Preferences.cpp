@@ -11,23 +11,21 @@
 #include <iostream>
 #include <sstream>
 
-NAMESPACE_START(System)
+NAMESPACE_START(Application)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-Preferences::Preferences(const char* organizationName,
-                         const char* applicationName)
-  : applicationName{ applicationName }
-  , organizationName{ organizationName }
+Preferences::Preferences(ProductInfo const& productInfo)
+  : productInfo{ productInfo }
 {
   // struct Data
   // {
   //   size_t hash_1;
   data.hash_1 = 0;
   //   std::string identifier;
-  data.identifier = applicationName;
+  data.identifier = productInfo.Name();
   //   size_t version;
   data.version = 1;
   //   size_t offset_2; // of hash_2
@@ -47,7 +45,7 @@ Preferences::Preferences(const char* organizationName,
   data.fullscreen = false;
   //   size_t hash_2;
   data.hash_2 = 0;
-  data.rendererApi = Renderer::API_t::Unknown;
+  data.rendererApi = System::Renderer::API_t::Unknown;
   // };
 }
 
@@ -59,9 +57,10 @@ const std::optional<std::string>
 Preferences::LoadFromFile()
 {
   // Open the preferences file from the system location
-  auto prefPath = SDL_GetPrefPath(organizationName, applicationName);
+  auto prefPath =
+    SDL_GetPrefPath(productInfo.Developer().c_str(), productInfo.Name().c_str());
   std::stringstream filepath;
-  filepath << prefPath << applicationName << ".preferences";
+  filepath << prefPath << productInfo.Name() << ".preferences";
   SDL_free(prefPath);
 
   std::fstream preferencesFile;
@@ -139,9 +138,10 @@ Preferences::LoadFromFile()
 const std::optional<std::string>
 Preferences::SaveToFile()
 {
-  auto prefPath = SDL_GetPrefPath(organizationName, applicationName);
+  auto prefPath =
+    SDL_GetPrefPath(productInfo.Developer().data(), productInfo.Name().c_str());
   std::stringstream filepath;
-  filepath << prefPath << applicationName << ".preferences";
+  filepath << prefPath << productInfo.Name() << ".preferences";
   SDL_free(prefPath);
 
   std::fstream preferencesFile;
@@ -249,4 +249,4 @@ Preferences::CalculateHash(std::fstream& fstream,
   return hash_djb2 + hash_sdbm;
 }
 
-NAMESPACE_END(System)
+NAMESPACE_END(Application)

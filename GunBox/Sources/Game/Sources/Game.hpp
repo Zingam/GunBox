@@ -6,6 +6,7 @@
 // Engine headers - Application
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
+#include "Application/ProductInfo.hpp"
 
 // C++ Standard Library
 #include <string>
@@ -15,7 +16,7 @@ NAMESPACE_START(GunBox)
 class Game : public Application::CoreApplication
 {
 public:
-  Game(ProductInfo name);
+  Game(Application::ProductInfo name);
   ~Game() final;
 
   // Pure virtual methods

@@ -13,19 +13,23 @@ NAMESPACE_START(Application)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-CoreApplication::ProductInfo::ProductInfo(std::string const& developer,
-                                          std::string const& name,
-                                          Version_t const& version)
-  : Developer{ developer }
-  , Name{ name }
-  , Version{ version }
-{}
-
-CoreApplication::CoreApplication(ProductInfo productInfo)
+CoreApplication::CoreApplication(ProductInfo const& productInfo)
   : productInfo{ std::move(productInfo) }
-{}
+{
+  preferences = std::make_unique<Preferences>(this->productInfo);
+}
 
 CoreApplication::~CoreApplication() {}
+
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
+ProductInfo const&
+CoreApplication::Info() const
+{
+  return productInfo;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Virtual methods
@@ -35,7 +39,7 @@ auto
 CoreApplication::Finalize() -> void
 {
 #if defined(_DEBUG)
-  SDL_Log("Finalizing: %s", Name().c_str());
+  SDL_Log("Finalizing: %s", productInfo.Name().c_str());
 
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowSystemConsole()) {
@@ -54,7 +58,7 @@ CoreApplication::Initialize() -> void
       hostPlatform.ShowSystemConsole();
     }
 
-    SDL_Log("Initalizing: %s", Name().c_str());
+    SDL_Log("Initalizing: %s", productInfo.Name().c_str());
 
     if (commandLineArgs->Resolution()) {
       auto height = commandLineArgs->Resolution().value().Height;
@@ -62,9 +66,25 @@ CoreApplication::Initialize() -> void
       SDL_Log("Desired resolution: %dx%d", width, height);
     }
   } else {
-    SDL_Log("Initalizing: %s", Name().c_str());
+    SDL_Log("Initalizing: %s", productInfo.Name().c_str());
   }
 #endif
+
+  auto hasLoadingError = preferences->LoadFromFile();
+  if (hasLoadingError) {
+    std::stringstream errorMessage;
+    errorMessage << "Error loading preferences from file:\n";
+    errorMessage << "    " << hasLoadingError.value() << "\n";
+    errorMessage << "Using default values!";
+
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+                             productInfo.Name().c_str(),
+                             errorMessage.str().c_str(),
+                             nullptr);
+
+    // Main window
+    preferences->SetMainWindowDefaultValues();
+  }
 }
 
 void
@@ -82,67 +102,5 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
     commandLineArgs.release();
   }
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// Properties
-////////////////////////////////////////////////////////////////////////////////
-
-std::string const&
-CoreApplication::Developer() const
-{
-  return productInfo.Developer;
-}
-
-std::string const&
-CoreApplication::Name() const
-{
-  return productInfo.Name;
-}
-
-std::string
-CoreApplication::VersionString() const
-{
-  std::stringstream ss;
-  ss << VersionNumberMajor() << '.';
-  ss << VersionNumberMinor() << '.';
-  ss << VersionNumberPatch() << '.';
-  ss << VersionNumberBuildNumber();
-
-  return ss.str();
-}
-
-CoreApplication::ProductInfo::Version_t
-CoreApplication::VersionNumber() const&
-{
-  return productInfo.Version;
-}
-
-CoreApplication::ProductInfo::VersionBuildNumber_t
-CoreApplication::VersionNumberBuildNumber() const
-{
-  return std::get<3>(productInfo.Version);
-}
-
-CoreApplication::ProductInfo::VersionMajor_t
-CoreApplication::VersionNumberMajor() const
-{
-  return std::get<0>(productInfo.Version);
-}
-
-CoreApplication::ProductInfo::VersionMinor_t
-CoreApplication::VersionNumberMinor() const
-{
-  return std::get<1>(productInfo.Version);
-}
-
-CoreApplication::ProductInfo::VersionPatch_t
-CoreApplication::VersionNumberPatch() const
-{
-  return std::get<2>(productInfo.Version);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Virtual methods
-////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_END(Application)

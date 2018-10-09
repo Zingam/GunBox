@@ -11,7 +11,7 @@ NAMESPACE_START(GunBox)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-Game::Game(ProductInfo productInfo)
+Game::Game(Application::ProductInfo productInfo)
   : Application::CoreApplication{ productInfo }
 {}
 
@@ -24,7 +24,7 @@ Game::~Game() {}
 Game::ExitCode
 Game ::Execute()
 {
-  std::cout << Name() << ": Starting a new game...\n";
+  std::cout << Info().Name() << ": Starting a new game...\n";
 
   return ExitCode::NoError;
 }

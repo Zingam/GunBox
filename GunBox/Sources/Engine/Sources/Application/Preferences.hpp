@@ -3,18 +3,20 @@
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
 
+// Project headers - Application
+#include "ProductInfo.hpp"
 // Project headers - Renderer
 #include "Renderer/RendererBase.hpp"
 // Project headers - System
-#include "Geometry.hpp"
-#include "Window.hpp"
+#include "System/Geometry.hpp"
+#include "System/Window.hpp"
 
 // C++ Standard Library
 #include <optional>
 #include <string>
 #include <vector>
 
-NAMESPACE_START(System)
+NAMESPACE_START(Application)
 
 class Preferences
 {
@@ -27,14 +29,14 @@ class Preferences
     std::string identifier;
     size_t version;
     size_t offset_2; // of hash_2
-    Rectangle2D mainWindowMetrics;
+    System::Rectangle2D mainWindowMetrics;
     bool fullscreen;
     hash_t hash_2;
-    Renderer::API_t rendererApi;
+    System::Renderer::API_t rendererApi;
   };
 
 public:
-  Preferences(char const* organizationName, char const* applicationaName);
+  Preferences(ProductInfo const& productInfo);
 
 public:
   auto LoadFromFile() -> const std::optional<std::string>;
@@ -43,19 +45,17 @@ public:
 
 public:
   auto Fullscreen() -> bool&;
-  auto MainWindowMetrics() -> Rectangle2D&;
-  auto RendererAPI() -> Renderer::API_t&;
+  auto MainWindowMetrics() -> System::Rectangle2D&;
+  auto RendererAPI() -> System::Renderer::API_t&;
 
 private:
   auto CalculateHash(std::fstream& fstream,
                      std::vector<size_t> const& hashvalueOffsets) -> size_t;
 
 private:
-  char const* applicationName;
   Data data;
-  char const* organizationName;
+  ProductInfo const& productInfo;
 };
-
 
 inline bool&
 Preferences::Fullscreen()
@@ -63,13 +63,13 @@ Preferences::Fullscreen()
   return data.fullscreen;
 }
 
-inline Rectangle2D&
+inline System::Rectangle2D&
 Preferences::MainWindowMetrics()
 {
   return data.mainWindowMetrics;
 }
 
-inline Renderer::API_t&
+inline System::Renderer::API_t&
 Preferences::RendererAPI()
 {
   return data.rendererApi;
