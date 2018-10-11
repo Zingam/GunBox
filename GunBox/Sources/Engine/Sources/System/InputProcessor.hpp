@@ -10,7 +10,7 @@
 #include <map>
 
 struct _SDL_GameController;
-using SDL_GameController = _SDL_GameController;
+using GameController = _SDL_GameController*;
 
 NAMESPACE_BEGIN(System)
 
@@ -27,7 +27,7 @@ public:
   auto RemoveGameController(GameControllerId const gameControllerId) -> void;
 
 private:
-  std::map<GameControllerId const, SDL_GameController*> gameControllers;
+  std::map<GameControllerId const, GameController> gameControllers;
 };
 
 NAMESPACE_END(System)
