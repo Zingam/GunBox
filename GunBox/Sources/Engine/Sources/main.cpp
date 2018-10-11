@@ -1,9 +1,9 @@
+// Project headers - Application Entry point
+#include "main.hpp"
+
 // Project headers - Application
 #include "Application/CoreApplication.hpp"
 #include "Application/CoreApplicationFactory.hpp"
-
-// Third party libraries
-#include <SDL.h>
 
 int
 main(int argc, char* argv[])
