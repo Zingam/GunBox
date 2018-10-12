@@ -1,5 +1,5 @@
 // Self
-#include "HostPlatform_Windows.hpp"
+#include "SystemConsole_Windows.hpp"
 
 // System headers
 #undef NOMENUS
@@ -10,17 +10,17 @@
 // C Standard Library
 #include <cstdio>
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 void
-HostPlatform_Windows::HideSystemConsole()
+SystemConsole_Windows::Hide()
 {
   fclose(stdout);
   FreeConsole();
 }
 
 void
-HostPlatform_Windows::ShowSystemConsole()
+SystemConsole_Windows::Show()
 {
   // Create a system console window for the current process
   AllocConsole();
@@ -35,4 +35,4 @@ HostPlatform_Windows::ShowSystemConsole()
   freopen_s(&filestream_ptr, "CON", "w", stdout);
 }
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::HostPlatformClasses)

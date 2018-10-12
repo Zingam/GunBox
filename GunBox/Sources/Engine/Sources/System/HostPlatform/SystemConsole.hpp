@@ -5,28 +5,24 @@
 #include "Common/implementedBy.hpp"
 
 // Project headers - System
-#include "System/HostPlatform/SubSystems.hpp"
-#include "System/HostPlatform/SystemConsole.hpp"
+#include "System/Platforms/SystemConsole_Implementation.hpp"
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-class HostPlatform
+class SystemConsole : public implementedBy<SystemConsole_Implementation>
 {
+  // Methods
 public:
-  HostPlatformClasses::SubSystems& SubSystems();
-  HostPlatformClasses::SystemConsole& SystemConsole();
-
-private:
-  HostPlatformClasses::SubSystems subSystems;
-  HostPlatformClasses::SystemConsole systemConsole;
+  auto Hide() -> void;
+  auto Show() -> void;
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::HostPlatformClasses)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "HostPlatform.inl"
+#include "SystemConsole.inl"
 
 ////////////////////////////////////////////////////////////////////////////////

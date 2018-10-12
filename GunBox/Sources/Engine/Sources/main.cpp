@@ -11,10 +11,12 @@ main(int argc, char* argv[])
   // Initialize
   auto& application = Application::Create();
   application.ProcessCommandLineArgs(argc, argv);
-  application.Initialize();
-  // Execute the Main loop
-  auto exitResult = application.Execute();
+  auto exitCode = application.Initialize();
+  if (Application::ExitCode::NoError == exitCode) {
+    // Execute the Main loop
+    exitCode = application.Execute();
+  }
   application.Finalize();
 
-  return static_cast<int>(exitResult);
+  return static_cast<int>(exitCode);
 }

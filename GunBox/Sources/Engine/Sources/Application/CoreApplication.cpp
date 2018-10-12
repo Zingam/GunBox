@@ -1,6 +1,9 @@
 // Self
 #include "CoreApplication.hpp"
 
+// Project headers - Base
+#include "Common/Macros/Logging.hpp"
+
 // Third party libraries
 #include <SDL.h>
 
@@ -25,38 +28,39 @@ CoreApplication::~CoreApplication() {}
 // Virtual methods
 ////////////////////////////////////////////////////////////////////////////////
 
-auto
-CoreApplication::Finalize() -> void
+void
+CoreApplication::Finalize()
 {
 #if defined(_DEBUG)
-  SDL_Log("Finalizing: %s", info.Title().c_str());
+  LogInfo("Finalizing: %s", info.Title().c_str());
 
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowSystemConsole()) {
-      hostPlatform.HideSystemConsole();
+      hostPlatform.SystemConsole().Hide();
     }
   }
 #endif
+  hostPlatform.SubSystems().Finalize();
 }
 
-auto
-CoreApplication::Initialize() -> void
+Application::ExitCode
+CoreApplication::Initialize() 
 {
 #if defined(_DEBUG)
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowSystemConsole()) {
-      hostPlatform.ShowSystemConsole();
+      hostPlatform.SystemConsole().Show();
     }
 
-    SDL_Log("Initalizing: %s", info.Title().c_str());
+    LogInfo("Initalizing: %s", info.Title().c_str());
 
     if (commandLineArgs->Resolution()) {
       auto height = commandLineArgs->Resolution().value().Height;
       auto width = commandLineArgs->Resolution().value().Width;
-      SDL_Log("Desired resolution: %dx%d", width, height);
+      LogInfo("Desired resolution: %dx%d", width, height);
     }
   } else {
-    SDL_Log("Initalizing: %s", info.Title().c_str());
+    LogInfo("Initalizing: %s", info.Title().c_str());
   }
 #endif
 
@@ -75,6 +79,13 @@ CoreApplication::Initialize() -> void
     // Main window
     preferences->SetMainWindowDefaultValues();
   }
+
+  if (!hostPlatform.SubSystems().Initialize())
+  {
+      return Application::ExitCode::InitializationError;
+  }
+
+  return Application::ExitCode::NoError;
 }
 
 void

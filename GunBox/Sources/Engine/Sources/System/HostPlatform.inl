@@ -1,19 +1,21 @@
+#pragma once
+
 ////////////////////////////////////////////////////////////////////////////////
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(System)
 
-inline void
-HostPlatform::HideSystemConsole()
+inline HostPlatformClasses::SubSystems&
+HostPlatform::SubSystems()
 {
-  o_ptr->HideSystemConsole();
+  return subSystems;
 }
 
-inline void
-HostPlatform::ShowSystemConsole()
+inline HostPlatformClasses::SystemConsole&
+HostPlatform::SystemConsole()
 {
-  o_ptr->ShowSystemConsole();
+  return systemConsole;
 }
 
 NAMESPACE_END(System)

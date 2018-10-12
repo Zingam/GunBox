@@ -245,7 +245,6 @@ endif ()
 
 # Main library target
 add_library (${PROJECT_NAME}_main STATIC
-  "Sources/Common/Constants/GpuPreferences.hpp"
   "Sources/main.cpp"
 )
 target_compile_definitions (${PROJECT_NAME}_main

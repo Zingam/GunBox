@@ -21,7 +21,7 @@ public:
 
   // Pure virtual methods
 public:
-  auto Execute() -> ExitCode final;
+  auto Execute() -> Application::ExitCode final;
 };
 
 NAMESPACE_END(GunBox)

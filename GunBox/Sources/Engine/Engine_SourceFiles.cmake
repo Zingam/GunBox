@@ -16,8 +16,9 @@ set (.Engine_SourceFiles
   "Sources/Application/Preferences.inl"
   "Sources/Common/Macros/Base.cpp"
   "Sources/Common/Macros/Base.hpp"
-  "Sources/Common/Macros/SDL2_ErrorChecking.cpp"
-  "Sources/Common/Macros/SDL2_ErrorChecking.hpp"
+  "Sources/Common/Macros/Logging.cpp"
+  "Sources/Common/Macros/Logging.hpp"
+  "Sources/Renderer/Constants/GpuPreferences.hpp"
   "Sources/Renderer/OpenGL/OpenGL.cpp"
   "Sources/Renderer/OpenGL/OpenGL.hpp"
   "Sources/Renderer/OpenGL/OpenGL_ErrorChecking.cpp"
@@ -36,11 +37,24 @@ set (.Engine_SourceFiles
   "Sources/System/EventHandlers/Controller/ControllerDeviceRemoved.hpp"
   "Sources/System/EventHandlers/EventHandler.cpp"
   "Sources/System/EventHandlers/EventHandler.hpp"
-  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform_Linux.cpp>
-  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform_Linux.hpp>
-  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform_Windows.cpp>
-  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform_Windows.hpp>
-  "Sources/System/Platforms/HostPlatform_Implementation.hpp"
+  "Sources/System/HostPlatform/SubSystems.cpp"
+  "Sources/System/HostPlatform/SubSystems.hpp"
+  "Sources/System/HostPlatform/SubSystems.inl"
+  "Sources/System/HostPlatform/SystemConsole.cpp"
+  "Sources/System/HostPlatform/SystemConsole.hpp"
+  "Sources/System/HostPlatform/SystemConsole.inl"
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.hpp>
+  "Sources/System/Platforms/SDL2/HostPlatform/SubSystems_SDL2.cpp"
+  "Sources/System/Platforms/SDL2/HostPlatform/SubSystems_SDL2.hpp"
+  "Sources/System/Platforms/SDL2/Main_SDL2.cpp"
+  "Sources/System/Platforms/SDL2/Main_SDL2.hpp"
+  "Sources/System/Platforms/SDL2/SDL2_ErrorChecking.cpp"
+  "Sources/System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemConsole_Windows.cpp>
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemConsole_Windows.hpp>
+  "Sources/System/Platforms/SubSystems_Implementation.hpp"
+  "Sources/System/Platforms/SystemConsole_Implementation.hpp"
   "Sources/System/EventProcessor.cpp"
   "Sources/System/EventProcessor.hpp"
   "Sources/System/EventProcessor.inl"

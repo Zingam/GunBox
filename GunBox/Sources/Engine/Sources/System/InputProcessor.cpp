@@ -1,8 +1,8 @@
 // Self
 #include "InputProcessor.hpp"
 
-// Project headers - Common
-#include "Common/Macros/SDL2_ErrorChecking.hpp"
+// Project headers - Base
+#include "Common/Macros/Logging.hpp"
 
 // Third party
 #include <SDL_gamecontroller.h>
@@ -21,7 +21,7 @@ InputProcessor::AddGameController(GameControllerId const gameControllerId)
 {
   auto gameController = SDL_GameControllerOpen(gameControllerId);
   if (gameController == nullptr) {
-    SDL_LogError("Unable to open game controller");
+    LogError("Unable to open game controller");
   } else {
     gameControllers[gameControllerId] = gameController;
   }

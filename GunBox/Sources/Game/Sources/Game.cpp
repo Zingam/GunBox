@@ -21,12 +21,12 @@ Game::~Game() {}
 // Virtual methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Game::ExitCode
+Application::ExitCode
 Game ::Execute()
 {
   std::cout << Info().Title() << ": Starting a new game...\n";
 
-  return ExitCode::NoError;
+  return Application::ExitCode::NoError;
 }
 
 NAMESPACE_END(GunBox)

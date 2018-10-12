@@ -2,7 +2,7 @@
 
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
-#include "Common/Macros/SDL2_ErrorChecking.hpp"
+#include "Common/Macros/Logging.hpp"
 
 // Project headers - Renderer
 #include "Renderer/OpenGL/OpenGL_Loader.hpp"
@@ -66,7 +66,7 @@ PrintOpenGLError(char const* call, int line, char const* filename) -> void
         glErrorString = "INVALID_FRAMEBUFFER_OPERATION";
         break;
     }
-    SDL_LogError("OpenGL error \'%s\' (code: 0x0%X)\n"
+    LogError("OpenGL error \'%s\' (code: 0x0%X)\n"
                  "       in call %s\n"
                  "           at line %d\n"
                  "           in file '%s'",

@@ -17,18 +17,18 @@
 
 NAMESPACE_BEGIN(Application)
 
+enum class ExitCode
+{
+  GenericError = -1,
+  InitializationError = -2,
+  NoError = 0
+};
+
 /// <summary>
 ///   Abstract interface class.
 /// </summary>
 class CoreApplication
 {
-public:
-  enum class ExitCode
-  {
-    GenericError = -1,
-    NoError = 0
-  };
-
 protected:
   CoreApplication(ApplicationInfo const& info);
 
@@ -46,14 +46,14 @@ public:
   // Virtual methods
 public:
   virtual auto Finalize() -> void;
-  virtual auto Initialize() -> void;
+  virtual auto Initialize() -> ExitCode;
   virtual auto ProcessCommandLineArgs(int argc, char** argv) -> void;
 
 protected:
   std::unique_ptr<CommandLineArgs> commandLineArgs;
   System::HostPlatform hostPlatform;
   std::unique_ptr<Preferences> preferences;
-  const ApplicationInfo info;
+  ApplicationInfo const info;
 };
 
 NAMESPACE_END(Application)
