@@ -52,8 +52,8 @@ public:
 protected:
   std::unique_ptr<CommandLineArgs> commandLineArgs;
   System::HostPlatform hostPlatform;
-  std::unique_ptr<Preferences> preferences;
   ApplicationInfo const info;
+  std::unique_ptr<Preferences> preferences;
 };
 
 NAMESPACE_END(Application)

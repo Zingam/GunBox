@@ -18,9 +18,8 @@ NAMESPACE_BEGIN(Application)
 
 CoreApplication::CoreApplication(ApplicationInfo const& info)
   : info{ std::move(info) }
-{
-  preferences = std::make_unique<Preferences>(this->info);
-}
+  , preferences{ std::make_unique<Preferences>(this->info) }
+{}
 
 CoreApplication::~CoreApplication() {}
 
@@ -44,7 +43,7 @@ CoreApplication::Finalize()
 }
 
 Application::ExitCode
-CoreApplication::Initialize() 
+CoreApplication::Initialize()
 {
 #if defined(_DEBUG)
   if (nullptr != commandLineArgs) {
@@ -80,9 +79,8 @@ CoreApplication::Initialize()
     preferences->SetMainWindowDefaultValues();
   }
 
-  if (!hostPlatform.SubSystems().Initialize())
-  {
-      return Application::ExitCode::InitializationError;
+  if (!hostPlatform.SubSystems().Initialize()) {
+    return Application::ExitCode::InitializationError;
   }
 
   return Application::ExitCode::NoError;
