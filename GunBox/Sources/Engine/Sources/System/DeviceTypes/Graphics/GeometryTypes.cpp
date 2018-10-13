@@ -1,6 +1,6 @@
-#include "Geometry.hpp"
+#include "GeometryTypes.hpp"
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::DeviceTypes::Graphics)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructors & Destructors
@@ -18,4 +18,4 @@ Rectangle2D::Rectangle2D(Point2D coordinate, Dimensions size)
   : Coordinate{ coordinate }
   , Size{ size } {};
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::DeviceTypes::Graphics)

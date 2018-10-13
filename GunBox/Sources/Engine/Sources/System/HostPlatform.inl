@@ -6,6 +6,12 @@
 
 NAMESPACE_BEGIN(System)
 
+inline HostPlatformClasses::OpenGLDevice&
+HostPlatform::OpenGLDevice()
+{
+  return openGLDevice;
+}
+
 inline HostPlatformClasses::SubSystems&
 HostPlatform::SubSystems()
 {

@@ -6,8 +6,6 @@
 
 // C Standard Library
 #include <cassert>
-// C++ Standard Library
-#include <sstream>
 
 NAMESPACE_BEGIN(System)
 
@@ -15,7 +13,7 @@ NAMESPACE_BEGIN(System)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-Window::Window(std::string title, Properties properties)
+Window::Window(std::string const& title, Properties const& properties)
   : handle{ nullptr }
   , properties{ properties }
   , title{ title }
@@ -30,11 +28,12 @@ Window::~Window()
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-Point2D
+DeviceTypes::Graphics::Point2D
 Window::Position()
 {
-  Point2D coordinate;
+  DeviceTypes::Graphics::Point2D coordinate{};
   SDL_GetWindowPosition(handle, &coordinate.X, &coordinate.Y);
+
   return coordinate;
 }
 
@@ -102,14 +101,14 @@ Window::Show()
     }
 
     switch (properties.RendererAPI) {
-      case Renderer::API_t::Direct3D_12: {
+      case DeviceTypes::Graphics::API_t::Direct3D_12: {
         break;
       }
-      case Renderer::API_t::OpenGL: {
+      case DeviceTypes::Graphics::API_t::OpenGL: {
         windowFlags |= SDL_WINDOW_OPENGL;
         break;
       }
-      case Renderer::API_t::Vulkan: {
+      case DeviceTypes::Graphics::API_t::Vulkan: {
         windowFlags |= SDL_WINDOW_VULKAN;
         break;
       }
@@ -126,8 +125,6 @@ Window::Show()
                               windowFlags);
 
     if (nullptr == handle) {
-      std::stringstream ss;
-      ss << SDL_GetError();
       return false;
     }
   }

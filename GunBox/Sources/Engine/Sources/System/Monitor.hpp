@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
-#include "System/Geometry.hpp"
+#include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
 
 // C++ Standard Library
 #include <vector>
@@ -14,18 +14,18 @@ NAMESPACE_BEGIN(System)
 class Monitor
 {
 private:
-  Monitor(Rectangle2D rectangle);
+  Monitor(DeviceTypes::Graphics::Rectangle2D rectangle);
 
   // Properties
 public:
   auto IsPrimary() -> bool;
-  auto MidPoint() -> Point2D;
+  auto MidPoint() -> DeviceTypes::Graphics::Point2D;
 
 public:
   friend auto EnumerateMonitors() -> std::vector<Monitor>;
 
 private:
-  Rectangle2D rectangle;
+  DeviceTypes::Graphics::Rectangle2D rectangle;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

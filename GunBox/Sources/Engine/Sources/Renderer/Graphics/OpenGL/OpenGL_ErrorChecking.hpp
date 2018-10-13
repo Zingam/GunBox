@@ -5,7 +5,7 @@
 #include "Common/Macros/Logging.hpp"
 
 // Project headers - Renderer
-#include "Renderer/OpenGL/OpenGL_Loader.hpp"
+#include "Renderer/Graphics/OpenGL/OpenGL_Loader.hpp"
 
 // C++ Standard Library
 #include <type_traits>

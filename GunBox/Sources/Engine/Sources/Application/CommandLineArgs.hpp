@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
-#include "System/Geometry.hpp"
+#include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
 
 // C++ Standard Library
 #include <functional>
@@ -41,7 +41,8 @@ public:
   auto Fullscreen() const -> std::optional<bool>;
   auto ShowHelp() const -> std::optional<bool>;
   auto ShowSystemConsole() const -> std::optional<bool>;
-  auto Resolution() const -> std::optional<System::Dimensions>;
+  auto Resolution() const
+    -> std::optional<System::DeviceTypes::Graphics::Dimensions>;
 
   // Methods
 public:
@@ -70,7 +71,7 @@ private:
   std::optional<bool> fullscreen;
   std::optional<bool> showHelp;
   std::optional<bool> showSystemConsole;
-  std::optional<System::Dimensions> resolution;
+  std::optional<System::DeviceTypes::Graphics::Dimensions> resolution;
 };
 
 NAMESPACE_END(Application)

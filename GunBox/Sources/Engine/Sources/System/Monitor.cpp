@@ -16,7 +16,7 @@ NAMESPACE_BEGIN(System)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-Monitor::Monitor(Rectangle2D rectangle)
+Monitor::Monitor(DeviceTypes::Graphics::Rectangle2D rectangle)
   : rectangle{ rectangle }
 {}
 
@@ -34,7 +34,7 @@ Monitor::IsPrimary()
   }
 }
 
-Point2D
+DeviceTypes::Graphics::Point2D
 Monitor::MidPoint()
 {
   auto x = rectangle.Size.Width % 2;

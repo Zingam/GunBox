@@ -3,7 +3,7 @@
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::DeviceTypes::Graphics)
 
 struct Dimensions
 {
@@ -32,4 +32,4 @@ struct Rectangle2D
   Dimensions Size;
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::DeviceTypes::Graphics)

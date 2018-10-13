@@ -8,6 +8,9 @@
 #include "Application/CommandLineArgs.hpp"
 #include "Application/Preferences.hpp"
 
+// Project headers - Renderer/Graphics
+#include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
+
 // Project headers - System
 #include "System/HostPlatform.hpp"
 
@@ -51,6 +54,7 @@ public:
 
 protected:
   std::unique_ptr<CommandLineArgs> commandLineArgs;
+  std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> graphicsRenderer;
   System::HostPlatform hostPlatform;
   ApplicationInfo const info;
   std::unique_ptr<Preferences> preferences;

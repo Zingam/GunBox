@@ -4,6 +4,10 @@
 // Project headers - Base
 #include "Common/Macros/Logging.hpp"
 
+// Project headers - Renderer/Graphics
+#include "Renderer/Graphics/GraphicsRendererFactory.hpp"
+#include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
+
 // Third party libraries
 #include <SDL.h>
 
@@ -39,7 +43,20 @@ CoreApplication::Finalize()
     }
   }
 #endif
+  
   hostPlatform.SubSystems().Finalize();
+
+  auto hasSaveError = preferences->SaveToFile();
+  if (hasSaveError) {
+    std::stringstream errorMessage;
+    errorMessage << "Unable to save preferences!\n";
+    errorMessage << "    Error:\n";
+    errorMessage << hasSaveError.value();
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
+                             info.Title().c_str(),
+                             errorMessage.str().c_str(),
+                             nullptr);
+  }
 }
 
 Application::ExitCode
@@ -63,11 +80,11 @@ CoreApplication::Initialize()
   }
 #endif
 
-  auto hasLoadingError = preferences->LoadFromFile();
-  if (hasLoadingError) {
+  auto hasLoadError = preferences->LoadFromFile();
+  if (hasLoadError) {
     std::stringstream errorMessage;
     errorMessage << "Error loading preferences from file:\n";
-    errorMessage << "    " << hasLoadingError.value() << "\n";
+    errorMessage << "    " << hasLoadError.value() << "\n";
     errorMessage << "Using default values!";
 
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
@@ -82,6 +99,9 @@ CoreApplication::Initialize()
   if (!hostPlatform.SubSystems().Initialize()) {
     return Application::ExitCode::InitializationError;
   }
+
+  graphicsRenderer =
+    Renderer::Graphics::Create(info, *preferences, hostPlatform);
 
   return Application::ExitCode::NoError;
 }

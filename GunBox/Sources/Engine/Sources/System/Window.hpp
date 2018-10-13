@@ -3,10 +3,9 @@
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
 
-// Project headers - Renderer
-#include "Renderer/RendererBase.hpp"
 // Project headers - System
-#include "System/Geometry.hpp"
+#include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
+#include "System/DeviceTypes/Graphics/RendererTypes.hpp"
 
 // C++ Standard Library
 #include <string>
@@ -34,25 +33,25 @@ public:
       Default
     };
 
-    Point2D Coordinate;
+    DeviceTypes::Graphics::Point2D Coordinate;
     FullscreenState_t Fullscreen;
     Location_t Location;
-    Renderer::API_t RendererAPI;
-    Dimensions Size;
+    DeviceTypes::Graphics::API_t RendererAPI;
+    DeviceTypes::Graphics::Dimensions Size;
   };
 
 public:
-  Window(std::string title, Properties properties);
+  Window(std::string const& title, Properties const& properties);
   ~Window();
 
 public:
-  Point2D Position();
+  auto Id() const -> SDL_Window*;
+  DeviceTypes::Graphics::Point2D Position();
 
 public:
   auto Destroy() -> void;
   auto Hide() -> void;
   auto Show() -> bool;
-  auto Id() -> SDL_Window* { return handle; };
 
 private:
   SDL_Window* handle;
@@ -61,3 +60,11 @@ private:
 };
 
 NAMESPACE_END(System)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "Window.inl"
+
+////////////////////////////////////////////////////////////////////////////////

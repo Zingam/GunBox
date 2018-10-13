@@ -16,16 +16,23 @@ Preferences::Fullscreen()
   return data.fullscreen;
 }
 
-inline System::Rectangle2D&
+inline System::DeviceTypes::Graphics::Rectangle2D&
 Preferences::MainWindowMetrics()
 {
   return data.mainWindowMetrics;
 }
 
-inline System::Renderer::API_t&
+inline System::DeviceTypes::Graphics::API_t&
 Preferences::RendererAPI()
 {
   return data.rendererApi;
 }
+
+inline bool
+Preferences::SuccesfullyLoaded() const
+{
+  return successfullyLoaded;
+}
+
 
 NAMESPACE_END(Application)

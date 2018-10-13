@@ -45,7 +45,7 @@ Preferences::Preferences(ApplicationInfo const& applicationInfo)
   data.fullscreen = false;
   //   size_t hash_2;
   data.hash_2 = 0;
-  data.rendererApi = System::Renderer::API_t::Unknown;
+  data.rendererApi = System::DeviceTypes::Graphics::API_t::Unknown;
   // };
 }
 
@@ -132,6 +132,8 @@ Preferences::LoadFromFile()
     return { "Read error: " + filepath.str() };
   }
 
+  successfullyLoaded = true;
+
   return {};
 }
 
@@ -201,7 +203,7 @@ Preferences::SetMainWindowDefaultValues()
   data.mainWindowMetrics.Coordinate.Y = 0;
   data.mainWindowMetrics.Size.Height = 480;
   data.mainWindowMetrics.Size.Width = 640;
-  data.rendererApi = System::Renderer::API_t::OpenGL;
+  data.rendererApi = System::DeviceTypes::Graphics::API_t::OpenGL;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
