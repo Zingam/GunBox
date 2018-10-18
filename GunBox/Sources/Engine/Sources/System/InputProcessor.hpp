@@ -3,31 +3,49 @@
 // Project headers - Common
 #include "Common/Macros/Base.hpp"
 
+// Project headers - Common
+#include "Common/SimpleDelegate.hpp"
+
 // C Standard Library
 #include <cstdint>
-
 // C++ Standard Library
 #include <map>
 
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
 struct _SDL_GameController;
-using GameController = _SDL_GameController*;
+using Gamepad = _SDL_GameController*;
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(System)
 
 class InputProcessor
 {
 public:
-  using GameControllerId = std::int32_t;
+  using GamepadId = std::int32_t;
 
 public:
   ~InputProcessor();
 
 public:
-  auto AddGameController(GameControllerId const gameControllerId) -> void;
-  auto RemoveGameController(GameControllerId const gameControllerId) -> void;
+  auto AddGamepad(GamepadId const gameControllerId) -> void;
+  auto RemoveGamepad(GamepadId const gameControllerId) -> void;
 
 private:
-  std::map<GameControllerId const, GameController> gameControllers;
+  std::map<GamepadId const, Gamepad> gamepads;
 };
 
 NAMESPACE_END(System)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "InputProcessor.inl"
+
+////////////////////////////////////////////////////////////////////////////////

@@ -7,12 +7,14 @@
 #include "System/EventHandlers/EventHandler.hpp"
 #include "System/InputProcessor.hpp"
 
-NAMESPACE_BEGIN(System::EventHandlers::Controller)
+union SDL_Event;
 
-class DeviceAdded : public EventHandler
+NAMESPACE_BEGIN(System::EventHandlers::IO)
+
+class GamepadEventHandler : public EventHandler
 {
 public:
-  DeviceAdded(InputProcessor& inputProcessor);
+  GamepadEventHandler(InputProcessor& inputProcessor);
 
 public:
   auto Process(SDL_Event const& event) -> bool final;
@@ -21,4 +23,4 @@ private:
   InputProcessor& inputProcessor;
 };
 
-NAMESPACE_END(System::EventHandlers::Controller)
+NAMESPACE_END(System::EventHandlers::IO)

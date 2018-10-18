@@ -17,8 +17,7 @@ EventProcessor::ProcessEvents()
   while (SDL_PollEvent(&event) != 0) {
     {
       for (auto& eventHandler : eventHandlers) {
-        auto isProcessed =
-          eventHandler->Process(event);
+        auto isProcessed = eventHandler->Process(event);
         if (isProcessed) {
           break;
         }

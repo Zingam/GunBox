@@ -4,11 +4,12 @@
 
 NAMESPACE_BEGIN(System)
 
-template<typename EventHandler>
+template<typename EventHandler, typename... Args>
 inline void
-EventProcessor::RegisterEventHandler()
+EventProcessor::RegisterEventHandler(Args&&... args)
 {
-  eventHandlers.emplace_back(std::make_unique<EventHandler>());
+  eventHandlers.emplace_back(
+    std::make_unique<EventHandler>(std::forward<Args>(args)...));
 }
 
 NAMESPACE_END(System)

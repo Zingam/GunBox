@@ -7,12 +7,14 @@
 #include "System/EventHandlers/EventHandler.hpp"
 #include "System/InputProcessor.hpp"
 
-NAMESPACE_BEGIN(System::EventHandlers::Controller)
+union SDL_Event;
 
-class DeviceRemoved : public EventHandler
+NAMESPACE_BEGIN(System::EventHandlers::IO)
+
+class KeyboardEventHandler : public EventHandler
 {
 public:
-  DeviceRemoved(InputProcessor& inputProcessor);
+  KeyboardEventHandler(InputProcessor& inputProcessor);
 
 public:
   auto Process(SDL_Event const& event) -> bool final;
@@ -21,4 +23,4 @@ private:
   InputProcessor& inputProcessor;
 };
 
-NAMESPACE_END(System::EventHandlers::Controller)
+NAMESPACE_END(System::EventHandlers::IO)

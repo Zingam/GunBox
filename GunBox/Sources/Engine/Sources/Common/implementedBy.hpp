@@ -1,8 +1,5 @@
 #pragma once
 
-// Project headers - Common
-#include "Common/Macros/Base.hpp"
-
 // C++ Standard Library
 #include <memory>
 

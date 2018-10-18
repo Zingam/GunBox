@@ -16,8 +16,8 @@ class EventProcessor
 {
 public:
   auto ProcessEvents() -> void;
-  template<typename EventHandler>
-  auto RegisterEventHandler() -> void;
+  template<typename EventHandler, typename... Args>
+  auto RegisterEventHandler(Args&&... args) -> void;
 
 private:
   std::vector<std::unique_ptr<System::EventHandlers::EventHandler>>

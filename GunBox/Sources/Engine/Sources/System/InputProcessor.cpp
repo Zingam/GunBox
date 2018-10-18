@@ -11,28 +11,28 @@ NAMESPACE_BEGIN(System)
 
 InputProcessor ::~InputProcessor()
 {
-  for (auto& gameController : gameControllers) {
+  for (auto& gameController : gamepads) {
     SDL_GameControllerClose(gameController.second);
   }
 }
 
 void
-InputProcessor::AddGameController(GameControllerId const gameControllerId)
+InputProcessor::AddGamepad(GamepadId const gamepadId)
 {
-  auto gameController = SDL_GameControllerOpen(gameControllerId);
+  auto gameController = SDL_GameControllerOpen(gamepadId);
   if (gameController == nullptr) {
-    LogError("Unable to open game controller");
+    LogError("Unable to open gamepad: %s", SDL_GetError());
   } else {
-    gameControllers[gameControllerId] = gameController;
+    gamepads[gamepadId] = gameController;
   }
 }
 
 void
-InputProcessor::RemoveGameController(GameControllerId const gameControllerId)
+InputProcessor::RemoveGamepad(GamepadId const gameControllerId)
 {
-  auto gameController = gameControllers.find(gameControllerId);
+  auto gameController = gamepads.find(gameControllerId);
   SDL_GameControllerClose(gameController->second);
-  gameControllers.erase(gameController);
+  gamepads.erase(gameController);
 }
 
 NAMESPACE_END(System)

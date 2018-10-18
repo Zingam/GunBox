@@ -4,7 +4,6 @@
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-template<typename Class>
-implementedBy<Class>::implementedBy()
-  : o_ptr{ std::make_unique<Class>() }
-{}
+NAMESPACE_BEGIN(System)
+
+NAMESPACE_END(System)

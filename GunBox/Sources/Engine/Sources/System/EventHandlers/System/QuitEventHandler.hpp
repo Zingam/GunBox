@@ -6,7 +6,7 @@
 // Project headers - System
 #include "System/EventHandlers/EventHandler.hpp"
 
-NAMESPACE_BEGIN(System::EventHandlers::Application)
+NAMESPACE_BEGIN(System::EventHandlers::System)
 
 struct Quit : public EventHandler
 {
@@ -14,4 +14,4 @@ struct Quit : public EventHandler
   virtual auto Process(SDL_Event const& event) -> bool final;
 };
 
-NAMESPACE_END(System::EventHandlers::Application)
+NAMESPACE_END(System::EventHandlers::System)
