@@ -66,18 +66,18 @@ An exercise in **SDL2 API** programming...
   unset (_MyLocalVariable)
   ```
 * Variables represinting a string are allways quoted:
-  ```
+  ```CMake
   set (.MyVariable "...")
   if ("${.MyVariable}" STREQUAL "...")
   ```
 * Use `if (DEFINED <variable>)` to check if a variable is set:
-  ```
+  ```CMake
   if (DEFINED .MyVariable)
   ...
   endif ()
   ```
 * Use `if (<variable>)` to check if a variable has a non-empty value:
-  ```
+  ```CMake
   if (.MyVariable)
   endif ()
   ```
@@ -88,15 +88,15 @@ An exercise in **SDL2 API** programming...
 ### Visual Studio Code / C/C++ for Visual Studio Code
 
 1. Required **Visual Studio Code** extensions:
-1.1 **C/C++ for Visual Studio Code**
-1.2 **CMake Tools**
-1.3. **CMake For VisualStudio Code**
+   + **C/C++ for Visual Studio Code**
+   + **CMake Tools**
+   + **CMake For VisualStudio Code**
 2. Configuring **Visual Studio Code** and the extensions:
    + Select *File->Preferences->Settings* then search for the appropriate options, e.g. "cmake", etc.
 3. **CMake Tools** settings:
    + Recommended *User/Workspace settings*:
 
-    ```json
+    ```json5
     {
         // The directory where CMake build files will go
         "cmake.buildDirectory": "${workspaceRoot}/../__build-output-${workspaceRootFolderName}/${generator}-${buildType}",
@@ -132,7 +132,7 @@ An exercise in **SDL2 API** programming...
     }
     ```
    + To execute **CMake** commands open the **Command panel** (*CTRL + SHIFT + P*) and search or the required command, e.g. *"cmake"*, *"cpp"* or press *F1*.
-    ```json
+    ```json5
     {
         "cmake.buildDirectory": "${workspaceRoot}/../__build-output-${workspaceRootFolderName}/${generator}-${buildType}",
         "cmake.configureSettings": {
@@ -159,7 +159,7 @@ To pass command line arguments to the executing program in a **CMake/Open Folder
 2. In `launch.vs.json` add `"args": [ "--show-system-console", "--resolution: 640x480" ]` to `"configurations"`:
 
 Example:
-``` json
+```json5
 {
   "version": "0.2.1",
   "defaults": {},
