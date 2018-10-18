@@ -20,6 +20,8 @@ set (.Engine_SourceFiles
   "Sources/Common/Macros/Logging.hpp"
   "Sources/Common/implementedBy.hpp"
   "Sources/Common/implementedBy.inl"
+  "Sources/Common/SimpleDelegate.hpp"
+  "Sources/Common/SimpleDelegate.inl"
   "Sources/Renderer/Graphics/Constants/GpuPreferences.hpp"
   "Sources/Renderer/Graphics/OpenGL/GraphicsRenderer_OpenGL.cpp"
   "Sources/Renderer/Graphics/OpenGL/GraphicsRenderer_OpenGL.hpp"
