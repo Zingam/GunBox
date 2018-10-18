@@ -76,6 +76,8 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform.cpp"
   "Sources/System/HostPlatform.hpp"
   "Sources/System/HostPlatform.inl"
+  "Sources/System/InputCallbacks.cpp"
+  "Sources/System/InputCallbacks.hpp"
   "Sources/System/InputProcessor.cpp"
   "Sources/System/InputProcessor.hpp"
   "Sources/System/Monitor.cpp"

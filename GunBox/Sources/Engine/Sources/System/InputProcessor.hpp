@@ -5,6 +5,8 @@
 
 // Project headers - Common
 #include "Common/SimpleDelegate.hpp"
+// Project headers - System
+#include "System/InputCallbacks.hpp"
 
 // C Standard Library
 #include <cstdint>
@@ -38,6 +40,23 @@ public:
 
 private:
   std::map<GamepadId const, Gamepad> gamepads;
+  InputCallbacks& inputCallbacks;
+  // Callbacks
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+                                 decltype(&InputCallbacks::GamepadAxisMotion)>>
+    cbGamepadAxisMotion_UPtr;
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+                                 decltype(&InputCallbacks::GamepadButtonDown)>>
+    cbGamepadButtonDown_UPtr;
+  std::unique_ptr<
+    SimpleDelegate<InputCallbacks, decltype(&InputCallbacks::GamepadButtonUp)>>
+    cbGamepadButtonUp_UPtr;
+  std::unique_ptr<
+    SimpleDelegate<InputCallbacks, decltype(&InputCallbacks::KeyboardKeyDown)>>
+    cbKeyboardKeyDown_UPtr;
+  std::unique_ptr<
+    SimpleDelegate<InputCallbacks, decltype(&InputCallbacks::KeyboardKeyUp)>>
+    cbKeyboardKeyUp_UPtr;
 };
 
 NAMESPACE_END(System)
