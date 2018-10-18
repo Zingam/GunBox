@@ -1,6 +1,6 @@
 #pragma once
 
-// Project headers - Common
+// Project headers - BASE
 #include "Common/Macros/Base.hpp"
 
 // Engine headers - Application

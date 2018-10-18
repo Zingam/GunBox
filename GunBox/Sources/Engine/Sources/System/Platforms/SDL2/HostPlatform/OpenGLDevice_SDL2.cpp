@@ -3,7 +3,6 @@
 
 // Project headers - Common
 #include "Common/Macros/Logging.hpp"
-
 // Project headers - System
 #include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
 #include "System/Window.hpp"

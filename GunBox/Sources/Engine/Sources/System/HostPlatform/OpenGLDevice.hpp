@@ -1,9 +1,10 @@
 #pragma once
 
-// Project headers - Common
+// Project headers - BASE
 #include "Common/Macros/Base.hpp"
-#include "Common/implementedBy.hpp"
 
+// Project headers - Common
+#include "Common/implementedBy.hpp"
 // Project headers - System
 #include "System/Platforms/OpenGLDevice_Implementation.hpp"
 #include "System/Window.hpp"

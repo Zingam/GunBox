@@ -1,6 +1,6 @@
 #pragma once
 
-// Project headers - Common
+// Project headers - BASE
 #include "Common/Macros/Base.hpp"
 
 // Project headers - Renderer/Graphics

@@ -1,9 +1,10 @@
 #pragma once
 
-// Project headers - Common
+// Project headers - BASE
 #include "Common/Macros/Base.hpp"
-#include "Common/Macros/Logging.hpp"
 
+// Project headers - Common
+#include "Common/Macros/Logging.hpp"
 // Project headers - Renderer
 #include "Renderer/Graphics/OpenGL/OpenGL_Loader.hpp"
 

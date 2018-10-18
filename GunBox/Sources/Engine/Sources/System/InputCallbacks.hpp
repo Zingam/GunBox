@@ -1,4 +1,4 @@
-// Project headers - Common
+// Project headers - BASE
 #include "Common/Macros/Base.hpp"
 
 NAMESPACE_BEGIN(System)
