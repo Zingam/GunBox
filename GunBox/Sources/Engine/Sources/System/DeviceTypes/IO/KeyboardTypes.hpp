@@ -8,9 +8,9 @@
 
 NAMESPACE_BEGIN(System::DeviceTypes::IO)
 
-using KeyCode = std::int32_t;
+using KeyCode_t = std::int32_t;
 
-enum class KeyModifier
+enum class KeyModifier_t
 {
   None,
   Alt, // Left or Right
@@ -30,20 +30,13 @@ enum class KeyModifier
   WindowsKeyRight
 };
 
-enum class ScanCode
+enum class ScanCode_t
 {
-  F1,
-  F2,
-  F3,
-  F4,
-  F5,
-  F6,
-  F7,
-  F8,
-  F9,
-  F10,
-  F11,
-  F12,
+  UNKNOWN,
+  Arrow_Down,
+  Arrow_Left,
+  Arrow_Right,
+  Arrow_Up,
   CH_L_A,
   CH_L_B,
   CH_L_C,
@@ -70,16 +63,29 @@ enum class ScanCode
   CH_L_X,
   CH_L_Y,
   CH_L_Z,
-  CH_Backslash,
-  CH_Comma,
-  CH_Equal,
-  CH_LeftBracket,
-  CH_Minus,
-  CH_Period,
-  CH_RightBracket,
-  CH_Semicolon,
-  CH_Slash,
-  CH_Quote,
+  CH_S_Apostrophe,
+  CH_S_Backslash,
+  CH_S_Comma,
+  CH_S_Equals,
+  CH_S_Grave,
+  CH_S_LeftBracket,
+  CH_S_Minus,
+  CH_S_Period,
+  CH_S_RightBracket,
+  CH_S_Semicolon,
+  CH_S_Slash,
+  F1,
+  F2,
+  F3,
+  F4,
+  F5,
+  F6,
+  F7,
+  F8,
+  F9,
+  F10,
+  F11,
+  F12,
   NK_0,
   NK_1,
   NK_2,
@@ -106,10 +112,6 @@ enum class ScanCode
   NKP_Plus,
   NKP_Enter,
   NKP_Period,
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
   SK_Backspace,
   SK_Del,
   SK_End,
@@ -119,6 +121,13 @@ enum class ScanCode
   SK_Space,
   SK_PageDown,
   SK_PageUp,
+};
+
+struct Key_t
+{
+  KeyCode_t KeyCode;
+  KeyModifier_t KeyModifier;
+  ScanCode_t ScanCode;
 };
 
 NAMESPACE_END(System::DeviceTypes::IO)

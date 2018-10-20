@@ -33,6 +33,7 @@ Game ::Execute()
   graphicsRenderer->Initialize();
 
   std::cout << Info().Title() << ": Running the game...\n";
+  eventProcessor.ProcessEvents();
 
   std::cout << Info().Title() << ": Exiting the game...\n";
   graphicsRenderer->Finalize();

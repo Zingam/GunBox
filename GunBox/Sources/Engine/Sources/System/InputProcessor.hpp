@@ -6,12 +6,14 @@
 // Project headers - Common
 #include "Common/SimpleDelegate.hpp"
 // Project headers - System
+#include "System/DeviceTypes/IO/GamepadTypes.hpp"
 #include "System/InputCallbacks.hpp"
 
 // C Standard Library
 #include <cstdint>
 // C++ Standard Library
 #include <map>
+#include <memory>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -29,34 +31,56 @@ NAMESPACE_BEGIN(System)
 class InputProcessor
 {
 public:
-  using GamepadId = std::int32_t;
-
-public:
   ~InputProcessor();
 
 public:
-  auto AddGamepad(GamepadId const gameControllerId) -> void;
-  auto RemoveGamepad(GamepadId const gameControllerId) -> void;
+  auto SetInputCallbacksObject(
+    std::shared_ptr<InputCallbacks> const inputCallbacks) -> void;
+
+  auto SetInputCallbacksObject(InputCallbacks& inputCallbacks) -> void;
 
 private:
-  std::map<GamepadId const, Gamepad> gamepads;
-  InputCallbacks& inputCallbacks;
+  auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const id) -> void;
+
+  auto RemoveGamepad(System::DeviceTypes::IO::GamepadId_t const id) -> void;
+
   // Callbacks
+private:
+  // clang-format off
   std::unique_ptr<SimpleDelegate<InputCallbacks,
-                                 decltype(&InputCallbacks::GamepadAxisMotion)>>
+    decltype(&InputCallbacks::GamepadAxisMotion)>>
     cbGamepadAxisMotion_UPtr;
+
   std::unique_ptr<SimpleDelegate<InputCallbacks,
-                                 decltype(&InputCallbacks::GamepadButtonDown)>>
+    decltype(&InputCallbacks::GamepadDeviceAdd)>>
+    cbGamepadDeviceAdd_UPtr;
+
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+    decltype(&InputCallbacks::GamepadDeviceRemove)>>
+    cbGamepadDeviceRemove_UPtr;
+
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+    decltype(&InputCallbacks::GamepadButtonDown)>>
     cbGamepadButtonDown_UPtr;
-  std::unique_ptr<
-    SimpleDelegate<InputCallbacks, decltype(&InputCallbacks::GamepadButtonUp)>>
+
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+    decltype(&InputCallbacks::GamepadButtonUp)>>
     cbGamepadButtonUp_UPtr;
-  std::unique_ptr<
-    SimpleDelegate<InputCallbacks, decltype(&InputCallbacks::KeyboardKeyDown)>>
+
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+    decltype(&InputCallbacks::KeyboardKeyDown)>>
     cbKeyboardKeyDown_UPtr;
-  std::unique_ptr<
-    SimpleDelegate<InputCallbacks, decltype(&InputCallbacks::KeyboardKeyUp)>>
+
+  std::unique_ptr<SimpleDelegate<InputCallbacks,
+    decltype(&InputCallbacks::KeyboardKeyUp)>>
     cbKeyboardKeyUp_UPtr;
+  // clang-format on
+
+private:
+  friend class InputProcessorAccessor;
+
+private:
+  std::map<System::DeviceTypes::IO::GamepadId_t const, Gamepad> gamepads;
 };
 
 NAMESPACE_END(System)

@@ -1,6 +1,11 @@
 // Self
 #include "KeyboardEventHandler.hpp"
 
+// Project headers - System
+#include "System/DeviceTypes/IO/KeyboardTypes.hpp"
+#include "System/Platforms/SDL2/Keyboard_SDL2.hpp"
+#include "System/InputProcessorAccessor.hpp"
+
 // Third party
 #include <SDL_events.h>
 
@@ -13,15 +18,16 @@ KeyboardEventHandler::KeyboardEventHandler(InputProcessor& inputProcessor)
 bool
 KeyboardEventHandler::Process(SDL_Event const& event)
 {
-  auto key = event.key;
   // Events are ordered in the most likely frequency occurence
   switch (event.type) {
     case SDL_KEYDOWN: {
-      key.keysym;
+      auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
+      InputProcessorAccessor::KeyboardKeyDown(inputProcessor, key);
       return true;
     }
     case SDL_KEYUP: {
-      key.keysym;
+      auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
+      InputProcessorAccessor::KeyboardKeyDown(inputProcessor, key);
       return true;
     }
     default: {

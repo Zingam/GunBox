@@ -1,0 +1,101 @@
+#pragma once
+
+// C Standard Library
+#include <cassert>
+#include "InputProcessorAccessor.hpp"
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System)
+
+inline void
+InputProcessorAccessor::GamepadAxisMotion(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::GamepadId_t const id,
+  System::DeviceTypes::IO::GamepadAxis_t const axis,
+  float const value)
+{
+  assert(
+    (nullptr != inputProcessor.cbGamepadAxisMotion_UPtr) &&
+    "The callback is not initialized");
+
+  (*inputProcessor.cbGamepadAxisMotion_UPtr)(id, axis, value);
+}
+
+inline void
+InputProcessorAccessor::GamepadButtonDown(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::GamepadId_t id,
+  System::DeviceTypes::IO::GamepadButton_t button)
+{
+  assert(
+    (nullptr != inputProcessor.cbGamepadButtonDown_UPtr) &&
+    "The callback is not initialized");
+
+  (*inputProcessor.cbGamepadButtonDown_UPtr)(id, button);
+}
+
+inline void
+InputProcessorAccessor::GamepadButtonUp(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::GamepadId_t id,
+  System::DeviceTypes::IO::GamepadButton_t button)
+{
+  assert(
+    (nullptr != inputProcessor.cbGamepadButtonUp_UPtr) &&
+    "The callback is not initialized");
+
+  (*inputProcessor.cbGamepadButtonUp_UPtr)(id, button);
+}
+
+inline void
+InputProcessorAccessor::GamepadDeviceAdd(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::GamepadId_t const id)
+{
+  inputProcessor.AddGamepad(id);
+
+  assert(
+    (nullptr != inputProcessor.cbGamepadDeviceAdd_UPtr) &&
+    "The callback is not initialized");
+  (*inputProcessor.cbGamepadDeviceAdd_UPtr)(id);
+}
+
+inline void
+InputProcessorAccessor::GamepadDeviceRemove(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::GamepadId_t const id)
+{
+  inputProcessor.RemoveGamepad(id);
+
+  assert(
+    (nullptr != inputProcessor.cbGamepadDeviceRemove_UPtr) &&
+    "The callback is not initialized");
+  (*inputProcessor.cbGamepadDeviceRemove_UPtr)(id);
+}
+
+inline auto
+InputProcessorAccessor::KeyboardKeyDown(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::Key_t key) -> void
+{
+  assert(
+    (nullptr != inputProcessor.cbKeyboardKeyDown_UPtr) &&
+    "The callback is not initialized");
+  (*inputProcessor.cbKeyboardKeyDown_UPtr)(key);
+}
+
+inline auto
+InputProcessorAccessor::KeyboardKeyUp(
+  InputProcessor& inputProcessor,
+  System::DeviceTypes::IO::Key_t key) -> void
+{
+  assert(
+    (nullptr != inputProcessor.cbKeyboardKeyUp_UPtr) &&
+    "The callback is not initialized");
+  (*inputProcessor.cbKeyboardKeyUp_UPtr)(key);
+}
+
+NAMESPACE_END(System)

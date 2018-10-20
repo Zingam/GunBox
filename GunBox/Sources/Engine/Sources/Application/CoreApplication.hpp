@@ -12,7 +12,9 @@
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 
 // Project headers - System
+#include "System/EventProcessor.hpp"
 #include "System/HostPlatform.hpp"
+#include "System/InputProcessor.hpp"
 
 // C++ Standard Library
 #include <memory>
@@ -54,9 +56,12 @@ public:
 
 protected:
   std::unique_ptr<CommandLineArgs> commandLineArgs;
-  std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> graphicsRenderer;
+  System::EventProcessor eventProcessor;
+  std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
+    graphicsRenderer;
   System::HostPlatform hostPlatform;
   ApplicationInfo const info;
+  System ::InputProcessor inputProcessor;
   std::unique_ptr<Preferences> preferences;
 };
 

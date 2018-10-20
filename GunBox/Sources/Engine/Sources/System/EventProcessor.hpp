@@ -14,8 +14,12 @@ NAMESPACE_BEGIN(System)
 
 class EventProcessor
 {
+  // Methods
 public:
   auto ProcessEvents() -> void;
+
+  // Method templates
+public:
   template<typename EventHandler, typename... Args>
   auto RegisterEventHandler(Args&&... args) -> void;
 

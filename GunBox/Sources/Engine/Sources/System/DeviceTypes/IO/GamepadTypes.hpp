@@ -8,7 +8,7 @@
 
 NAMESPACE_BEGIN(System::DeviceTypes::IO)
 
-enum class GamepadAxis
+enum class GamepadAxis_t
 {
   StickLeftX,
   StickLeftY,
@@ -18,8 +18,9 @@ enum class GamepadAxis
   TriggerRight
 };
 
-enum class GamepadButton
+enum class GamepadButton_t
 {
+  UNKNOWN,
   A,
   B,
   X,
@@ -37,6 +38,6 @@ enum class GamepadButton
   Start,
 };
 
-using GamepadId = std::int32_t;
+using GamepadId_t = std::int32_t;
 
 NAMESPACE_END(System::DeviceTypes::IO)

@@ -71,7 +71,7 @@ SimpleDelegate<ClassName, MethodPointerType>::Invoke(Args... args)
 
 template<typename ClassName, typename MethodPointerType>
 inline std::unique_ptr<SimpleDelegate<ClassName, MethodPointerType>>
-make_unique_delegate(ClassName object, MethodPointerType method_Ptr)
+make_unique_delegate(ClassName& object, MethodPointerType method_Ptr)
 {
   using SimpleDelegateType =
     SimpleDelegate<ClassName, MethodPointerType>;
