@@ -6,3 +6,6 @@
 BasedOnStyle: Mozilla
 # Preprocessor directive indenting style to use
 IndentPPDirectives: AfterHash
+# Always break after an open bracket, if the parameters don't fit on a single
+# line
+AlignAfterOpenBracket: AlwaysBreak
