@@ -16,6 +16,8 @@ GamepadEventHandler::GamepadEventHandler(InputProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
 {}
 
+GamepadEventHandler::~GamepadEventHandler() {}
+
 bool
 GamepadEventHandler::Process(SDL_Event const& event)
 {

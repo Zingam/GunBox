@@ -15,6 +15,8 @@ KeyboardEventHandler::KeyboardEventHandler(InputProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
 {}
 
+KeyboardEventHandler::~KeyboardEventHandler() {}
+
 bool
 KeyboardEventHandler::Process(SDL_Event const& event)
 {

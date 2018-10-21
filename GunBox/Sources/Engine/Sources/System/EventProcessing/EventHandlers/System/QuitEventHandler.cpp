@@ -5,10 +5,10 @@
 
 NAMESPACE_BEGIN(System::EventHandlers::System)
 
-Quit::~Quit() {}
+QuitEventHandler::~QuitEventHandler() {}
 
 bool
-Quit::Process(SDL_Event const& event)
+QuitEventHandler::Process(SDL_Event const& event)
 {
   switch (event.type) {
     case SDL_QUIT: {

@@ -24,6 +24,8 @@ class KeyboardEventHandler : public EventHandler
 public:
   KeyboardEventHandler(InputProcessor& inputProcessor);
 
+  ~KeyboardEventHandler() final;
+
 public:
   auto Process(SDL_Event const& event) -> bool final;
 

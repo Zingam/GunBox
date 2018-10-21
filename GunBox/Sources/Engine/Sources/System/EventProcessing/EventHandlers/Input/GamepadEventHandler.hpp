@@ -24,6 +24,8 @@ class GamepadEventHandler : public EventHandler
 public:
   GamepadEventHandler(InputProcessor& inputProcessor);
 
+  ~GamepadEventHandler() final;
+
 public:
   auto Process(SDL_Event const& event) -> bool final;
 
