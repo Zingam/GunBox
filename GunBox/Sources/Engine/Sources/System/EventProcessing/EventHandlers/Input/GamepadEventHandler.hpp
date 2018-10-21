@@ -4,8 +4,8 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
-#include "System/EventHandlers/EventHandler.hpp"
-#include "System/InputProcessor.hpp"
+#include "System/EventProcessing/EventHandlers/EventHandler.hpp"
+#include "System/EventProcessing/InputProcessor.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations

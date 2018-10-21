@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
-#include "System/EventHandlers/EventHandler.hpp"
+#include "System/EventProcessing/EventHandlers/EventHandler.hpp"
 
 NAMESPACE_BEGIN(System::EventHandlers::System)
 

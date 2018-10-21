@@ -3,8 +3,8 @@
 
 // Project headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
+#include "System/EventProcessing/InputProcessorAccessor.hpp"
 #include "System/Platforms/SDL2/Gamepad_SDL2.hpp"
-#include "System/InputProcessorAccessor.hpp"
 
 // Third party
 #include <SDL_events.h>

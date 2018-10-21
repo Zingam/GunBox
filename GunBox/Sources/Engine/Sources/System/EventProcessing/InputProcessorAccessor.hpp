@@ -5,7 +5,7 @@
 
 // Project headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
-#include "System/InputProcessor.hpp"
+#include "System/EventProcessing/InputProcessor.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations

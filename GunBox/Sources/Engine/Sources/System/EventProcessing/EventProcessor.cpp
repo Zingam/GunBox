@@ -2,7 +2,7 @@
 #include "EventProcessor.hpp"
 
 // Project hedears - System
-#include "System/EventHandlers/EventHandler.hpp"
+#include "System/EventProcessing/EventHandlers/EventHandler.hpp"
 
 // Third party headers
 #include <SDL_events.h>

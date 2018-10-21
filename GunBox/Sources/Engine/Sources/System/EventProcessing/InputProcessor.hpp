@@ -7,7 +7,7 @@
 #include "Common/SimpleDelegate.hpp"
 // Project headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
-#include "System/InputCallbacks.hpp"
+#include "System/EventProcessing/InputCallbacks.hpp"
 
 // C Standard Library
 #include <cstdint>
