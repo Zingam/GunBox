@@ -12,7 +12,7 @@
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 
 // Project headers - System
-#include "System/EventProcessing/EventProcessor.hpp"
+#include "System/EventProcessor.hpp"
 #include "System/HostPlatform.hpp"
 
 // C++ Standard Library
