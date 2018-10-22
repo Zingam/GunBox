@@ -55,4 +55,16 @@ EventProcessor::ProcessEvents() const
   };
 }
 
+System::EventProcessing::InputEventProcessor&
+EventProcessor::InputEventProcessor()
+{
+  return inputEventProcessor;
+}
+
+System::EventProcessing::SystemEventProcessor&
+EventProcessor::SystemEventProcessor()
+{
+  return systemEventProcessor;
+}
+
 NAMESPACE_END(System)

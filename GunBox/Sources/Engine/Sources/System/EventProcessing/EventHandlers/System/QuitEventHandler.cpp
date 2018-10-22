@@ -9,7 +9,8 @@
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-QuitEventHandler::QuitEventHandler(SystemEventProcessor& systemEventProcessor)
+QuitEventHandler::QuitEventHandler(
+  System::EventProcessing::SystemEventProcessor& systemEventProcessor)
   : systemEventProcessor{ systemEventProcessor }
 {}
 
@@ -20,7 +21,8 @@ QuitEventHandler::Process(SDL_Event const& event)
 {
   switch (event.type) {
     case SDL_QUIT: {
-      SystemEventProcessorAccessor::Quit(systemEventProcessor);
+      System::EventProcessing::SystemEventProcessorAccessor::Quit(
+        systemEventProcessor);
       return true;
     }
     default: {

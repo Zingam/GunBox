@@ -26,7 +26,7 @@ using Gamepad = _SDL_GameController*;
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 class InputEventProcessor
 {
@@ -83,4 +83,4 @@ private:
   std::map<System::DeviceTypes::IO::GamepadId_t const, Gamepad> gamepads;
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

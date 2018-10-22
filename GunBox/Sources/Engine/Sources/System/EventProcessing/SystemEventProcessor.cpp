@@ -1,7 +1,7 @@
 // Self
 #include "SystemEventProcessor.hpp"
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 SystemEventProcessor ::~SystemEventProcessor() {}
 
@@ -20,4 +20,4 @@ SystemEventProcessor::SetSystemEventCallbacksObject(
     make_unique_delegate(systemEventCallbacks, &SystemEventCallbacks::Quit);
 }
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

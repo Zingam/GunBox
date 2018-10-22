@@ -10,11 +10,11 @@
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 class SystemEventProcessor;
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -25,7 +25,8 @@ NAMESPACE_BEGIN(System::EventHandlers)
 class QuitEventHandler : public EventHandler
 {
 public:
-  QuitEventHandler(SystemEventProcessor& systemEventProcessor);
+  QuitEventHandler(
+    System::EventProcessing::SystemEventProcessor& systemEventProcessor);
 
   ~QuitEventHandler() final;
 
@@ -33,7 +34,7 @@ public:
   auto Process(SDL_Event const& event) -> bool final;
 
 private:
-  SystemEventProcessor& systemEventProcessor;
+  System::EventProcessing::SystemEventProcessor& systemEventProcessor;
 };
 
 NAMESPACE_END(System::EventHandlers)

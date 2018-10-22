@@ -7,7 +7,7 @@
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 inline void
 InputEventProcessorAccessor::GamepadAxisMotion(
@@ -97,4 +97,4 @@ InputEventProcessorAccessor::KeyboardKeyUp(
   (*inputProcessor.cbKeyboardKeyUp_UPtr)(key);
 }
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

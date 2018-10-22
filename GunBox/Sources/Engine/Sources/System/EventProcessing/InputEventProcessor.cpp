@@ -7,7 +7,7 @@
 // Third party
 #include <SDL_gamecontroller.h>
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 InputEventProcessor ::~InputEventProcessor()
 {
@@ -62,4 +62,4 @@ InputEventProcessor::RemoveGamepad(
   gamepads.erase(gameController);
 }
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

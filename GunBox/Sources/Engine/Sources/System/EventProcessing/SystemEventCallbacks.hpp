@@ -3,7 +3,7 @@
 // Project headers - BASE
 #include "Common/Macros/Base.hpp"
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 class SystemEventCallbacks
 {
@@ -20,4 +20,4 @@ public:
   // clang-format on
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

@@ -12,11 +12,11 @@
 
 union SDL_Event;
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 class InputEventProcessor;
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -27,7 +27,8 @@ NAMESPACE_BEGIN(System::EventHandlers)
 class KeyboardEventHandler : public EventHandler
 {
 public:
-  KeyboardEventHandler(InputEventProcessor& inputProcessor);
+  KeyboardEventHandler(
+    System::EventProcessing::InputEventProcessor& inputProcessor);
 
   ~KeyboardEventHandler() final;
 
@@ -35,7 +36,7 @@ public:
   auto Process(SDL_Event const& event) -> bool final;
 
 private:
-  InputEventProcessor& inputProcessor;
+  System::EventProcessing::InputEventProcessor& inputProcessor;
 };
 
 NAMESPACE_END(System::EventHandlers)

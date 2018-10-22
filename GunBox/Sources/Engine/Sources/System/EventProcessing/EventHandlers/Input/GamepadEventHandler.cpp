@@ -12,7 +12,8 @@
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-GamepadEventHandler::GamepadEventHandler(InputEventProcessor& inputProcessor)
+GamepadEventHandler::GamepadEventHandler(
+  System::EventProcessing::InputEventProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
 {}
 
@@ -60,28 +61,32 @@ GamepadEventHandler::Process(SDL_Event const& event)
       // Normalize the axis value
       auto value = static_cast<float>(event.caxis.value / 32767);
 
-      InputEventProcessorAccessor::GamepadAxisMotion(
+      System::EventProcessing::InputEventProcessorAccessor::GamepadAxisMotion(
         inputProcessor, id, axis, value);
       return true;
     }
     case SDL_CONTROLLERBUTTONDOWN: {
       auto button =
         System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
-      InputEventProcessorAccessor::GamepadButtonDown(inputProcessor, id, button);
+      System::EventProcessing::InputEventProcessorAccessor::GamepadButtonDown(
+        inputProcessor, id, button);
       return true;
     }
     case SDL_CONTROLLERBUTTONUP: {
       auto button =
         System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
-      InputEventProcessorAccessor::GamepadButtonUp(inputProcessor, id, button);
+      System::EventProcessing::InputEventProcessorAccessor::GamepadButtonUp(
+        inputProcessor, id, button);
       return true;
     }
     case SDL_CONTROLLERDEVICEADDED: {
-      InputEventProcessorAccessor::GamepadDeviceAdd(inputProcessor, id);
+      System::EventProcessing::InputEventProcessorAccessor::GamepadDeviceAdd(
+        inputProcessor, id);
       return true;
     }
     case SDL_CONTROLLERDEVICEREMOVED: {
-      InputEventProcessorAccessor::GamepadDeviceRemove(inputProcessor, id);
+      System::EventProcessing::InputEventProcessorAccessor::GamepadDeviceRemove(
+        inputProcessor, id);
       return true;
     }
     default: {

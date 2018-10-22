@@ -11,7 +11,7 @@
 // C++ Standard Library
 #include <memory>
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 class SystemEventProcessor
 {
@@ -37,4 +37,4 @@ private:
   friend class SystemEventProcessorAccessor;
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

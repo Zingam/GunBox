@@ -23,6 +23,11 @@ public:
 public:
   auto ProcessEvents() const -> void;
 
+  // Properties
+public:
+  System::EventProcessing::InputEventProcessor& InputEventProcessor();
+  System::EventProcessing::SystemEventProcessor& SystemEventProcessor();
+
   // Method templates
 public:
   template<typename EventHandler, typename... Args>
@@ -35,8 +40,8 @@ private:
 private:
   std::vector<std::unique_ptr<System::EventHandlers::EventHandler>>
     eventHandlers;
-  InputEventProcessor inputEventProcessor;
-  SystemEventProcessor systemEventProcessor;
+  System::EventProcessing::InputEventProcessor inputEventProcessor;
+  System::EventProcessing::SystemEventProcessor systemEventProcessor;
 };
 
 NAMESPACE_END(System)

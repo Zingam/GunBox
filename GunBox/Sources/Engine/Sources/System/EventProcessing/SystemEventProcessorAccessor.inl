@@ -7,7 +7,7 @@
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 inline void
 SystemEventProcessorAccessor::Quit(SystemEventProcessor& systemEventProcessor)
@@ -19,4 +19,4 @@ SystemEventProcessorAccessor::Quit(SystemEventProcessor& systemEventProcessor)
   (*systemEventProcessor.cbQuit_UPtr)();
 }
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)

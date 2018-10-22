@@ -7,7 +7,7 @@
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
 #include "System/DeviceTypes/IO/KeyboardTypes.hpp"
 
-NAMESPACE_BEGIN(System)
+NAMESPACE_BEGIN(System::EventProcessing)
 
 class InputEventCallbacks
 {
@@ -53,4 +53,4 @@ public:
   // clang-format on
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::EventProcessing)
