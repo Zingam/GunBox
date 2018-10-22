@@ -1,2 +1,0 @@
-// Self
-#include "InputProcessorAccessor.hpp"

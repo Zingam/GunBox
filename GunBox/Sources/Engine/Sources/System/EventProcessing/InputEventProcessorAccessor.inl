@@ -2,7 +2,6 @@
 
 // C Standard Library
 #include <cassert>
-#include "InputProcessorAccessor.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inline method implementations
@@ -11,8 +10,8 @@
 NAMESPACE_BEGIN(System)
 
 inline void
-InputProcessorAccessor::GamepadAxisMotion(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::GamepadAxisMotion(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::GamepadId_t const id,
   System::DeviceTypes::IO::GamepadAxis_t const axis,
   float const value)
@@ -25,8 +24,8 @@ InputProcessorAccessor::GamepadAxisMotion(
 }
 
 inline void
-InputProcessorAccessor::GamepadButtonDown(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::GamepadButtonDown(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadButton_t button)
 {
@@ -38,8 +37,8 @@ InputProcessorAccessor::GamepadButtonDown(
 }
 
 inline void
-InputProcessorAccessor::GamepadButtonUp(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::GamepadButtonUp(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadButton_t button)
 {
@@ -51,8 +50,8 @@ InputProcessorAccessor::GamepadButtonUp(
 }
 
 inline void
-InputProcessorAccessor::GamepadDeviceAdd(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::GamepadDeviceAdd(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::GamepadId_t const id)
 {
   inputProcessor.AddGamepad(id);
@@ -64,8 +63,8 @@ InputProcessorAccessor::GamepadDeviceAdd(
 }
 
 inline void
-InputProcessorAccessor::GamepadDeviceRemove(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::GamepadDeviceRemove(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::GamepadId_t const id)
 {
   inputProcessor.RemoveGamepad(id);
@@ -77,8 +76,8 @@ InputProcessorAccessor::GamepadDeviceRemove(
 }
 
 inline auto
-InputProcessorAccessor::KeyboardKeyDown(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::KeyboardKeyDown(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::Key_t key) -> void
 {
   assert(
@@ -88,8 +87,8 @@ InputProcessorAccessor::KeyboardKeyDown(
 }
 
 inline auto
-InputProcessorAccessor::KeyboardKeyUp(
-  InputProcessor& inputProcessor,
+InputEventProcessorAccessor::KeyboardKeyUp(
+  InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::Key_t key) -> void
 {
   assert(

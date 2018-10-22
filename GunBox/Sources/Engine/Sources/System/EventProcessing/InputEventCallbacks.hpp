@@ -9,12 +9,12 @@
 
 NAMESPACE_BEGIN(System)
 
-class InputCallbacks
+class InputEventCallbacks
 {
 public:
-  InputCallbacks() = default;
+  InputEventCallbacks() = default;
 
-  virtual ~InputCallbacks() = 0;
+  virtual ~InputEventCallbacks() = 0;
 
   // Pure virtual methods
 public:

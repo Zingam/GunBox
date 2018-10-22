@@ -25,9 +25,9 @@ EventProcessor::InitializeInputEventHandlers()
 {
   // Initialized in order of occurrence frequency
   RegisterEventHandler<System::EventHandlers::GamepadEventHandler>(
-    inputProcessor);
+    inputEventProcessor);
   RegisterEventHandler<System::EventHandlers::KeyboardEventHandler>(
-    inputProcessor);
+    inputEventProcessor);
 }
 
 void

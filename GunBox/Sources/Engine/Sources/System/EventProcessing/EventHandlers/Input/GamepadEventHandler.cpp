@@ -3,7 +3,7 @@
 
 // Project headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
-#include "System/EventProcessing/InputProcessorAccessor.hpp"
+#include "System/EventProcessing/InputEventProcessorAccessor.hpp"
 #include "System/Platforms/SDL2/Gamepad_SDL2.hpp"
 
 // Third party
@@ -12,7 +12,7 @@
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-GamepadEventHandler::GamepadEventHandler(InputProcessor& inputProcessor)
+GamepadEventHandler::GamepadEventHandler(InputEventProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
 {}
 
@@ -60,28 +60,28 @@ GamepadEventHandler::Process(SDL_Event const& event)
       // Normalize the axis value
       auto value = static_cast<float>(event.caxis.value / 32767);
 
-      InputProcessorAccessor::GamepadAxisMotion(
+      InputEventProcessorAccessor::GamepadAxisMotion(
         inputProcessor, id, axis, value);
       return true;
     }
     case SDL_CONTROLLERBUTTONDOWN: {
       auto button =
         System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
-      InputProcessorAccessor::GamepadButtonDown(inputProcessor, id, button);
+      InputEventProcessorAccessor::GamepadButtonDown(inputProcessor, id, button);
       return true;
     }
     case SDL_CONTROLLERBUTTONUP: {
       auto button =
         System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
-      InputProcessorAccessor::GamepadButtonUp(inputProcessor, id, button);
+      InputEventProcessorAccessor::GamepadButtonUp(inputProcessor, id, button);
       return true;
     }
     case SDL_CONTROLLERDEVICEADDED: {
-      InputProcessorAccessor::GamepadDeviceAdd(inputProcessor, id);
+      InputEventProcessorAccessor::GamepadDeviceAdd(inputProcessor, id);
       return true;
     }
     case SDL_CONTROLLERDEVICEREMOVED: {
-      InputProcessorAccessor::GamepadDeviceRemove(inputProcessor, id);
+      InputEventProcessorAccessor::GamepadDeviceRemove(inputProcessor, id);
       return true;
     }
     default: {

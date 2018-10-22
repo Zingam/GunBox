@@ -3,7 +3,7 @@
 
 // Project headers - System
 #include "System/DeviceTypes/IO/KeyboardTypes.hpp"
-#include "System/EventProcessing/InputProcessorAccessor.hpp"
+#include "System/EventProcessing/InputEventProcessorAccessor.hpp"
 #include "System/Platforms/SDL2/Keyboard_SDL2.hpp"
 
 // Third party
@@ -11,7 +11,7 @@
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-KeyboardEventHandler::KeyboardEventHandler(InputProcessor& inputProcessor)
+KeyboardEventHandler::KeyboardEventHandler(InputEventProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
 {}
 
@@ -24,12 +24,12 @@ KeyboardEventHandler::Process(SDL_Event const& event)
   switch (event.type) {
     case SDL_KEYDOWN: {
       auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
-      InputProcessorAccessor::KeyboardKeyDown(inputProcessor, key);
+      InputEventProcessorAccessor::KeyboardKeyDown(inputProcessor, key);
       return true;
     }
     case SDL_KEYUP: {
       auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
-      InputProcessorAccessor::KeyboardKeyDown(inputProcessor, key);
+      InputEventProcessorAccessor::KeyboardKeyDown(inputProcessor, key);
       return true;
     }
     default: {

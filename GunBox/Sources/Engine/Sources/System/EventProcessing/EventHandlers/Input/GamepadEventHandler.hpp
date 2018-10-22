@@ -14,7 +14,7 @@ union SDL_Event;
 
 NAMESPACE_BEGIN(System)
 
-class InputProcessor;
+class InputEventProcessor;
 
 NAMESPACE_END(System)
 
@@ -27,7 +27,7 @@ NAMESPACE_BEGIN(System::EventHandlers)
 class GamepadEventHandler : public EventHandler
 {
 public:
-  GamepadEventHandler(InputProcessor& inputProcessor);
+  GamepadEventHandler(InputEventProcessor& inputProcessor);
 
   ~GamepadEventHandler() final;
 
@@ -35,7 +35,7 @@ public:
   auto Process(SDL_Event const& event) -> bool final;
 
 private:
-  InputProcessor& inputProcessor;
+  InputEventProcessor& inputProcessor;
 };
 
 NAMESPACE_END(System::EventHandlers)

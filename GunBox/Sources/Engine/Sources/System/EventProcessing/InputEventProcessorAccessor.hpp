@@ -5,7 +5,7 @@
 
 // Project headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
-#include "System/EventProcessing/InputProcessor.hpp"
+#include "System/EventProcessing/InputEventProcessor.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -24,46 +24,46 @@ NAMESPACE_END(System::EventHandlers)
 
 NAMESPACE_BEGIN(System)
 
-class InputProcessorAccessor
+class InputEventProcessorAccessor
 {
 private:
   // clang-format off
   static inline auto GamepadAxisMotion(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadAxis_t axis,
     float value)
     -> void;
 
   static inline auto GamepadButtonDown(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
     -> void;
 
   static inline auto GamepadButtonUp(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
     -> void;
 
   static auto GamepadDeviceAdd(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::GamepadId_t const id)
       -> void;
 
   static auto GamepadDeviceRemove(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::GamepadId_t const id)
     -> void;
 
   static inline auto KeyboardKeyDown(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::Key_t key)
     -> void;
 
   static inline auto KeyboardKeyUp(
-    InputProcessor& inputProcessor,
+    InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::Key_t key)
     -> void;
   // clang-format on
@@ -79,6 +79,6 @@ NAMESPACE_END(System)
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "InputProcessorAccessor.inl"
+#include "InputEventProcessorAccessor.inl"
 
 ////////////////////////////////////////////////////////////////////////////////
