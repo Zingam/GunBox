@@ -10,11 +10,11 @@
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System::EventHandlers::System)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 class QuitEventHandler;
 
-NAMESPACE_END(System::EventHandlers::System)
+NAMESPACE_END(System::EventHandlers)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -31,7 +31,7 @@ private:
   // clang-format on
 
 private:
-  friend class System::EventHandlers::System::QuitEventHandler;
+  friend class System::EventHandlers::QuitEventHandler;
 };
 
 NAMESPACE_END(System)

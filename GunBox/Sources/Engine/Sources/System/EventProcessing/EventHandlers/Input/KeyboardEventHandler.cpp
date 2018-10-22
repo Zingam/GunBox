@@ -9,7 +9,7 @@
 // Third party
 #include <SDL_events.h>
 
-NAMESPACE_BEGIN(System::EventHandlers::IO)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 KeyboardEventHandler::KeyboardEventHandler(InputProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
@@ -38,4 +38,4 @@ KeyboardEventHandler::Process(SDL_Event const& event)
   }
 }
 
-NAMESPACE_END(System::EventHandlers::IO)
+NAMESPACE_END(System::EventHandlers)

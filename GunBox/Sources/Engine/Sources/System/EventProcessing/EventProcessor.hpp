@@ -5,6 +5,8 @@
 
 // Project headers - System
 #include "System/EventProcessing/EventHandlers/EventHandler.hpp"
+#include "System/EventProcessing/InputProcessor.hpp"
+#include "System/EventProcessing/SystemEventProcessor.hpp"
 
 // C++ Standard Library
 #include <memory>
@@ -12,11 +14,21 @@
 
 NAMESPACE_BEGIN(System)
 
+class InputProcessor;
+class SystemEventProcessor;
+
+NAMESPACE_END(System)
+
+NAMESPACE_BEGIN(System)
+
 class EventProcessor
 {
+public:
+  EventProcessor();
+
   // Methods
 public:
-  auto ProcessEvents() -> void;
+  auto ProcessEvents() const -> void;
 
   // Method templates
 public:
@@ -24,8 +36,14 @@ public:
   auto RegisterEventHandler(Args&&... args) -> void;
 
 private:
+  auto InitializeInputEventHandlers() -> void;
+  auto InitializeSystemEventHandlers() -> void;
+
+private:
   std::vector<std::unique_ptr<System::EventHandlers::EventHandler>>
     eventHandlers;
+  InputProcessor inputProcessor;
+  SystemEventProcessor systemEventProcessor;
 };
 
 NAMESPACE_END(System)

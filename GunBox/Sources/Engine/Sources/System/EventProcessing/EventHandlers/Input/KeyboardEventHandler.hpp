@@ -5,7 +5,6 @@
 
 // Project headers - System
 #include "System/EventProcessing/EventHandlers/EventHandler.hpp"
-#include "System/EventProcessing/InputProcessor.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -13,11 +12,17 @@
 
 union SDL_Event;
 
+NAMESPACE_BEGIN(System)
+
+class InputProcessor;
+
+NAMESPACE_END(System)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System::EventHandlers::IO)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 class KeyboardEventHandler : public EventHandler
 {
@@ -33,4 +38,4 @@ private:
   InputProcessor& inputProcessor;
 };
 
-NAMESPACE_END(System::EventHandlers::IO)
+NAMESPACE_END(System::EventHandlers)

@@ -1,9 +1,17 @@
 // Self
 #include "QuitEventHandler.hpp"
 
+// Project headers - System
+#include "System/EventProcessing/SystemEventProcessorAccessor.hpp"
+
+// Third party
 #include "SDL_events.h"
 
-NAMESPACE_BEGIN(System::EventHandlers::System)
+NAMESPACE_BEGIN(System::EventHandlers)
+
+QuitEventHandler::QuitEventHandler(SystemEventProcessor& systemEventProcessor)
+  : systemEventProcessor{ systemEventProcessor }
+{}
 
 QuitEventHandler::~QuitEventHandler() {}
 
@@ -12,6 +20,7 @@ QuitEventHandler::Process(SDL_Event const& event)
 {
   switch (event.type) {
     case SDL_QUIT: {
+      SystemEventProcessorAccessor::Quit(systemEventProcessor);
       return true;
     }
     default: {
@@ -20,4 +29,4 @@ QuitEventHandler::Process(SDL_Event const& event)
   }
 }
 
-NAMESPACE_END(System::EventHandlers::System)
+NAMESPACE_END(System::EventHandlers)

@@ -10,7 +10,7 @@
 #include <SDL_events.h>
 #include <SDL_gamecontroller.h>
 
-NAMESPACE_BEGIN(System::EventHandlers::IO)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 GamepadEventHandler::GamepadEventHandler(InputProcessor& inputProcessor)
   : inputProcessor{ inputProcessor }
@@ -90,4 +90,4 @@ GamepadEventHandler::Process(SDL_Event const& event)
   }
 }
 
-NAMESPACE_END(System::EventHandlers::IO)
+NAMESPACE_END(System::EventHandlers)

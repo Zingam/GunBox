@@ -6,15 +6,34 @@
 // Project headers - System
 #include "System/EventProcessing/EventHandlers/EventHandler.hpp"
 
-NAMESPACE_BEGIN(System::EventHandlers::System)
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System)
+
+class SystemEventProcessor;
+
+NAMESPACE_END(System)
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System::EventHandlers)
 
 class QuitEventHandler : public EventHandler
 {
 public:
+  QuitEventHandler(SystemEventProcessor& systemEventProcessor);
+
   ~QuitEventHandler() final;
 
 public:
   auto Process(SDL_Event const& event) -> bool final;
+
+private:
+  SystemEventProcessor& systemEventProcessor;
 };
 
-NAMESPACE_END(System::EventHandlers::System)
+NAMESPACE_END(System::EventHandlers)

@@ -11,12 +11,12 @@
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System::EventHandlers::IO)
+NAMESPACE_BEGIN(System::EventHandlers)
 
 class GamepadEventHandler;
 class KeyboardEventHandler;
 
-NAMESPACE_END(System::EventHandlers::IO)
+NAMESPACE_END(System::EventHandlers)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -69,8 +69,8 @@ private:
   // clang-format on
 
 private:
-  friend class System::EventHandlers::IO::GamepadEventHandler;
-  friend class System::EventHandlers::IO::KeyboardEventHandler;
+  friend class System::EventHandlers::GamepadEventHandler;
+  friend class System::EventHandlers::KeyboardEventHandler;
 };
 
 NAMESPACE_END(System)

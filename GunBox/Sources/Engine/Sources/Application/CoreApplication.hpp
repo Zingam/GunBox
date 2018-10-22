@@ -13,7 +13,6 @@
 
 // Project headers - System
 #include "System/EventProcessing/EventProcessor.hpp"
-#include "System/EventProcessing/InputProcessor.hpp"
 #include "System/HostPlatform.hpp"
 
 // C++ Standard Library
@@ -61,7 +60,6 @@ protected:
     graphicsRenderer;
   System::HostPlatform hostPlatform;
   ApplicationInfo const info;
-  System ::InputProcessor inputProcessor;
   std::unique_ptr<Preferences> preferences;
 };
 
