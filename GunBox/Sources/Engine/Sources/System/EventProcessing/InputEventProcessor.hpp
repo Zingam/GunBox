@@ -34,10 +34,10 @@ public:
   ~InputEventProcessor();
 
 public:
-  auto SetInputCallbacksObject(
+  auto InitializeCallbacks(
     std::shared_ptr<InputEventCallbacks> const inputCallbacks) -> void;
 
-  auto SetInputCallbacksObject(InputEventCallbacks& inputCallbacks) -> void;
+  auto InitializeCallbacks(InputEventCallbacks& inputCallbacks) -> void;
 
 private:
   auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const id) -> void;

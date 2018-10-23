@@ -12,6 +12,21 @@
 #include <memory>
 #include <vector>
 
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System::EventProcessing)
+
+class InputEventCallbacks;
+class SystemEventCallbacks;
+
+NAMESPACE_END(System::EventProcessing)
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(System)
 
 class EventProcessor
@@ -21,7 +36,17 @@ public:
 
   // Methods
 public:
+  // clang-format off
+  auto InitializeCallbacks(
+    System::EventProcessing::InputEventCallbacks& inputEventCallbacks)
+    -> void;
+
+  auto InitializeCallbacks(
+    System::EventProcessing::SystemEventCallbacks& systemEventCallbacks)
+    -> void;
+
   auto ProcessEvents() const -> void;
+  // clang-format on
 
   // Properties
 public:

@@ -21,6 +21,20 @@ EventProcessor::EventProcessor()
 }
 
 void
+EventProcessor::InitializeCallbacks(
+  System::EventProcessing::InputEventCallbacks& inputEventCallbacks)
+{
+  InputEventProcessor().InitializeCallbacks(inputEventCallbacks);
+}
+
+void
+EventProcessor::InitializeCallbacks(
+  System::EventProcessing::SystemEventCallbacks& systemEventCallbacks)
+{
+  SystemEventProcessor().InitializeCallbacks(systemEventCallbacks);
+}
+
+void
 EventProcessor::InitializeInputEventHandlers()
 {
   // Initialized in order of occurrence frequency

@@ -17,14 +17,14 @@ InputEventProcessor ::~InputEventProcessor()
 }
 
 auto
-InputEventProcessor::SetInputCallbacksObject(
+InputEventProcessor::InitializeCallbacks(
   std::shared_ptr<InputEventCallbacks> const inputCallbacks) -> void
 {
-  SetInputCallbacksObject(*inputCallbacks);
+  InitializeCallbacks(*inputCallbacks);
 }
 
 auto
-InputEventProcessor::SetInputCallbacksObject(InputEventCallbacks& inputCallbacks) -> void
+InputEventProcessor::InitializeCallbacks(InputEventCallbacks& inputCallbacks) -> void
 {
   cbGamepadAxisMotion_UPtr =
     make_unique_delegate(inputCallbacks, &InputEventCallbacks::GamepadAxisMotion);

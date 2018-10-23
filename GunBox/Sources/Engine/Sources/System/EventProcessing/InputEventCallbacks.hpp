@@ -12,8 +12,6 @@ NAMESPACE_BEGIN(System::EventProcessing)
 class InputEventCallbacks
 {
 public:
-  InputEventCallbacks() = default;
-
   virtual ~InputEventCallbacks() = 0;
 
   // Pure virtual methods

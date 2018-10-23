@@ -8,8 +8,6 @@ NAMESPACE_BEGIN(System::EventProcessing)
 class SystemEventCallbacks
 {
 public:
-  SystemEventCallbacks() = default;
-
   virtual ~SystemEventCallbacks() = 0;
 
   // Pure virtual methods

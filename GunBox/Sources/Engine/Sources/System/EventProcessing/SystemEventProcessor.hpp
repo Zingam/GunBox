@@ -19,10 +19,10 @@ public:
   ~SystemEventProcessor();
 
 public:
-  auto SetSystemEventCallbacksObject(
+  auto InitializeCallbacks(
     std::shared_ptr<SystemEventCallbacks> const systemEventCallbacks) -> void;
 
-  auto SetSystemEventCallbacksObject(SystemEventCallbacks& systemEventCallbacks)
+  auto InitializeCallbacks(SystemEventCallbacks& systemEventCallbacks)
     -> void;
 
   // Callbacks
