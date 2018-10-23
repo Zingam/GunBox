@@ -31,7 +31,7 @@ KeyboardEventHandler::Process(SDL_Event const& event)
     }
     case SDL_KEYUP: {
       auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
-      System::EventProcessing::InputEventProcessorAccessor::KeyboardKeyDown(
+      System::EventProcessing::InputEventProcessorAccessor::KeyboardKeyUp(
         inputProcessor, key);
       return true;
     }
