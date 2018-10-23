@@ -14,7 +14,7 @@ An exercise in **SDL2 API** programming...
 ## Code Formatting
 
 - Use **ClangFormat** to apply the format definitions from: `.clang-format`.
-- Use `// clang-format on` and `clang-format off` Wherever appropriate to prevent **ClangFormat** from changing the desired code formatting.
+- Use `// clang-format off` and `// clang-format on` if necessary to prevent **ClangFormat** from changing the desired code formatting.
 
 ## Code Style
 
