@@ -1,6 +1,10 @@
 // Self
 #include "Game.hpp"
 
+// Project headers
+#include "EventHandling/InputEventCallbacks.hpp"
+#include "EventHandling/SystemEventCallbacks.hpp"
+
 // C Standard Library
 #include <cassert>
 // C++ Standard Library
@@ -24,20 +28,24 @@ Game::~Game() {}
 ////////////////////////////////////////////////////////////////////////////////
 
 Application::ExitCode
-Game ::Execute()
+Game::Execute()
 {
-  assert((nullptr != graphicsRenderer) &&
-         "The Graphics Renderer was not properly created");
+  assert(
+    (nullptr != graphicsRenderer) &&
+    "The Graphics Renderer was not properly created");
 
   std::cout << Info().Title() << ": Staring a new game...\n";
   graphicsRenderer->Initialize();
+  InputEventCallbacks inputEventCallbacks;
+  eventProcessor.InitializeCallbacks(inputEventCallbacks);
+  SystemEventCallbacks systemEventCallbacks;
+  eventProcessor.InitializeCallbacks(systemEventCallbacks);
 
   std::cout << Info().Title() << ": Running the game...\n";
-  while (true)
-  {
+  while (true) {
     eventProcessor.ProcessEvents();
   }
-  
+
   std::cout << Info().Title() << ": Exiting the game...\n";
   graphicsRenderer->Finalize();
 
