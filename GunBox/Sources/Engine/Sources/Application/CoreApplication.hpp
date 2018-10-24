@@ -56,7 +56,7 @@ public:
 protected:
   std::unique_ptr<CommandLineArgs> commandLineArgs;
   System::EventProcessor eventProcessor;
-  std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
+  std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;
   System::HostPlatform hostPlatform;
   ApplicationInfo const info;

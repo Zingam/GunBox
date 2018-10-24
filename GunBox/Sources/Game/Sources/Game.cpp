@@ -4,6 +4,7 @@
 // Project headers
 #include "EventHandling/InputEventCallbacks.hpp"
 #include "EventHandling/SystemEventCallbacks.hpp"
+#include "GameStates/GameStateManager.hpp"
 
 // C Standard Library
 #include <cassert>
@@ -36,15 +37,22 @@ Game::Execute()
 
   std::cout << Info().Title() << ": Staring a new game...\n";
   graphicsRenderer->Initialize();
-  InputEventCallbacks inputEventCallbacks;
-  eventProcessor.InitializeCallbacks(inputEventCallbacks);
-  SystemEventCallbacks systemEventCallbacks;
-  eventProcessor.InitializeCallbacks(systemEventCallbacks);
+  // clang-format off
+  GameStateManager gameStateManager;
+  gameStateManager.Initialize(graphicsRenderer);
+  eventProcessor.InitializeCallbacks(
+    gameStateManager.GetInputEventCallbacks());
+  eventProcessor.InitializeCallbacks(
+    gameStateManager.GetSystemEventCallbacks());
+  // clang-format on
 
   std::cout << Info().Title() << ": Running the game...\n";
-  while (true) {
+
+  bool isRunning = true;
+  do {
+    isRunning = gameStateManager.Run();
     eventProcessor.ProcessEvents();
-  }
+  } while (isRunning);
 
   std::cout << Info().Title() << ": Exiting the game...\n";
   graphicsRenderer->Finalize();
