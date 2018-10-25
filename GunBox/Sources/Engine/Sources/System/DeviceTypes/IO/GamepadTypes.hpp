@@ -1,6 +1,6 @@
 #pragma once
 
-// Project headers - BASE
+// BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
 // C Standard Library

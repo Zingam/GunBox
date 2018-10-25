@@ -1,7 +1,7 @@
 // Self
 #include "CoreApplication.hpp"
 
-// Project headers - Base
+// BASE MACROS header
 #include "Common/Macros/Logging.hpp"
 
 // Project headers - Renderer/Graphics

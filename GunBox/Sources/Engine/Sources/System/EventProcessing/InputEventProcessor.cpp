@@ -1,7 +1,7 @@
 // Self
 #include "InputEventProcessor.hpp"
 
-// Project headers - Base
+// BASE MACROS header
 #include "Common/Macros/Logging.hpp"
 
 // Third party

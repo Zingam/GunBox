@@ -2,7 +2,7 @@
 #include "Configuration/Values.hpp"
 #include "Game.hpp"
 
-// Engine headers - BASE
+// BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
 // Engine headers - Application

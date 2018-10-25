@@ -1,5 +1,15 @@
 #pragma once
 
+////////////////////////////////////////////////////////////////////////////////
+// Name:
+//   Base.hpp
+// Description:
+//   BASE MACROS header
+// Summary:
+//   Defines 'namespace' definition and 'pragma message' macros. Always include
+//   on top.
+////////////////////////////////////////////////////////////////////////////////
+
 /// Macro: NAMESPACE_BEGIN(ns)
 #if !defined(NAMESPACE_BEGIN)
 #  define NAMESPACE_BEGIN(ns) namespace ns {

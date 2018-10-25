@@ -1,6 +1,6 @@
 #pragma once
 
-// Engine headers - BASE
+// BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
 NAMESPACE_BEGIN(GunBox)

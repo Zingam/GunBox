@@ -1,6 +1,6 @@
 #pragma once
 
-// Project headers - BASE
+// BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System

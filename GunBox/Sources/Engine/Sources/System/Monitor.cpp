@@ -1,7 +1,7 @@
 // Self
 #include "Monitor.hpp"
 
-// Project headers - Base
+// BASE MACROS header
 #include "Common/Macros/Logging.hpp"
 
 // Project headers - System
