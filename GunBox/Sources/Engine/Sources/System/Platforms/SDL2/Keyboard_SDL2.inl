@@ -246,14 +246,26 @@ ConvertScanCode(SDL_Scancode scancode)
     case SDL_SCANCODE_KP_PERIOD: {
       return ScanCode_t::NKP_Period;
     }
+    case SDL_SCANCODE_LALT: {
+      return ScanCode_t::SK_AltLeft;
+    }
+    case SDL_SCANCODE_RALT: {
+      return ScanCode_t::SK_AltRight;
+    }
     case SDL_SCANCODE_BACKSPACE: {
       return ScanCode_t::SK_Backspace;
+    }
+    case SDL_SCANCODE_CAPSLOCK: {
+      return ScanCode_t::SK_CapsLock;
     }
     case SDL_SCANCODE_DELETE: {
       return ScanCode_t::SK_Del;
     }
     case SDL_SCANCODE_END: {
       return ScanCode_t::SK_End;
+    }
+    case SDL_SCANCODE_RETURN: {
+      return ScanCode_t::SK_Enter;
     }
     case SDL_SCANCODE_ESCAPE: {
       return ScanCode_t::SK_Esc;
@@ -264,8 +276,23 @@ ConvertScanCode(SDL_Scancode scancode)
     case SDL_SCANCODE_INSERT: {
       return ScanCode_t::SK_Ins;
     }
+    case SDL_SCANCODE_LCTRL: {
+      return ScanCode_t::SK_CtrlLeft;
+    }
+    case SDL_SCANCODE_RCTRL: {
+      return ScanCode_t::SK_CtrlRight;
+    }
+    case SDL_SCANCODE_LSHIFT: {
+      return ScanCode_t::SK_ShiftLeft;
+    }
+    case SDL_SCANCODE_RSHIFT: {
+      return ScanCode_t::SK_ShiftRight;
+    }
     case SDL_SCANCODE_SPACE: {
       return ScanCode_t::SK_Space;
+    }
+    case SDL_SCANCODE_TAB: {
+      return ScanCode_t::SK_Tab;
     }
     case SDL_SCANCODE_PAGEDOWN: {
       return ScanCode_t::SK_PageDown;
