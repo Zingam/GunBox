@@ -59,4 +59,7 @@ private:
   Application::Preferences& preferences;
 };
 
+using GraphicsRenderer_UPtr = std::unique_ptr<GraphicsRenderer_Interface>;
+using GraphicsRenderer_SPtr = std::unique_ptr<GraphicsRenderer_Interface>;
+
 NAMESPACE_END(Renderer::Graphics)
