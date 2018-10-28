@@ -13,13 +13,10 @@ ConvertGamepadButton(SDL_ControllerButtonEvent event)
 
   switch (event.button) {
     case SDL_CONTROLLER_BUTTON_A: {
-      return GamepadButton_t::A;
+      return GamepadButton_t::ButtonFaceA;
     }
     case SDL_CONTROLLER_BUTTON_B: {
-      return GamepadButton_t::B;
-    }
-    case SDL_CONTROLLER_BUTTON_BACK: {
-      return GamepadButton_t::Back;
+      return GamepadButton_t::ButtonFaceB;
     }
     case SDL_CONTROLLER_BUTTON_DPAD_DOWN: {
       return GamepadButton_t::DPadDown;
@@ -33,32 +30,43 @@ ConvertGamepadButton(SDL_ControllerButtonEvent event)
     case SDL_CONTROLLER_BUTTON_DPAD_UP: {
       return GamepadButton_t::DPadUp;
     }
-    case SDL_CONTROLLER_BUTTON_GUIDE: {
-      return GamepadButton_t::Guide;
-    }
     case SDL_CONTROLLER_BUTTON_LEFTSHOULDER: {
-      return GamepadButton_t::ShoulderLeft;
-    }
-    case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: {
-      return GamepadButton_t::ShoulderRight;
-    }
-    case SDL_CONTROLLER_BUTTON_START: {
-      return GamepadButton_t::Start;
-    }
-    case SDL_CONTROLLER_BUTTON_LEFTSTICK: {
-      return GamepadButton_t::ThumbLeft;
+      return GamepadButton_t::ButtonShoulderLeft;
     }
     case SDL_CONTROLLER_BUTTON_RIGHTSTICK: {
-      return GamepadButton_t::ThumbRight;
+      return GamepadButton_t::ButtonThumbRight;
     }
     case SDL_CONTROLLER_BUTTON_X: {
-      return GamepadButton_t::X;
+      return GamepadButton_t::ButtonFaceX;
     }
     case SDL_CONTROLLER_BUTTON_Y: {
-      return GamepadButton_t::Y;
+      return GamepadButton_t::ButtonFaceY;
     }
     default: {
-      return GamepadButton_t::UNKNOWN;
+      switch (event.button) {
+        case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: {
+          return GamepadButton_t::ButtonShoulderRight;
+        }
+        case SDL_CONTROLLER_BUTTON_LEFTSTICK: {
+          return GamepadButton_t::ButtonThumbLeft;
+        }
+        default: {
+          switch (event.button) {
+            case SDL_CONTROLLER_BUTTON_BACK: {
+              return GamepadButton_t::ButtonMenuBack;
+            }
+            case SDL_CONTROLLER_BUTTON_GUIDE: {
+              return GamepadButton_t::ButtonMenuGuide;
+            }
+            case SDL_CONTROLLER_BUTTON_START: {
+              return GamepadButton_t::ButtonMenuStart;
+            }
+            default: {
+              return GamepadButton_t::UNKNOWN;
+            }
+          }
+        }
+      }
     }
   }
 }
