@@ -11,7 +11,7 @@
 // Third party libraries
 #include <SDL.h>
 
-// C++ Standard library
+// C++ Standard Library
 #include <sstream>
 
 NAMESPACE_BEGIN(Application)
