@@ -3,10 +3,10 @@
 
 NAMESPACE_BEGIN(GunBox)
 
-CommandNull::~CommandNull() {}
+Command_Null::~Command_Null() {}
 
 void
-CommandNull::Execute()
+Command_Null::Execute()
 {}
 
 NAMESPACE_END(GunBox)

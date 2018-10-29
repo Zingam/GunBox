@@ -64,4 +64,32 @@ MainMenu_Commander::GamepadAxisMotion(
   }
 }
 
+void
+MainMenu_Commander::GamepadButtonDown(
+  System::DeviceTypes::IO::GamepadId_t id,
+  System::DeviceTypes::IO::GamepadButton_t button)
+{}
+
+void
+MainMenu_Commander::GamepadButtonUp(
+  System::DeviceTypes::IO::GamepadId_t id,
+  System::DeviceTypes::IO::GamepadButton_t button)
+{}
+
+void
+MainMenu_Commander::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
+{}
+
+void
+MainMenu_Commander::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
+{}
+
+void
+MainMenu_Commander::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
+{}
+
+void
+MainMenu_Commander::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
+{}
+
 NAMESPACE_END(GunBox)

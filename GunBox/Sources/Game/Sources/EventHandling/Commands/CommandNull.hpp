@@ -8,10 +8,10 @@
 
 NAMESPACE_BEGIN(GunBox)
 
-class CommandNull final : public Command_Interface
+class Command_Null final : public Command_Interface
 {
 public:
-  ~CommandNull() final;
+  ~Command_Null() final;
 
 public:
   auto Execute() -> void final;

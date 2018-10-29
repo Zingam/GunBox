@@ -19,7 +19,7 @@ public:
   Game(Application::ApplicationInfo title);
   ~Game() final;
 
-  // Pure virtual methods
+  // Virtual methods
 public:
   auto Execute() -> Application::ExitCode final;
 };

@@ -14,12 +14,20 @@
 #include <array>
 #include <memory>
 
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(GunBox)
 
 class Command_Interface;
 class MainMenu;
 
 NAMESPACE_END(GunBox)
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(GunBox)
 
@@ -31,49 +39,44 @@ public:
 
 public:
   // clang-format off
-  virtual auto GamepadAxisMotion(
+  auto GamepadAxisMotion(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadAxis_t axis,
     float value)
-    -> void;
+    -> void final;
 
-  virtual auto GamepadButtonDown(
+  auto GamepadButtonDown(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
-    -> void;
+    -> void final;
 
-  virtual auto GamepadButtonUp(
+  auto GamepadButtonUp(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
-    -> void;
+    -> void final;
 
-  virtual auto GamepadDeviceAdd(
+  auto GamepadDeviceAdd(
     System::DeviceTypes::IO::GamepadId_t id)
-    -> void;
+    -> void final;
 
-  virtual auto GamepadDeviceRemove(
+  auto GamepadDeviceRemove(
     System::DeviceTypes::IO::GamepadId_t id)
-    -> void;
+    -> void final;
 
-  virtual auto KeyboardKeyDown(
+  auto KeyboardKeyDown(
     System::DeviceTypes::IO::Key_t key)
-    -> void;
+    -> void final;
 
-  virtual auto KeyboardKeyUp(
+  auto KeyboardKeyUp(
     System::DeviceTypes::IO::Key_t key)
-    -> void;
+    -> void final;
   // clang-format on
 
-  private:
+private:
   std::array<
     std::shared_ptr<Command_Interface>,
-    System::DeviceTypes::IO::GamepadEvents_Count>
+    System::DeviceTypes::IO::GamepadEvents_t_ElementsCount>
     commands;
-
-  std::array<
-    std::shared_ptr<Command_Interface>,
-    EnumCast(System::DeviceTypes::IO::GamepadEvents_t::__ElementsCount__)>
-    commands1;
 };
 
 NAMESPACE_END(GunBox)
