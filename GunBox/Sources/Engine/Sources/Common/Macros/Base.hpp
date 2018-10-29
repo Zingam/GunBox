@@ -74,8 +74,8 @@
 /// Macro: $PRAGMA_MESSAGE_Line
 #  if !defined($PRAGMA_MESSAGE_Line)
 #    define $PRAGMA_MESSAGE_Line                                               \
-      $PRAGMA_MESSAGE_ToStringWithQuotes($PRAGMA_MESSAGE_StringizeWithQuotes,  \
-                                         __LINE__)
+      $PRAGMA_MESSAGE_ToStringWithQuotes(                                      \
+        $PRAGMA_MESSAGE_StringizeWithQuotes, __LINE__)
 #  else
 #    error $PRAGMA_MESSAGE_Line is already defined
 #  endif
@@ -152,4 +152,10 @@
 
 // clang-format on
 
+#endif
+
+#if !defined(EnumCast)
+#  define EnumCast(enumClassElement) static_cast<size_t>(enumClassElement)
+#else
+#  error EnumCast is already defined
 #endif
