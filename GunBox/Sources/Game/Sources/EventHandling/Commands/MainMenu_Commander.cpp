@@ -6,6 +6,12 @@
 
 NAMESPACE_BEGIN(GunBox)
 
+MainMenu_Commander::MainMenu_Commander(MainMenu& mainMenu)
+  : mainMenu(mainMenu)
+{}
+
+MainMenu_Commander::~MainMenu_Commander() {}
+
 auto
 MainMenu_Commander::GamepadAxisMotion(
   System::DeviceTypes::IO::GamepadId_t id,

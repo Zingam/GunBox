@@ -77,6 +77,7 @@ private:
     std::shared_ptr<Command_Interface>,
     System::DeviceTypes::IO::GamepadEvents_t_ElementsCount>
     commands;
+  MainMenu& mainMenu;
 };
 
 NAMESPACE_END(GunBox)
