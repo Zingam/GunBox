@@ -6,64 +6,48 @@
 // Engine headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
 #include "System/DeviceTypes/IO/KeyboardTypes.hpp"
-#include "System/EventProcessing/InputEventCallbacks.hpp"
-
-// C++ Standard Library
-#include <memory>
 
 NAMESPACE_BEGIN(GunBox)
 
-class Commander_Interface;
-
-NAMESPACE_END(GunBox)
-
-NAMESPACE_BEGIN(GunBox)
-
-class InputEventCallbacks final
-  : public System::EventProcessing::InputEventCallbacks
+class Commander_Interface
 {
 public:
-  InputEventCallbacks();
-  ~InputEventCallbacks() final;
+  virtual ~Commander_Interface() = 0;
 
-  // Virtual methods
 public:
   // clang-format off
-  auto GamepadAxisMotion(
+  virtual auto GamepadAxisMotion(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadAxis_t axis,
     float value)
-    -> void final;
+    -> void = 0;
 
-  auto GamepadButtonDown(
+  virtual auto GamepadButtonDown(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
-    -> void final;
+    -> void = 0;
 
-  auto GamepadButtonUp(
+  virtual auto GamepadButtonUp(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
-    -> void final;
+    -> void = 0;
 
-  auto GamepadDeviceAdd(
+  virtual auto GamepadDeviceAdd(
     System::DeviceTypes::IO::GamepadId_t id)
-    -> void final;
+    -> void = 0;
 
-  auto GamepadDeviceRemove(
+  virtual auto GamepadDeviceRemove(
     System::DeviceTypes::IO::GamepadId_t id)
-    -> void final;
+    -> void = 0;
 
-  auto KeyboardKeyDown(
+  virtual auto KeyboardKeyDown(
     System::DeviceTypes::IO::Key_t key)
-    -> void final;
+    -> void = 0;
 
-  auto KeyboardKeyUp(
+  virtual auto KeyboardKeyUp(
     System::DeviceTypes::IO::Key_t key)
-    -> void final;
+    -> void = 0;
   // clang-format on
-
-private:
-  std::unique_ptr<Commander_Interface> commander;
 };
 
 NAMESPACE_END(GunBox)

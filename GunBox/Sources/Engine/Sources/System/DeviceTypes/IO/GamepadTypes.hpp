@@ -75,6 +75,9 @@ enum class GamepadEvents_t
   __ElementsCount__
 };
 
+constexpr auto GamepadEvents_Count =
+  EnumCast(GamepadEvents_t::__ElementsCount__);
+
 using GamepadId_t = std::int32_t;
 
 NAMESPACE_END(System::DeviceTypes::IO)

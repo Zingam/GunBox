@@ -2,6 +2,14 @@ include_guard ()
 
 set (Game_SourceFiles
   "Sources/Configuration/Values.hpp"
+  "Sources/EventHandling/Commands/Command_Interface.cpp"
+  "Sources/EventHandling/Commands/Command_Interface.hpp"
+  "Sources/EventHandling/Commands/Commander_Interface.cpp"
+  "Sources/EventHandling/Commands/Commander_Interface.hpp"
+  "Sources/EventHandling/Commands/CommandNull.cpp"
+  "Sources/EventHandling/Commands/CommandNull.hpp"
+  "Sources/EventHandling/Commands/MainMenu_Commander.cpp"
+  "Sources/EventHandling/Commands/MainMenu_Commander.hpp"
   "Sources/EventHandling/InputEventCallbacks.cpp"
   "Sources/EventHandling/InputEventCallbacks.hpp"
   "Sources/EventHandling/SystemEventCallbacks.cpp"

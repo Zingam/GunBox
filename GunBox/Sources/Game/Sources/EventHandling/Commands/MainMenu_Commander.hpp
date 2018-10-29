@@ -3,67 +3,77 @@
 // BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
+// Project headers
+#include "EventHandling/Commands/Commander_Interface.hpp"
+
 // Engine headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
 #include "System/DeviceTypes/IO/KeyboardTypes.hpp"
-#include "System/EventProcessing/InputEventCallbacks.hpp"
 
 // C++ Standard Library
+#include <array>
 #include <memory>
 
 NAMESPACE_BEGIN(GunBox)
 
-class Commander_Interface;
+class Command_Interface;
+class MainMenu;
 
 NAMESPACE_END(GunBox)
 
 NAMESPACE_BEGIN(GunBox)
 
-class InputEventCallbacks final
-  : public System::EventProcessing::InputEventCallbacks
+class MainMenu_Commander final : public Commander_Interface
 {
 public:
-  InputEventCallbacks();
-  ~InputEventCallbacks() final;
+  MainMenu_Commander(MainMenu& mainMenu);
+  ~MainMenu_Commander() final;
 
-  // Virtual methods
 public:
   // clang-format off
-  auto GamepadAxisMotion(
+  virtual auto GamepadAxisMotion(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadAxis_t axis,
     float value)
-    -> void final;
+    -> void;
 
-  auto GamepadButtonDown(
+  virtual auto GamepadButtonDown(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
-    -> void final;
+    -> void;
 
-  auto GamepadButtonUp(
+  virtual auto GamepadButtonUp(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadButton_t button)
-    -> void final;
+    -> void;
 
-  auto GamepadDeviceAdd(
+  virtual auto GamepadDeviceAdd(
     System::DeviceTypes::IO::GamepadId_t id)
-    -> void final;
+    -> void;
 
-  auto GamepadDeviceRemove(
+  virtual auto GamepadDeviceRemove(
     System::DeviceTypes::IO::GamepadId_t id)
-    -> void final;
+    -> void;
 
-  auto KeyboardKeyDown(
+  virtual auto KeyboardKeyDown(
     System::DeviceTypes::IO::Key_t key)
-    -> void final;
+    -> void;
 
-  auto KeyboardKeyUp(
+  virtual auto KeyboardKeyUp(
     System::DeviceTypes::IO::Key_t key)
-    -> void final;
+    -> void;
   // clang-format on
 
-private:
-  std::unique_ptr<Commander_Interface> commander;
+  private:
+  std::array<
+    std::shared_ptr<Command_Interface>,
+    System::DeviceTypes::IO::GamepadEvents_Count>
+    commands;
+
+  std::array<
+    std::shared_ptr<Command_Interface>,
+    EnumCast(System::DeviceTypes::IO::GamepadEvents_t::__ElementsCount__)>
+    commands1;
 };
 
 NAMESPACE_END(GunBox)

@@ -1,9 +1,19 @@
 // Self
 #include "InputEventCallbacks.hpp"
 
+// Project headers
+#include "EventHandling/Commands/Commander_Interface.hpp"
+
+
+// Project headers
+#include "EventHandling/Commands/Commander_Interface.hpp"
+
 NAMESPACE_BEGIN(GunBox)
 
-InputEventCallbacks::~InputEventCallbacks() {}
+// Forward declarations require constructor and destructor definitions
+InputEventCallbacks::InputEventCallbacks() = default;
+
+InputEventCallbacks::~InputEventCallbacks() = default;
 
 void
 InputEventCallbacks::GamepadAxisMotion(
