@@ -15,8 +15,12 @@ enum class GamepadAxis_t
   StickRightX,
   StickRightY,
   TriggerLeft,
-  TriggerRight
+  TriggerRight,
+  __ElementsCount__
 };
+
+constexpr auto GamepadAxis_t_ElementsCount =
+  EnumCast(GamepadAxis_t::__ElementsCount__);
 
 enum class GamepadButton_t
 {
@@ -36,7 +40,11 @@ enum class GamepadButton_t
   DPadDown,
   DpadLeft,
   DPadRight,
+  __ElementsCount__
 };
+
+constexpr auto GamepadButton_t_ElementsCount =
+  EnumCast(GamepadButton_t::__ElementsCount__);
 
 enum class GamepadEvents_t
 {
@@ -75,7 +83,7 @@ enum class GamepadEvents_t
   __ElementsCount__
 };
 
-constexpr auto GamepadEvents_Count =
+constexpr auto GamepadEvents_t_ElementsCount =
   EnumCast(GamepadEvents_t::__ElementsCount__);
 
 using GamepadId_t = std::int32_t;
