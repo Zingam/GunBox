@@ -62,7 +62,7 @@ ConvertGamepadButton(SDL_ControllerButtonEvent event)
               return GamepadButton_t::ButtonMenuStart;
             }
             default: {
-              return GamepadButton_t::UNKNOWN;
+              return GamepadButton_t::_UNKNOWN_;
             }
           }
         }

@@ -301,7 +301,7 @@ ConvertScanCode(SDL_Scancode scancode)
       return ScanCode_t::SK_PageUp;
     }
     default: {
-      return ScanCode_t::UNKNOWN;
+      return ScanCode_t::_UNKNOWN_;
     }
   }
 }

@@ -27,12 +27,11 @@ enum class KeyModifier_t
   ShiftRight,
   WindowsKey, // Left or Right
   WindowsKeyLeft,
-  WindowsKeyRight
+  WindowsKeyRight,
 };
 
 enum class ScanCode_t
 {
-  UNKNOWN,
   Arrow_Down,
   Arrow_Left,
   Arrow_Right,
@@ -130,6 +129,7 @@ enum class ScanCode_t
   SK_Tab,
   SK_PageDown,
   SK_PageUp,
+  _UNKNOWN_,
 };
 
 struct Key_t

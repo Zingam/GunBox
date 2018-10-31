@@ -8,6 +8,8 @@
 
 NAMESPACE_BEGIN(System::DeviceTypes::IO)
 
+////////////////////////////////////////////////////////////////////////////////
+
 enum class GamepadAxis_t
 {
   StickLeftX,
@@ -22,9 +24,10 @@ enum class GamepadAxis_t
 constexpr auto GamepadAxis_t_ElementsCount =
   EnumCast(GamepadAxis_t::__ElementsCount__);
 
+////////////////////////////////////////////////////////////////////////////////
+
 enum class GamepadButton_t
 {
-  UNKNOWN,
   ButtonFaceA,
   ButtonFaceB,
   ButtonFaceX,
@@ -40,15 +43,17 @@ enum class GamepadButton_t
   DPadDown,
   DpadLeft,
   DPadRight,
+  _UNKNOWN_,
   __ElementsCount__
 };
 
 constexpr auto GamepadButton_t_ElementsCount =
   EnumCast(GamepadButton_t::__ElementsCount__);
 
+////////////////////////////////////////////////////////////////////////////////
+
 enum class GamepadEvents_t
 {
-  UNKNOWN,
   ButtonFaceA,
   ButtonFaceB,
   ButtonFaceX,
@@ -80,12 +85,17 @@ enum class GamepadEvents_t
   StickRightY_Up,
   TriggerLeft,
   TriggerRight,
+  _UNKNOWN_,
   __ElementsCount__
 };
 
 constexpr auto GamepadEvents_t_ElementsCount =
   EnumCast(GamepadEvents_t::__ElementsCount__);
 
+////////////////////////////////////////////////////////////////////////////////
+
 using GamepadId_t = std::int32_t;
+
+////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_END(System::DeviceTypes::IO)
