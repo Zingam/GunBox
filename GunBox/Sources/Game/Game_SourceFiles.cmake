@@ -20,6 +20,8 @@ set (Game_SourceFiles
   "Sources/EventHandling/Commands/Command_Null.hpp"
   "Sources/EventHandling/Commands/Commander_Interface.cpp"
   "Sources/EventHandling/Commands/Commander_Interface.hpp"
+  "Sources/EventHandling/Commands/CommandTypes.cpp"
+  "Sources/EventHandling/Commands/CommandTypes.hpp"
   "Sources/EventHandling/Commands/MainMenu_Commander.cpp"
   "Sources/EventHandling/Commands/MainMenu_Commander.hpp"
   "Sources/EventHandling/InputEventCallbacks.cpp"

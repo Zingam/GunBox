@@ -4,7 +4,10 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers
+#include "EventHandling/Commands/CommandTypes.hpp"
 #include "EventHandling/Commands/Commander_Interface.hpp"
+#include "EventHandling/Commands/MainMenu/Command_MainMenu_Accept.hpp"
+#include "EventHandling/Commands/MainMenu/Command_MainMenu_Back.hpp"
 
 // Engine headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
@@ -71,6 +74,11 @@ public:
     System::DeviceTypes::IO::Key_t key)
     -> void final;
   // clang-format on
+
+private:
+  auto Initialize() -> void;
+  auto MakeCommand(Commands_MainMenu_t commandType)
+    -> std::unique_ptr<Command_Interface>;
 
 private:
   std::array<
