@@ -14,7 +14,7 @@ public:
   ~Command_Null() final;
 
 public:
-  auto Execute() -> void final;
+  auto Execute(std::int32_t id) -> void final;
 };
 
 NAMESPACE_END(GunBox)

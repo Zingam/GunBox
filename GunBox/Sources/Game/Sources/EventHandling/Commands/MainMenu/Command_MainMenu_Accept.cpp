@@ -10,7 +10,7 @@ Command_MainMenu_Accept::Command_MainMenu_Accept(MainMenu& mainMenu)
 Command_MainMenu_Accept::~Command_MainMenu_Accept() {}
 
 void
-Command_MainMenu_Accept::Execute()
+Command_MainMenu_Accept::Execute(std::int32_t id)
 {}
 
 NAMESPACE_END(GunBox)

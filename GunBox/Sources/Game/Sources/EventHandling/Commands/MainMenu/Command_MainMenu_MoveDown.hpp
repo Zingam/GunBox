@@ -6,6 +6,9 @@
 // Project headers
 #include "EventHandling/Commands/Command_Interface.hpp"
 
+// C Standard Library
+#include <cstdint>
+
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +32,7 @@ public:
   ~Command_MainMenu_MoveDown() final;
 
 public:
-  auto Execute() -> void final;
+  auto Execute(std::int32_t id) -> void final;
 
 private:
   MainMenu& mainMenu;

@@ -10,7 +10,7 @@ Command_MainMenu_Back::Command_MainMenu_Back(MainMenu& mainMenu)
 Command_MainMenu_Back::~Command_MainMenu_Back() {}
 
 void
-Command_MainMenu_Back::Execute()
+Command_MainMenu_Back::Execute(std::int32_t id)
 {}
 
 NAMESPACE_END(GunBox)
