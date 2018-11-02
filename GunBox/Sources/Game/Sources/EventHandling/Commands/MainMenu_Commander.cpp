@@ -2,7 +2,6 @@
 #include "MainMenu_Commander.hpp"
 
 // Project headers
-#include "EventHandling/Commands/Command_Null.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_Accept.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_Back.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveDown.hpp"
@@ -14,8 +13,12 @@ NAMESPACE_BEGIN(GunBox)
 
 MainMenu_Commander::MainMenu_Commander(MainMenu& mainMenu)
   : mainMenu{ mainMenu }
-  , commands{ std::make_shared<Command_Null>() }
-{}
+{
+  commands_Gamepad.fill(command_Null);
+  commands_Keyboard.fill(command_Null);
+  // Initialize default input-to-command mappings
+  Initialize();
+}
 
 MainMenu_Commander::~MainMenu_Commander() {}
 
@@ -31,11 +34,11 @@ MainMenu_Commander::GamepadAxisMotion(
                       GamepadEvents_t const axisLeftOrDown,
                       GamepadEvents_t const axisRightOrUp) {
     if (0 > value) {
-      return this->commands[EnumCast(axisLeftOrDown)];
+      return this->commands_Gamepad[EnumCast(axisLeftOrDown)];
     } else if (0 < value) {
-      return this->commands[EnumCast(axisRightOrUp)];
+      return this->commands_Gamepad[EnumCast(axisRightOrUp)];
     } else {
-      return this->commands[EnumCast(GamepadEvents_t::_UNKNOWN_)];
+      return this->commands_Gamepad[EnumCast(GamepadEvents_t::_UNKNOWN_)];
     }
   };
 
@@ -65,12 +68,12 @@ MainMenu_Commander::GamepadAxisMotion(
       break;
     }
     case GamepadAxis_t::TriggerLeft: {
-      auto command = commands[EnumCast(GamepadEvents_t::TriggerLeft)];
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::TriggerLeft)];
       command->Execute(id);
       break;
     }
     case GamepadAxis_t::TriggerRight: {
-      auto command = commands[EnumCast(GamepadEvents_t::TriggerRight)];
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::TriggerRight)];
       command->Execute(id);
       break;
     }
@@ -84,8 +87,95 @@ MainMenu_Commander::GamepadButtonDown(
 {
   using namespace System::DeviceTypes::IO;
 
-  auto command = commands[EnumCast(GamepadEvents_t::TriggerRight)];
-  command->Execute(id);
+  switch (button) {
+    case GamepadButton_t::ButtonFaceA: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceA)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::ButtonFaceB: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceB)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::ButtonFaceX: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceX)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::ButtonFaceY: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceY)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::ButtonShoulderLeft: {
+      auto command =
+        commands_Gamepad[EnumCast(GamepadEvents_t::ButtonShoulderLeft)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::ButtonShoulderRight: {
+      auto command =
+        commands_Gamepad[EnumCast(GamepadEvents_t::ButtonShoulderRight)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::DPadDown: {
+      auto command =
+        commands_Gamepad[EnumCast(GamepadEvents_t::ButtonShoulderRight)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::DPadLeft: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DPadLeft)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::DPadRight: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DPadRight)];
+      command->Execute(id);
+      break;
+    }
+    case GamepadButton_t::DPadUp: {
+      auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DPadUp)];
+      command->Execute(id);
+      break;
+    }
+    default: {
+      switch (button) {
+        case GamepadButton_t::ButtonMenuBack: {
+          auto command =
+            commands_Gamepad[EnumCast(GamepadEvents_t::ButtonMenuBack)];
+          command->Execute(id);
+          break;
+        }
+        case GamepadButton_t::ButtonMenuGuide: {
+          auto command =
+            commands_Gamepad[EnumCast(GamepadEvents_t::ButtonMenuGuide)];
+          command->Execute(id);
+          break;
+        }
+        case GamepadButton_t::ButtonMenuStart: {
+          auto command =
+            commands_Gamepad[EnumCast(GamepadEvents_t::ButtonMenuStart)];
+          command->Execute(id);
+          break;
+        }
+        case GamepadButton_t::ButtonThumbLeft: {
+          auto command =
+            commands_Gamepad[EnumCast(GamepadEvents_t::ButtonThumbLeft)];
+          command->Execute(id);
+          break;
+        }
+        case GamepadButton_t::ButtonThumbRight: {
+          auto command =
+            commands_Gamepad[EnumCast(GamepadEvents_t::ButtonThumbRight)];
+          command->Execute(id);
+          break;
+        }
+      }
+    }
+  }
 }
 
 void
@@ -96,15 +186,30 @@ MainMenu_Commander::GamepadButtonUp(
 
 void
 MainMenu_Commander::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
-{}
+{
+  using namespace System::DeviceTypes::IO;
+
+  auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DeviceAdded)];
+  command->Execute(id);
+}
 
 void
 MainMenu_Commander::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
-{}
+{
+  using namespace System::DeviceTypes::IO;
+
+  auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DeviceRemoved)];
+  command->Execute(id);
+}
 
 void
 MainMenu_Commander::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
-{}
+{
+  using namespace System::DeviceTypes::IO;
+
+  auto command = commands_Keyboard[EnumCast(key.ScanCode)];
+  command->Execute();
+}
 
 void
 MainMenu_Commander::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
@@ -115,23 +220,38 @@ MainMenu_Commander::Initialize() -> void
 {
   using namespace System::DeviceTypes::IO;
 
-  commands[EnumCast(GamepadEvents_t::ButtonFaceA)] =
+  // Gamepad-to-commands mappings
+  commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceA)] =
     MakeCommand(Commands_MainMenu_t::Accept);
-  commands[EnumCast(GamepadEvents_t::ButtonFaceB)] =
+  commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceB)] =
     MakeCommand(Commands_MainMenu_t::Back);
-  commands[EnumCast(GamepadEvents_t::ButtonMenuBack)] =
+  commands_Gamepad[EnumCast(GamepadEvents_t::ButtonMenuBack)] =
     MakeCommand(Commands_MainMenu_t::Back);
-  commands[EnumCast(GamepadEvents_t::StickLeftX_Left)] =
+  commands_Gamepad[EnumCast(GamepadEvents_t::StickLeftX_Left)] =
     MakeCommand(Commands_MainMenu_t::MoveLeft);
-  commands[EnumCast(GamepadEvents_t::StickLeftX_Right)] =
+  commands_Gamepad[EnumCast(GamepadEvents_t::StickLeftX_Right)] =
     MakeCommand(Commands_MainMenu_t::MoveRight);
-  commands[EnumCast(GamepadEvents_t::StickLeftY_Down)] =
+  commands_Gamepad[EnumCast(GamepadEvents_t::StickLeftY_Down)] =
     MakeCommand(Commands_MainMenu_t::MoveDown);
-  commands[EnumCast(GamepadEvents_t::StickLeftY_Up)] =
+  commands_Gamepad[EnumCast(GamepadEvents_t::StickLeftY_Up)] =
     MakeCommand(Commands_MainMenu_t::MoveUp);
+
+  // Keyboard-to-commands mapping
+  commands_Keyboard[EnumCast(ScanCode_t::Arrow_Down)] =
+    MakeCommand(Commands_MainMenu_t::MoveDown);
+  commands_Keyboard[EnumCast(ScanCode_t::Arrow_Left)] =
+    MakeCommand(Commands_MainMenu_t::MoveLeft);
+  commands_Keyboard[EnumCast(ScanCode_t::Arrow_Right)] =
+    MakeCommand(Commands_MainMenu_t::MoveRight);
+  commands_Keyboard[EnumCast(ScanCode_t::Arrow_Up)] =
+    MakeCommand(Commands_MainMenu_t::MoveUp);
+  commands_Keyboard[EnumCast(ScanCode_t::SK_Enter)] =
+    MakeCommand(Commands_MainMenu_t::Accept);
+  commands_Keyboard[EnumCast(ScanCode_t::SK_Backspace)] =
+    MakeCommand(Commands_MainMenu_t::Back);
 }
 
-std::unique_ptr<Command_Interface>
+std::shared_ptr<Command_Interface>
 MainMenu_Commander::MakeCommand(Commands_MainMenu_t commandType)
 {
   switch (commandType) {
@@ -163,7 +283,7 @@ MainMenu_Commander::MakeCommand(Commands_MainMenu_t commandType)
       [[fallthrough]];
     }
     default: {
-      return std::make_unique<Command_Null>();
+      return command_Null;
     }
   }
   return std::unique_ptr<Command_Interface>();

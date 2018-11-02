@@ -22,7 +22,7 @@ ConvertGamepadButton(SDL_ControllerButtonEvent event)
       return GamepadButton_t::DPadDown;
     }
     case SDL_CONTROLLER_BUTTON_DPAD_LEFT: {
-      return GamepadButton_t::DpadLeft;
+      return GamepadButton_t::DPadLeft;
     }
     case SDL_CONTROLLER_BUTTON_DPAD_RIGHT: {
       return GamepadButton_t::DPadRight;

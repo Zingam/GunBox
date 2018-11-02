@@ -7,11 +7,29 @@
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
 #include "System/DeviceTypes/IO/KeyboardTypes.hpp"
 
+// C++ Standard Library
+#include <memory>
+
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(GunBox)
+
+class Command_Interface;
+
+NAMESPACE_END(GunBox)
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(GunBox)
 
 class Commander_Interface
 {
 public:
+  Commander_Interface();
   virtual ~Commander_Interface() = 0;
 
 public:
@@ -48,6 +66,9 @@ public:
     System::DeviceTypes::IO::Key_t key)
     -> void = 0;
   // clang-format on
+
+protected:
+  std::shared_ptr<Command_Interface> const command_Null;
 };
 
 NAMESPACE_END(GunBox)

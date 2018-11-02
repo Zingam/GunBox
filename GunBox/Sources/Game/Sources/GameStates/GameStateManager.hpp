@@ -37,6 +37,7 @@ private:
     graphicsRenderer;
   MainMenu mainMenu;
   InputEventCallbacks inputEventCallbacks;
+  bool isStateInitialized = false;
   SystemEventCallbacks systemEventCallbacks;
 };
 

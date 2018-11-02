@@ -10,6 +10,8 @@ NAMESPACE_BEGIN(System::DeviceTypes::IO)
 
 using KeyCode_t = std::int32_t;
 
+////////////////////////////////////////////////////////////////////////////////
+
 enum class KeyModifier_t
 {
   None,
@@ -28,7 +30,13 @@ enum class KeyModifier_t
   WindowsKey, // Left or Right
   WindowsKeyLeft,
   WindowsKeyRight,
+  __ElementsCount__
 };
+
+constexpr auto KeyModifier_t_ElementsCount =
+  EnumCast(KeyModifier_t::__ElementsCount__);
+
+////////////////////////////////////////////////////////////////////////////////
 
 enum class ScanCode_t
 {
@@ -130,7 +138,13 @@ enum class ScanCode_t
   SK_PageDown,
   SK_PageUp,
   _UNKNOWN_,
+  __ElementsCount__
 };
+
+constexpr auto ScanCode_t_ElementsCount =
+  EnumCast(ScanCode_t::__ElementsCount__);
+
+////////////////////////////////////////////////////////////////////////////////
 
 struct Key_t
 {

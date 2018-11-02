@@ -41,7 +41,7 @@ enum class GamepadButton_t
   ButtonThumbRight,
   DPadUp,
   DPadDown,
-  DpadLeft,
+  DPadLeft,
   DPadRight,
   _UNKNOWN_,
   __ElementsCount__
@@ -68,7 +68,7 @@ enum class GamepadEvents_t
   DeviceAdded,
   DeviceRemoved,
   DPadDown,
-  DpadLeft,
+  DPadLeft,
   DPadRight,
   DPadUp,
   StickLeftX,

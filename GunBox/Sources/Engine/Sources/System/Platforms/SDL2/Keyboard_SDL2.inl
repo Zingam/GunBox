@@ -313,7 +313,7 @@ ConvertToKey(SDL_KeyboardEvent event)
 
   auto keyCode = static_cast<KeyCode_t>(event.keysym.sym);
   auto modifier = static_cast<KeyModifier_t>(event.keysym.mod);
-  auto scanCode = static_cast<ScanCode_t>(event.keysym.scancode);
+  auto scanCode = ConvertScanCode(event.keysym.scancode);
 
   return { keyCode, modifier, scanCode };
 }

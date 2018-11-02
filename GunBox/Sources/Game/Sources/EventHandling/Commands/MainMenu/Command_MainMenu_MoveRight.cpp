@@ -1,6 +1,9 @@
 // Self
 #include "Command_MainMenu_MoveRight.hpp"
 
+// Project headers
+#include "GameStates/MainMenu.hpp"
+
 NAMESPACE_BEGIN(GunBox)
 
 Command_MainMenu_MoveRight::Command_MainMenu_MoveRight(MainMenu& mainMenu)

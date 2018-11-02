@@ -1,6 +1,8 @@
 // Self
 #include "GameStateManager.hpp"
 
+#include "EventHandling/Commands/MainMenu_Commander.hpp"
+
 // C Standard Library
 #include <cassert>
 
@@ -33,19 +35,28 @@ GameStateManager::Run()
     (nullptr != graphicsRenderer) &&
     "The graphics renderer is not initialized");
 
-  switch (gameState) {
-    case GameState_t::InGame: {
-      return true;
-    }
-    case GameState_t::MainMenu: {
-      gameState = mainMenu.Update();
-      return true;
-    }
-    case GameState_t::Quit: {
-      [[fallthrough]];
-    }
-    default: {
-      return false;
+  if (GameState_t::InGame == gameState) {
+    return true;
+  } else {
+    switch (gameState) {
+      case GameState_t::MainMenu: {
+        if (!isStateInitialized) {
+          inputEventCallbacks.SetCommander<MainMenu_Commander>(mainMenu);
+          isStateInitialized = true;
+        }
+        gameState = mainMenu.Update();
+        return true;
+      }
+      default: {
+        switch (gameState) {
+          case GameState_t::Quit: {
+            [[fallthrough]];
+          }
+          default: {
+            return false;
+          }
+        }
+      }
     }
   }
 }

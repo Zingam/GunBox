@@ -78,13 +78,17 @@ public:
 private:
   auto Initialize() -> void;
   auto MakeCommand(Commands_MainMenu_t commandType)
-    -> std::unique_ptr<Command_Interface>;
+    -> std::shared_ptr<Command_Interface>;
 
 private:
   std::array<
     std::shared_ptr<Command_Interface>,
     System::DeviceTypes::IO::GamepadEvents_t_ElementsCount>
-    commands;
+    commands_Gamepad;
+  std::array<
+    std::shared_ptr<Command_Interface>,
+    System::DeviceTypes::IO::ScanCode_t_ElementsCount>
+    commands_Keyboard;
   MainMenu& mainMenu;
 };
 

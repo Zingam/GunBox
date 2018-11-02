@@ -34,6 +34,10 @@ public:
   InputEventCallbacks();
   ~InputEventCallbacks() final;
 
+public:
+  template<typename Commander, typename... Args>
+  auto SetCommander(Args&&... args) -> void;
+
   // Virtual methods
 public:
   // clang-format off
@@ -75,3 +79,11 @@ private:
 };
 
 NAMESPACE_END(GunBox)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "InputEventCallbacks.inl"
+
+////////////////////////////////////////////////////////////////////////////////

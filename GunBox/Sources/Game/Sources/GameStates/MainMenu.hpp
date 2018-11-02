@@ -23,15 +23,23 @@ NAMESPACE_BEGIN(GunBox)
 class MainMenu
 {
 public:
-  auto Initialize(std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
-             graphicsRenderer) -> void;
+  auto Initialize(
+    std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
+      graphicsRenderer) -> void;
   auto Update() -> GameState_t;
+
+  // Command actions
+public:
+  auto Accept() -> void;
+  auto Back() -> void;
+  auto Quit() -> void;
 
 private:
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;
-  GameState_t nextGameState = GameState_t::MainMenu;
   bool isQuitting = false;
+  bool isRequestingToQuit = false;
+  GameState_t nextGameState = GameState_t::MainMenu;
 };
 
 NAMESPACE_END(GunBox)
