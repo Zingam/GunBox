@@ -35,9 +35,9 @@ public:
 
 public:
   auto InitializeCallbacks(
-    std::shared_ptr<InputEventCallbacks> const inputCallbacks) -> void;
+    std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks) -> void;
 
-  auto InitializeCallbacks(InputEventCallbacks& inputCallbacks) -> void;
+  auto InitializeCallbacks(InputEventCallbacks_Interface& inputCallbacks) -> void;
 
 private:
   auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const id) -> void;
@@ -47,32 +47,32 @@ private:
   // Callbacks
 private:
   // clang-format off
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::GamepadAxisMotion)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::GamepadAxisMotion)>>
     cbGamepadAxisMotion_UPtr;
 
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::GamepadDeviceAdd)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::GamepadDeviceAdd)>>
     cbGamepadDeviceAdd_UPtr;
 
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::GamepadDeviceRemove)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::GamepadDeviceRemove)>>
     cbGamepadDeviceRemove_UPtr;
 
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::GamepadButtonDown)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::GamepadButtonDown)>>
     cbGamepadButtonDown_UPtr;
 
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::GamepadButtonUp)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::GamepadButtonUp)>>
     cbGamepadButtonUp_UPtr;
 
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::KeyboardKeyDown)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::KeyboardKeyDown)>>
     cbKeyboardKeyDown_UPtr;
 
-  std::unique_ptr<SimpleDelegate<InputEventCallbacks,
-    decltype(&InputEventCallbacks::KeyboardKeyUp)>>
+  std::unique_ptr<SimpleDelegate<InputEventCallbacks_Interface,
+    decltype(&InputEventCallbacks_Interface::KeyboardKeyUp)>>
     cbKeyboardKeyUp_UPtr;
   // clang-format on
 

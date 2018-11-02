@@ -22,14 +22,14 @@ EventProcessor::EventProcessor()
 
 void
 EventProcessor::InitializeCallbacks(
-  System::EventProcessing::InputEventCallbacks& inputEventCallbacks)
+  System::EventProcessing::InputEventCallbacks_Interface& inputEventCallbacks)
 {
   InputEventProcessor().InitializeCallbacks(inputEventCallbacks);
 }
 
 void
 EventProcessor::InitializeCallbacks(
-  System::EventProcessing::SystemEventCallbacks& systemEventCallbacks)
+  System::EventProcessing::SystemEventCallbacks_Interface& systemEventCallbacks)
 {
   SystemEventProcessor().InitializeCallbacks(systemEventCallbacks);
 }

@@ -9,10 +9,10 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-class InputEventCallbacks
+class InputEventCallbacks_Interface
 {
 public:
-  virtual ~InputEventCallbacks() = 0;
+  virtual ~InputEventCallbacks_Interface() = 0;
 
   // Pure virtual methods
 public:

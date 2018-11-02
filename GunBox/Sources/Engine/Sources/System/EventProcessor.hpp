@@ -18,8 +18,8 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-class InputEventCallbacks;
-class SystemEventCallbacks;
+class InputEventCallbacks_Interface;
+class SystemEventCallbacks_Interface;
 
 NAMESPACE_END(System::EventProcessing)
 
@@ -38,11 +38,11 @@ public:
 public:
   // clang-format off
   auto InitializeCallbacks(
-    System::EventProcessing::InputEventCallbacks& inputEventCallbacks)
+    System::EventProcessing::InputEventCallbacks_Interface& inputEventCallbacks)
     -> void;
 
   auto InitializeCallbacks(
-    System::EventProcessing::SystemEventCallbacks& systemEventCallbacks)
+    System::EventProcessing::SystemEventCallbacks_Interface& systemEventCallbacks)
     -> void;
 
   auto ProcessEvents() const -> void;

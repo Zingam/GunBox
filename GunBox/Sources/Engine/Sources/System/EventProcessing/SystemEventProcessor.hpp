@@ -20,16 +20,16 @@ public:
 
 public:
   auto InitializeCallbacks(
-    std::shared_ptr<SystemEventCallbacks> const systemEventCallbacks) -> void;
+    std::shared_ptr<SystemEventCallbacks_Interface> const systemEventCallbacks) -> void;
 
-  auto InitializeCallbacks(SystemEventCallbacks& systemEventCallbacks)
+  auto InitializeCallbacks(SystemEventCallbacks_Interface& systemEventCallbacks)
     -> void;
 
   // Callbacks
 private:
   // clang-format off
-  std::unique_ptr<SimpleDelegate<SystemEventCallbacks,
-    decltype(&SystemEventCallbacks::Quit)>>
+  std::unique_ptr<SimpleDelegate<SystemEventCallbacks_Interface,
+    decltype(&SystemEventCallbacks_Interface::Quit)>>
     cbQuit_UPtr;
   // clang-format on
 

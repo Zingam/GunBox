@@ -28,7 +28,7 @@ NAMESPACE_END(GunBox)
 NAMESPACE_BEGIN(GunBox)
 
 class InputEventCallbacks final
-  : public System::EventProcessing::InputEventCallbacks
+  : public System::EventProcessing::InputEventCallbacks_Interface
 {
 public:
   InputEventCallbacks();

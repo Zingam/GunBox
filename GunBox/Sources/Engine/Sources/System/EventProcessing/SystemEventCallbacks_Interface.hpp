@@ -5,10 +5,10 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-class SystemEventCallbacks
+class SystemEventCallbacks_Interface
 {
 public:
-  virtual ~SystemEventCallbacks() = 0;
+  virtual ~SystemEventCallbacks_Interface() = 0;
 
   // Pure virtual methods
 public:

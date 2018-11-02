@@ -18,28 +18,28 @@ InputEventProcessor ::~InputEventProcessor()
 
 auto
 InputEventProcessor::InitializeCallbacks(
-  std::shared_ptr<InputEventCallbacks> const inputCallbacks) -> void
+  std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks) -> void
 {
   InitializeCallbacks(*inputCallbacks);
 }
 
 auto
-InputEventProcessor::InitializeCallbacks(InputEventCallbacks& inputCallbacks) -> void
+InputEventProcessor::InitializeCallbacks(InputEventCallbacks_Interface& inputCallbacks) -> void
 {
   cbGamepadAxisMotion_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::GamepadAxisMotion);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::GamepadAxisMotion);
   cbGamepadDeviceAdd_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::GamepadDeviceAdd);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::GamepadDeviceAdd);
   cbGamepadDeviceRemove_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::GamepadDeviceRemove);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::GamepadDeviceRemove);
   cbGamepadButtonDown_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::GamepadButtonDown);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::GamepadButtonDown);
   cbGamepadButtonUp_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::GamepadButtonUp);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::GamepadButtonUp);
   cbKeyboardKeyDown_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::KeyboardKeyDown);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::KeyboardKeyDown);
   cbKeyboardKeyUp_UPtr =
-    make_unique_delegate(inputCallbacks, &InputEventCallbacks::KeyboardKeyUp);
+    make_unique_delegate(inputCallbacks, &InputEventCallbacks_Interface::KeyboardKeyUp);
 }
 
 void

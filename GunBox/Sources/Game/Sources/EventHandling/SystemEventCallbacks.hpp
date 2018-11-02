@@ -9,7 +9,7 @@
 NAMESPACE_BEGIN(GunBox)
 
 class SystemEventCallbacks final
-  : public System::EventProcessing::SystemEventCallbacks
+  : public System::EventProcessing::SystemEventCallbacks_Interface
 {
 public:
   ~SystemEventCallbacks() final;

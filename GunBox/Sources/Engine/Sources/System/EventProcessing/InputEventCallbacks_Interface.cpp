@@ -3,6 +3,6 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-InputEventCallbacks::~InputEventCallbacks(){};
+InputEventCallbacks_Interface::~InputEventCallbacks_Interface(){};
 
 NAMESPACE_END(System::EventProcessing)
