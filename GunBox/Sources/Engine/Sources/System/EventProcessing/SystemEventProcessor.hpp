@@ -6,7 +6,7 @@
 // Project headers - Common
 #include "Common/SimpleDelegate.hpp"
 // Project headers - System
-#include "System/EventProcessing/SystemEventCallbacks.hpp"
+#include "System/EventProcessing/SystemEventCallbacks_Interface.hpp"
 
 // C++ Standard Library
 #include <memory>

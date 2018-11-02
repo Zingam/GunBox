@@ -1,5 +1,5 @@
 // Self
-#include "SystemEventCallbacks.hpp"
+#include "SystemEventCallbacks_Interface.hpp"
 
 NAMESPACE_BEGIN(System::EventProcessing)
 

@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Engine headers - System
-#include "System/EventProcessing/SystemEventCallbacks.hpp"
+#include "System/EventProcessing/SystemEventCallbacks_Interface.hpp"
 
 NAMESPACE_BEGIN(GunBox)
 

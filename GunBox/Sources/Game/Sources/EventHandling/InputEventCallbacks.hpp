@@ -6,7 +6,7 @@
 // Engine headers - System
 #include "System/DeviceTypes/IO/GamepadTypes.hpp"
 #include "System/DeviceTypes/IO/KeyboardTypes.hpp"
-#include "System/EventProcessing/InputEventCallbacks.hpp"
+#include "System/EventProcessing/InputEventCallbacks_Interface.hpp"
 
 // C++ Standard Library
 #include <memory>
