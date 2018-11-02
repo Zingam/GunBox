@@ -1,6 +1,15 @@
 # GunBox
 
-An exercise in **SDL2 API** programming...
+A game programming exercise with **SDL2 API** and **OpenGL**...
+
+## Prerequisites
+### Software
+1. C++17 compiler (or newer)
+2. CMake 3.10 (or newer)
+
+### Third Party Library
+1. FreeType 2.9.1 (or newer)
+2. SDL 2.0.8 (or newer)
 
 ## Notes
 
@@ -82,8 +91,7 @@ An exercise in **SDL2 API** programming...
   endif ()
   ```
 
-
-## Configuring an IDE
+## Configuring IDEs
 
 ### Visual Studio Code / C/C++ for Visual Studio Code
 
