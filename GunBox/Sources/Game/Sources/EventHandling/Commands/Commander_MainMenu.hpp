@@ -34,11 +34,11 @@ NAMESPACE_END(GunBox)
 
 NAMESPACE_BEGIN(GunBox)
 
-class MainMenu_Commander final : public Commander_Interface
+class Commander_MainMenu final : public Commander_Interface
 {
 public:
-  MainMenu_Commander(MainMenu& mainMenu);
-  ~MainMenu_Commander() final;
+  Commander_MainMenu(MainMenu& mainMenu);
+  ~Commander_MainMenu() final;
 
 public:
   // clang-format off

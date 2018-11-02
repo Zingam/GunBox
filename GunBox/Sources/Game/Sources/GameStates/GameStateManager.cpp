@@ -1,7 +1,9 @@
 // Self
 #include "GameStateManager.hpp"
 
-#include "EventHandling/Commands/MainMenu_Commander.hpp"
+// Project headers
+#include "EventHandling/Commands/Commander_Null.hpp"
+#include "EventHandling/Commands/Commander_MainMenu.hpp"
 
 // C Standard Library
 #include <cassert>
@@ -26,6 +28,7 @@ GameStateManager::Initialize(
     graphicsRenderer) -> void
 {
   this->graphicsRenderer = graphicsRenderer;
+  inputEventCallbacks.SetCommander<Commander_Null>();
 }
 
 bool
@@ -41,7 +44,7 @@ GameStateManager::Run()
     switch (gameState) {
       case GameState_t::MainMenu: {
         if (!isStateInitialized) {
-          inputEventCallbacks.SetCommander<MainMenu_Commander>(mainMenu);
+          inputEventCallbacks.SetCommander<Commander_MainMenu>(mainMenu);
           isStateInitialized = true;
         }
         gameState = mainMenu.Update();

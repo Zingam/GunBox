@@ -1,5 +1,5 @@
 // Self
-#include "MainMenu_Commander.hpp"
+#include "Commander_MainMenu.hpp"
 
 // Project headers
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_Accept.hpp"
@@ -11,7 +11,7 @@
 
 NAMESPACE_BEGIN(GunBox)
 
-MainMenu_Commander::MainMenu_Commander(MainMenu& mainMenu)
+Commander_MainMenu::Commander_MainMenu(MainMenu& mainMenu)
   : mainMenu{ mainMenu }
 {
   commands_Gamepad.fill(command_Null);
@@ -20,10 +20,10 @@ MainMenu_Commander::MainMenu_Commander(MainMenu& mainMenu)
   Initialize();
 }
 
-MainMenu_Commander::~MainMenu_Commander() {}
+Commander_MainMenu::~Commander_MainMenu() {}
 
 auto
-MainMenu_Commander::GamepadAxisMotion(
+Commander_MainMenu::GamepadAxisMotion(
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadAxis_t axis,
   float value) -> void
@@ -81,7 +81,7 @@ MainMenu_Commander::GamepadAxisMotion(
 }
 
 void
-MainMenu_Commander::GamepadButtonDown(
+Commander_MainMenu::GamepadButtonDown(
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadButton_t button)
 {
@@ -179,13 +179,13 @@ MainMenu_Commander::GamepadButtonDown(
 }
 
 void
-MainMenu_Commander::GamepadButtonUp(
+Commander_MainMenu::GamepadButtonUp(
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadButton_t button)
 {}
 
 void
-MainMenu_Commander::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
+Commander_MainMenu::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
 {
   using namespace System::DeviceTypes::IO;
 
@@ -194,7 +194,7 @@ MainMenu_Commander::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
 }
 
 void
-MainMenu_Commander::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
+Commander_MainMenu::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
 {
   using namespace System::DeviceTypes::IO;
 
@@ -203,7 +203,7 @@ MainMenu_Commander::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
 }
 
 void
-MainMenu_Commander::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
+Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
 {
   using namespace System::DeviceTypes::IO;
 
@@ -212,11 +212,11 @@ MainMenu_Commander::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
 }
 
 void
-MainMenu_Commander::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
+Commander_MainMenu::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
 {}
 
 auto
-MainMenu_Commander::Initialize() -> void
+Commander_MainMenu::Initialize() -> void
 {
   using namespace System::DeviceTypes::IO;
 
@@ -252,7 +252,7 @@ MainMenu_Commander::Initialize() -> void
 }
 
 std::shared_ptr<Command_Interface>
-MainMenu_Commander::MakeCommand(Commands_MainMenu_t commandType)
+Commander_MainMenu::MakeCommand(Commands_MainMenu_t commandType)
 {
   switch (commandType) {
     case Commands_MainMenu_t::Accept: {
