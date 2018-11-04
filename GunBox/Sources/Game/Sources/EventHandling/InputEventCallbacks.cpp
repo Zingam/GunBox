@@ -19,7 +19,7 @@ void
 InputEventCallbacks::GamepadAxisMotion(
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadAxis_t axis,
-  float value)
+  double value)
 {
   commander->GamepadAxisMotion(id, axis, value);
 }

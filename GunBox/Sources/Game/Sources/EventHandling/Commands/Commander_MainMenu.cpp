@@ -26,7 +26,7 @@ auto
 Commander_MainMenu::GamepadAxisMotion(
   System::DeviceTypes::IO::GamepadId_t id,
   System::DeviceTypes::IO::GamepadAxis_t axis,
-  float value) -> void
+  double value) -> void
 {
   using namespace System::DeviceTypes::IO;
 

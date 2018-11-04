@@ -32,7 +32,7 @@ private:
     InputEventProcessor& inputProcessor,
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadAxis_t axis,
-    float value)
+    double value)
     -> void;
 
   static inline auto GamepadButtonDown(

@@ -10,6 +10,10 @@
 #include <SDL_events.h>
 #include <SDL_gamecontroller.h>
 
+// C Standard Library
+#include <cmath>
+#include <iostream>
+
 NAMESPACE_BEGIN(System::EventHandlers)
 
 GamepadEventHandler::GamepadEventHandler(
@@ -22,15 +26,23 @@ GamepadEventHandler::~GamepadEventHandler() {}
 bool
 GamepadEventHandler::Process(SDL_Event const& event)
 {
-  using namespace System::DeviceTypes::IO;
-
   // Remap the SDL2 values to Engine values
-  auto id = static_cast<GamepadId_t>(event.caxis.which);
-
+  using namespace System::DeviceTypes::IO;
+ 
   // Events are ordered in the most likely frequency occurence
   switch (event.type) {
     case SDL_CONTROLLERAXISMOTION: {
+      auto value = static_cast<double>(event.caxis.value / 32767.0);
+      // Handle deadzone
+      constexpr auto deadZone = 3276 / 32767.0;
+      if (deadZone > std::abs(value)) {
+        return true;
+      }
+      std::cout << " " << (int) event.caxis.axis << " " << event.caxis.value << " " << value
+                << std::endl;
+
       // Remap the SDL2 values to Engine values
+      // Normalize the axis value
       auto axis = GamepadAxis_t::StickLeftX;
       switch (event.caxis.axis) {
         case SDL_CONTROLLER_AXIS_LEFTX: {
@@ -58,14 +70,14 @@ GamepadEventHandler::Process(SDL_Event const& event)
           break;
         }
       }
-      // Normalize the axis value
-      auto value = static_cast<float>(event.caxis.value / 32767);
 
+      auto id = static_cast<GamepadId_t>(event.caxis.which);
       System::EventProcessing::InputEventProcessorAccessor::GamepadAxisMotion(
         inputProcessor, id, axis, value);
       return true;
     }
     case SDL_CONTROLLERBUTTONDOWN: {
+      auto id = event.cbutton.which;
       auto button =
         System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
       System::EventProcessing::InputEventProcessorAccessor::GamepadButtonDown(
@@ -73,6 +85,7 @@ GamepadEventHandler::Process(SDL_Event const& event)
       return true;
     }
     case SDL_CONTROLLERBUTTONUP: {
+      auto id = event.cbutton.which;
       auto button =
         System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
       System::EventProcessing::InputEventProcessorAccessor::GamepadButtonUp(
@@ -80,11 +93,13 @@ GamepadEventHandler::Process(SDL_Event const& event)
       return true;
     }
     case SDL_CONTROLLERDEVICEADDED: {
+      auto id = event.cdevice.which;
       System::EventProcessing::InputEventProcessorAccessor::GamepadDeviceAdd(
         inputProcessor, id);
       return true;
     }
     case SDL_CONTROLLERDEVICEREMOVED: {
+      auto id = event.cdevice.which;
       System::EventProcessing::InputEventProcessorAccessor::GamepadDeviceRemove(
         inputProcessor, id);
       return true;

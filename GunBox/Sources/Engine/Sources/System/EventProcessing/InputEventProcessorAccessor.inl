@@ -14,7 +14,7 @@ InputEventProcessorAccessor::GamepadAxisMotion(
   InputEventProcessor& inputProcessor,
   System::DeviceTypes::IO::GamepadId_t const id,
   System::DeviceTypes::IO::GamepadAxis_t const axis,
-  float const value)
+  double const value)
 {
   assert(
     (nullptr != inputProcessor.cbGamepadAxisMotion_UPtr) &&

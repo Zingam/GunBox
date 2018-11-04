@@ -20,7 +20,7 @@ public:
   virtual auto GamepadAxisMotion(
     System::DeviceTypes::IO::GamepadId_t id,
     System::DeviceTypes::IO::GamepadAxis_t axis,
-    float value)
+    double value)
     -> void = 0;
 
   virtual auto GamepadButtonDown(
