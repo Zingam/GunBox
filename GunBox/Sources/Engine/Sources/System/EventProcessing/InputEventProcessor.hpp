@@ -35,14 +35,17 @@ public:
 
 public:
   auto InitializeCallbacks(
-    std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks) -> void;
+    std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks)
+    -> void;
 
-  auto InitializeCallbacks(InputEventCallbacks_Interface& inputCallbacks) -> void;
+  auto InitializeCallbacks(InputEventCallbacks_Interface& inputCallbacks)
+    -> void;
 
 private:
-  auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const id) -> void;
+  auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const deviceIndex)
+    -> void;
 
-  auto RemoveGamepad(System::DeviceTypes::IO::GamepadId_t const id) -> void;
+  auto RemoveGamepad(System::DeviceTypes::IO::GamepadId_t const gamepadId) -> void;
 
   // Callbacks
 private:
