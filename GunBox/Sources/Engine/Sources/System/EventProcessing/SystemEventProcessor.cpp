@@ -3,8 +3,6 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-SystemEventProcessor ::~SystemEventProcessor() {}
-
 auto
 SystemEventProcessor::InitializeCallbacks(
   std::shared_ptr<SystemEventCallbacks_Interface> const systemEventCallbacks) -> void

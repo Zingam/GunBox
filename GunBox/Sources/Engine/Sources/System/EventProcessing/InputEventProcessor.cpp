@@ -12,18 +12,16 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-InputEventProcessor ::~InputEventProcessor() {}
-
-auto
+void
 InputEventProcessor::InitializeCallbacks(
-  std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks) -> void
+  std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks)
 {
   InitializeCallbacks(*inputCallbacks);
 }
 
-auto
+void
 InputEventProcessor::InitializeCallbacks(
-  InputEventCallbacks_Interface& inputCallbacks) -> void
+  InputEventCallbacks_Interface& inputCallbacks)
 {
   cbGamepadAxisMotion_UPtr = make_unique_delegate(
     inputCallbacks, &InputEventCallbacks_Interface::GamepadAxisMotion);
@@ -63,11 +61,14 @@ InputEventProcessor::RemoveGamepad(
   System::DeviceTypes::IO::GamepadId_t const gamepadId)
 {
   auto gameController = gamepads.find(gamepadId);
+
   assert(
     gameController != gamepads.cend() &&
     "Controller instance ID was not found");
+
   if (gameController != gamepads.cend()) {
-    SDL_GameControllerClose(gameController->second);
+    SDL_GameControllerClose(
+      static_cast<SDL_GameController*>(gameController->second));
     gamepads.erase(gameController);
   }
 }

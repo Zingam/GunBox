@@ -15,23 +15,11 @@
 #include <map>
 #include <memory>
 
-////////////////////////////////////////////////////////////////////////////////
-// Forward declarations
-////////////////////////////////////////////////////////////////////////////////
-
-struct _SDL_GameController;
-using Gamepad = _SDL_GameController*;
-
-////////////////////////////////////////////////////////////////////////////////
-// Class declarations
-////////////////////////////////////////////////////////////////////////////////
-
 NAMESPACE_BEGIN(System::EventProcessing)
 
 class InputEventProcessor
 {
-public:
-  ~InputEventProcessor();
+  using Gamepad = void*;
 
 public:
   auto InitializeCallbacks(
@@ -45,7 +33,8 @@ private:
   auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const deviceIndex)
     -> void;
 
-  auto RemoveGamepad(System::DeviceTypes::IO::GamepadId_t const gamepadId) -> void;
+  auto RemoveGamepad(System::DeviceTypes::IO::GamepadId_t const gamepadId)
+    -> void;
 
   // Callbacks
 private:

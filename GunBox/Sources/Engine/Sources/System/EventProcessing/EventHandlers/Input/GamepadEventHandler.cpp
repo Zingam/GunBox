@@ -38,9 +38,6 @@ GamepadEventHandler::Process(SDL_Event const& event)
       if (deadZone > std::abs(value)) {
         return true;
       }
-      std::cout << " " << (int) event.caxis.axis << " " << event.caxis.value << " " << value
-                << std::endl;
-
       // Remap the SDL2 values to Engine values
       // Normalize the axis value
       auto axis = GamepadAxis_t::StickLeftX;

@@ -18,6 +18,7 @@ enum class GamepadAxis_t
   StickRightY,
   TriggerLeft,
   TriggerRight,
+  _UNKNOWN_,
   __ElementsCount__
 };
 
