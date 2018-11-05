@@ -53,7 +53,7 @@ constexpr auto GamepadButton_t_ElementsCount =
 
 ////////////////////////////////////////////////////////////////////////////////
 
-enum class GamepadEvents_t
+enum class GamepadEvent_t
 {
   ButtonFaceA,
   ButtonFaceB,
@@ -90,8 +90,8 @@ enum class GamepadEvents_t
   __ElementsCount__
 };
 
-constexpr auto GamepadEvents_t_ElementsCount =
-  EnumCast(GamepadEvents_t::__ElementsCount__);
+constexpr auto GamepadEvent_t_ElementsCount =
+  EnumCast(GamepadEvent_t::__ElementsCount__);
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -83,7 +83,7 @@ private:
 private:
   std::array<
     std::shared_ptr<Command_Interface>,
-    System::DeviceTypes::Input::GamepadEvents_t_ElementsCount>
+    System::DeviceTypes::Input::GamepadEvent_t_ElementsCount>
     commands_Gamepad;
   std::array<
     std::shared_ptr<Command_Interface>,
