@@ -24,9 +24,12 @@ KeyboardEventHandler::Process(SDL_Event const& event)
   // Events are ordered in the most likely frequency occurence
   switch (event.type) {
     case SDL_KEYDOWN: {
-      auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
-      System::EventProcessing::InputEventProcessorAccessor::KeyboardKeyDown(
-        inputProcessor, key);
+      // If a key is hold pressed, don't fire key down events repeatedly
+      if (0 == event.key.repeat) {
+        auto key = System::Platforms::Keyboard::ConvertToKey(event.key);
+        System::EventProcessing::InputEventProcessorAccessor::KeyboardKeyDown(
+          inputProcessor, key);
+      }
       return true;
     }
     case SDL_KEYUP: {
