@@ -10,7 +10,6 @@
 #include <cassert>
 // C++ Standard Library
 #include <iostream>
-#include <memory>
 
 NAMESPACE_BEGIN(GunBox)
 
@@ -31,33 +30,63 @@ Game::~Game() {}
 Application::ExitCode
 Game::Execute()
 {
+  auto gameStateManager = MainLoop_Initialize();
+  MainLoop_Execute(std::move(gameStateManager));
+  MainLoop_Finalize();
+
+  return Application::ExitCode::NoError;
+}
+
+void
+Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
+{
+  std::cout << Info().Title() << ": Running the game...\n";
+
+  std::chrono::time_point lastExecutionTime =
+    std::chrono::high_resolution_clock::now();
+  auto const executionPeriod = executionPeriod_60Hz;
+  bool isRunning = true;
+
+  // Main loop
+  do {
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    if (executionPeriod >= lastExecutionTime - currentTime) {
+      currentTime = lastExecutionTime;
+      isRunning = gameStateManager->Run();
+      eventProcessor.ProcessEvents();
+    }
+  } while (isRunning);
+}
+
+void
+Game::MainLoop_Finalize()
+{
+  std::cout << Info().Title() << ": Exiting the game...\n";
+
+  graphicsRenderer->Finalize();
+}
+
+std::unique_ptr<GameStateManager>
+Game::MainLoop_Initialize()
+{
+  std::cout << Info().Title() << ": Staring a new game...\n";
+
   assert(
     (nullptr != graphicsRenderer) &&
     "The Graphics Renderer was not properly created");
 
-  std::cout << Info().Title() << ": Staring a new game...\n";
   graphicsRenderer->Initialize();
+
+  auto gameStateManager = std::make_unique<GameStateManager>();
   // clang-format off
-  GameStateManager gameStateManager;
-  gameStateManager.Initialize(graphicsRenderer);
+  gameStateManager->Initialize(graphicsRenderer);
   eventProcessor.InitializeCallbacks(
-    gameStateManager.GetInputEventCallbacks());
+    gameStateManager->GetInputEventCallbacks());
   eventProcessor.InitializeCallbacks(
-    gameStateManager.GetSystemEventCallbacks());
+    gameStateManager->GetSystemEventCallbacks());
   // clang-format on
 
-  std::cout << Info().Title() << ": Running the game...\n";
-
-  bool isRunning = true;
-  do {
-    isRunning = gameStateManager.Run();
-    eventProcessor.ProcessEvents();
-  } while (isRunning);
-
-  std::cout << Info().Title() << ": Exiting the game...\n";
-  graphicsRenderer->Finalize();
-
-  return Application::ExitCode::NoError;
+  return gameStateManager;
 }
 
 NAMESPACE_END(GunBox)
