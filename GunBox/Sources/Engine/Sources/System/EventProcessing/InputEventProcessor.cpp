@@ -12,12 +12,7 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-InputEventProcessor ::~InputEventProcessor()
-{
-  for (auto& gameController : gamepads) {
-    SDL_GameControllerClose(gameController.second);
-  }
-}
+InputEventProcessor ::~InputEventProcessor() {}
 
 auto
 InputEventProcessor::InitializeCallbacks(
