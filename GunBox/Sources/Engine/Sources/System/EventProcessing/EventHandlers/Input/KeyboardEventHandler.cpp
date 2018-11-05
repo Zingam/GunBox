@@ -2,7 +2,7 @@
 #include "KeyboardEventHandler.hpp"
 
 // Project headers - System
-#include "System/DeviceTypes/IO/KeyboardTypes.hpp"
+#include "System/DeviceTypes/Input/KeyboardTypes.hpp"
 #include "System/EventProcessing/InputEventProcessorAccessor.hpp"
 #include "System/Platforms/SDL2/Keyboard_SDL2.hpp"
 

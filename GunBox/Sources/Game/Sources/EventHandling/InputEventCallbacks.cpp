@@ -17,8 +17,8 @@ InputEventCallbacks::~InputEventCallbacks() = default;
 
 void
 InputEventCallbacks::GamepadAxisMotion(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadAxis_t axis,
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadAxis_t axis,
   double value)
 {
   commander->GamepadAxisMotion(id, axis, value);
@@ -26,41 +26,41 @@ InputEventCallbacks::GamepadAxisMotion(
 
 void
 InputEventCallbacks::GamepadButtonDown(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {
   commander->GamepadButtonDown(id, button);
 }
 
 void
 InputEventCallbacks::GamepadButtonUp(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {
   commander->GamepadButtonUp(id, button);
 }
 
 void
-InputEventCallbacks::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
+InputEventCallbacks::GamepadDeviceAdd(System::DeviceTypes::Input::GamepadId_t id)
 {
   commander->GamepadDeviceAdd(id);
 }
 
 void
 InputEventCallbacks::GamepadDeviceRemove(
-  System::DeviceTypes::IO::GamepadId_t id)
+  System::DeviceTypes::Input::GamepadId_t id)
 {
   commander->GamepadDeviceRemove(id);
 }
 
 void
-InputEventCallbacks::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
+InputEventCallbacks::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
 {
   commander->KeyboardKeyDown(key);
 }
 
 void
-InputEventCallbacks::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
+InputEventCallbacks::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
 {
   commander->KeyboardKeyUp(key);
 }

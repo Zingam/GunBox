@@ -6,7 +6,7 @@
 // C Standard Library
 #include <cstdint>
 
-NAMESPACE_BEGIN(System::DeviceTypes::IO)
+NAMESPACE_BEGIN(System::DeviceTypes::Input)
 
 using KeyCode_t = std::int32_t;
 
@@ -153,4 +153,4 @@ struct Key_t
   ScanCode_t ScanCode;
 };
 
-NAMESPACE_END(System::DeviceTypes::IO)
+NAMESPACE_END(System::DeviceTypes::Input)

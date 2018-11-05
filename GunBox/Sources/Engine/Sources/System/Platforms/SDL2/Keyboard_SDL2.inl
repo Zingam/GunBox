@@ -6,10 +6,10 @@
 
 NAMESPACE_BEGIN(System::Platforms::Keyboard)
 
-inline System::DeviceTypes::IO::ScanCode_t
+inline System::DeviceTypes::Input::ScanCode_t
 ConvertScanCode(SDL_Scancode scancode)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   switch (scancode) {
     case SDL_SCANCODE_DOWN: {
@@ -306,10 +306,10 @@ ConvertScanCode(SDL_Scancode scancode)
   }
 }
 
-inline System::DeviceTypes::IO::Key_t
+inline System::DeviceTypes::Input::Key_t
 ConvertToKey(SDL_KeyboardEvent event)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   auto keyCode = static_cast<KeyCode_t>(event.keysym.sym);
   auto modifier = static_cast<KeyModifier_t>(event.keysym.mod);

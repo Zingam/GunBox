@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
-#include "System/DeviceTypes/IO/GamepadTypes.hpp"
+#include "System/DeviceTypes/Input/GamepadTypes.hpp"
 #include "System/EventProcessing/InputEventProcessor.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,41 +30,41 @@ private:
   // clang-format off
   static inline auto GamepadAxisMotion(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadAxis_t axis,
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadAxis_t axis,
     double value)
     -> void;
 
   static inline auto GamepadButtonDown(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadButton_t button)
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadButton_t button)
     -> void;
 
   static inline auto GamepadButtonUp(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadButton_t button)
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadButton_t button)
     -> void;
 
   static auto GamepadDeviceAdd(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::GamepadId_t const id)
+    System::DeviceTypes::Input::GamepadId_t const id)
       -> void;
 
   static auto GamepadDeviceRemove(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::GamepadId_t const id)
+    System::DeviceTypes::Input::GamepadId_t const id)
     -> void;
 
   static inline auto KeyboardKeyDown(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::Key_t key)
+    System::DeviceTypes::Input::Key_t key)
     -> void;
 
   static inline auto KeyboardKeyUp(
     InputEventProcessor& inputProcessor,
-    System::DeviceTypes::IO::Key_t key)
+    System::DeviceTypes::Input::Key_t key)
     -> void;
   // clang-format on
 

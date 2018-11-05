@@ -41,7 +41,7 @@ InputEventProcessor::InitializeCallbacks(
 
 void
 InputEventProcessor::AddGamepad(
-  System::DeviceTypes::IO::GamepadId_t const deviceIndex)
+  System::DeviceTypes::Input::GamepadId_t const deviceIndex)
 {
   // The 'cdevice.which' when a device is added is an index to be used with
   // SDL_GameControllerOpen. Subsequent events return an instance ID.
@@ -58,7 +58,7 @@ InputEventProcessor::AddGamepad(
 
 void
 InputEventProcessor::RemoveGamepad(
-  System::DeviceTypes::IO::GamepadId_t const gamepadId)
+  System::DeviceTypes::Input::GamepadId_t const gamepadId)
 {
   auto gameController = gamepads.find(gamepadId);
 

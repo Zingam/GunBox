@@ -6,10 +6,10 @@
 
 NAMESPACE_BEGIN(System::Platforms::Gamepad)
 
-inline System::DeviceTypes::IO::GamepadButton_t
+inline System::DeviceTypes::Input::GamepadButton_t
 ConvertGamepadButton(SDL_ControllerButtonEvent event)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   switch (event.button) {
     case SDL_CONTROLLER_BUTTON_A: {

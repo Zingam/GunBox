@@ -12,8 +12,8 @@ NAMESPACE_BEGIN(System::EventProcessing)
 inline void
 InputEventProcessorAccessor::GamepadAxisMotion(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::GamepadId_t const id,
-  System::DeviceTypes::IO::GamepadAxis_t const axis,
+  System::DeviceTypes::Input::GamepadId_t const id,
+  System::DeviceTypes::Input::GamepadAxis_t const axis,
   double const value)
 {
   assert(
@@ -26,8 +26,8 @@ InputEventProcessorAccessor::GamepadAxisMotion(
 inline void
 InputEventProcessorAccessor::GamepadButtonDown(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {
   assert(
     (nullptr != inputProcessor.cbGamepadButtonDown_UPtr) &&
@@ -39,8 +39,8 @@ InputEventProcessorAccessor::GamepadButtonDown(
 inline void
 InputEventProcessorAccessor::GamepadButtonUp(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {
   assert(
     (nullptr != inputProcessor.cbGamepadButtonUp_UPtr) &&
@@ -52,7 +52,7 @@ InputEventProcessorAccessor::GamepadButtonUp(
 inline void
 InputEventProcessorAccessor::GamepadDeviceAdd(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::GamepadId_t const id)
+  System::DeviceTypes::Input::GamepadId_t const id)
 {
   inputProcessor.AddGamepad(id);
 
@@ -65,7 +65,7 @@ InputEventProcessorAccessor::GamepadDeviceAdd(
 inline void
 InputEventProcessorAccessor::GamepadDeviceRemove(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::GamepadId_t const id)
+  System::DeviceTypes::Input::GamepadId_t const id)
 {
   inputProcessor.RemoveGamepad(id);
 
@@ -78,7 +78,7 @@ InputEventProcessorAccessor::GamepadDeviceRemove(
 inline auto
 InputEventProcessorAccessor::KeyboardKeyDown(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::Key_t key) -> void
+  System::DeviceTypes::Input::Key_t key) -> void
 {
   assert(
     (nullptr != inputProcessor.cbKeyboardKeyDown_UPtr) &&
@@ -89,7 +89,7 @@ InputEventProcessorAccessor::KeyboardKeyDown(
 inline auto
 InputEventProcessorAccessor::KeyboardKeyUp(
   InputEventProcessor& inputProcessor,
-  System::DeviceTypes::IO::Key_t key) -> void
+  System::DeviceTypes::Input::Key_t key) -> void
 {
   assert(
     (nullptr != inputProcessor.cbKeyboardKeyUp_UPtr) &&

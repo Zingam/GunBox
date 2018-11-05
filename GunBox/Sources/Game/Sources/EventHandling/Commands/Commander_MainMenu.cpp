@@ -24,11 +24,11 @@ Commander_MainMenu::~Commander_MainMenu() {}
 
 auto
 Commander_MainMenu::GamepadAxisMotion(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadAxis_t axis,
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadAxis_t axis,
   double value) -> void
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   auto GetCommand = [this, value](
                       GamepadEvents_t const axisLeftOrDown,
@@ -82,10 +82,10 @@ Commander_MainMenu::GamepadAxisMotion(
 
 void
 Commander_MainMenu::GamepadButtonDown(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   switch (button) {
     case GamepadButton_t::ButtonFaceA: {
@@ -180,45 +180,45 @@ Commander_MainMenu::GamepadButtonDown(
 
 void
 Commander_MainMenu::GamepadButtonUp(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {}
 
 void
-Commander_MainMenu::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
+Commander_MainMenu::GamepadDeviceAdd(System::DeviceTypes::Input::GamepadId_t id)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DeviceAdded)];
   command->Execute(id);
 }
 
 void
-Commander_MainMenu::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
+Commander_MainMenu::GamepadDeviceRemove(System::DeviceTypes::Input::GamepadId_t id)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   auto command = commands_Gamepad[EnumCast(GamepadEvents_t::DeviceRemoved)];
   command->Execute(id);
 }
 
 void
-Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
+Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   auto command = commands_Keyboard[EnumCast(key.ScanCode)];
   command->Execute();
 }
 
 void
-Commander_MainMenu::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
+Commander_MainMenu::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
 {}
 
 auto
 Commander_MainMenu::Initialize() -> void
 {
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
 
   // Gamepad-to-commands mappings
   commands_Gamepad[EnumCast(GamepadEvents_t::ButtonFaceA)] =

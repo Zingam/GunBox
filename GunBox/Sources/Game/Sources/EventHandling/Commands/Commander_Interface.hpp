@@ -4,8 +4,8 @@
 #include "Common/Macros/Base.hpp"
 
 // Engine headers - System
-#include "System/DeviceTypes/IO/GamepadTypes.hpp"
-#include "System/DeviceTypes/IO/KeyboardTypes.hpp"
+#include "System/DeviceTypes/Input/GamepadTypes.hpp"
+#include "System/DeviceTypes/Input/KeyboardTypes.hpp"
 
 // C++ Standard Library
 #include <memory>
@@ -35,35 +35,35 @@ public:
 public:
   // clang-format off
   virtual auto GamepadAxisMotion(
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadAxis_t axis,
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadAxis_t axis,
     double value)
     -> void = 0;
 
   virtual auto GamepadButtonDown(
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadButton_t button)
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadButton_t button)
     -> void = 0;
 
   virtual auto GamepadButtonUp(
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadButton_t button)
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadButton_t button)
     -> void = 0;
 
   virtual auto GamepadDeviceAdd(
-    System::DeviceTypes::IO::GamepadId_t id)
+    System::DeviceTypes::Input::GamepadId_t id)
     -> void = 0;
 
   virtual auto GamepadDeviceRemove(
-    System::DeviceTypes::IO::GamepadId_t id)
+    System::DeviceTypes::Input::GamepadId_t id)
     -> void = 0;
 
   virtual auto KeyboardKeyDown(
-    System::DeviceTypes::IO::Key_t key)
+    System::DeviceTypes::Input::Key_t key)
     -> void = 0;
 
   virtual auto KeyboardKeyUp(
-    System::DeviceTypes::IO::Key_t key)
+    System::DeviceTypes::Input::Key_t key)
     -> void = 0;
   // clang-format on
 

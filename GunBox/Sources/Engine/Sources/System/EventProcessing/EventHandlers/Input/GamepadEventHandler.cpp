@@ -2,7 +2,7 @@
 #include "GamepadEventHandler.hpp"
 
 // Project headers - System
-#include "System/DeviceTypes/IO/GamepadTypes.hpp"
+#include "System/DeviceTypes/Input/GamepadTypes.hpp"
 #include "System/EventProcessing/InputEventProcessorAccessor.hpp"
 #include "System/Platforms/SDL2/Gamepad_SDL2.hpp"
 
@@ -27,7 +27,7 @@ bool
 GamepadEventHandler::Process(SDL_Event const& event)
 {
   // Remap the SDL2 values to Engine values
-  using namespace System::DeviceTypes::IO;
+  using namespace System::DeviceTypes::Input;
  
   // Events are ordered in the most likely frequency occurence
   switch (event.type) {

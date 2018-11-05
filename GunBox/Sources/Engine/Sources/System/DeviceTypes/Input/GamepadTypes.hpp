@@ -6,7 +6,7 @@
 // C Standard Library
 #include <cstdint>
 
-NAMESPACE_BEGIN(System::DeviceTypes::IO)
+NAMESPACE_BEGIN(System::DeviceTypes::Input)
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -99,4 +99,4 @@ using GamepadId_t = std::int32_t;
 
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_END(System::DeviceTypes::IO)
+NAMESPACE_END(System::DeviceTypes::Input)

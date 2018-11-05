@@ -6,7 +6,7 @@
 // Project headers - Common
 #include "Common/SimpleDelegate.hpp"
 // Project headers - System
-#include "System/DeviceTypes/IO/GamepadTypes.hpp"
+#include "System/DeviceTypes/Input/GamepadTypes.hpp"
 #include "System/EventProcessing/InputEventCallbacks_Interface.hpp"
 
 // C Standard Library
@@ -30,10 +30,10 @@ public:
     -> void;
 
 private:
-  auto AddGamepad(System::DeviceTypes::IO::GamepadId_t const deviceIndex)
+  auto AddGamepad(System::DeviceTypes::Input::GamepadId_t const deviceIndex)
     -> void;
 
-  auto RemoveGamepad(System::DeviceTypes::IO::GamepadId_t const gamepadId)
+  auto RemoveGamepad(System::DeviceTypes::Input::GamepadId_t const gamepadId)
     -> void;
 
   // Callbacks
@@ -72,7 +72,7 @@ private:
   friend class InputEventProcessorAccessor;
 
 private:
-  std::map<System::DeviceTypes::IO::GamepadId_t const, Gamepad> gamepads;
+  std::map<System::DeviceTypes::Input::GamepadId_t const, Gamepad> gamepads;
 };
 
 NAMESPACE_END(System::EventProcessing)

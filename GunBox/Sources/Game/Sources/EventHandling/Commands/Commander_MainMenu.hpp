@@ -10,8 +10,8 @@
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_Back.hpp"
 
 // Engine headers - System
-#include "System/DeviceTypes/IO/GamepadTypes.hpp"
-#include "System/DeviceTypes/IO/KeyboardTypes.hpp"
+#include "System/DeviceTypes/Input/GamepadTypes.hpp"
+#include "System/DeviceTypes/Input/KeyboardTypes.hpp"
 
 // C++ Standard Library
 #include <array>
@@ -43,35 +43,35 @@ public:
 public:
   // clang-format off
   auto GamepadAxisMotion(
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadAxis_t axis,
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadAxis_t axis,
     double value)
     -> void final;
 
   auto GamepadButtonDown(
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadButton_t button)
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadButton_t button)
     -> void final;
 
   auto GamepadButtonUp(
-    System::DeviceTypes::IO::GamepadId_t id,
-    System::DeviceTypes::IO::GamepadButton_t button)
+    System::DeviceTypes::Input::GamepadId_t id,
+    System::DeviceTypes::Input::GamepadButton_t button)
     -> void final;
 
   auto GamepadDeviceAdd(
-    System::DeviceTypes::IO::GamepadId_t id)
+    System::DeviceTypes::Input::GamepadId_t id)
     -> void final;
 
   auto GamepadDeviceRemove(
-    System::DeviceTypes::IO::GamepadId_t id)
+    System::DeviceTypes::Input::GamepadId_t id)
     -> void final;
 
   auto KeyboardKeyDown(
-    System::DeviceTypes::IO::Key_t key)
+    System::DeviceTypes::Input::Key_t key)
     -> void final;
 
   auto KeyboardKeyUp(
-    System::DeviceTypes::IO::Key_t key)
+    System::DeviceTypes::Input::Key_t key)
     -> void final;
   // clang-format on
 
@@ -83,11 +83,11 @@ private:
 private:
   std::array<
     std::shared_ptr<Command_Interface>,
-    System::DeviceTypes::IO::GamepadEvents_t_ElementsCount>
+    System::DeviceTypes::Input::GamepadEvents_t_ElementsCount>
     commands_Gamepad;
   std::array<
     std::shared_ptr<Command_Interface>,
-    System::DeviceTypes::IO::ScanCode_t_ElementsCount>
+    System::DeviceTypes::Input::ScanCode_t_ElementsCount>
     commands_Keyboard;
   MainMenu& mainMenu;
 };

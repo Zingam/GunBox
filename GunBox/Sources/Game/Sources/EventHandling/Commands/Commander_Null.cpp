@@ -7,37 +7,37 @@ Commander_Null::~Commander_Null() {}
 
 void
 Commander_Null::GamepadAxisMotion(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadAxis_t axis,
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadAxis_t axis,
   double value)
 {}
 
 void
 Commander_Null::GamepadButtonDown(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {}
 
 void
 Commander_Null::GamepadButtonUp(
-  System::DeviceTypes::IO::GamepadId_t id,
-  System::DeviceTypes::IO::GamepadButton_t button)
+  System::DeviceTypes::Input::GamepadId_t id,
+  System::DeviceTypes::Input::GamepadButton_t button)
 {}
 
 void
-Commander_Null::GamepadDeviceAdd(System::DeviceTypes::IO::GamepadId_t id)
+Commander_Null::GamepadDeviceAdd(System::DeviceTypes::Input::GamepadId_t id)
 {}
 
 void
-Commander_Null::GamepadDeviceRemove(System::DeviceTypes::IO::GamepadId_t id)
+Commander_Null::GamepadDeviceRemove(System::DeviceTypes::Input::GamepadId_t id)
 {}
 
 void
-Commander_Null::KeyboardKeyDown(System::DeviceTypes::IO::Key_t key)
+Commander_Null::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
 {}
 
 void
-Commander_Null::KeyboardKeyUp(System::DeviceTypes::IO::Key_t key)
+Commander_Null::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
 {}
 
 NAMESPACE_END(GunBox)
