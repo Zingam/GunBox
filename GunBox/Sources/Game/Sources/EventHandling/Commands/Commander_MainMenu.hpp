@@ -15,6 +15,7 @@
 
 // C++ Standard Library
 #include <array>
+#include <chrono>
 #include <memory>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,6 +91,12 @@ private:
     System::DeviceTypes::Input::ScanCode_t_ElementsCount>
     commands_Keyboard;
   MainMenu& mainMenu;
+
+  // Constants
+private:
+  double const commandActivationDeadZoneMinValue = 0.1;
+  // 60Hz clock using fractional ticks
+  std::chrono::duration<double, std::ratio<1, 60>> const executionPeriod;
 };
 
 NAMESPACE_END(GunBox)

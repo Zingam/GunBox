@@ -9,10 +9,16 @@
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveRight.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveUp.hpp"
 
+// C Standard Library
+#include <cmath>
+
+using namespace std::chrono_literals;
+
 NAMESPACE_BEGIN(GunBox)
 
 Commander_MainMenu::Commander_MainMenu(MainMenu& mainMenu)
   : mainMenu{ mainMenu }
+  , executionPeriod{ 0.5s }
 {
   commands_Gamepad.fill(command_Null);
   commands_Keyboard.fill(command_Null);
@@ -22,24 +28,36 @@ Commander_MainMenu::Commander_MainMenu(MainMenu& mainMenu)
 
 Commander_MainMenu::~Commander_MainMenu() {}
 
-auto
+void
 Commander_MainMenu::GamepadAxisMotion(
   System::DeviceTypes::Input::GamepadId_t id,
   System::DeviceTypes::Input::GamepadAxis_t axis,
-  double value) -> void
+  double value)
 {
+  // Limit MainMenu command execution frequency
+  static std::chrono::time_point lastExecutionTime =
+    std::chrono::high_resolution_clock::now();
+  auto currentTime = std::chrono::high_resolution_clock::now();
+  if (executionPeriod >= currentTime - lastExecutionTime) {
+    return;
+  }
+  lastExecutionTime = currentTime;
+
+  // MainMenu commands
   using namespace System::DeviceTypes::Input;
 
   auto GetCommand = [this, value](
                       GamepadEvent_t const axisLeftOrUp,
                       GamepadEvent_t const axisRightOrDown) {
-    if (0 > value) {
-      return this->commands_Gamepad[EnumCast(axisLeftOrUp)];
-    } else if (0 < value) {
-      return this->commands_Gamepad[EnumCast(axisRightOrDown)];
-    } else {
-      return this->commands_Gamepad[EnumCast(GamepadEvent_t::_UNKNOWN_)];
+    if (commandActivationDeadZoneMinValue < std::abs(value)) {
+      if (0 > value) {
+        return this->commands_Gamepad[EnumCast(axisLeftOrUp)];
+      } else if (0 < value) {
+        return this->commands_Gamepad[EnumCast(axisRightOrDown)];
+      }
     }
+
+    return this->commands_Gamepad[EnumCast(GamepadEvent_t::_UNKNOWN_)];
   };
 
   switch (axis) {
