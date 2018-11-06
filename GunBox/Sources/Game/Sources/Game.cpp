@@ -44,14 +44,16 @@ Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
 
   std::chrono::time_point lastExecutionTime =
     std::chrono::high_resolution_clock::now();
-  auto const executionPeriod = executionPeriod_60Hz;
+  auto const executionPeriod =
+    std::chrono::duration_cast<std::chrono::nanoseconds>(executionPeriod_60Hz);
   bool isRunning = true;
 
   // Main loop
   do {
     auto currentTime = std::chrono::high_resolution_clock::now();
-    if (executionPeriod >= lastExecutionTime - currentTime) {
-      currentTime = lastExecutionTime;
+    auto duration = currentTime - lastExecutionTime;
+    if (executionPeriod <= duration) {
+      lastExecutionTime = currentTime;
       isRunning = gameStateManager->Run();
       eventProcessor.ProcessEvents();
     }
