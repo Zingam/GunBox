@@ -28,7 +28,7 @@ GamepadEventHandler::Process(SDL_Event const& event)
 {
   // Remap the SDL2 values to Engine values
   using namespace System::DeviceTypes::Input;
- 
+
   // Events are ordered in the most likely frequency occurence
   switch (event.type) {
     case SDL_CONTROLLERAXISMOTION: {
