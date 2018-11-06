@@ -14,6 +14,8 @@ Command_MainMenu_MoveRight::~Command_MainMenu_MoveRight() {}
 
 void
 Command_MainMenu_MoveRight::Execute(std::int32_t id)
-{}
+{
+  mainMenu.MoveRight();
+}
 
 NAMESPACE_END(GunBox)

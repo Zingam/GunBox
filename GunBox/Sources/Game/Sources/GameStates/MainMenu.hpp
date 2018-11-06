@@ -32,6 +32,10 @@ public:
 public:
   auto Accept() -> void;
   auto Back() -> void;
+  auto MoveDown() -> void;
+  auto MoveLeft() -> void;
+  auto MoveRight() -> void;
+  auto MoveUp() -> void;
   auto Quit() -> void;
 
 private:

@@ -39,6 +39,30 @@ MainMenu::Back()
     isRequestingToQuit = false;
     isQuitting = false;
   }
+}
+
+void
+MainMenu::MoveDown()
+{
+  std::cout << "  MainMenu > Move down" << std::endl;
+}
+
+void
+MainMenu::MoveLeft()
+{
+  std::cout << "  MainMenu > Move left" << std::endl;
+}
+
+void
+MainMenu::MoveRight()
+{
+  std::cout << "  MainMenu > Move right" << std::endl;
+}
+
+void
+MainMenu::MoveUp()
+{
+  std::cout << "  MainMenu > Move up" << std::endl;
 };
 
 void

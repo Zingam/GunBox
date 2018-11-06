@@ -31,12 +31,12 @@ Commander_MainMenu::GamepadAxisMotion(
   using namespace System::DeviceTypes::Input;
 
   auto GetCommand = [this, value](
-                      GamepadEvent_t const axisLeftOrDown,
-                      GamepadEvent_t const axisRightOrUp) {
+                      GamepadEvent_t const axisLeftOrUp,
+                      GamepadEvent_t const axisRightOrDown) {
     if (0 > value) {
-      return this->commands_Gamepad[EnumCast(axisLeftOrDown)];
+      return this->commands_Gamepad[EnumCast(axisLeftOrUp)];
     } else if (0 < value) {
-      return this->commands_Gamepad[EnumCast(axisRightOrUp)];
+      return this->commands_Gamepad[EnumCast(axisRightOrDown)];
     } else {
       return this->commands_Gamepad[EnumCast(GamepadEvent_t::_UNKNOWN_)];
     }
@@ -51,7 +51,7 @@ Commander_MainMenu::GamepadAxisMotion(
     }
     case GamepadAxis_t::StickLeftY: {
       auto command = GetCommand(
-        GamepadEvent_t::StickLeftY_Down, GamepadEvent_t::StickLeftY_Up);
+        GamepadEvent_t::StickLeftY_Up, GamepadEvent_t::StickLeftY_Down);
       command->Execute(id);
       break;
     }
@@ -63,7 +63,7 @@ Commander_MainMenu::GamepadAxisMotion(
     }
     case GamepadAxis_t::StickRightY: {
       auto command = GetCommand(
-        GamepadEvent_t::StickRightY_Down, GamepadEvent_t::StickRightY_Up);
+        GamepadEvent_t::StickRightY_Up, GamepadEvent_t::StickRightY_Down);
       command->Execute(id);
       break;
     }
@@ -194,7 +194,8 @@ Commander_MainMenu::GamepadDeviceAdd(System::DeviceTypes::Input::GamepadId_t id)
 }
 
 void
-Commander_MainMenu::GamepadDeviceRemove(System::DeviceTypes::Input::GamepadId_t id)
+Commander_MainMenu::GamepadDeviceRemove(
+  System::DeviceTypes::Input::GamepadId_t id)
 {
   using namespace System::DeviceTypes::Input;
 
