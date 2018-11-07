@@ -6,12 +6,42 @@
 
 NAMESPACE_BEGIN(System::Platforms::Gamepad)
 
-inline System::DeviceTypes::Input::GamepadButton_t
-ConvertGamepadButton(SDL_ControllerButtonEvent event)
+inline System::DeviceTypes::Input::GamepadAxis_t
+ConvertGamepadAxis(SDL_GameControllerAxis axis)
 {
   using namespace System::DeviceTypes::Input;
 
-  switch (event.button) {
+  switch (axis) {
+    case SDL_CONTROLLER_AXIS_LEFTX: {
+      return GamepadAxis_t::StickLeftX;
+    }
+    case SDL_CONTROLLER_AXIS_LEFTY: {
+      return GamepadAxis_t::StickLeftY;
+    }
+    case SDL_CONTROLLER_AXIS_RIGHTX: {
+      return GamepadAxis_t::StickRightX;
+    }
+    case SDL_CONTROLLER_AXIS_RIGHTY: {
+      return GamepadAxis_t::StickRightY;
+    }
+    case SDL_CONTROLLER_AXIS_TRIGGERLEFT: {
+      return GamepadAxis_t::TriggerLeft;
+    }
+    case SDL_CONTROLLER_AXIS_TRIGGERRIGHT: {
+      return GamepadAxis_t::TriggerRight;
+    }
+    default: {
+      return GamepadAxis_t::_UNKNOWN_;
+    }
+  }
+}
+
+inline System::DeviceTypes::Input::GamepadButton_t
+ConvertGamepadButton(SDL_GameControllerButton button)
+{
+  using namespace System::DeviceTypes::Input;
+
+  switch (button) {
     case SDL_CONTROLLER_BUTTON_A: {
       return GamepadButton_t::ButtonFaceA;
     }
@@ -43,7 +73,7 @@ ConvertGamepadButton(SDL_ControllerButtonEvent event)
       return GamepadButton_t::ButtonFaceY;
     }
     default: {
-      switch (event.button) {
+      switch (button) {
         case SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: {
           return GamepadButton_t::ButtonShoulderRight;
         }
@@ -51,7 +81,7 @@ ConvertGamepadButton(SDL_ControllerButtonEvent event)
           return GamepadButton_t::ButtonThumbLeft;
         }
         default: {
-          switch (event.button) {
+          switch (button) {
             case SDL_CONTROLLER_BUTTON_BACK: {
               return GamepadButton_t::ButtonMenuBack;
             }

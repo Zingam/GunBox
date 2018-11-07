@@ -9,10 +9,10 @@
 
 NAMESPACE_BEGIN(System::Platforms::Keyboard)
 
-inline System::DeviceTypes::Input::ScanCode_t
+System::DeviceTypes::Input::ScanCode_t
 ConvertScanCode(SDL_Scancode scancode);
 
-inline System::DeviceTypes::Input::Key_t
+System::DeviceTypes::Input::Key_t
 ConvertToKey(SDL_KeyboardEvent event);
 
 NAMESPACE_END(System::Platforms::Keyboard)

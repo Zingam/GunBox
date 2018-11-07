@@ -75,16 +75,16 @@ GamepadEventHandler::Process(SDL_Event const& event)
     }
     case SDL_CONTROLLERBUTTONDOWN: {
       auto id = event.cbutton.which;
-      auto button =
-        System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
+      auto button = System::Platforms::Gamepad::ConvertGamepadButton(
+        static_cast<SDL_GameControllerButton>(event.cbutton.button));
       System::EventProcessing::InputEventProcessorAccessor::GamepadButtonDown(
         inputProcessor, id, button);
       return true;
     }
     case SDL_CONTROLLERBUTTONUP: {
       auto id = event.cbutton.which;
-      auto button =
-        System::Platforms::Gamepad::ConvertGamepadButton(event.cbutton);
+      auto button = System::Platforms::Gamepad::ConvertGamepadButton(
+        static_cast<SDL_GameControllerButton>(event.cbutton.button));
       System::EventProcessing::InputEventProcessorAccessor::GamepadButtonUp(
         inputProcessor, id, button);
       return true;

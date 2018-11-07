@@ -4,12 +4,15 @@
 #include "System/DeviceTypes/Input/GamepadTypes.hpp"
 
 // Third party libraries
-#include <SDL_events.h>
+#include <SDL_GameController.h>
 
 NAMESPACE_BEGIN(System::Platforms::Gamepad)
 
-inline System::DeviceTypes::Input::GamepadButton_t
-ConvertGamepadButton(SDL_ControllerButtonEvent event);
+System::DeviceTypes::Input::GamepadAxis_t
+ConvertGamepadAxis(SDL_GameControllerAxis axis);
+
+System::DeviceTypes::Input::GamepadButton_t
+ConvertGamepadButton(SDL_GameControllerButton button);
 
 NAMESPACE_END(System::Platforms::Gamepad)
 
