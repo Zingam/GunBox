@@ -56,6 +56,12 @@ Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
       lastExecutionTime = currentTime;
       isRunning = gameStateManager->Run();
       eventProcessor.ProcessEvents();
+      if (
+        System::EventProcessing::KeyboardState::KeyState_t::Pressed ==
+        eventProcessor.InputEventProcessor().KeyboardState().GetKeyState(
+          System::DeviceTypes::Input::ScanCode_t::Arrow_Down)) {
+        std::cout << "Arrow Down\n";
+      }
     }
   } while (isRunning);
 }
