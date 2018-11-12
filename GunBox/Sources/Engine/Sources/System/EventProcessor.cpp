@@ -3,13 +3,12 @@
 
 // Project hedears - System
 #include "System/EventProcessing/EventHandlers/EventHandler.hpp"
-
-// Third party headers
-#include <SDL_events.h>
-
 #include "System/EventProcessing/EventHandlers/Input/GamepadEventHandler.hpp"
 #include "System/EventProcessing/EventHandlers/Input/KeyboardEventHandler.hpp"
 #include "System/EventProcessing/EventHandlers/System/QuitEventHandler.hpp"
+
+// Third party headers
+#include <SDL_events.h>
 
 NAMESPACE_BEGIN(System)
 
@@ -53,10 +52,10 @@ EventProcessor::InitializeSystemEventHandlers()
 }
 
 void
-EventProcessor::ProcessEvents() const
+EventProcessor::ProcessEvents()
 {
-  SDL_Event event;
   // Handle events on queue
+  SDL_Event event;
   while (SDL_PollEvent(&event) != 0) {
     {
       for (auto& eventHandler : eventHandlers) {
@@ -67,6 +66,9 @@ EventProcessor::ProcessEvents() const
       }
     }
   };
+
+  // After all events have been processed, update the input device states
+  inputEventProcessor.ProcessInputDeviceStates();
 }
 
 System::EventProcessing::InputEventProcessor&

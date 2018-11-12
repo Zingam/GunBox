@@ -7,6 +7,8 @@
 #include "Common/SimpleDelegate.hpp"
 // Project headers - System
 #include "System/DeviceTypes/Input/GamepadTypes.hpp"
+#include "System/EventProcessing/InputDeviceStates/GamepadState.hpp"
+#include "System/EventProcessing/InputDeviceStates/KeyboardState.hpp"
 #include "System/EventProcessing/InputEventCallbacks_Interface.hpp"
 
 // C Standard Library
@@ -14,12 +16,14 @@
 // C++ Standard Library
 #include <map>
 #include <memory>
+#include <unordered_map>
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
 class InputEventProcessor
 {
-  using Gamepad = void*;
+public:
+  using Gamepad_t = void*;
 
 public:
   auto InitializeCallbacks(
@@ -29,7 +33,21 @@ public:
   auto InitializeCallbacks(InputEventCallbacks_Interface& inputCallbacks)
     -> void;
 
+  auto ProcessInputDeviceStates() -> void;
+
+  // Properties
+public:
+  auto Gamepads() const -> std::map<
+    System::DeviceTypes::Input::GamepadId_t const,
+    std::pair<Gamepad_t, System::EventProcessing::GamepadState>> const&;
+
+  auto KeyboardState() const -> System::EventProcessing::KeyboardState const&;
+
 private:
+  auto ProcessKeyboardDeviceStates() -> void;
+
+  auto ProcessGamepadDeviceStates() -> void;
+
   auto AddGamepad(System::DeviceTypes::Input::GamepadId_t const deviceIndex)
     -> void;
 
@@ -72,7 +90,11 @@ private:
   friend class InputEventProcessorAccessor;
 
 private:
-  std::map<System::DeviceTypes::Input::GamepadId_t const, Gamepad> gamepads;
+  std::map<
+    System::DeviceTypes::Input::GamepadId_t const,
+    std::pair<Gamepad_t, System::EventProcessing::GamepadState>>
+    gamepads;
+  System::EventProcessing::KeyboardState keyboardState;
 };
 
 NAMESPACE_END(System::EventProcessing)

@@ -45,7 +45,7 @@ public:
     System::EventProcessing::SystemEventCallbacks_Interface& systemEventCallbacks)
     -> void;
 
-  auto ProcessEvents() const -> void;
+  auto ProcessEvents() -> void;
   // clang-format on
 
   // Properties

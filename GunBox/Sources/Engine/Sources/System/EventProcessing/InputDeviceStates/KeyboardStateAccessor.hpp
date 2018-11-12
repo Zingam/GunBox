@@ -1,0 +1,46 @@
+#pragma once
+
+// BASE MACROS header
+#include "Common/Macros/Base.hpp"
+
+// Project headers - System
+#include "System/DeviceTypes/Input/KeyboardTypes.hpp"
+#include "System/EventProcessing/InputDeviceStates/KeyboardState.hpp"
+
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System::EventProcessing)
+
+class InputEventProcessor;
+
+NAMESPACE_END(System::EventProcessing)
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System::EventProcessing)
+
+class KeyboardStateAccessor
+{
+private:
+  static inline auto SetKeyboardState(
+    KeyboardState& keyboardState,
+    System::DeviceTypes::Input::ScanCode_t scancode,
+    KeyboardState::KeyState_t keyState) -> void;
+
+private:
+  friend class System::EventProcessing::InputEventProcessor;
+};
+
+NAMESPACE_END(System::EventProcessing)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "KeyboardStateAccessor.inl"
+
+////////////////////////////////////////////////////////////////////////////////
