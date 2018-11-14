@@ -16,8 +16,13 @@
 
 // C Standard Library
 #include <cassert>
+#include <algorithm>
 
 NAMESPACE_BEGIN(System::EventProcessing)
+
+////////////////////////////////////////////////////////////////////////////////
+// Public methods
+////////////////////////////////////////////////////////////////////////////////
 
 void
 InputEventProcessor::InitializeCallbacks(
@@ -53,20 +58,44 @@ InputEventProcessor::ProcessInputDeviceStates()
   ProcessGamepadDeviceStates();
 }
 
-std::map<
-  System::DeviceTypes::Input::GamepadId_t const,
-  std::pair<
-    InputEventProcessor::Gamepad_t,
-    System::EventProcessing::GamepadState>> const&
-InputEventProcessor::Gamepads() const
+////////////////////////////////////////////////////////////////////////////////
+// Private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void
+InputEventProcessor::Gamepad_Add(
+  System::DeviceTypes::Input::GamepadId_t const deviceIndex)
 {
-  return gamepads;
+  // The 'cdevice.which' when a device is added is an index to be used with
+  // SDL_GameControllerOpen. Subsequent events return an instance ID.
+  auto gameController = SDL_GameControllerOpen(deviceIndex);
+  if (gameController == nullptr) {
+    LogError("Unable to open gamepad: %s", SDL_GetError());
+  } else {
+    // Get the instance ID of this controller.
+    auto gamepadId =
+      SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(gameController));
+    gamepads[gamepadId] = { gameController, {} };
+
+    RecreateGamepadIds();
+  }
 }
 
-System::EventProcessing::KeyboardState const&
-InputEventProcessor::KeyboardState() const
+void
+InputEventProcessor::Gamepad_Remove(
+  System::DeviceTypes::Input::GamepadId_t const gamepadId)
 {
-  return keyboardState;
+  auto gamepad = gamepads.find(gamepadId);
+
+  assert(gamepad != gamepads.cend() && "Controller instance ID was not found");
+
+  if (gamepad != gamepads.cend()) {
+    auto gamepad_Ptr = static_cast<SDL_GameController*>(gamepad->second.first);
+    SDL_GameControllerClose(gamepad_Ptr);
+    gamepads.erase(gamepad);
+
+    RecreateGamepadIds();
+  }
 }
 
 auto
@@ -168,35 +197,15 @@ InputEventProcessor::ProcessGamepadDeviceStates() -> void
   }
 }
 
-void
-InputEventProcessor::AddGamepad(
-  System::DeviceTypes::Input::GamepadId_t const deviceIndex)
+auto
+InputEventProcessor::RecreateGamepadIds() -> void
 {
-  // The 'cdevice.which' when a device is added is an index to be used with
-  // SDL_GameControllerOpen. Subsequent events return an instance ID.
-  auto gameController = SDL_GameControllerOpen(deviceIndex);
-  if (gameController == nullptr) {
-    LogError("Unable to open gamepad: %s", SDL_GetError());
-  } else {
-    // Get the instance ID of this controller.
-    auto gamepadId =
-      SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(gameController));
-    gamepads[gamepadId] = { gameController, {} };
-  }
-}
-
-void
-InputEventProcessor::RemoveGamepad(
-  System::DeviceTypes::Input::GamepadId_t const gamepadId)
-{
-  auto gamepad = gamepads.find(gamepadId);
-
-  assert(gamepad != gamepads.cend() && "Controller instance ID was not found");
-
-  if (gamepad != gamepads.cend()) {
-    auto gamepad_Ptr = static_cast<SDL_GameController*>(gamepad->second.first);
-    SDL_GameControllerClose(gamepad_Ptr);
-    gamepads.erase(gamepad);
+  // Recreate the gamepadIds vector
+  gamepadIds.clear();
+  for (auto& gamepad : gamepads) {
+    using System::DeviceTypes::Input::GamepadId_t;
+    auto gamepadId = static_cast<GamepadId_t>(gamepad.first);
+    gamepadIds.push_back(gamepadId);
   }
 }
 

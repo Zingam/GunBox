@@ -65,6 +65,7 @@ set (.Engine_SourceFiles
   "Sources/System/EventProcessing/InputEventCallbacks_Interface.hpp"
   "Sources/System/EventProcessing/InputEventProcessor.cpp"
   "Sources/System/EventProcessing/InputEventProcessor.hpp"
+  "Sources/System/EventProcessing/InputEventProcessor.inl"
   "Sources/System/EventProcessing/InputEventProcessorAccessor.cpp"
   "Sources/System/EventProcessing/InputEventProcessorAccessor.hpp"
   "Sources/System/EventProcessing/InputEventProcessorAccessor.inl"

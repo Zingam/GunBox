@@ -54,7 +54,7 @@ InputEventProcessorAccessor::GamepadDeviceAdd(
   InputEventProcessor& inputProcessor,
   System::DeviceTypes::Input::GamepadId_t const id)
 {
-  inputProcessor.AddGamepad(id);
+  inputProcessor.Gamepad_Add(id);
 
   assert(
     (nullptr != inputProcessor.cbGamepadDeviceAdd_UPtr) &&
@@ -67,7 +67,7 @@ InputEventProcessorAccessor::GamepadDeviceRemove(
   InputEventProcessor& inputProcessor,
   System::DeviceTypes::Input::GamepadId_t const id)
 {
-  inputProcessor.RemoveGamepad(id);
+  inputProcessor.Gamepad_Remove(id);
 
   assert(
     (nullptr != inputProcessor.cbGamepadDeviceRemove_UPtr) &&

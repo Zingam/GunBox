@@ -54,14 +54,10 @@ Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
     auto duration = currentTime - lastExecutionTime;
     if (executionPeriod <= duration) {
       lastExecutionTime = currentTime;
-      isRunning = gameStateManager->Run();
+      // Process system events and device input
       eventProcessor.ProcessEvents();
-      if (
-        System::EventProcessing::KeyboardState::KeyState_t::Pressed ==
-        eventProcessor.InputEventProcessor().KeyboardState().GetKeyState(
-          System::DeviceTypes::Input::ScanCode_t::Arrow_Down)) {
-        std::cout << "Arrow Down\n";
-      }
+      // Update the game state
+      isRunning = gameStateManager->Run();
     }
   } while (isRunning);
 }

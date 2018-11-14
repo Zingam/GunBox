@@ -50,8 +50,8 @@ public:
 
   // Properties
 public:
-  System::EventProcessing::InputEventProcessor& InputEventProcessor();
-  System::EventProcessing::SystemEventProcessor& SystemEventProcessor();
+  inline System::EventProcessing::InputEventProcessor& InputEventProcessor();
+  inline System::EventProcessing::SystemEventProcessor& SystemEventProcessor();
 
   // Method templates
 public:

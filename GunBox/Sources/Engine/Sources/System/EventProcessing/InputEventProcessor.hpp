@@ -37,22 +37,34 @@ public:
 
   // Properties
 public:
-  auto Gamepads() const -> std::map<
-    System::DeviceTypes::Input::GamepadId_t const,
-    std::pair<Gamepad_t, System::EventProcessing::GamepadState>> const&;
+  inline auto GamepadAxisValue(
+    System::DeviceTypes::Input::GamepadId_t gamepadId,
+    System::DeviceTypes::Input::GamepadAxis_t gamepadAxis) const -> double;
 
-  auto KeyboardState() const -> System::EventProcessing::KeyboardState const&;
+  inline auto GamepadButtonState(
+    System::DeviceTypes::Input::GamepadId_t gamepadId,
+    System::DeviceTypes::Input::GamepadButton_t gamepadButton) const
+    -> GamepadState::ButtonState_t;
 
+  inline auto GamepadIds() const
+    -> std::vector<System::DeviceTypes::Input::GamepadId_t> const&;
+
+  inline auto KeyboardKeyState(System::DeviceTypes::Input::ScanCode_t scancode)
+    -> System::EventProcessing::KeyboardState ::KeyState_t;
+
+  // Methods
 private:
+  auto Gamepad_Add(System::DeviceTypes::Input::GamepadId_t const deviceIndex)
+    -> void;
+
+  auto Gamepad_Remove(System::DeviceTypes::Input::GamepadId_t const gamepadId)
+    -> void;
+
   auto ProcessKeyboardDeviceStates() -> void;
 
   auto ProcessGamepadDeviceStates() -> void;
 
-  auto AddGamepad(System::DeviceTypes::Input::GamepadId_t const deviceIndex)
-    -> void;
-
-  auto RemoveGamepad(System::DeviceTypes::Input::GamepadId_t const gamepadId)
-    -> void;
+  auto RecreateGamepadIds() -> void;
 
   // Callbacks
 private:
@@ -90,11 +102,20 @@ private:
   friend class InputEventProcessorAccessor;
 
 private:
-  std::map<
-    System::DeviceTypes::Input::GamepadId_t const,
+  std::unordered_map<
+    System::DeviceTypes::Input::GamepadId_t,
     std::pair<Gamepad_t, System::EventProcessing::GamepadState>>
     gamepads;
+  std::vector<System::DeviceTypes::Input::GamepadId_t> gamepadIds;
   System::EventProcessing::KeyboardState keyboardState;
 };
 
 NAMESPACE_END(System::EventProcessing)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "InputEventProcessor.inl"
+
+////////////////////////////////////////////////////////////////////////////////
