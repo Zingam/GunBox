@@ -11,13 +11,53 @@
 // C++ Standard Library
 #include <type_traits>
 
-#define OPENGL_CHECK_CALLS
+////////////////////////////////////////////////////////////////////////////////
+// Defines
+////////////////////////////////////////////////////////////////////////////////
+
+// To enable error checking define:
+
+#if !defined(OPENGL_CHECK_CALLS)
+/// <summary>
+///   Enables error checking of OpenGL calls.
+/// </summary>
+/// <remarks>
+///   You need to pass this preprocessor definition on the command line.
+/// </remarks>
+#  define OPENGL_CHECK_CALLS 0
+#endif
+
+#if !defined(OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE)
+/// <summary>
+///   The error printing function won't be inlined, which may lower the
+///   performance.
+/// </summary>
+/// <remarks>
+///   You need to pass this preprocessor definition on the command line.
+/// </remarks>
+#  define OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE 0
+#endif
+
+#if !OPENGL_CHECK_CALLS
+#  undef OPENGL_CHECK_CALLS
+#endif
+
+#if !OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE
+#  undef OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE
+#endif
 
 #if defined(_DEBUG) && defined(OPENGL_CHECK_CALLS)
 #  if !defined(OPENGL_CHECK_ERROR__)
 #    define OPENGL_CHECK_ERROR__
 #  else
 #    error OPENGL_CHECK_ERROR__ is already defined
+#  endif
+#  if defined(OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE)
+#    if !defined(OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE__)
+#      define OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE__
+#    else
+#      error OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE__ is already defined
+#    endif
 #  endif
 #endif
 
@@ -29,8 +69,8 @@ NAMESPACE_BEGIN(Renderer::OpenGL)
 
 #if defined(OPENGL_CHECK_ERROR__)
 /// <summary>
-/// Performs error checking for OpenGL function calls in debug mode if the
-/// preprocessor macro <c>OPENGL_CHECK_CALLS</c> is defined.
+///   Performs error checking for OpenGL function calls in debug mode if the
+///   preprocessor macro <c>OPENGL_CHECK_CALLS</c> is defined.
 /// </summary>
 #  define gl_(...)                                                             \
     Renderer::OpenGL::gl__(                                                    \
@@ -40,90 +80,31 @@ NAMESPACE_BEGIN(Renderer::OpenGL)
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
-// Functions
-////////////////////////////////////////////////////////////////////////////////
-
-#if defined(OPENGL_CHECK_ERROR__)
-inline auto
-PrintOpenGLError(char const* call, int line, char const* filename) -> void
-{
-  auto glErrorCode = glGetError();
-  if (GL_NO_ERROR != glErrorCode) {
-    char const* glErrorString = nullptr;
-    switch (glErrorCode) {
-      case GL_INVALID_OPERATION:
-        glErrorString = "INVALID_OPERATION";
-        break;
-      case GL_INVALID_ENUM:
-        glErrorString = "INVALID_ENUM";
-        break;
-      case GL_INVALID_VALUE:
-        glErrorString = "INVALID_VALUE";
-        break;
-      case GL_OUT_OF_MEMORY:
-        glErrorString = "OUT_OF_MEMORY";
-        break;
-      case GL_INVALID_FRAMEBUFFER_OPERATION:
-        glErrorString = "INVALID_FRAMEBUFFER_OPERATION";
-        break;
-    }
-    LogError("OpenGL error \'%s\' (code: 0x0%X)\n"
-                 "       in call %s\n"
-                 "           at line %d\n"
-                 "           in file '%s'",
-                 glErrorString,
-                 glErrorCode,
-                 call,
-                 line,
-                 filename);
-  }
-}
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
 // Template functions
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(OPENGL_CHECK_ERROR__)
 template<typename GL_Function, typename... Args>
 auto
-#if defined(OPENGL_CHECK_ERROR__)
-gl__(char const* call,
-     int line,
-     char const* filename,
-     GL_Function glFunction,
-     Args... args)
-#else
-gl__(GL_Function glFunction, Args... args)
+gl__(GL_Function glFunction, Args... args) -> std::enable_if_t<
+  std::is_same_v<void, decltype(glFunction(args...))>,
+  decltype(glFunction(args...))>;
 #endif
-  -> std::enable_if_t<std::is_same_v<void, decltype(glFunction(args...))>,
-                      decltype(glFunction(args...))>
-{
-  glFunction(std::forward<Args>(args)...);
-#if defined(OPENGL_CHECK_ERROR__)
-  PrintOpenGLError(call, line, filename);
-#endif
-}
 
+#if !defined(OPENGL_CHECK_ERROR__)
 template<typename GL_Function, typename... Args>
 auto
-#if defined(OPENGL_CHECK_ERROR__)
-gl__(char const* call,
-     int line,
-     char const* filename,
-     GL_Function glFunction,
-     Args... args)
-#else
-gl__(GL_Function glFunction, Args... args)
+gl__(GL_Function glFunction, Args... args) -> std::enable_if_t<
+  !std::is_same_v<void, decltype(glFunction(args...))>,
+  decltype(glFunction(args...))>;
 #endif
-  -> std::enable_if_t<!std::is_same_v<void, decltype(glFunction(args...))>,
-                      decltype(glFunction(args...))>
-{
-  auto result = glFunction(std::forward<Args>(args)...);
-#if defined(OPENGL_CHECK_ERROR__)
-  PrintOpenGLError(call, line, filename);
-#endif
-
-  return result;
-}
 
 NAMESPACE_END(Renderer::OpenGL)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "OpenGL_ErrorChecking.inl"
+
+////////////////////////////////////////////////////////////////////////////////

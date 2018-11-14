@@ -14,13 +14,32 @@ project ("GunBox_Engine")
 # Project settings
 ################################################################################
 
- # Build the targets as STATIC libraries by default
-option (option_EngineLibraryAs_SHARED NO)
+# Library options:
+
+# Build the targets as STATIC libraries by default
+option (option_EngineLibraryAs_SHARED
+  "Build the library as a shared?"
+  NO
+)
 
 set (.EngineLibraryType "STATIC")
 if (option_EngineLibraryAs_SHARED)
   set (.EngineLibraryType "SHARED")
 endif ()
+
+# Graphics API options:
+
+# Specifies if error checking should be performed on graphics API calls
+option (option_CheckGraphicsApiCalls
+  "Perform error checking on graphics API calls?"
+  NO
+)
+
+# Specifies if error printing function should be inlined for better performance
+option (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline
+  "Disallow inlining of the error printing function?"
+  YES
+)
 
 ################################################################################
 
@@ -164,6 +183,20 @@ if (WIN32 AND option_EngineLibraryAs_SHARED)
   set_property (TARGET ${PROJECT_NAME}
     PROPERTY
       WINDOWS_EXPORT_ALL_SYMBOLS TRUE
+  )
+endif ()
+
+if (option_CheckGraphicsApiCalls)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "OPENGL_CHECK_CALLS"
+  )
+endif ()
+message (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline " " ${option_CheckGraphicsApiCalls_DoNotPrintErrorsInline})
+if (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE"
   )
 endif ()
 

@@ -16,6 +16,10 @@
         {
           "name": "option_EngineLibraryAs_SHARED:BOOL",
           "value": "YES"
+        },
+        {
+          "name": "option_CheckGraphicsApiCalls:BOOL",
+          "value": "YES"
         }
       ],
       "buildCommandArgs": "-v",
