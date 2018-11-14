@@ -22,20 +22,22 @@ SimpleDelegate<ClassName, MethodPointerType>::SimpleDelegate(
 
 template<typename ClassName, typename MethodPointerType>
 template<typename... Args>
-inline auto
+auto
 SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
-  -> std::enable_if_t<std::is_same_v<void, decltype(this->Invoke(args...))>,
-                      decltype(this->Invoke(args...))>
+  -> std::enable_if_t<
+    std::is_same_v<void, decltype(this->Invoke(args...))>,
+    decltype(this->Invoke(args...))>
 {
   this->Invoke(std::forward<Args>(args)...);
 }
 
 template<typename ClassName, typename MethodPointerType>
 template<typename... Args>
-inline auto
+auto
 SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
-  -> std::enable_if_t<!std::is_same_v<void, decltype(this->Invoke(args...))>,
-                      decltype(this->Invoke(args...))>
+  -> std::enable_if_t<
+    !std::is_same_v<void, decltype(this->Invoke(args...))>,
+    decltype(this->Invoke(args...))>
 {
   return this->Invoke(std::forward<Args>(args)...);
 }
@@ -46,17 +48,18 @@ SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
 
 template<typename ClassName, typename MethodPointerType>
 template<typename... Args>
-inline auto
+auto
 SimpleDelegate<ClassName, MethodPointerType>::Invoke(Args... args)
-  -> std::enable_if_t<std::is_same_v<void, decltype((object.*method)(args...))>,
-                      decltype((object.*method)(args...))>
+  -> std::enable_if_t<
+    std::is_same_v<void, decltype((object.*method)(args...))>,
+    decltype((object.*method)(args...))>
 {
   (object.*method)(std::forward<Args>(args)...);
 }
 
 template<typename ClassName, typename MethodPointerType>
 template<typename... Args>
-inline auto
+auto
 SimpleDelegate<ClassName, MethodPointerType>::Invoke(Args... args)
   -> std::enable_if_t<
     !std::is_same_v<void, decltype((object.*method)(args...))>,
@@ -70,7 +73,7 @@ SimpleDelegate<ClassName, MethodPointerType>::Invoke(Args... args)
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename ClassName, typename MethodPointerType>
-inline std::unique_ptr<SimpleDelegate<ClassName, MethodPointerType>>
+std::unique_ptr<SimpleDelegate<ClassName, MethodPointerType>>
 make_unique_delegate(ClassName& object, MethodPointerType method_Ptr)
 {
   using SimpleDelegateType =

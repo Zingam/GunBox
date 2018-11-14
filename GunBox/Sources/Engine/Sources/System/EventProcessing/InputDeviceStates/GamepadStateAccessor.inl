@@ -10,7 +10,7 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-void
+inline void
 GamepadStateAccessor::SetAxisState(
   GamepadState& gamepadState,
   System::DeviceTypes::Input::GamepadAxis_t gamepadAxis,

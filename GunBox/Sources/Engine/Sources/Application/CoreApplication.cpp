@@ -28,6 +28,16 @@ CoreApplication::CoreApplication(ApplicationInfo const& info)
 CoreApplication::~CoreApplication() {}
 
 ////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
+ApplicationInfo const&
+CoreApplication::Info() const
+{
+  return info;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Virtual methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,7 +53,7 @@ CoreApplication::Finalize()
     }
   }
 #endif
-  
+
   hostPlatform.SubSystems().Finalize();
 
   auto hasSaveError = preferences->SaveToFile();
@@ -52,10 +62,11 @@ CoreApplication::Finalize()
     errorMessage << "Unable to save preferences!\n";
     errorMessage << "    Error:\n";
     errorMessage << hasSaveError.value();
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                             info.Title().c_str(),
-                             errorMessage.str().c_str(),
-                             nullptr);
+    SDL_ShowSimpleMessageBox(
+      SDL_MESSAGEBOX_ERROR,
+      info.Title().c_str(),
+      errorMessage.str().c_str(),
+      nullptr);
   }
 }
 
@@ -87,10 +98,11 @@ CoreApplication::Initialize()
     errorMessage << "    " << hasLoadError.value() << "\n";
     errorMessage << "Using default values!";
 
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                             info.Title().c_str(),
-                             errorMessage.str().c_str(),
-                             nullptr);
+    SDL_ShowSimpleMessageBox(
+      SDL_MESSAGEBOX_ERROR,
+      info.Title().c_str(),
+      errorMessage.str().c_str(),
+      nullptr);
 
     // Main window
     preferences->SetMainWindowDefaultValues();

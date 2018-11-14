@@ -28,20 +28,20 @@ class InputEventProcessorAccessor
 {
 private:
   // clang-format off
-  static inline auto GamepadAxisMotion(
+  static auto GamepadAxisMotion(
     InputEventProcessor& inputProcessor,
     System::DeviceTypes::Input::GamepadId_t id,
     System::DeviceTypes::Input::GamepadAxis_t axis,
     double value)
     -> void;
 
-  static inline auto GamepadButtonDown(
+  static auto GamepadButtonDown(
     InputEventProcessor& inputProcessor,
     System::DeviceTypes::Input::GamepadId_t id,
     System::DeviceTypes::Input::GamepadButton_t button)
     -> void;
 
-  static inline auto GamepadButtonUp(
+  static auto GamepadButtonUp(
     InputEventProcessor& inputProcessor,
     System::DeviceTypes::Input::GamepadId_t id,
     System::DeviceTypes::Input::GamepadButton_t button)
@@ -57,12 +57,12 @@ private:
     System::DeviceTypes::Input::GamepadId_t const id)
     -> void;
 
-  static inline auto KeyboardKeyDown(
+  static auto KeyboardKeyDown(
     InputEventProcessor& inputProcessor,
     System::DeviceTypes::Input::Key_t key)
     -> void;
 
-  static inline auto KeyboardKeyUp(
+  static auto KeyboardKeyUp(
     InputEventProcessor& inputProcessor,
     System::DeviceTypes::Input::Key_t key)
     -> void;

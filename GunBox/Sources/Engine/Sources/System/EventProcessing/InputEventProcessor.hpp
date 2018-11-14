@@ -25,6 +25,24 @@ class InputEventProcessor
 public:
   using Gamepad_t = void*;
 
+  // Properties
+public:
+  auto GamepadAxisValue(
+    System::DeviceTypes::Input::GamepadId_t gamepadId,
+    System::DeviceTypes::Input::GamepadAxis_t gamepadAxis) const -> double;
+
+  auto GamepadButtonState(
+    System::DeviceTypes::Input::GamepadId_t gamepadId,
+    System::DeviceTypes::Input::GamepadButton_t gamepadButton) const
+    -> GamepadState::ButtonState_t;
+
+  auto GamepadIds() const
+    -> std::vector<System::DeviceTypes::Input::GamepadId_t> const&;
+
+  auto KeyboardKeyState(System::DeviceTypes::Input::ScanCode_t scancode)
+    -> System::EventProcessing::KeyboardState ::KeyState_t;
+
+  // Methods
 public:
   auto InitializeCallbacks(
     std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks)
@@ -35,24 +53,6 @@ public:
 
   auto ProcessInputDeviceStates() -> void;
 
-  // Properties
-public:
-  inline auto GamepadAxisValue(
-    System::DeviceTypes::Input::GamepadId_t gamepadId,
-    System::DeviceTypes::Input::GamepadAxis_t gamepadAxis) const -> double;
-
-  inline auto GamepadButtonState(
-    System::DeviceTypes::Input::GamepadId_t gamepadId,
-    System::DeviceTypes::Input::GamepadButton_t gamepadButton) const
-    -> GamepadState::ButtonState_t;
-
-  inline auto GamepadIds() const
-    -> std::vector<System::DeviceTypes::Input::GamepadId_t> const&;
-
-  inline auto KeyboardKeyState(System::DeviceTypes::Input::ScanCode_t scancode)
-    -> System::EventProcessing::KeyboardState ::KeyState_t;
-
-  // Methods
 private:
   auto Gamepad_Add(System::DeviceTypes::Input::GamepadId_t const deviceIndex)
     -> void;

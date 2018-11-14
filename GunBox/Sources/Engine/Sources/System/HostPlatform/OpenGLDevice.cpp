@@ -1,2 +1,38 @@
 // Self
 #include "OpenGLDevice.hpp"
+
+NAMESPACE_BEGIN(System::HostPlatformClasses)
+
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
+auto
+OpenGLDevice::GetProcAddress() -> void*
+{
+  return o_ptr->GetProcAddress();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Methods
+////////////////////////////////////////////////////////////////////////////////
+
+void
+OpenGLDevice::Finalize()
+{
+  o_ptr->Finalize();
+}
+
+bool
+OpenGLDevice::Initialize(Window const& window)
+{
+  return o_ptr->Initialize(window);
+}
+
+bool
+OpenGLDevice::InitializeContext()
+{
+  return o_ptr->InitializeContext();
+}
+
+NAMESPACE_END(System::HostPlatformClasses)

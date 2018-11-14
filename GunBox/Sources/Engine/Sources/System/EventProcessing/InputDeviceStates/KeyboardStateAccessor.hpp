@@ -26,7 +26,7 @@ NAMESPACE_BEGIN(System::EventProcessing)
 class KeyboardStateAccessor
 {
 private:
-  static inline auto SetKeyboardState(
+  static auto SetKeyboardState(
     KeyboardState& keyboardState,
     System::DeviceTypes::Input::ScanCode_t scancode,
     KeyboardState::KeyState_t keyState) -> void;

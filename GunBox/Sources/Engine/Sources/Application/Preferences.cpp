@@ -50,6 +50,34 @@ Preferences::Preferences(ApplicationInfo const& applicationInfo)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
+bool&
+Preferences::Fullscreen()
+{
+  return data.fullscreen;
+}
+
+System::DeviceTypes::Graphics::Rectangle2D&
+Preferences::MainWindowMetrics()
+{
+  return data.mainWindowMetrics;
+}
+
+System::DeviceTypes::Graphics::API_t&
+Preferences::RendererAPI()
+{
+  return data.rendererApi;
+}
+
+bool
+Preferences::SuccesfullyLoaded() const
+{
+  return successfullyLoaded;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Public methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -57,23 +85,23 @@ const std::optional<std::string>
 Preferences::LoadFromFile()
 {
   // Open the preferences file from the system location
-  auto prefPath = SDL_GetPrefPath(applicationInfo.Organization().c_str(),
-                                  applicationInfo.Title().c_str());
+  auto prefPath = SDL_GetPrefPath(
+    applicationInfo.Organization().c_str(), applicationInfo.Title().c_str());
   std::stringstream filepath;
   filepath << prefPath << applicationInfo.Title() << ".preferences";
   SDL_free(prefPath);
 
   std::fstream preferencesFile;
-  preferencesFile.open(filepath.str(),
-                       std::fstream::binary | std::fstream::in |
-                         std::fstream::out);
+  preferencesFile.open(
+    filepath.str(),
+    std::fstream::binary | std::fstream::in | std::fstream::out);
   if (!preferencesFile.is_open()) {
     return { "Unable to open: " + filepath.str() };
   }
 
   // Read the values from the preferences file
-  preferencesFile.read(reinterpret_cast<char*>(&data.hash_1),
-                       sizeof(data.hash_1));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.hash_1), sizeof(data.hash_1));
   const auto hash_1 = CalculateHash(preferencesFile, { 0 });
   if (hash_1 != data.hash_1) {
     return { "Invalid hash value: " + filepath.str() };
@@ -88,10 +116,10 @@ Preferences::LoadFromFile()
     return { "Invalid file format: " + filepath.str() };
   }
 
-  preferencesFile.read(reinterpret_cast<char*>(&data.version),
-                       sizeof(data.version));
-  preferencesFile.read(reinterpret_cast<char*>(&data.offset_2),
-                       sizeof(data.offset_2));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.version), sizeof(data.version));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.offset_2), sizeof(data.offset_2));
 
   auto returnPos = preferencesFile.tellg();
   // To set the fstream back to the begining a call to fstream::clear() is
@@ -99,8 +127,8 @@ Preferences::LoadFromFile()
   // file has been reached.
   preferencesFile.clear();
   preferencesFile.seekg(data.offset_2, std::fstream::beg);
-  preferencesFile.read(reinterpret_cast<char*>(&data.hash_2),
-                       sizeof(data.hash_2));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.hash_2), sizeof(data.hash_2));
   const auto hash_2 = CalculateHash(preferencesFile, { 0, data.offset_2 });
   if (hash_2 != data.hash_2) {
     return { "Invalid hash value: " + filepath.str() };
@@ -121,12 +149,12 @@ Preferences::LoadFromFile()
   preferencesFile.read(
     reinterpret_cast<char*>(&data.mainWindowMetrics.Size.Width),
     sizeof(data.mainWindowMetrics.Size.Width));
-  preferencesFile.read(reinterpret_cast<char*>(&data.fullscreen),
-                       sizeof(data.fullscreen));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.fullscreen), sizeof(data.fullscreen));
   // Skip data.hash_2 bytes
   preferencesFile.ignore(sizeof(data.hash_2));
-  preferencesFile.read(reinterpret_cast<char*>(&data.rendererApi),
-                       sizeof(data.rendererApi));
+  preferencesFile.read(
+    reinterpret_cast<char*>(&data.rendererApi), sizeof(data.rendererApi));
 
   if (preferencesFile.bad()) {
     return { "Read error: " + filepath.str() };
@@ -140,27 +168,28 @@ Preferences::LoadFromFile()
 const std::optional<std::string>
 Preferences::SaveToFile()
 {
-  auto prefPath = SDL_GetPrefPath(applicationInfo.Organization().data(),
-                                  applicationInfo.Title().c_str());
+  auto prefPath = SDL_GetPrefPath(
+    applicationInfo.Organization().data(), applicationInfo.Title().c_str());
   std::stringstream filepath;
   filepath << prefPath << applicationInfo.Title() << ".preferences";
   SDL_free(prefPath);
 
   std::fstream preferencesFile;
-  preferencesFile.open(filepath.str(),
-                       std::fstream::binary | std::fstream::in |
-                         std::fstream::out | std::fstream::trunc);
+  preferencesFile.open(
+    filepath.str(),
+    std::fstream::binary | std::fstream::in | std::fstream::out |
+      std::fstream::trunc);
   if (!preferencesFile.is_open()) {
     return { "Unable to open: " + filepath.str() };
   }
 
-  preferencesFile.write(reinterpret_cast<char const*>(&data.hash_1),
-                        sizeof(data.hash_1));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.hash_1), sizeof(data.hash_1));
   preferencesFile.write(data.identifier.data(), data.identifier.size());
-  preferencesFile.write(reinterpret_cast<char const*>(&data.version),
-                        sizeof(data.version));
-  preferencesFile.write(reinterpret_cast<char const*>(&data.offset_2),
-                        sizeof(data.offset_2));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.version), sizeof(data.version));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.offset_2), sizeof(data.offset_2));
   // Read each member size individually due to data alignment in structs
   preferencesFile.write(
     reinterpret_cast<char const*>(&data.mainWindowMetrics.Coordinate.X),
@@ -174,12 +203,12 @@ Preferences::SaveToFile()
   preferencesFile.write(
     reinterpret_cast<char const*>(&data.mainWindowMetrics.Size.Width),
     sizeof(data.mainWindowMetrics.Size.Width));
-  preferencesFile.write(reinterpret_cast<char const*>(&data.fullscreen),
-                        sizeof(data.fullscreen));
-  preferencesFile.write(reinterpret_cast<char const*>(&data.hash_2),
-                        sizeof(data.hash_2));
-  preferencesFile.write(reinterpret_cast<const char*>(&data.rendererApi),
-                        sizeof(data.rendererApi));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.fullscreen), sizeof(data.fullscreen));
+  preferencesFile.write(
+    reinterpret_cast<char const*>(&data.hash_2), sizeof(data.hash_2));
+  preferencesFile.write(
+    reinterpret_cast<const char*>(&data.rendererApi), sizeof(data.rendererApi));
 
   preferencesFile.seekp(data.offset_2, std::fstream::beg);
   const auto hash_2 = CalculateHash(preferencesFile, { 0, data.offset_2 });
@@ -211,8 +240,9 @@ Preferences::SetMainWindowDefaultValues()
 ////////////////////////////////////////////////////////////////////////////////
 
 size_t
-Preferences::CalculateHash(std::fstream& fstream,
-                           std::vector<size_t> const& hashvalueOffsets)
+Preferences::CalculateHash(
+  std::fstream& fstream,
+  std::vector<size_t> const& hashvalueOffsets)
 {
   // Simple hash functions: http://www.cse.yorku.ca/~oz/hash.html
   auto currentInputPosition = fstream.tellg();

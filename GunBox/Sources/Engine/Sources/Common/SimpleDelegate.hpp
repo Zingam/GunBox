@@ -17,23 +17,23 @@ public:
 
 public:
   template<typename... Args>
-  inline auto operator()(Args... args)
-    -> std::enable_if_t<std::is_same_v<void, decltype(this->Invoke(args...))>,
-                        decltype(this->Invoke(args...))>;
+  auto operator()(Args... args) -> std::enable_if_t<
+    std::is_same_v<void, decltype(this->Invoke(args...))>,
+    decltype(this->Invoke(args...))>;
 
   template<typename... Args>
-  inline auto operator()(Args... args)
-    -> std::enable_if_t<!std::is_same_v<void, decltype(this->Invoke(args...))>,
-                        decltype(this->Invoke(args...))>;
+  auto operator()(Args... args) -> std::enable_if_t<
+    !std::is_same_v<void, decltype(this->Invoke(args...))>,
+    decltype(this->Invoke(args...))>;
 
 private:
   template<typename... Args>
-  inline auto Invoke(Args... args) -> std::enable_if_t<
+  auto Invoke(Args... args) -> std::enable_if_t<
     std::is_same_v<void, decltype((object.*method)(args...))>,
     decltype((object.*method)(args...))>;
 
   template<typename... Args>
-  inline auto Invoke(Args... args) -> std::enable_if_t<
+  auto Invoke(Args... args) -> std::enable_if_t<
     !std::is_same_v<void, decltype((object.*method)(args...))>,
     decltype((object.*method)(args...))>;
 };
@@ -43,7 +43,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename ClassName, typename MethodPointerType>
-inline auto
+auto
 make_unique_delegate(ClassName object, MethodPointerType method_Ptr)
   -> std::unique_ptr<SimpleDelegate<ClassName, MethodPointerType>>;
 

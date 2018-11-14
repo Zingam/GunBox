@@ -85,7 +85,7 @@ PrintOpenGLError(char const* call, int line, char const* filename) -> void
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename GL_Function, typename... Args>
-inline auto
+auto
 #if defined(OPENGL_CHECK_ERROR__)
 gl__(char const* call,
      int line,
@@ -105,7 +105,7 @@ gl__(GL_Function glFunction, Args... args)
 }
 
 template<typename GL_Function, typename... Args>
-inline auto
+auto
 #if defined(OPENGL_CHECK_ERROR__)
 gl__(char const* call,
      int line,

@@ -81,10 +81,8 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform/OpenGLDevice.inl"
   "Sources/System/HostPlatform/SubSystems.cpp"
   "Sources/System/HostPlatform/SubSystems.hpp"
-  "Sources/System/HostPlatform/SubSystems.inl"
   "Sources/System/HostPlatform/SystemConsole.cpp"
   "Sources/System/HostPlatform/SystemConsole.hpp"
-  "Sources/System/HostPlatform/SystemConsole.inl"
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.hpp>
   "Sources/System/Platforms/SDL2/HostPlatform/OpenGLDevice_SDL2.cpp"

@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(System::EventProcessing)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-double
+inline double
 InputEventProcessor::GamepadAxisValue(
   System::DeviceTypes::Input::GamepadId_t gamepadId,
   System::DeviceTypes::Input::GamepadAxis_t gamepadAxis) const
@@ -17,7 +17,7 @@ InputEventProcessor::GamepadAxisValue(
   return gamepadState.GetAxisState(gamepadAxis);
 }
 
-GamepadState::ButtonState_t
+inline GamepadState::ButtonState_t
 InputEventProcessor::GamepadButtonState(
   System::DeviceTypes::Input::GamepadId_t gamepadId,
   System::DeviceTypes::Input::GamepadButton_t gamepadButton) const
@@ -26,13 +26,7 @@ InputEventProcessor::GamepadButtonState(
   return gamepadState.GetButtonState(gamepadButton);
 }
 
-std::vector<System::DeviceTypes::Input::GamepadId_t> const&
-InputEventProcessor::GamepadIds() const
-{
-  return gamepadIds;
-}
-
-System::EventProcessing::KeyboardState::KeyState_t
+inline System::EventProcessing::KeyboardState::KeyState_t
 InputEventProcessor::KeyboardKeyState(
   System::DeviceTypes::Input::ScanCode_t scancode)
 {

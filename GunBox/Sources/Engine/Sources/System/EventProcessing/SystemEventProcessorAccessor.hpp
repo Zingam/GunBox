@@ -26,7 +26,7 @@ class SystemEventProcessorAccessor
 {
 private:
   // clang-format off
-  static inline auto Quit(SystemEventProcessor& systemEventProcessor)
+  static auto Quit(SystemEventProcessor& systemEventProcessor)
     -> void;
   // clang-format on
 

@@ -10,7 +10,7 @@
 NAMESPACE_BEGIN(GunBox)
 
 template<typename Commander, typename... Args>
-inline auto
+auto
 InputEventCallbacks::SetCommander(Args&&... args) -> void
 {
   static_assert(

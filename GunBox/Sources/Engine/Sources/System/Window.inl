@@ -6,8 +6,7 @@
 
 NAMESPACE_BEGIN(System)
 
-inline
-SDL_Window*
+inline SDL_Window*
 Window::Id() const
 {
   return handle;

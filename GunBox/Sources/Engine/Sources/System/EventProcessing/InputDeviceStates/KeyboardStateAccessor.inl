@@ -6,7 +6,7 @@
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
-void
+inline void
 KeyboardStateAccessor::SetKeyboardState(
   KeyboardState& keyboardState,
   System::DeviceTypes::Input::ScanCode_t scancode,

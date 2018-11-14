@@ -26,12 +26,12 @@ NAMESPACE_BEGIN(System::EventProcessing)
 class GamepadStateAccessor
 {
 private:
-  static inline auto SetAxisState(
+  static auto SetAxisState(
     GamepadState& gamepadState,
     System::DeviceTypes::Input::GamepadAxis_t gamepadAxis,
     double value) -> void;
 
-  static inline auto SetButtonState(
+  static auto SetButtonState(
     GamepadState& gamepadState,
     System::DeviceTypes::Input::GamepadButton_t gamepadButton,
     GamepadState::ButtonState_t buttonState) -> void;
