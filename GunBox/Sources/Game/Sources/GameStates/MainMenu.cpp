@@ -37,7 +37,7 @@ MainMenu::Update()
   if (isQuitting) {
     return GameState_t::Quit;
   } else {
-    return GameState_t::MainMenu;
+    return nextGameState;
   }
 }
 
@@ -46,7 +46,9 @@ MainMenu::Update()
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-MainMenu::Accept(){};
+MainMenu::Accept(){
+  nextGameState = GameState_t::InGame;
+};
 
 void
 MainMenu::Back()

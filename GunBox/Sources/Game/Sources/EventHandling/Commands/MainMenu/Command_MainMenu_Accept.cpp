@@ -15,7 +15,7 @@ Command_MainMenu_Accept::~Command_MainMenu_Accept() {}
 void
 Command_MainMenu_Accept::Execute(std::int32_t id)
 {
-  mainMenu.Quit();
+  mainMenu.Accept();
 }
 
 NAMESPACE_END(GunBox)

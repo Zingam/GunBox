@@ -54,20 +54,17 @@ GameStateManager::Run()
     "The graphics renderer is not initialized");
 
   if (GameState_t::InGame == gameState) {
+    if (!isStateInitialized) {
+      inGame.Initialize(graphicsRenderer);
+      isStateInitialized = true;
+    }
+    gameState = inGame.Update();
+    if (GameState_t::InGame != gameState) {
+      isStateInitialized = false;
+    }
     return true;
   } else {
     switch (gameState) {
-      case GameState_t::InGame: {
-        if (!isStateInitialized) {
-          inGame.Initialize(graphicsRenderer);
-          isStateInitialized = true;
-        }
-        gameState = inGame.Update();
-        if (GameState_t::InGame != gameState) {
-          isStateInitialized = false;
-        }
-        return true;
-      }
       case GameState_t::MainMenu: {
         if (!isStateInitialized) {
           isStateInitialized = true;

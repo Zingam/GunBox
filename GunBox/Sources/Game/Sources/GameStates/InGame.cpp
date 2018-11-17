@@ -27,6 +27,13 @@ InGame::Update()
   using namespace System::DeviceTypes::Input;
   using namespace System::EventProcessing;
 
+  auto arrow_DownState =
+    inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Down);
+  if (KeyboardState::KeyState_t::Pressed == arrow_DownState)
+  {
+    nextGameState = GameState_t::MainMenu;
+  }
+
   static auto i = 0ll;
   auto arrow_UpState =
     inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
@@ -37,7 +44,7 @@ InGame::Update()
   if (isQuitting) {
     return GameState_t::Quit;
   } else {
-    return GameState_t::MainMenu;
+    return nextGameState;
   }
 }
 
