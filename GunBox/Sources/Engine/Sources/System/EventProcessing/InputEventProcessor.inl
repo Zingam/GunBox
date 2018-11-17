@@ -28,7 +28,7 @@ InputEventProcessor::GamepadButtonState(
 
 inline System::EventProcessing::KeyboardState::KeyState_t
 InputEventProcessor::KeyboardKeyState(
-  System::DeviceTypes::Input::ScanCode_t scancode)
+  System::DeviceTypes::Input::ScanCode_t scancode) const
 {
   return keyboardState.GetKeyState(scancode);
 }

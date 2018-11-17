@@ -29,32 +29,22 @@ NAMESPACE_END(Renderer::Graphics)
 
 NAMESPACE_BEGIN(GunBox)
 
-class MainMenu : public GameState
+class InGame : public GameState
 {
   // Constructors & Destructors
 public:
-  MainMenu(
+  InGame(
     System::EventProcessing::InputEventProcessor const& inputEventProcessor);
 
   // Methods
 public:
   auto Update() -> GameState_t;
 
-  // Command actions
-public:
-  auto Accept() -> void;
-  auto Back() -> void;
-  auto MoveDown() -> void;
-  auto MoveLeft() -> void;
-  auto MoveRight() -> void;
-  auto MoveUp() -> void;
-  auto Quit() -> void;
-
   // Fields
 private:
   bool isQuitting = false;
   bool isRequestingToQuit = false;
-  GameState_t nextGameState = GameState_t::MainMenu;
+  GameState_t nextGameState = GameState_t::InGame;
 };
 
 NAMESPACE_END(GunBox)

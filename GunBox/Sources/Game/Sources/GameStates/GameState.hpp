@@ -4,11 +4,10 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers
-#include "EventHandling/InputEventCallbacks.hpp"
-#include "EventHandling/SystemEventCallbacks.hpp"
 #include "GameStates/GameStateTypes.hpp"
-#include "GameStates/InGame.hpp"
-#include "GameStates/MainMenu.hpp"
+
+// C++ Standard Library
+#include <memory>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -32,11 +31,11 @@ NAMESPACE_END(System::EventProcessing)
 
 NAMESPACE_BEGIN(GunBox)
 
-class GameStateManager
+class GameState
 {
   // Constructors & Destructors
-public:
-  GameStateManager(
+protected:
+  GameState(
     System::EventProcessing::InputEventProcessor const& inputEventProcessor);
 
   // Methods
@@ -44,23 +43,12 @@ public:
   auto Initialize(
     std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
       graphicsRenderer) -> void;
-  auto Run() -> bool;
 
-  // Properties
-public:
-  auto GetInputEventCallbacks() -> InputEventCallbacks&;
-  auto GetSystemEventCallbacks() -> SystemEventCallbacks&;
-
-private:
-  GameState_t gameState = GameState_t::MainMenu;
+  // Fields
+protected:
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;
-  InGame inGame;
-  MainMenu mainMenu;
-  InputEventCallbacks inputEventCallbacks;
   System::EventProcessing::InputEventProcessor const& inputEventProcessor;
-  bool isStateInitialized = false;
-  SystemEventCallbacks systemEventCallbacks;
 };
 
 NAMESPACE_END(GunBox)

@@ -1,21 +1,39 @@
 // Self
 #include "MainMenu.hpp"
 
+// Engine headers - System
+#include "System/DeviceTypes/Input/KeyboardTypes.hpp"
+
 #include <iostream>
 
 NAMESPACE_BEGIN(GunBox)
 
-void
-MainMenu::Initialize(
-  std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
-    graphicsRenderer)
-{
-  this->graphicsRenderer = graphicsRenderer;
-}
+////////////////////////////////////////////////////////////////////////////////
+// Constructors & Destructors
+////////////////////////////////////////////////////////////////////////////////
+
+MainMenu::MainMenu(
+  System::EventProcessing::InputEventProcessor const& inputEventProcessor)
+  : GameState{ inputEventProcessor }
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+// Public Methods
+////////////////////////////////////////////////////////////////////////////////
 
 GameState_t
 MainMenu::Update()
 {
+  using namespace System::DeviceTypes::Input;
+  using namespace System::EventProcessing;
+
+  static auto i = 0ll;
+  auto arrow_UpState =inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
+  if (KeyboardState::KeyState_t::Pressed == arrow_UpState)
+  {
+    std::cout << "Arrow up is pressed " << ++i << "\n";
+  }
+
   if (isQuitting) {
     return GameState_t::Quit;
   } else {

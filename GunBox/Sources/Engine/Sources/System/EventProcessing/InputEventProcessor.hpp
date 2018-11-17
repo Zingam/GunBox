@@ -39,7 +39,7 @@ public:
   auto GamepadIds() const
     -> std::vector<System::DeviceTypes::Input::GamepadId_t> const&;
 
-  auto KeyboardKeyState(System::DeviceTypes::Input::ScanCode_t scancode)
+  auto KeyboardKeyState(System::DeviceTypes::Input::ScanCode_t scancode) const
     -> System::EventProcessing::KeyboardState ::KeyState_t;
 
   // Methods
