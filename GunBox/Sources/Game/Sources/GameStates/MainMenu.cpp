@@ -37,6 +37,8 @@ MainMenu::Update()
     std::cout << "Arrow up is pressed " << ++i << "\n";
   }
 
+  graphicsRenderer->Render();
+
   if (isQuitting) {
     return GameState_t::Quit;
   } else {

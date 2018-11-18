@@ -45,6 +45,7 @@ public:
 public:
   auto Initialize() -> bool final;
   auto Finalize() -> void final;
+  auto Render() -> void final;
 
 public:
   friend std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> Create(

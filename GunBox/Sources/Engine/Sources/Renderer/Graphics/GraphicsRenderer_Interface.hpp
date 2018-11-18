@@ -46,6 +46,7 @@ public:
 public:
   virtual auto Initialize() -> bool;
   virtual auto Finalize() -> void;
+  virtual auto Render() -> void = 0;
 
 private:
   auto MakeWindowProperties(Application::Preferences& preferences)

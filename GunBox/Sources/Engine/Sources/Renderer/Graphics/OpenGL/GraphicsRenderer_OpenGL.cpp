@@ -70,4 +70,13 @@ GraphicsRenderer_OpenGL::Finalize()
   GraphicsRenderer_Interface::Finalize();
 }
 
+void
+GraphicsRenderer_OpenGL::Render()
+{
+  gl_(glClearColor, 0.1f, 0.1f, 1.0f, 0.0f);
+  gl_(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  hostPlatform.OpenGLDevice().SwapBuffer();
+}
+
 NAMESPACE_END(Renderer::Graphics)
