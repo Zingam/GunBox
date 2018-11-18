@@ -53,6 +53,7 @@ private:
 
 protected:
   System::HostPlatform& hostPlatform;
+  bool isInitialized = false;
   std::unique_ptr<System::Window> window;
 
 private:

@@ -7,6 +7,9 @@
 // Project headers - System
 #include "System/HostPlatform.hpp"
 
+// C Standard Library
+#include <cassert>
+
 NAMESPACE_BEGIN(Renderer::Graphics)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,14 +29,16 @@ GraphicsRenderer_Interface::GraphicsRenderer_Interface(
 
 GraphicsRenderer_Interface::~GraphicsRenderer_Interface() {}
 
-auto
-GraphicsRenderer_Interface::Initialize() -> bool
+bool
+GraphicsRenderer_Interface::Initialize()
 {
+  assert(!isInitialized && "Renderer is already initialized!");
+  isInitialized = true;
   return window->Show();
 }
 
-auto
-GraphicsRenderer_Interface::Finalize() -> void
+void
+GraphicsRenderer_Interface::Finalize()
 {
   auto position = window->Position();
   preferences.MainWindowMetrics().Coordinate.X = position.X;
@@ -42,9 +47,9 @@ GraphicsRenderer_Interface::Finalize() -> void
   hostPlatform.OpenGLDevice().Finalize();
 }
 
-auto
+System::Window::Properties
 GraphicsRenderer_Interface::MakeWindowProperties(
-  Application::Preferences& preferences) -> System::Window::Properties
+  Application::Preferences& preferences)
 {
   System::Window::Properties properties{};
   properties.Coordinate.X = preferences.MainWindowMetrics().Coordinate.X;

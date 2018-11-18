@@ -1,6 +1,9 @@
 // Self
 #include "MainMenu.hpp"
 
+// Engine headers - Renderer
+#include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
+
 // Engine headers - System
 #include "System/DeviceTypes/Input/KeyboardTypes.hpp"
 
@@ -28,9 +31,9 @@ MainMenu::Update()
   using namespace System::EventProcessing;
 
   static auto i = 0ll;
-  auto arrow_UpState =inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
-  if (KeyboardState::KeyState_t::Pressed == arrow_UpState)
-  {
+  auto arrow_UpState =
+    inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
+  if (KeyboardState::KeyState_t::Pressed == arrow_UpState) {
     std::cout << "Arrow up is pressed " << ++i << "\n";
   }
 
@@ -46,7 +49,8 @@ MainMenu::Update()
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-MainMenu::Accept(){
+MainMenu::Accept()
+{
   nextGameState = GameState_t::InGame;
 };
 

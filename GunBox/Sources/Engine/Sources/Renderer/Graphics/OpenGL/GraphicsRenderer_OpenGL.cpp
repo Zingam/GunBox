@@ -8,6 +8,9 @@
 // Project headers - System
 #include "System/HostPlatform.hpp"
 
+// C Standard Library
+#include <cassert>
+
 NAMESPACE_BEGIN(Renderer::Graphics)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +29,8 @@ GraphicsRenderer_OpenGL::~GraphicsRenderer_OpenGL() {}
 bool
 GraphicsRenderer_OpenGL::Initialize()
 {
+  assert(!isInitialized && "Renderer is already initialized!");
+
   auto isSuccess = hostPlatform.OpenGLDevice().Initialize(*window);
   if (isSuccess) {
     isSuccess = GraphicsRenderer_Interface::Initialize();
@@ -46,13 +51,17 @@ GraphicsRenderer_OpenGL::Initialize()
           LogInfo("  Version:         %s", version);
           LogInfo("  GLSL version:    %s", glslVersion);
 
-          return true;
+          isInitialized = true;
+
+          return isInitialized;
         }
       }
     }
   }
 
-  return false;
+  isInitialized = false;
+
+  return isInitialized;
 }
 
 void

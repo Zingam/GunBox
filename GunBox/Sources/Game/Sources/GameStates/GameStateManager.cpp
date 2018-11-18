@@ -55,8 +55,8 @@ GameStateManager::Run()
 
   if (GameState_t::InGame == gameState) {
     if (!isStateInitialized) {
-      inGame.Initialize(graphicsRenderer);
       isStateInitialized = true;
+      inGame.Initialize(graphicsRenderer);
     }
     gameState = inGame.Update();
     if (GameState_t::InGame != gameState) {
@@ -68,6 +68,7 @@ GameStateManager::Run()
       case GameState_t::MainMenu: {
         if (!isStateInitialized) {
           isStateInitialized = true;
+          mainMenu.Initialize(graphicsRenderer);
           inputEventCallbacks.SetCommander<Commander_MainMenu>(mainMenu);
         }
         gameState = mainMenu.Update();
