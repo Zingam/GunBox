@@ -67,6 +67,8 @@ GraphicsRenderer_OpenGL::Initialize()
 void
 GraphicsRenderer_OpenGL::Finalize()
 {
+  hostPlatform.OpenGLDevice().Finalize();
+
   GraphicsRenderer_Interface::Finalize();
 }
 

@@ -33,7 +33,9 @@ bool
 GraphicsRenderer_Interface::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
+
   isInitialized = true;
+
   return window->Show();
 }
 
@@ -43,8 +45,6 @@ GraphicsRenderer_Interface::Finalize()
   auto position = window->Position();
   preferences.MainWindowMetrics().Coordinate.X = position.X;
   preferences.MainWindowMetrics().Coordinate.Y = position.Y;
-
-  hostPlatform.OpenGLDevice().Finalize();
 }
 
 System::Window::Properties
