@@ -4,6 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
+#include "System/DeviceTypes/Graphics/RendererTypes.hpp"
 #include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
 
 // C++ Standard Library
@@ -39,28 +40,32 @@ public:
   // Properties
 public:
   auto Fullscreen() const -> std::optional<bool>;
-  auto ShowHelp() const -> std::optional<bool>;
-  auto ShowSystemConsole() const -> std::optional<bool>;
+  auto Renderer() const -> std::optional<System::DeviceTypes::Graphics::API_t>;
   auto Resolution() const
     -> std::optional<System::DeviceTypes::Graphics::Dimensions>;
+  auto ShowHelp() const -> std::optional<bool>;
+  auto ShowSystemConsole() const -> std::optional<bool>;
 
   // Methods
 public:
   auto Parse(int argc, char* argv[]) -> std::optional<std::string>;
 
 private:
-  auto ParseFullscreen(std::string const& option,
-                       std::vector<std::string> const& parameters)
-    -> std::optional<std::string>;
-  auto ParseShowHelp(std::string const& option,
-                     std::vector<std::string> const& parameters)
-    -> std::optional<std::string>;
-  auto ParseShowSystemConsole(std::string const& option,
-                              std::vector<std::string> const& parameters)
-    -> std::optional<std::string>;
-  auto ParseResolution(std::string const& option,
-                       std::vector<std::string> const& parameters)
-    -> std::optional<std::string>;
+  auto ParseFullscreen(
+    std::string const& option,
+    std::vector<std::string> const& parameters) -> std::optional<std::string>;
+  auto ParseRenderer(
+    std::string const& option,
+    std::vector<std::string> const& parameters) -> std::optional<std::string>;
+  auto ParseResolution(
+    std::string const& option,
+    std::vector<std::string> const& parameters) -> std::optional<std::string>;
+  auto ParseShowHelp(
+    std::string const& option,
+    std::vector<std::string> const& parameters) -> std::optional<std::string>;
+  auto ParseShowSystemConsole(
+    std::string const& option,
+    std::vector<std::string> const& parameters) -> std::optional<std::string>;
 
   // Constant fields
 private:
@@ -69,9 +74,10 @@ private:
   // Variable fields
 private:
   std::optional<bool> fullscreen;
+  std::optional<System::DeviceTypes::Graphics::API_t> renderer;
+  std::optional<System::DeviceTypes::Graphics::Dimensions> resolution;
   std::optional<bool> showHelp;
   std::optional<bool> showSystemConsole;
-  std::optional<System::DeviceTypes::Graphics::Dimensions> resolution;
 };
 
 NAMESPACE_END(Application)

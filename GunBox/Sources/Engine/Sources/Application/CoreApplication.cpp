@@ -78,18 +78,10 @@ CoreApplication::Initialize()
     if (commandLineArgs->ShowSystemConsole()) {
       hostPlatform.SystemConsole().Show();
     }
-
-    LogInfo("Initalizing: %s", info.Title().c_str());
-
-    if (commandLineArgs->Resolution()) {
-      auto height = commandLineArgs->Resolution().value().Height;
-      auto width = commandLineArgs->Resolution().value().Width;
-      LogInfo("Desired resolution: %dx%d", width, height);
-    }
-  } else {
-    LogInfo("Initalizing: %s", info.Title().c_str());
   }
 #endif
+
+  LogInfo("Initalizing: %s", info.Title().c_str());
 
   auto hasLoadError = preferences->LoadFromFile();
   if (hasLoadError) {
@@ -112,8 +104,31 @@ CoreApplication::Initialize()
     return Application::ExitCode::InitializationError;
   }
 
+  auto creationPreferences = *preferences;
+#if defined(_DEBUG)
+  if (nullptr != commandLineArgs) {
+    if (commandLineArgs->Resolution()) {
+      auto height = commandLineArgs->Resolution().value().Height;
+      auto width = commandLineArgs->Resolution().value().Width;
+
+      LogInfo("Desired resolution: %dx%d", width, height);
+
+      creationPreferences.MainWindowMetrics().Size.Height = height;
+      creationPreferences.MainWindowMetrics().Size.Width = width;
+    }
+
+    if (commandLineArgs->Renderer()) {
+      auto renderer = commandLineArgs->Renderer().value();
+
+      LogInfo("Desired renderer: %d", renderer);
+
+      creationPreferences.RendererAPI() = renderer;
+    }
+  }
+#endif
+
   graphicsRenderer =
-    Renderer::Graphics::Create(info, *preferences, hostPlatform);
+    Renderer::Graphics::Create(info, creationPreferences, hostPlatform);
 
   return Application::ExitCode::NoError;
 }

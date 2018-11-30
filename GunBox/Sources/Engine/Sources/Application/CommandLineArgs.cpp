@@ -16,35 +16,48 @@ CommandLineArgs::CommandLineArgs()
   : options{ { "--fullscreen",
                { { 0,
                    "",
-                   [this](std::string const& option,
-                          std::vector<std::string> const& parameters) {
+                   [this](
+                     std::string const& option,
+                     std::vector<std::string> const& parameters) {
                      return this->ParseFullscreen(option, parameters);
                    } },
-                 "Start the applicatin in fullscreen mode." } },
+                 "Starts the application in fullscreen mode." } },
              { "--help",
                { { 0,
                    "",
-                   [this](std::string const& option,
-                          std::vector<std::string> const& parameters) {
+                   [this](
+                     std::string const& option,
+                     std::vector<std::string> const& parameters) {
                      return this->ParseShowHelp(option, parameters);
                    } },
-                 "Start the applicatin in fullscreen mode." } },
+                 "Displays the command line options." } },
+             { "--renderer:",
+               { { 1,
+                   "<Direct3D_12|OpenGL|Vulkan>",
+                   [this](
+                     std::string const& option,
+                     std::vector<std::string> const& parameters) {
+                     return this->ParseRenderer(option, parameters);
+                   } },
+                 "Displays the command line options." } },
              { "--resolution:",
                { { 1,
                    "<width>x<height>",
-                   [this](std::string const& option,
-                          std::vector<std::string> const& parameters) {
+                   [this](
+                     std::string const& option,
+                     std::vector<std::string> const& parameters) {
                      return this->ParseResolution(option, parameters);
                    } },
                  "A valid resolution for the application window." } },
              { "--show-system-console",
                { { 0,
                    "",
-                   [this](std::string const& option,
-                          std::vector<std::string> const& parameters) {
+                   [this](
+                     std::string const& option,
+                     std::vector<std::string> const& parameters) {
                      return this->ParseShowSystemConsole(option, parameters);
                    } },
-                 "Open a system console on supported systems." } } }
+                 "Opens a system console on supported systems." } } }
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,6 +68,13 @@ std::optional<bool>
 CommandLineArgs::Fullscreen() const
 {
   return fullscreen;
+}
+
+auto
+CommandLineArgs::Renderer() const
+  -> std::optional<System::DeviceTypes::Graphics::API_t>
+{
+  return renderer;
 }
 
 std::optional<bool>
@@ -90,8 +110,9 @@ CommandLineArgs::Parse(int argc, char* argv[])
                             std::string{ argv[argumentIndex] } };
     }
     auto const& optionInfo = search->second;
-    assert((0 <= optionInfo.Parameters.Count) &&
-           "Parameters count cannot be a negative number.");
+    assert(
+      (0 <= optionInfo.Parameters.Count) &&
+      "Parameters count cannot be a negative number.");
     std::vector<std::string> parameters;
     for (int parameterIndex = 0; parameterIndex < optionInfo.Parameters.Count;
          ++parameterIndex) {
@@ -108,8 +129,9 @@ CommandLineArgs::Parse(int argc, char* argv[])
 }
 
 std::optional<std::string>
-CommandLineArgs::ParseFullscreen(std::string const& option,
-                                 std::vector<std::string> const& parameters)
+CommandLineArgs::ParseFullscreen(
+  std::string const& option,
+  std::vector<std::string> const& parameters)
 {
   if (fullscreen) {
     return "Duplicated option: " + option;
@@ -119,9 +141,35 @@ CommandLineArgs::ParseFullscreen(std::string const& option,
   return std::nullopt;
 }
 
+auto
+CommandLineArgs::ParseRenderer(
+  std::string const& option,
+  std::vector<std::string> const& parameters) -> std::optional<std::string>
+{
+  if (renderer) {
+    return "Duplicated option: " + option + " " + parameters[0];
+  }
+  assert((1 == parameters.size()) && "Too many parameters");
+
+  auto rendererParameter = parameters[0];
+  if ("Direct3D_12" == rendererParameter) {
+    renderer = System::DeviceTypes::Graphics::API_t::Direct3D_12;
+  } else if ("OpenGL" == rendererParameter) {
+    renderer = System::DeviceTypes::Graphics::API_t::OpenGL;
+  } else if ("Vulkan" == rendererParameter) {
+    renderer = System::DeviceTypes::Graphics::API_t::Vulkan;
+  } else {
+    return std::optional{ "Invalid parameter: " + rendererParameter + "\n" +
+                          "  for option: " + option };
+  }
+
+  return std::nullopt;
+}
+
 std::optional<std::string>
-CommandLineArgs::ParseShowHelp(std::string const& option,
-                               std::vector<std::string> const& parameters)
+CommandLineArgs::ParseShowHelp(
+  std::string const& option,
+  std::vector<std::string> const& parameters)
 {
   if (showHelp) {
     return "Duplicated option: " + option;
@@ -145,8 +193,9 @@ CommandLineArgs::ParseShowSystemConsole(
 }
 
 std::optional<std::string>
-CommandLineArgs::ParseResolution(std::string const& option,
-                                 std::vector<std::string> const& parameters)
+CommandLineArgs::ParseResolution(
+  std::string const& option,
+  std::vector<std::string> const& parameters)
 {
   if (resolution) {
     return "Duplicated option: " + option + " " + parameters[0];
@@ -179,7 +228,7 @@ CommandLineArgs::ParseResolution(std::string const& option,
   }
 
   return std::optional{ "Invalid parameter format: " + resolutionParameter +
-                        "\n" + "  for option :" };
+                        "\n" + "  for option: " + option };
 }
 
 NAMESPACE_END(Application)
