@@ -10,6 +10,8 @@
 //   on top.
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <cstddef>
+
 /// Macro: NAMESPACE_BEGIN(ns)
 #if !defined(NAMESPACE_BEGIN)
 #  define NAMESPACE_BEGIN(ns) namespace ns {
@@ -155,7 +157,7 @@
 #endif
 
 #if !defined(EnumCast)
-#  define EnumCast(enumClassElement) static_cast<size_t>(enumClassElement)
+#  define EnumCast(enumClassElement) static_cast<std::size_t>(enumClassElement)
 #else
 #  error EnumCast is already defined
 #endif

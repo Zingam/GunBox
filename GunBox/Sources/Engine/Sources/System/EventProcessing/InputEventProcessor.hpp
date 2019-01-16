@@ -17,6 +17,7 @@
 #include <map>
 #include <memory>
 #include <unordered_map>
+#include <vector>
 
 NAMESPACE_BEGIN(System::EventProcessing)
 
