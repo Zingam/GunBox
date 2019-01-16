@@ -43,7 +43,6 @@ public:
   // Fields
 private:
   bool isQuitting = false;
-  bool isRequestingToQuit = false;
   GameState_t nextGameState = GameState_t::InGame;
 };
 

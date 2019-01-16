@@ -16,8 +16,7 @@ NAMESPACE_BEGIN(GunBox)
 
 GameStateManager::GameStateManager(
   System::EventProcessing::InputEventProcessor const& inputEventProcessor)
-  : inputEventProcessor{ inputEventProcessor }
-  , inGame{ inputEventProcessor }
+  : inGame{ inputEventProcessor }
   , mainMenu{ inputEventProcessor }
 {}
 

@@ -4,7 +4,7 @@
 #include "System/DeviceTypes/Input/GamepadTypes.hpp"
 
 // Third party libraries
-#include <SDL_GameController.h>
+#include <SDL_gamecontroller.h>
 
 NAMESPACE_BEGIN(System::Platforms::Gamepad)
 

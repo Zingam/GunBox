@@ -58,7 +58,6 @@ private:
   InGame inGame;
   MainMenu mainMenu;
   InputEventCallbacks inputEventCallbacks;
-  System::EventProcessing::InputEventProcessor const& inputEventProcessor;
   bool isStateInitialized = false;
   SystemEventCallbacks systemEventCallbacks;
 };

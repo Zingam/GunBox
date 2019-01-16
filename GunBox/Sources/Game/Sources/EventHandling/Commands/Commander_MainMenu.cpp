@@ -95,6 +95,7 @@ Commander_MainMenu::GamepadAxisMotion(
       command->Execute(id);
       break;
     }
+    default: {}
   }
 }
 
@@ -191,6 +192,7 @@ Commander_MainMenu::GamepadButtonDown(
           command->Execute(id);
           break;
         }
+        default: {}
       }
     }
   }

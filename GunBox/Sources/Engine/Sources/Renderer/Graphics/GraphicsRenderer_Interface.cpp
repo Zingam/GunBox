@@ -21,10 +21,10 @@ GraphicsRenderer_Interface::GraphicsRenderer_Interface(
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
   : hostPlatform{ hostPlatform }
-  , preferences{ preferences }
   , window{ std::make_unique<System::Window>(
       applicationInfo.Title(),
       this->MakeWindowProperties(preferences)) }
+  , preferences{ preferences }
 {}
 
 GraphicsRenderer_Interface::~GraphicsRenderer_Interface() {}
