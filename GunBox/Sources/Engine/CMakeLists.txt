@@ -192,7 +192,7 @@ if (option_CheckGraphicsApiCalls)
       "OPENGL_CHECK_CALLS"
   )
 endif ()
-message (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline " " ${option_CheckGraphicsApiCalls_DoNotPrintErrorsInline})
+
 if (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline)
   target_compile_definitions (${PROJECT_NAME}
     PUBLIC
@@ -252,10 +252,9 @@ endif ()
 target_link_libraries (${PROJECT_NAME}
   PUBLIC
     ${PROJECT_NAME}_Base
+    glad
     REngine::FreeType2
     REngine::SDL2
-  PUBLIC
-    glad
 )
 if (ANDROID)
   target_link_libraries (${PROJECT_NAME}

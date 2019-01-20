@@ -25,6 +25,16 @@
 #       FreeType2_SHARED_LIBRARY - The name of the shared library (if available)
 #       FreeType2_VERSION_STRING - String containing the version of FreeType2
 ################################################################################
+# Search paths:
+#   * Environment variables (only one must be defined):
+#       VCPKG_ROOT
+#       __EXTERNAL_LIBS
+#   * System paths
+################################################################################
+
+################################################################################
+# Function definitions
+################################################################################
 
 function (AddImportedLibrary
   .ImportedTargetName
@@ -52,6 +62,58 @@ function (AddImportedLibrary
 endfunction()
 
 ################################################################################
+# Main module entry point
+################################################################################
+
+if (DEFINED ENV{VCPKG_ROOT}
+  AND NOT ANDROID
+)
+  if (DEFINED ENV{__EXTERNAL_LIBS})
+    message (FATAL_ERROR
+      "Both environment variables are defined: VCPKG_ROOT and __EXTERNAL_LIBS"
+      "Please, undefine one of them."
+    )
+  endif ()
+
+  set (.InstalledLibraryPathHints "$ENV{VCPKG_ROOT}/installed")
+
+  # Target CPU architecture
+  if (CMAKE_SYSTEM_PROCESSOR MATCHES "^arm|^aarch64")
+    string (APPEND .InstalledLibraryPathHints "/arm")
+  elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "^AMD64")
+    string (APPEND .InstalledLibraryPathHints "/x")
+  else ()
+    message (FATAL_ERROR
+      "Unknown CPU architecture: ${CMAKE_SYSTEM_PROCESSOR}"
+    )
+  endif ()
+  if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    # If compile target is 64bit
+    string (APPEND .InstalledLibraryPathHints "64")
+  else ()
+    # If compile target is 32bit
+    string (APPEND .InstalledLibraryPathHints "86")
+  endif ()
+  # Target OS
+  if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    string (APPEND .InstalledLibraryPathHints "-linux")
+  elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    string (APPEND .InstalledLibraryPathHints "-windows")
+  else ()
+    message (FATAL_ERROR
+      "Unknown target OS: ${CMAKE_SYSTEM_NAME}"
+    )
+  endif ()
+
+  set (.InstalledLibraryHeaderPathHints ${.InstalledLibraryPathHints})
+
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    string (APPEND .InstalledLibraryPathHints "/debug")
+    set (.UsePostfixedDebugLibrary_FreeType2 YES)
+  endif ()
+endif ()
+
+################################################################################
 # Header files
 ################################################################################
 
@@ -65,7 +127,7 @@ if (ANDROID)
     __LibrarySourcePath
   )
   list (APPEND .FreeType2_find_path_Hints
-    "${__LibrarySourcePath}"
+    ${__LibrarySourcePath}
   )
   unset (__LibrarySourcePath)
 
@@ -76,8 +138,9 @@ if (ANDROID)
   set (NO_CMAKE_FIND_ROOT_PATH "NO_CMAKE_FIND_ROOT_PATH")
 else ()
   list (APPEND .FreeType2_find_path_Hints
-    "${FreeType2_DIR}"
+    ${FreeType2_DIR}
     "$ENV{__EXTERNAL_LIBS}/FreeType2"
+    ${.InstalledLibraryHeaderPathHints}
   )
 endif ()
 
@@ -102,13 +165,14 @@ if (NOT DEFINED .UsePostfixedDebugLibrary_FreeType2)
   # Link against the postfixed library by default
   set (.UsePostfixedDebugLibrary_FreeType2 YES)
 endif ()
-if (NOT "${CMAKE_BUILD_TYPE}" STREQUAL "Debug"
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug"
   # If linking against a debug version but without the postfix "d"
   OR NOT .UsePostfixedDebugLibrary_FreeType2
 )
   set (.BaseLibraryName "freetype")
 else ()
   set (.BaseLibraryName "freetyped")
+  unset (.UsePostfixedDebugLibrary_FreeType2)
 endif ()
 
 if (ANDROID)
@@ -116,13 +180,14 @@ if (ANDROID)
     message (FATAL_ERROR ".ANDROID_LibraryArtifactsPath_FreeType2 is not set")
   endif ()
   list (APPEND .FreeType2_LibraryFileHints
-    "${.ANDROID_LibraryArtifactsPath_FreeType2}"
+    ${.ANDROID_LibraryArtifactsPath_FreeType2}
   )
 else ()
   list (APPEND .FreeType2_LibraryFileHints
-    "$ENV{FREETYPE_DIR}"
-    "${FreeType2_DIR}"
+    $ENV{FREETYPE_DIR}
+    ${FreeType2_DIR}
     "$ENV{__EXTERNAL_LIBS}/FreeType2"
+    ${.InstalledLibraryPathHints}
   )
 endif ()
 
@@ -132,14 +197,14 @@ if (ANDROID)
   if (.ANDROID_AddLibraryAs_SHARED_FreeType2)
     string (APPEND .BaseLibraryName ".so")
     AddImportedLibrary (FreeType2 SHARED
-      "${.BaseLibraryName}"
-      "${.ANDROID_LibraryArtifactsPath_FreeType2}"
+      ${.BaseLibraryName}
+      ${.ANDROID_LibraryArtifactsPath_FreeType2}
     )
   else ()
     string (APPEND .BaseLibraryName ".a")
     AddImportedLibrary (FreeType2 STATIC
-      "${__BaseLibraryName}"
-      "${.ANDROID_LibraryArtifactsPath_FreeType2}"
+      ${__BaseLibraryName}
+      ${.ANDROID_LibraryArtifactsPath_FreeType2}
     )
   endif ()
 else ()
@@ -156,16 +221,16 @@ else ()
 
   find_library (FreeType2_LIBRARY
     NAMES
-      "${.BaseLibraryName}"
+      ${.BaseLibraryName}
     HINTS
       ${.FreeType2_LibraryFileHints}
     PATH_SUFFIXES
       "lib"
-      "${.MSVC_libPathSuffix}"
+      ${.MSVC_libPathSuffix}
   )
 endif ()
 
-if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
   set (__LibraryFile "${.BaseLibraryName}.dll")
 
   find_file (FreeType2_SHARED_LIBRARY
@@ -173,9 +238,11 @@ if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
       "${__LibraryFile}"
     HINTS
       "$ENV{__EXTERNAL_LIBS}/FreeType2"
+      ${.InstalledLibraryPathHints}
     PATH_SUFFIXES
-      "${.MSVC_binPathSuffix}"
-      "${.MSVC_libPathSuffix}"
+      "bin"
+      ${.MSVC_binPathSuffix}
+      ${.MSVC_libPathSuffix}
     # Look only in the specified HINTS
     NO_DEFAULT_PATH
   )
@@ -191,6 +258,7 @@ endif ()
 
 unset (.MSVC_libPathSuffix)
 unset (.BaseLibraryName)
+unset (.InstalledLibraryPathHints)
 
 ################################################################################
 # find_package arguments

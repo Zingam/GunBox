@@ -20,6 +20,12 @@
 #       SDL2_SHARED_LIBRARY - The name of the shared library (if available)
 #       SDL2_VERSION_STRING - String containing the version of SDL2
 ################################################################################
+# Search paths:
+#   * Environment variables (only one must be defined):
+#       VCPKG_ROOT
+#       __EXTERNAL_LIBS
+#   * System paths
+################################################################################
 #
 # Flags:
 #   SDL2_BUILDING_LIBRARY
@@ -66,6 +72,10 @@
 # because not all systems place things in SDL/ (see FreeBSD).
 ################################################################################
 
+################################################################################
+# Function definitions
+################################################################################
+
 function (AddImportedLibrary
   .ImportedTargetName
   .LibraryType
@@ -81,18 +91,70 @@ function (AddImportedLibrary
 
   add_library (${.ImportedTargetName} ${.LibraryType} IMPORTED)
   file (TO_CMAKE_PATH
-    ${.LibrarySearchPath}/${.LibraryName}
+    "${.LibrarySearchPath}/${.LibraryName}"
     __ImportedLibraryFile
   )
   set_property (TARGET ${.ImportedTargetName}
     PROPERTY
       IMPORTED_LOCATION
-        "${__ImportedLibraryFile}"
+        ${__ImportedLibraryFile}
   )
 endfunction()
 
+################################################################################
+# Main module entry point
+################################################################################
+
 if (NOT SDL2_DIR)
   set (SDL2_DIR "" CACHE PATH "SDL2 directory")
+endif ()
+
+if (DEFINED ENV{VCPKG_ROOT}
+  AND NOT ANDROID
+)
+  if (DEFINED ENV{__EXTERNAL_LIBS})
+    message (FATAL_ERROR
+      "Both environment variables are defined: VCPKG_ROOT and __EXTERNAL_LIBS"
+      "Please, undefine one of them."
+    )
+  endif ()
+
+  set (.InstalledLibraryPathHints "$ENV{VCPKG_ROOT}/installed")
+
+  # Target CPU architecture
+  if (CMAKE_SYSTEM_PROCESSOR MATCHES "^arm|^aarch64")
+    string (APPEND .InstalledLibraryPathHints "/arm")
+  elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "^AMD64")
+    string (APPEND .InstalledLibraryPathHints "/x")
+  else ()
+    message (FATAL_ERROR
+      "Unknown processor architecture: ${CMAKE_SYSTEM_PROCESSOR}"
+    )
+  endif ()
+  if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    # If compile target is 64bit
+    string (APPEND .InstalledLibraryPathHints "64")
+  else ()
+    # If compile target is 32bit
+    string (APPEND .InstalledLibraryPathHints "86")
+  endif ()
+  # Target OS
+  if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    string (APPEND .InstalledLibraryPathHints "-linux")
+  elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    string (APPEND .InstalledLibraryPathHints "-windows")
+  else ()
+    message (FATAL_ERROR
+      "Unknown target OS: ${CMAKE_SYSTEM_NAME}"
+    )
+  endif ()
+
+  set (.InstalledLibraryHeaderPathHints ${.InstalledLibraryPathHints})
+
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+    string (APPEND .InstalledLibraryPathHints "/debug")
+    set (.UsePostfixedDebugLibrary_SDL2 YES)
+  endif ()
 endif ()
 
 ################################################################################
@@ -109,7 +171,7 @@ if (ANDROID)
     __LibrarySourcePath
   )
   list (APPEND .SDL2_IncludeDirHints
-    "${__LibrarySourcePath}"
+    ${__LibrarySourcePath}
   )
   unset (__SDL2_SourcePath)
 
@@ -121,8 +183,9 @@ if (ANDROID)
 else ()
   list (APPEND .SDL2_IncludeDirHints
     $ENV{SDLDIR}
-    "${SDL2_DIR}"
+    ${SDL2_DIR}
     "$ENV{__EXTERNAL_LIBS}/SDL2"
+    ${.InstalledLibraryHeaderPathHints}
   )
 endif ()
 
@@ -145,18 +208,28 @@ unset (.SDL2_IncludeDirHints)
 # Library files
 ################################################################################
 
+if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug"
+  # If linking against a debug version but without the postfix "d"
+  OR NOT .UsePostfixedDebugLibrary_SDL2
+)
+  set (.BaseLibraryName "SDL2")
+else ()
+  set (.BaseLibraryName "SDL2d")
+endif ()
+
 if (ANDROID)
   if (NOT .ANDROID_LibraryArtifactsPath_SDL2)
     message (FATAL_ERROR ".ANDROID_LibraryArtifactsPath_SDL2 is not set")
   endif ()
   list (APPEND .SDL2_LibraryFileHints
-    "${.ANDROID_LibraryArtifactsPath_SDL2}"
+    ${.ANDROID_LibraryArtifactsPath_SDL2}
   )
 else ()
   list (APPEND .SDL2_LibraryFileHints
-    "$ENV{SDLDIR}"
-    "${SDL2_DIR}"
+    $ENV{SDLDIR}
+    ${SDL2_DIR}
     "$ENV{__EXTERNAL_LIBS}/SDL2"
+    ${.InstalledLibraryPathHints}
   )
 endif ()
 
@@ -164,20 +237,16 @@ if (ANDROID)
   if (.ANDROID_AddLibraryAs_SHARED_SDL2)
     AddImportedLibrary (SDL2 SHARED
       "libSDL2.so"
-      "${.SDL2_LibraryFileHints}"
+      ${.SDL2_LibraryFileHints}
     )
   else ()
     AddImportedLibrary (SDL2 STATIC
       "libSDL2.a"
-      "${.SDL2_LibraryFileHints}"
+      ${.SDL2_LibraryFileHints}
     )
   endif ()
 else ()
-  # SDL-1.1 is the name used by FreeBSD ports...
-  # don't confuse it for the version number.
-  set (.LibraryFile "SDL2")
-
-    # Set search path sufficies
+  # Set search path sufficies
   if (CMAKE_SIZEOF_VOID_P EQUAL 8)
     # If compile target is 64bit
     set (.MSVC_libPathSuffix lib/x64)
@@ -188,25 +257,27 @@ else ()
 
   find_library (SDL2_LIBRARY
     NAMES
-      "${.LibraryFile}"
+      ${.BaseLibraryName}
     HINTS
       ${.SDL2_LibraryFileHints}
     PATH_SUFFIXES
       "lib"
-      "${.MSVC_libPathSuffix}"
+      ${.MSVC_libPathSuffix}
   )
 endif ()
 
 set (SDL2_LIBRARY_TEMP ${SDL2_LIBRARY})
-if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
-  set (__LibraryFile "${.LibraryFile}.dll")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  set (__LibraryFile "${.BaseLibraryName}.dll")
 
   find_file (SDL2_SHARED_LIBRARY
     NAMES
-      "${__LibraryFile}"
+      ${__LibraryFile}
     HINTS
       "$ENV{__EXTERNAL_LIBS}/SDL2"
+      ${.InstalledLibraryPathHints}
     PATH_SUFFIXES
+      "bin"
       ${.MSVC_libPathSuffix}
     NO_DEFAULT_PATH
   )
@@ -221,33 +292,46 @@ if ("${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
 endif ()
 
 if (NOT SDL2_BUILDING_LIBRARY)
-  if (NOT SDL2_INCLUDE_DIR MATCHES ".framework")
+  if (NOT SDL2_INCLUDE_DIR STREQUAL ".framework")
     # Non-OS X framework versions expect you to also dynamically link to
     # SDLmain. This is mainly for Windows and OS X. Other (Unix) platforms
     # seem to provide SDLmain for compatibility even though they don't
     # necessarily need it.
     if (NOT ANDROID)
-      set (.LibraryFile "SDL2main")
+      if (NOT CMAKE_BUILD_TYPE STREQUAL "Debug"
+        # If linking against a debug version but without the postfix "d"
+        OR NOT .UsePostfixedDebugLibrary_SDL2
+      )
+        set (__LibraryFile "SDL2main")
+      else ()
+        set (__LibraryFile "SDL2maind")
+      endif ()
+
       find_library (SDL2MAIN_LIBRARY
         NAMES
-          "${.LibraryFile}"
+          ${__LibraryFile}
         HINTS
           ${.SDL2_LibraryFileHints}
         PATH_SUFFIXES
           "lib"
-          "${.MSVC_libPathSuffix}"
+          "lib/manual-link"
+          ${.MSVC_libPathSuffix}
         PATHS
-        "/sw"
-        "/opt/local"
-        "/opt/csw"
-        "/opt"
+          "/sw"
+          "/opt/local"
+          "/opt/csw"
+          "/opt"
       )
+      unset (__LibraryFile)
     endif ()
   endif ()
 endif()
 
+unset (.BaseLibraryName)
+unset (.InstalledLibraryPathHints)
 unset (.MSVC_libPathSuffix)
 unset (.SDL2_LibraryFileHints)
+unset (.UsePostfixedDebugLibrary_SDL2)
 
 # SDL may require threads on your system.
 # The Apple build may not need an explicit flag because one of the
@@ -264,11 +348,12 @@ if (MINGW)
 endif ()
 
 if (SDL2_LIBRARY_TEMP)
-  # For SDLmain
+  # Check if SDL2main is in SDL2_LIBRARY_TEMP already
   if (SDL2MAIN_LIBRARY AND NOT SDL2_BUILDING_LIBRARY)
-    list (FIND SDL2_LIBRARY_TEMP "${SDL2MAIN_LIBRARY}" __SDL2_MAIN_INDEX)
+    list (FIND SDL2_LIBRARY_TEMP ${SDL2MAIN_LIBRARY} __SDL2_MAIN_INDEX)
+    # Prepend SDL2main to SDL2_LIBRARY_TEMP if not found
     if (__SDL2_MAIN_INDEX EQUAL -1)
-      set (SDL2_LIBRARY_TEMP "${SDL2MAIN_LIBRARY}" ${SDL2_LIBRARY_TEMP})
+      list (INSERT SDL2_LIBRARY_TEMP 0 ${SDL2MAIN_LIBRARY})
     endif ()
     unset (__SDL2_MAIN_INDEX)
   endif ()
@@ -299,6 +384,7 @@ if (SDL2_LIBRARY_TEMP)
   set (SDL2_LIBRARIES ${SDL2_LIBRARY_TEMP} CACHE STRING
     "Where the SDL2 Library can be found"
   )
+  unset (SDL2_LIBRARY_TEMP)
 endif ()
 
 if (SDL2_INCLUDE_DIR AND EXISTS "${SDL2_INCLUDE_DIR}/SDL2_version.h")
@@ -381,8 +467,8 @@ if (SDL2_FOUND AND NOT TARGET REngine::SDL2)
     )
   else ()
     add_library (REngine::SDL2 UNKNOWN IMPORTED)
-    set (.InterfaceLinkLibraries ${SDL2_LIBRARIES})
-    list (REMOVE_ITEM .InterfaceLinkLibraries ${SDL2_LIBRARY})
+    set (__InterfaceLinkLibraries ${SDL2_LIBRARIES})
+    list (REMOVE_ITEM __InterfaceLinkLibraries ${SDL2_LIBRARY})
     set_target_properties (REngine::SDL2
       PROPERTIES
         INTERFACE_INCLUDE_DIRECTORIES
@@ -390,8 +476,9 @@ if (SDL2_FOUND AND NOT TARGET REngine::SDL2)
         IMPORTED_LOCATION
           "${SDL2_LIBRARY}"
         INTERFACE_LINK_LIBRARIES
-          "${.InterfaceLinkLibraries}"
+          "${__InterfaceLinkLibraries}"
     )
+    unset (__InterfaceLinkLibraries)
   endif ()
 endif ()
 
