@@ -24,14 +24,16 @@ class Preferences
     // Types
     using hash_t = size_t;
     // Values
-    hash_t hash_1;
-    std::string identifier;
-    size_t version;
-    size_t offset_2; // of hash_2
-    System::DeviceTypes::Graphics::Rectangle2D mainWindowMetrics;
-    bool fullscreen;
-    hash_t hash_2;
-    System::DeviceTypes::Graphics::API_t rendererApi;
+    hash_t hash_1 = 0;
+    std::string identifier{};
+    size_t version = 0;
+    size_t offset_2 = 0; // of hash_2
+    System::DeviceTypes::Graphics::Rectangle2D mainWindowMetrics{ { 0, 0 },
+                                                                  { 0, 0 } };
+    bool fullscreen = false;
+    hash_t hash_2 = 0;
+    System::DeviceTypes::Graphics::API_t rendererApi =
+      System::DeviceTypes::Graphics::API_t::Unknown;
   };
 
 public:

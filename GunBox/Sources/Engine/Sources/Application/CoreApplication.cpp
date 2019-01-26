@@ -120,7 +120,7 @@ CoreApplication::Initialize()
     if (commandLineArgs->Renderer()) {
       auto renderer = commandLineArgs->Renderer().value();
 
-      LogInfo("Desired renderer: %d", renderer);
+      LogInfo("Desired renderer: %d", static_cast<int>(renderer));
 
       creationPreferences.RendererAPI() = renderer;
     }

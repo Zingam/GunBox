@@ -29,6 +29,9 @@ using OpenGLContext = void*;
 
 using OpenGLDevice_Implementation = class OpenGLDevice_SDL
 {
+public:
+  OpenGLDevice_SDL();
+
   // Properties
 public:
   auto GetProcAddress() -> void*;
@@ -44,7 +47,7 @@ private:
   OpenGLContext openGLContext = nullptr;
   System::DeviceTypes::Graphics::OpenGLContextVersion_t openGLContextVersion;
   std::string platformName;
-  Window const* window;
+  Window const* window = nullptr;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

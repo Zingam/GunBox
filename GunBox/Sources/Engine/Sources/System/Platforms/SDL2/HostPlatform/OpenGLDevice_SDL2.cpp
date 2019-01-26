@@ -1,3 +1,4 @@
+#include "OpenGLDevice_SDL2.hpp"
 // Self
 #include "OpenGLDevice_SDL2.hpp"
 
@@ -15,6 +16,28 @@
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
+////////////////////////////////////////////////////////////////////////////////
+// Constructors & Destructors
+////////////////////////////////////////////////////////////////////////////////
+
+OpenGLDevice_SDL::OpenGLDevice_SDL()
+  : openGLContextVersion{ 0, 0, 0, 0, 0 }
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
+auto
+OpenGLDevice_SDL::GetProcAddress() -> void*
+{
+  return reinterpret_cast<void*>(SDL_GL_GetProcAddress);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Methods
+////////////////////////////////////////////////////////////////////////////////
+
 void
 OpenGLDevice_SDL::Finalize()
 {
@@ -22,12 +45,6 @@ OpenGLDevice_SDL::Finalize()
   if (nullptr != openGLContext) {
     SDL_GL_DeleteContext(openGLContext);
   }
-}
-
-auto
-OpenGLDevice_SDL::GetProcAddress() -> void*
-{
-  return reinterpret_cast<void*>(SDL_GL_GetProcAddress);
 }
 
 bool
@@ -64,8 +81,8 @@ OpenGLDevice_SDL::InitializeContext()
   assert((!platformName.empty()) && "OpenGLDevice is not initialized");
 
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK,
-                      openGLContextVersion.ContextProfile);
+  SDL_GL_SetAttribute(
+    SDL_GL_CONTEXT_PROFILE_MASK, openGLContextVersion.ContextProfile);
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
   for (int majorVersion = openGLContextVersion.SupportedMajorVersion;
        openGLContextVersion.MinimalSupportedMajorVersion <= majorVersion;

@@ -108,7 +108,7 @@ private:
     std::pair<Gamepad_t, System::EventProcessing::GamepadState>>
     gamepads;
   std::vector<System::DeviceTypes::Input::GamepadId_t> gamepadIds;
-  System::EventProcessing::KeyboardState keyboardState;
+  System::EventProcessing::KeyboardState keyboardState{};
 };
 
 NAMESPACE_END(System::EventProcessing)

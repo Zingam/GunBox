@@ -24,7 +24,9 @@
 /// <remarks>
 ///   You need to pass this preprocessor definition on the command line.
 /// </remarks>
-#  define OPENGL_CHECK_CALLS 0
+#  define OPENGL_CHECK_CALLS
+
+#  define OPENG_CHECK_CALLS_NOT_DEFINED
 #endif
 
 #if !defined(OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE)
@@ -35,14 +37,16 @@
 /// <remarks>
 ///   You need to pass this preprocessor definition on the command line.
 /// </remarks>
-#  define OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE 0
+#  define OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE
+
+#  defined(OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE_NOT_DEFINED)
 #endif
 
-#if !OPENGL_CHECK_CALLS
+#if defined(OPENG_CHECK_CALLS_NOT_DEFINED)
 #  undef OPENGL_CHECK_CALLS
 #endif
 
-#if !OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE
+#if defined(OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE_NOT_DEFINED)
 #  undef OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE
 #endif
 
