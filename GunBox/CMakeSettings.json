@@ -14,11 +14,13 @@
       "cmakeCommandArgs": "",
       "variables": [
         {
-          "name": "option_EngineLibraryAs_SHARED:BOOL",
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
           "value": "YES"
         },
         {
-          "name": "option_CheckGraphicsApiCalls:BOOL",
+          "name": "option_CheckGraphicsApiCalls",
+          "type": "BOOL",
           "value": "YES"
         }
       ],
@@ -35,7 +37,8 @@
       "cmakeCommandArgs": "",
       "variables": [
         {
-          "name": "option_EngineLibraryAs_SHARED:BOOL",
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
           "value": "YES"
         }
       ],
@@ -55,7 +58,8 @@
       "cmakeCommandArgs": "${clang_cl_x64_env.CMakeCommandArgs}",
       "variables": [
         {
-          "name": "option_EngineLibraryAs_SHARED:BOOL",
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
           "value": "YES"
         }
       ],
@@ -74,7 +78,8 @@
       "cmakeCommandArgs": "",
       "variables": [
         {
-          "name": "option_EngineLibraryAs_SHARED:BOOL",
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
           "value": "YES"
         }
       ],
@@ -93,7 +98,8 @@
       "cmakeCommandArgs": "-T llvm",
       "variables": [
         {
-          "name": "option_EngineLibraryAs_SHARED:BOOL",
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
           "value": "YES"
         }
       ],
