@@ -11,6 +11,10 @@ end_of_line = crlf
 [*]
 insert_final_newline = true
 
+# Editor guidelines (VS2019 extension)
+[*]
+guidelines = 80, 120
+
 # Indentation
 [*]
 indent_size = 2
