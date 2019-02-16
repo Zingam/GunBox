@@ -196,7 +196,7 @@ else ()
 endif ()
 
 if (ANDROID)
-  string(PREPEND .BaseLibraryName "lib")
+  string (PREPEND .BaseLibraryName "lib")
 
   if (.ANDROID_AddLibraryAs_SHARED_FreeType2)
     string (APPEND .BaseLibraryName ".so")
