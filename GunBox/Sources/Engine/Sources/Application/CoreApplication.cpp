@@ -83,7 +83,7 @@ CoreApplication::Initialize()
   }
 #endif
 
-  LogInfo("Initalizing: %s", info.Title().c_str());
+  LogInfo("Initializing: %s", info.Title().c_str());
   LogInfo(
     "Base directory:\n"
     "        %s",
