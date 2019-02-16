@@ -6,6 +6,12 @@
 
 NAMESPACE_BEGIN(System)
 
+inline HostPlatformClasses::FileSystem&
+HostPlatform::FileSystem()
+{
+  return fileSystem;
+}
+
 inline HostPlatformClasses::OpenGLDevice&
 HostPlatform::OpenGLDevice()
 {
