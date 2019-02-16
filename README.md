@@ -106,6 +106,9 @@ A game programming exercise with **SDL2 API** and **OpenGL**...
 
     ```json5
     {
+        // The value to use in a configuration if "configurationProvider" is 
+        // either not specified or set to "${default}".
+        "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
         // The directory where CMake build files will go
         "cmake.buildDirectory": "${workspaceRoot}/../__build-output-${workspaceRootFolderName}/${generator}-${buildType}",
         // CMake variables to set on the command line
@@ -115,10 +118,9 @@ A game programming exercise with **SDL2 API** and **OpenGL**...
         // The CMake generator to use
         "cmake.generator": "Ninja",
         // The directory where CMake installed files will go
-        "cmake.installPrefix": "${workspaceRoot}/../__install/${generator}-${buildType}",
-        // The value to use in a configuration if "configurationProvider" is 
-        // either not specified or set to "${default}".
-        "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
+        "cmake.installPrefix": "${workspaceRoot}/../__install-output-${workspaceRootFolderName}/${generator}-${buildType}",
+        // The directory of the root CMakeLists.txt file
+        "cmake.sourceDirectory": "${workspaceRoot}/${workspaceRootFolderName}",
         // Zoom the font of the editor when using mouse wheel and holding 
         // `Ctrl`.
         "editor.mouseWheelZoom": true,
@@ -142,13 +144,14 @@ A game programming exercise with **SDL2 API** and **OpenGL**...
    + To execute **CMake** commands open the **Command panel** (*CTRL + SHIFT + P*) and search or the required command, e.g. *"cmake"*, *"cpp"* or press *F1*.
     ```json5
     {
+        "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
         "cmake.buildDirectory": "${workspaceRoot}/../__build-output-${workspaceRootFolderName}/${generator}-${buildType}",
         "cmake.configureSettings": {
             "option_ENGINE_LIBRARY_AS_SHARED:BOOL": "YES"
         },
         "cmake.generator": "Ninja",
-        "cmake.installPrefix": "${workspaceRoot}/../__install/${generator}-${buildType}",
-        "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
+        "cmake.installPrefix": "${workspaceRoot}/../__install-output-${workspaceRootFolderName}/${generator}-${buildType}",
+        "cmake.sourceDirectory": "${workspaceRoot}/${workspaceRootFolderName}",
         "editor.mouseWheelZoom": true,
         "editor.rulers": [
             80,
@@ -180,5 +183,42 @@ Example:
       "args": [ "--show-system-console", "--resolution: 640x480" ]
     }
   ]
+}
+```
+
+## Configuring Debug
+
+### Visual Studio Code
+
+**"program"** points to the executable file, which could be set as:
+- "program": "${command:cmake.launchTargetPath}"
+- "program": "${workspaceRoot}/../__install-output-GunBox/Ninja-Debug/GunBox_Game"
+
+Example:
+```json5
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            // Resolved by CMake Tools:
+            "program": "${command:cmake.launchTargetPath}",
+            "args": ["--show-system-console"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
 }
 ```
