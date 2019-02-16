@@ -23,7 +23,9 @@ NAMESPACE_BEGIN(Application)
 CoreApplication::CoreApplication(ApplicationInfo const& info)
   : info{ std::move(info) }
   , preferences{ std::make_unique<Preferences>(this->info) }
-{}
+{
+  hostPlatform.FileSystem().Initialize(info);
+}
 
 CoreApplication::~CoreApplication() {}
 
@@ -82,6 +84,14 @@ CoreApplication::Initialize()
 #endif
 
   LogInfo("Initalizing: %s", info.Title().c_str());
+  LogInfo(
+    "Base directory:\n"
+    "        %s",
+    hostPlatform.FileSystem().BasePath().c_str());
+  LogInfo(
+    "Preferencies root directory:\n"
+    "        %s",
+    hostPlatform.FileSystem().PreferencesRootPath().c_str());
 
   auto hasLoadError = preferences->LoadFromFile();
   if (hasLoadError) {
