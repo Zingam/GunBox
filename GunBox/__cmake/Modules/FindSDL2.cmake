@@ -124,7 +124,9 @@ if (DEFINED ENV{VCPKG_ROOT}
   # Target CPU architecture
   if (CMAKE_SYSTEM_PROCESSOR MATCHES "^arm|^aarch64")
     string (APPEND .InstalledLibraryPathHints "/arm")
-  elseif (CMAKE_SYSTEM_PROCESSOR MATCHES "^AMD64")
+  elseif ((CMAKE_SYSTEM_PROCESSOR MATCHES "^AMD64")
+    OR (CMAKE_SYSTEM_PROCESSOR MATCHES "^x86_64")
+  )
     string (APPEND .InstalledLibraryPathHints "/x")
   else ()
     message (FATAL_ERROR
