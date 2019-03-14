@@ -53,8 +53,8 @@ Preferences::Preferences(ApplicationInfo const& applicationInfo)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-bool&
-Preferences::Fullscreen()
+bool
+Preferences::Fullscreen() const
 {
   return data.fullscreen;
 }
@@ -65,8 +65,20 @@ Preferences::MainWindowMetrics()
   return data.mainWindowMetrics;
 }
 
+System::DeviceTypes::Graphics::Rectangle2D const&
+Preferences::MainWindowMetrics() const
+{
+  return data.mainWindowMetrics;
+}
+
 System::DeviceTypes::Graphics::API_t&
 Preferences::RendererAPI()
+{
+  return data.rendererApi;
+}
+
+System::DeviceTypes::Graphics::API_t const&
+Preferences::RendererAPI() const
 {
   return data.rendererApi;
 }

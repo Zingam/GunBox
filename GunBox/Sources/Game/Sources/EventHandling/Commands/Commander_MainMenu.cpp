@@ -35,9 +35,9 @@ Commander_MainMenu::GamepadAxisMotion(
   double value)
 {
   // Limit MainMenu command execution frequency
-  static std::chrono::time_point lastExecutionTime =
-    std::chrono::high_resolution_clock::now();
   auto currentTime = std::chrono::high_resolution_clock::now();
+  static std::chrono::time_point lastExecutionTime = currentTime;
+  
   if (executionPeriod >= currentTime - lastExecutionTime) {
     return;
   }

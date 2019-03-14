@@ -43,17 +43,19 @@ void
 GraphicsRenderer_Interface::Finalize()
 {
   auto position = window->Position();
-  preferences.MainWindowMetrics().Coordinate.X = position.X;
-  preferences.MainWindowMetrics().Coordinate.Y = position.Y;
+  auto& mainWindowMetrics = preferences.MainWindowMetrics();
+  mainWindowMetrics.Coordinate.X = position.X;
+  mainWindowMetrics.Coordinate.Y = position.Y;
 }
 
 System::Window::Properties
 GraphicsRenderer_Interface::MakeWindowProperties(
-  Application::Preferences& preferences)
+  Application::Preferences const& preferences) const
 {
   System::Window::Properties properties{};
-  properties.Coordinate.X = preferences.MainWindowMetrics().Coordinate.X;
-  properties.Coordinate.Y = preferences.MainWindowMetrics().Coordinate.Y;
+  auto mainWindowMetrics = preferences.MainWindowMetrics();
+  properties.Coordinate.X = mainWindowMetrics.Coordinate.X;
+  properties.Coordinate.Y = mainWindowMetrics.Coordinate.Y;
   if (preferences.Fullscreen()) {
     properties.Fullscreen =
       System::Window::Properties::FullscreenState_t::Desktop;
@@ -67,8 +69,8 @@ GraphicsRenderer_Interface::MakeWindowProperties(
     properties.Location = System::Window::Properties::Location_t::Centered;
   }
   properties.RendererAPI = preferences.RendererAPI();
-  properties.Size.Height = preferences.MainWindowMetrics().Size.Height;
-  properties.Size.Width = preferences.MainWindowMetrics().Size.Width;
+  properties.Size.Height = mainWindowMetrics.Size.Height;
+  properties.Size.Width = mainWindowMetrics.Size.Width;
 
   return properties;
 }

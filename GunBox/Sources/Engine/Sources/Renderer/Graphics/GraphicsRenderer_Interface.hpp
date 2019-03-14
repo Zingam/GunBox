@@ -49,7 +49,7 @@ public:
   virtual auto Render() -> void = 0;
 
 private:
-  auto MakeWindowProperties(Application::Preferences& preferences)
+  auto MakeWindowProperties(Application::Preferences const& preferences) const
     -> System::Window::Properties;
 
 protected:

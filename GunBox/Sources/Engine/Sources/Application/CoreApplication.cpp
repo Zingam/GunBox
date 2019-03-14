@@ -155,7 +155,7 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
     SDL_ShowSimpleMessageBox(
       SDL_MESSAGEBOX_ERROR, "GunBox", errorMessage.str().c_str(), nullptr);
 
-    commandLineArgs.release();
+    commandLineArgs.reset();
   }
 }
 

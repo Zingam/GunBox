@@ -31,13 +31,14 @@ GraphicsRenderer_OpenGL::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
 
-  auto isSuccess = hostPlatform.OpenGLDevice().Initialize(*window);
+  auto& openGLDevice = hostPlatform.OpenGLDevice();
+  auto isSuccess = openGLDevice.Initialize(*window);
   if (isSuccess) {
     isSuccess = GraphicsRenderer_Interface::Initialize();
     if (isSuccess) {
-      isSuccess = hostPlatform.OpenGLDevice().InitializeContext();
+      isSuccess = openGLDevice.InitializeContext();
       if (isSuccess) {
-        auto getProcAddress = hostPlatform.OpenGLDevice().GetProcAddress();
+        auto getProcAddress = openGLDevice.GetProcAddress();
         auto version = InitializeOpenGL((GLADloadfunc)getProcAddress);
         if (0 != version) {
           auto vendor = glGetString(GL_VENDOR);

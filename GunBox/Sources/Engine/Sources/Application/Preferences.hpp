@@ -41,9 +41,11 @@ public:
 
   // Properties
 public:
-  auto Fullscreen() -> bool&;
+  auto Fullscreen() const -> bool;
   auto MainWindowMetrics() -> System::DeviceTypes::Graphics::Rectangle2D&;
+  auto MainWindowMetrics() const -> System::DeviceTypes::Graphics::Rectangle2D const&;
   auto RendererAPI() -> System::DeviceTypes::Graphics::API_t&;
+  auto RendererAPI() const -> System::DeviceTypes::Graphics::API_t const&;
   auto SuccesfullyLoaded() const -> bool;
 
   // Methods
