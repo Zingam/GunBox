@@ -30,7 +30,10 @@ target_include_directories (${PROJECT_NAME}
 )
 
 if (WIN32)
-  set_property (TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE TRUE)
+  set_property (TARGET ${PROJECT_NAME}
+    PROPERTY
+      WIN32_EXECUTABLE TRUE
+  )
 endif ()
 
 target_link_libraries (${PROJECT_NAME}

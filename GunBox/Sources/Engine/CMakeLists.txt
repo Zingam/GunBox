@@ -245,7 +245,10 @@ find_package (SDL2 REQUIRED)
 list (APPEND .SharedLibraries "${SDL2_SHARED_LIBRARY}")
 
 if (NOT ANDROID)
-  find_package (OpenGL REQUIRED)
+  find_package (OpenGL REQUIRED
+    COMPONENTS
+      OpenGL 
+  )
 endif ()
 
 # Link the packages
@@ -256,6 +259,12 @@ target_link_libraries (${PROJECT_NAME}
     REngine::FreeType2
     REngine::SDL2
 )
+if (UNIX AND option_EngineLibraryAs_SHARED)
+  target_link_libraries (${PROJECT_NAME}
+    PRIVATE
+      ${CMAKE_DL_LIBS}
+  )
+endif ()
 if (ANDROID)
   target_link_libraries (${PROJECT_NAME}
     PUBLIC
@@ -294,7 +303,15 @@ target_link_libraries (${PROJECT_NAME}_main
 # Installation
 ################################################################################
 
-if (NOT ANDROID)
+if (WIN32 OR UNIX)
+  set (__AreTargetsInstallable YES)
+elseif (ANDROID)
+  set (__AreTargetsInstallable NO)
+else ()
+  message (FATAL_ERROR "Unsupported platform ${}")
+endif ()
+
+if (__AreTargetsInstallable)
   message ("Shared libraries to install:")
   foreach (__SharedLibrary ${.SharedLibraries})
     message ("    ${__SharedLibrary}")
@@ -310,6 +327,8 @@ if (NOT ANDROID)
         ${PROJECT_NAME}
       RUNTIME DESTINATION
         "${InstallationPath}"
+      LIBRARY DESTINATION
+        "${InstallationPath}"
     )
   endif ()
 
@@ -321,5 +340,7 @@ if (NOT ANDROID)
       "${InstallationPath}"
   )
 endif ()
+
+unset (__AreTargetsInstallable)
 
 ################################################################################
