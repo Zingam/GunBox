@@ -43,6 +43,37 @@ option (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline
 
 ################################################################################
 
+# Check for allowed build/configuration types
+if (CMAKE_BUILD_TYPE)
+  # Specifies the build type on single-configuration generators.
+  if (NOT (("Debug" STREQUAL "${CMAKE_BUILD_TYPE}")
+    OR ("Release" STREQUAL "${CMAKE_BUILD_TYPE}")
+    OR ("RelWithDebInfo" STREQUAL "${CMAKE_BUILD_TYPE}"))
+  )
+    message (FATAL_ERROR
+      "Unsupported build type: ${CMAKE_BUILD_TYPE}"
+    )
+  endif ()
+endif ()
+
+if (CMAKE_CONFIGURATION_TYPES)
+  # Specifies the available build types on multi-config generators.
+  if (NOT (("Debug" STREQUAL "${CMAKE_CONFIGURATION_TYPES}")
+    OR ("Release" STREQUAL "${CMAKE_CONFIGURATION_TYPES}")
+    OR ("RelWithDebInfo" STREQUAL "${CMAKE_CONFIGURATION_TYPES}"))
+  )
+    message (FATAL_ERROR
+      "Unsupported configuration type: ${CMAKE_CONFIGURATION_TYPES}"
+    )
+  endif ()
+endif ()
+
+if (NOT (CMAKE_BUILD_TYPE OR CMAKE_CONFIGURATION_TYPES))
+  message (FATAL_ERROR
+    "No build or configuration type is set!"
+  )
+endif ()
+
 ################################################################################
 # Third party libraries
 ################################################################################
@@ -160,7 +191,7 @@ target_compile_features (${PROJECT_NAME}_Base
 target_compile_options (${PROJECT_NAME}_Base
   INTERFACE
     # Enable Just My Code debugging
-    $<$<CXX_COMPILER_ID:MSVC>:/JMC>
+    $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<NOT:$<CONFIG:Release>>>:/JMC>
     # Enable C++ Standard compliance
     $<$<CXX_COMPILER_ID:MSVC>:/permissive->
     $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:/std:c++latest>
