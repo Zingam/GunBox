@@ -2,6 +2,8 @@
 
 A game programming exercise with **SDL2 API** and **OpenGL**...
 
+[![Build status](https://ci.appveyor.com/api/projects/status/beo40x7kkylor8r5?svg=true)](https://ci.appveyor.com/project/Zingam/gunbox)
+
 ## Prerequisites
 ### Software
 1. C++17 compiler (or newer)
