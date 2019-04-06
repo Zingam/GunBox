@@ -92,6 +92,15 @@ CoreApplication::Initialize()
     "Preferencies root directory:\n"
     "        %s",
     hostPlatform.FileSystem().PreferencesRootPath().c_str());
+  auto const& compilerInfo =
+    hostPlatform.SystemInfo().CompilerInfo();
+  LogInfo(
+    "Compiler: %s\n"
+    "        Version:      %s\n"
+    "        C++ Standard: %d",
+    compilerInfo.Name().c_str(),
+    compilerInfo.Version().Full.c_str(),
+    compilerInfo.LanguageStandard());
 
   auto hasLoadError = preferences->LoadFromFile();
   if (hasLoadError) {

@@ -30,4 +30,10 @@ HostPlatform::SystemConsole()
   return systemConsole;
 }
 
+inline HostPlatformClasses::SystemInfo&
+HostPlatform::SystemInfo()
+{
+  return systemInfo;
+}
+
 NAMESPACE_END(System)
