@@ -168,7 +168,7 @@ A game programming exercise with **SDL2 API** and **OpenGL**...
 ### Visual Studio 2017
 
 To pass command line arguments to the executing program in a **CMake/Open Folder** based project:
-1. In **Solution Explorer** right-click the top `CMakeLists.txt` and select *Debug* and *Launch Settings->GunBox.exe(Install)* which will open `launch.vs.json`
+1. In **Solution Explorer** right-click the top `CMakeLists.txt` and select *Debug and Launch Settings->GunBox_Game.exe (Install)* which will open `launch.vs.json`
 2. In `launch.vs.json` add `"args": [ "--show-system-console", "--resolution: 640x480" ]` to `"configurations"`:
 
 Example:
@@ -179,10 +179,13 @@ Example:
   "configurations": [
     {
       "type": "default",
+      "name": "GunBox_Game.exe (Install)",
       "project": "CMakeLists.txt",
-      "projectTarget": "GunBox.exe (Install)",
-      "name": "GunBox.exe (Install)",
-      "args": [ "--show-system-console", "--resolution: 640x480" ]
+      "projectTarget": "GunBox_Game.exe (Install)",
+      "args": [
+        "--show-system-console",
+        "--resolution: 640x480"
+      ]
     }
   ]
 }
