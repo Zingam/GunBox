@@ -122,13 +122,29 @@ CompilerInfo::CompilerInfo()
 #elif defined(_MSC_VER)
   this->name = "MSVC"s;
 #  if defined(_MSC_BUILD) // __GNUG__
-  this->version.Build = _MSC_BUILD;
+  this->version.PatchLevel = _MSC_BUILD;
 #  endif
 #  if defined(_MSC_FULL_VER) // __GNUG__
   this->version.Full = VERSION_TO_STRING(_MSC_FULL_VER);
 #  endif
 #  if defined(_MSC_VER) // __GNUG__
-  this->version.Major = _MSC_VER;
+#    if defined(_MSC_FULL_VER) && (999999999 >= _MSC_FULL_VER)
+  constexpr std::uint32_t majorVersion = _MSC_VER / 1'00;
+  constexpr std::uint32_t minorVersion = _MSC_VER - majorVersion * 1'00;
+  constexpr std::uint32_t buildVersion = _MSC_FULL_VER - _MSC_VER * 1'00000;
+  if (
+    (99 >= majorVersion) && (99 >= minorVersion) && (999'999 >= buildVersion)) {
+    this->version.Major = majorVersion;
+    this->version.Minor = minorVersion;
+    this->version.Build = buildVersion;
+  } else {
+    this->version.Major = _MSC_VER;
+  }
+#    else
+  {
+    this->version.Major = _MSC_VER;
+  }
+#    endif
 #  endif
 #  if defined(_MSVC_LANG)
   this->languageStandard = _MSVC_LANG;
