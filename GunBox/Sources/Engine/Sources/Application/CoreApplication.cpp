@@ -123,6 +123,7 @@ CoreApplication::Initialize()
     return Application::ExitCode::InitializationError;
   }
 
+  // TODO: Using an instance copy for some reason. Why?
   auto creationPreferences = *preferences;
 #if defined(_DEBUG)
   if (nullptr != commandLineArgs) {
