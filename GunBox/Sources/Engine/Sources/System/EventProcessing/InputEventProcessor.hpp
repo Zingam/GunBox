@@ -45,10 +45,6 @@ public:
 
   // Methods
 public:
-  auto InitializeCallbacks(
-    std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks)
-    -> void;
-
   auto InitializeCallbacks(InputEventCallbacks_Interface& inputCallbacks)
     -> void;
 

@@ -36,13 +36,6 @@ InputEventProcessor::GamepadIds() const
 
 void
 InputEventProcessor::InitializeCallbacks(
-  std::shared_ptr<InputEventCallbacks_Interface> const inputCallbacks)
-{
-  InitializeCallbacks(*inputCallbacks);
-}
-
-void
-InputEventProcessor::InitializeCallbacks(
   InputEventCallbacks_Interface& inputCallbacks)
 {
   cbGamepadAxisMotion_UPtr = make_unique_delegate(

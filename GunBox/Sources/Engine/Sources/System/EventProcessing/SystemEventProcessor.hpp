@@ -16,9 +16,6 @@ NAMESPACE_BEGIN(System::EventProcessing)
 class SystemEventProcessor
 {
 public:
-  auto InitializeCallbacks(
-    std::shared_ptr<SystemEventCallbacks_Interface> const systemEventCallbacks) -> void;
-
   auto InitializeCallbacks(SystemEventCallbacks_Interface& systemEventCallbacks)
     -> void;
 

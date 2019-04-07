@@ -5,13 +5,6 @@ NAMESPACE_BEGIN(System::EventProcessing)
 
 auto
 SystemEventProcessor::InitializeCallbacks(
-  std::shared_ptr<SystemEventCallbacks_Interface> const systemEventCallbacks) -> void
-{
-  InitializeCallbacks(*systemEventCallbacks);
-}
-
-auto
-SystemEventProcessor::InitializeCallbacks(
   SystemEventCallbacks_Interface& systemEventCallbacks) -> void
 {
   cbQuit_UPtr =
