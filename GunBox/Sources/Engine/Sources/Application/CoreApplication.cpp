@@ -1,7 +1,7 @@
 // Self
 #include "CoreApplication.hpp"
 
-// BASE MACROS header
+// Project headers - Common
 #include "Common/Macros/Logging.hpp"
 
 // Project headers - Renderer/Graphics
@@ -83,24 +83,43 @@ CoreApplication::Initialize()
   }
 #endif
 
-  LogInfo("Initializing: %s", info.Title().c_str());
+  // clang-format off
   LogInfo(
-    "Base directory:\n"
-    "        %s",
+    "Initializing:      %s", info.Title().c_str());
+  LogInfo(
+    "  Version:         %s", info.GetVersion().AsString().c_str());
+  LogInfo(
+    "  Directories:");
+  LogInfo(
+    "    Base:");
+  LogInfo(
+    "      %s",
     hostPlatform.FileSystem().BasePath().c_str());
   LogInfo(
-    "Preferencies root directory:\n"
-    "        %s",
-    hostPlatform.FileSystem().PreferencesRootPath().c_str());
-  auto const& compilerInfo =
-    hostPlatform.SystemInfo().CompilerInfo();
+    "    Preferencies:");
   LogInfo(
-    "Compiler: %s\n"
-    "        Version:      %s\n"
-    "        C++ Standard: %d",
-    compilerInfo.Name().c_str(),
-    compilerInfo.Version().Full.c_str(),
+    "      %s",
+    hostPlatform.FileSystem().PreferencesRootPath().c_str());
+  // clang-format on
+  auto const& compilerInfo = hostPlatform.SystemInfo().CompilerInfo();
+  auto const& longVersion = compilerInfo.GetVersion().LongVersion();
+  std::string_view compilerVersion;
+  if (std::nullopt != longVersion) {
+    compilerVersion = longVersion.value();
+  } else {
+    compilerVersion = compilerInfo.GetVersion().AsString();
+  }
+  // clang-format off
+  LogInfo(
+    "  Compiler:        %s",
+    compilerInfo.Name().c_str());
+  LogInfo(
+    "    Version:       %s",
+    compilerVersion.data());
+  LogInfo(
+    "    C++ Standard:  %d",
     compilerInfo.LanguageStandard());
+  // clang-format on
 
   auto hasLoadError = preferences->LoadFromFile();
   if (hasLoadError) {

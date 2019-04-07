@@ -3,7 +3,13 @@
 // BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
+// Project headers - Common
+#include "Common/Version.hpp"
+
+// C Standard Library
 #include <cstdint>
+// C++ Standard Library
+#include <memory>
 #include <string>
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
@@ -11,28 +17,18 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 class CompilerInfo
 {
 public:
-  struct Version_t
-  {
-    std::uint32_t Build;
-    std::string Full;
-    std::uint32_t Major;
-    std::uint32_t Minor;
-    std::uint32_t PatchLevel;
-  };
-
-public:
   CompilerInfo();
 
 public:
   auto LanguageStandard() const -> std::uint32_t;
   auto Name() const -> std::string const&;
-  auto Version() const -> Version_t const&;
+  auto GetVersion() const -> Version const&;
 
 private:
   std::uint32_t languageStandard;
   std::string name;
-  Version_t version;
-  Version_t versionCompatibility;
+  std::unique_ptr<Version> version;
+  std::unique_ptr<Version> versionCompatibility;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

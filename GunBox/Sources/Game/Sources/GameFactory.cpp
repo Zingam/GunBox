@@ -5,6 +5,8 @@
 // BASE MACROS header
 #include "Common/Macros/Base.hpp"
 
+// Engine headers - Common
+#include "Common/Version.hpp"
 // Engine headers - Application
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
@@ -26,10 +28,10 @@ Create()
 {
   static GunBox::Game game{ { Game_DeveloperOrganization,
                               Game_Title,
-                              { Game_VersionMajor,
-                                Game_VersionMinor,
-                                Game_VersionPatch,
-                                Game_VersionBuildNumber } } };
+                              Version::Version_t{ Game_VersionMajor,
+                                                  Game_VersionMinor,
+                                                  Game_VersionPatch,
+                                                  Game_VersionBuildNumber } } };
 
   return game;
 }

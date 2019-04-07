@@ -12,6 +12,13 @@ CompilerInfo::CompilerInfo()
 {
   using namespace std::string_literals;
 
+  Version::BuildNumber_t buildNumber{ 0 };
+  Version::Major_t major{ 0 };
+  Version::Minor_t minor{ 0 };
+  Version::PatchLevel_t patchLevel{ 0 };
+
+  std::string longVersion;
+
   // Clang/LLVM:
   //   __clang_major__      - Contains the major version number
   //                          (e.g. "3" for version 3.0.1)
@@ -50,30 +57,30 @@ CompilerInfo::CompilerInfo()
 #if defined(__clang__)
   this->name = "Clang"s;
 #  if defined(__clang_major__)
-  this->version.Major = __clang_major__;
+  major = __clang_major__;
 #  endif
 #  if defined(__clang_minor__)
-  this->version.Minor = __clang_minor__;
+  minor = __clang_minor__;
 #  endif
 #  if defined(__clang_patchlevel__)
-  this->version.PatchLevel = __clang_patchlevel__;
+  patchLevel = __clang_patchlevel__;
 #  endif
 #  if defined(__clang_version__)
-  this->version.Full = __clang_version__;
+  longVersion = __clang_version__;
 #  endif
 #  if defined(__cplusplus)
   this->languageStandard = __cplusplus;
 #  endif
 #  if defined(__GNUC__) // __GNUG__
-  this->versionCompatibility.Major = __GNUC__;
+  major = __GNUC__;
 #    if defined(__GNUC_MINOR__)
-  this->versionCompatibility.Minor = __GNUC_MINOR__;
+  minor = __GNUC_MINOR__;
 #    endif
 #    if defined(__GNUC_PATCHLEVEL__)
-  this->versionCompatibility.PatchLevel = __GNUC_PATCHLEVEL__;
+  patchLevel = __GNUC_PATCHLEVEL__;
 #    endif
 #    if defined(__VERSION__)
-  this->versionCompatibility.Full = __VERSION__;
+  longVersion = __VERSION__;
 #    endif
 #  endif
   // GNU GCC/G++:
@@ -96,15 +103,15 @@ CompilerInfo::CompilerInfo()
   //                          the experimental languages enabled by -std=c++2a
   //                          and -std=gnu++2a.
 #elif defined(__GNUC__) // __GNUG__
-  this->version.Major = __GNUC__;
+  major = __GNUC__;
 #  if defined(__GNUC_MINOR__)
-  this->version.Minor = __GNUC_MINOR__;
+  minor = __GNUC_MINOR__;
 #  endif
 #  if defined(__GNUC_PATCHLEVEL__)
-  this->version.PatchLevel = __GNUC_PATCHLEVEL__;
+  patchLevel = __GNUC_PATCHLEVEL__;
 #  endif
 #  if defined(__VERSION__)
-  this->version.Full = __VERSION__;
+  longVersion = __VERSION__;
 #  endif
 #  if defined(__cplusplus)
   this->languageStandard = __cplusplus;
@@ -122,10 +129,10 @@ CompilerInfo::CompilerInfo()
 #elif defined(_MSC_VER)
   this->name = "MSVC"s;
 #  if defined(_MSC_BUILD) // __GNUG__
-  this->version.PatchLevel = _MSC_BUILD;
+  patchLevel = _MSC_BUILD;
 #  endif
 #  if defined(_MSC_FULL_VER) // __GNUG__
-  this->version.Full = VERSION_TO_STRING(_MSC_FULL_VER);
+  longVersion = VERSION_TO_STRING(_MSC_FULL_VER);
 #  endif
 #  if defined(_MSC_VER) // __GNUG__
 #    if defined(_MSC_FULL_VER) && (999999999 >= _MSC_FULL_VER)
@@ -134,15 +141,15 @@ CompilerInfo::CompilerInfo()
   constexpr std::uint32_t buildVersion = _MSC_FULL_VER - _MSC_VER * 1'00000;
   if (
     (99 >= majorVersion) && (99 >= minorVersion) && (999'999 >= buildVersion)) {
-    this->version.Major = majorVersion;
-    this->version.Minor = minorVersion;
-    this->version.Build = buildVersion;
+    major = majorVersion;
+    minor = minorVersion;
+    buildNumber = buildVersion;
   } else {
-    this->version.Major = _MSC_VER;
+    major = _MSC_VER;
   }
 #    else
   {
-    this->version.Major = _MSC_VER;
+    major = _MSC_VER;
   }
 #    endif
 #  endif
@@ -152,6 +159,9 @@ CompilerInfo::CompilerInfo()
 #else
 #  error Unsupported compiler...
 #endif
+
+  this->version = std::make_unique<Version>(
+    Version::Version_t{ major, minor, patchLevel, buildNumber }, longVersion);
 }
 
 std::uint32_t
@@ -166,10 +176,10 @@ CompilerInfo::Name() const
   return this->name;
 }
 
-CompilerInfo::Version_t const&
-CompilerInfo::Version() const
+Version const&
+CompilerInfo::GetVersion() const
 {
-  return this->version;
+  return *(this->version);
 }
 
 NAMESPACE_END(System::HostPlatformClasses)
