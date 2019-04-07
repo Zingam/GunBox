@@ -7,13 +7,13 @@
 #if !defined(Game_DeveloperOrganization)
 #  define Game_DeveloperOrganization "RMM"
 #else
-#  error Game_Developer is already defined...
+#  error Game_DeveloperOrganization is already defined...
 #endif
 
 #if !defined(Game_Title)
 #  define Game_Title "GunBox"
 #else
-#  error Game_Name is already defined...
+#  error Game_Title is already defined...
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
