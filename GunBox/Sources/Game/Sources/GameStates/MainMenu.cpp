@@ -30,11 +30,19 @@ MainMenu::Update()
   using namespace System::DeviceTypes::Input;
   using namespace System::EventProcessing;
 
-  static auto i = 0ll;
-  auto arrow_UpState =
-    inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
-  if (KeyboardState::KeyState_t::Pressed == arrow_UpState) {
-    std::cout << "Arrow up is pressed " << ++i << "\n";
+  auto specialKey_Escape =
+    inputEventProcessor.KeyboardKeyState(ScanCode_t::SK_Esc);
+  static auto wasPressed_SpecailKey_Escape = false;
+  if (!wasPressed_SpecailKey_Escape) {
+    if (KeyboardState::KeyState_t::Pressed == specialKey_Escape) {
+      wasPressed_SpecailKey_Escape = true;
+    }
+  } else {
+    if (KeyboardState::KeyState_t::Released == specialKey_Escape) {
+      wasPressed_SpecailKey_Escape = false;
+
+      Back();
+    }
   }
 
   graphicsRenderer->Render();
@@ -53,7 +61,7 @@ MainMenu::Update()
 void
 MainMenu::Accept()
 {
-  nextGameState = GameState_t::InGame;
+  Quit();
 };
 
 void
