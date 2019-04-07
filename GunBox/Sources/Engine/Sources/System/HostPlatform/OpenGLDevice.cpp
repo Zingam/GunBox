@@ -17,12 +17,6 @@ OpenGLDevice::GetProcAddress() -> void*
 // Methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void
-OpenGLDevice::Finalize()
-{
-  o_ptr->Finalize();
-}
-
 bool
 OpenGLDevice::Initialize(Window const& window)
 {

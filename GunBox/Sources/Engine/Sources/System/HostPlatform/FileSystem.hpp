@@ -25,7 +25,6 @@ public:
 
   // Methods
 public:
-  auto Finalize() -> void;
   auto Initialize(Application::ApplicationInfo const& applicationInfo) -> bool;
 };
 

@@ -9,6 +9,10 @@ class implementedBy
 protected:
   implementedBy();
 
+public:
+  [[maybe_unused]] auto Initialize() -> bool;
+  auto Finalize() -> void;
+
 protected:
   std::unique_ptr<Class> o_ptr;
 };

@@ -23,17 +23,10 @@ FileSystem::PreferencesRootPath() const
 // Methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void
-FileSystem::Finalize()
-{
-  o_ptr->Finalize();
-}
-
 bool
 FileSystem::Initialize(Application::ApplicationInfo const& applicationInfo)
 {
   return o_ptr->Initialize(applicationInfo);
 }
-
 
 NAMESPACE_END(System::HostPlatformClasses)

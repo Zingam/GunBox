@@ -19,7 +19,6 @@ public:
 
   // Methods
 public:
-  auto Finalize() -> void;
   auto Initialize(Window const& window) -> bool;
   auto InitializeContext() -> bool;
   auto SwapBuffer() -> void;
