@@ -4,10 +4,6 @@
 // Project headers
 #include "EventHandling/Commands/Commander_Interface.hpp"
 
-
-// Project headers
-#include "EventHandling/Commands/Commander_Interface.hpp"
-
 NAMESPACE_BEGIN(GunBox)
 
 // Forward declarations require constructor and destructor definitions
