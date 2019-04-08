@@ -18,7 +18,14 @@ public:
 
   // Constructors
 public:
+  template<typename FormatFunc>
+  Version(Version_t version, FormatFunc formatFunc);
   Version(Version_t version);
+  template<typename FormatFunc>
+  Version(
+    Version_t version,
+    std::string const& longVersion,
+    FormatFunc formatFunc);
   Version(Version_t version, std::string const& longVersion);
 
   // Properties
@@ -39,3 +46,11 @@ private:
   Version_t const version;
   std::string versionString;
 };
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "Version.inl"
+
+////////////////////////////////////////////////////////////////////////////////

@@ -21,6 +21,7 @@ set (.Engine_SourceFiles
   "Sources/Common/SimpleDelegate.inl"
   "Sources/Common/Version.cpp"
   "Sources/Common/Version.hpp"
+  "Sources/Common/Version.inl"
   "Sources/Renderer/Graphics/Constants/GpuPreferences.hpp"
   "Sources/Renderer/Graphics/OpenGL/GraphicsRenderer_OpenGL.cpp"
   "Sources/Renderer/Graphics/OpenGL/GraphicsRenderer_OpenGL.hpp"

@@ -9,19 +9,19 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Version::Version(Version_t version)
-  : version{ std::move(version) }
-{
-  std::stringstream ss;
-  ss << this->Major() << '.';
-  ss << this->Minor() << '.';
-  ss << this->PatchLevel() << '.';
-  ss << this->BuildNumber();
+  : Version(std::move(version), [this]() {
+    std::stringstream ss;
+    ss << this->Major() << '.';
+    ss << this->Minor() << '.';
+    ss << this->PatchLevel() << '.';
+    ss << this->BuildNumber();
 
-  this->versionString = ss.str();
-}
+    return ss.str();
+  })
+{}
 
 Version::Version(Version_t version, std::string const& longVersion)
-  : Version(version)
+  : Version(std::move(version))
 {
   this->longVersion = longVersion;
 }

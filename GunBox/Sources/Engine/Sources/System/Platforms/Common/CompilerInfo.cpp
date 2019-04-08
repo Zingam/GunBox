@@ -1,6 +1,9 @@
 // Self
 #include "CompilerInfo.hpp"
 
+// C++ Standard Library
+#include <sstream>
+
 // clang-format off
 #define CONVERT_TO_C_STR(x) #x
 #define VERSION_TO_STRING(x) CONVERT_TO_C_STR(x)s
@@ -160,8 +163,22 @@ CompilerInfo::CompilerInfo()
 #  error Unsupported compiler...
 #endif
 
+#if (_MSC_VER)
+  this->version = std::make_unique<Version>(
+    Version::Version_t{ major, minor, patchLevel, buildNumber },
+    [major, minor, patchLevel, buildNumber]() {
+      std::stringstream ss;
+      ss << major << '.';
+      ss << minor << '.';
+      ss << buildNumber << '.';
+      ss << patchLevel;
+
+      return ss.str();
+    });
+#else
   this->version = std::make_unique<Version>(
     Version::Version_t{ major, minor, patchLevel, buildNumber }, longVersion);
+#endif
 }
 
 std::uint32_t
