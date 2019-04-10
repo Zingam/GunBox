@@ -32,7 +32,7 @@ target_include_directories (${PROJECT_NAME}
 if (WIN32)
   set_property (TARGET ${PROJECT_NAME}
     PROPERTY
-      WIN32_EXECUTABLE FALSE
+      WIN32_EXECUTABLE TRUE
   )
 endif ()
 
