@@ -139,18 +139,24 @@ target_compile_definitions (${PROJECT_NAME}_Base
 )
 target_compile_features (${PROJECT_NAME}_Base
   INTERFACE
-    # Enable C++17 standard compliance
+    # Enable C++17 Standard compliance
     cxx_std_17
 )
 target_compile_options (${PROJECT_NAME}_Base
   INTERFACE
-    # Enable Just My Code debugging
+    # (MSVC) Enable Just My Code debugging
     $<$<AND:$<CXX_COMPILER_ID:MSVC>,$<NOT:$<CONFIG:Release>>>:/JMC>
-    # Enable C++ Standard compliance
+    # (MSVC) Enable C++ Standard compliance
     $<$<CXX_COMPILER_ID:MSVC>:/permissive->
+    # (Clang/Windows) Enable (latest) C++ Standard compliance
     $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:/std:c++latest>
     $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:-Wno-pragma-pack>
     $<$<AND:$<PLATFORM_ID:Windows>,$<CXX_COMPILER_ID:Clang>>:-Wno-\#pragma-messages>
+)
+target_link_libraries(${PROJECT_NAME}_Base
+  INTERFACE
+    # (GCC) Enable <filesystem>
+    $<$<CXX_COMPILER_ID:GNU>:-lstdc++fs>
 )
 
 ################################################################################

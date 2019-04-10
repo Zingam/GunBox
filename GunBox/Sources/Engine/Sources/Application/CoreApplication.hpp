@@ -60,6 +60,7 @@ protected:
     graphicsRenderer;
   System::HostPlatform hostPlatform;
   ApplicationInfo const info;
+  bool isInitialized = false;
   std::unique_ptr<Preferences> preferences;
 };
 

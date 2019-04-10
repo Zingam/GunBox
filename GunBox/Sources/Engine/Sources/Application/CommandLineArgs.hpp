@@ -49,6 +49,7 @@ public:
   // Methods
 public:
   auto Parse(int argc, char* argv[]) -> std::optional<std::string>;
+  auto Print() -> void;
 
 private:
   auto ParseFullscreen(
@@ -73,6 +74,7 @@ private:
 
   // Variable fields
 private:
+  std::optional<std::string> executableFilename;
   std::optional<bool> fullscreen;
   std::optional<System::DeviceTypes::Graphics::API_t> renderer;
   std::optional<System::DeviceTypes::Graphics::Dimensions> resolution;

@@ -4,6 +4,9 @@
 // C Standard Library
 #include <cassert>
 // C++ Standard Library
+#include <filesystem>
+#include <iomanip>
+#include <iostream>
 #include <regex>
 
 NAMESPACE_BEGIN(Application)
@@ -102,6 +105,9 @@ CommandLineArgs::Resolution() const
 std::optional<std::string>
 CommandLineArgs::Parse(int argc, char* argv[])
 {
+  std::filesystem::path executablePath{ argv[0] };
+  this->executableFilename = executablePath.stem().string();
+
   // Skip the first argument which is the path of the executable
   for (int argumentIndex = 1; argumentIndex < argc; ++argumentIndex) {
     auto search = options.find(argv[argumentIndex]);
@@ -126,6 +132,46 @@ CommandLineArgs::Parse(int argc, char* argv[])
   }
 
   return std::nullopt;
+}
+
+auto
+CommandLineArgs::Print() -> void
+{
+  std::cout << "Usage:\n\n";
+  std::cout << "  " << executableFilename.value() << " <options>\n\n";
+  std::cout << "Options:\n\n";
+
+  auto maxOptionLength = 0ull;
+  auto maxParametersLength = 0ull;
+
+  for (auto& option : this->options) {
+    auto const nameLength = option.first.size();
+    auto const parametersLength = option.second.Parameters.Description.size();
+    if (nameLength > maxOptionLength) {
+      maxOptionLength = nameLength;
+    }
+    if (parametersLength > maxParametersLength) {
+      maxParametersLength = parametersLength;
+    }
+  }
+
+  maxOptionLength += 1;
+  maxParametersLength += 1;
+
+  std::cout << std::left << "  " << std::setw(maxOptionLength) << "Name"
+            << std::setw(maxParametersLength) << "Parameters" << std::setw(2)
+            << "  Description"
+            << "\n\n";
+
+  for (auto& option : this->options) {
+    auto& name = option.first;
+    auto& parameters = option.second.Parameters.Description;
+    auto& description = option.second.Description;
+
+    std::cout << std::left << "  " << std::setw(maxOptionLength) << name
+              << std::setw(maxParametersLength) << parameters << std::setw(2)
+              << "-" << description << "\n";
+  }
 }
 
 std::optional<std::string>

@@ -12,6 +12,7 @@
 #include <SDL.h>
 
 // C++ Standard Library
+#include <iostream>
 #include <sstream>
 
 NAMESPACE_BEGIN(Application)
@@ -46,42 +47,52 @@ CoreApplication::Info() const
 void
 CoreApplication::Finalize()
 {
-#if defined(_DEBUG)
-  LogInfo("Finalizing: %s", info.Title().c_str());
+  if (isInitialized) {
 
-  if (nullptr != commandLineArgs) {
-    if (commandLineArgs->ShowSystemConsole()) {
-      hostPlatform.SystemConsole().Hide();
+#if defined(_DEBUG)
+    LogInfo("Finalizing: %s", info.Title().c_str());
+
+    if (nullptr != commandLineArgs) {
+      if (commandLineArgs->ShowSystemConsole()) {
+        hostPlatform.SystemConsole().Hide();
+      }
     }
-  }
 #endif
 
-  hostPlatform.SubSystems().Finalize();
+    hostPlatform.SubSystems().Finalize();
 
-  auto hasSaveError = preferences->SaveToFile();
-  if (hasSaveError) {
-    std::stringstream errorMessage;
-    errorMessage << "Unable to save preferences!\n";
-    errorMessage << "    Error:\n";
-    errorMessage << hasSaveError.value();
-    SDL_ShowSimpleMessageBox(
-      SDL_MESSAGEBOX_ERROR,
-      info.Title().c_str(),
-      errorMessage.str().c_str(),
-      nullptr);
+    auto hasSaveError = preferences->SaveToFile();
+    if (hasSaveError) {
+      std::stringstream errorMessage;
+      errorMessage << "Unable to save preferences!\n";
+      errorMessage << "    Error:\n";
+      errorMessage << hasSaveError.value();
+      SDL_ShowSimpleMessageBox(
+        SDL_MESSAGEBOX_ERROR,
+        info.Title().c_str(),
+        errorMessage.str().c_str(),
+        nullptr);
+    }
   }
 }
 
 Application::ExitCode
 CoreApplication::Initialize()
 {
-#if defined(_DEBUG)
   if (nullptr != commandLineArgs) {
-    if (commandLineArgs->ShowSystemConsole()) {
-      hostPlatform.SystemConsole().Show();
+    if (commandLineArgs->ShowHelp()) {
+      commandLineArgs->Print();
+
+      return Application::ExitCode::InitializationError;
     }
-  }
+#if defined(_DEBUG)
+    if (nullptr != commandLineArgs) {
+      if (commandLineArgs->ShowSystemConsole()) {
+        hostPlatform.SystemConsole().Show();
+      }
+    }
 #endif
+  }
 
   // clang-format off
   LogInfo(
@@ -168,6 +179,8 @@ CoreApplication::Initialize()
 
   graphicsRenderer =
     Renderer::Graphics::Create(info, creationPreferences, hostPlatform);
+
+  isInitialized = true;
 
   return Application::ExitCode::NoError;
 }
