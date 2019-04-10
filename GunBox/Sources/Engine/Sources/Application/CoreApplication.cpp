@@ -59,8 +59,6 @@ CoreApplication::Finalize()
     }
 #endif
 
-    hostPlatform.SubSystems().Finalize();
-
     auto hasSaveError = preferences->SaveToFile();
     if (hasSaveError) {
       std::stringstream errorMessage;
@@ -73,6 +71,8 @@ CoreApplication::Finalize()
         errorMessage.str().c_str(),
         nullptr);
     }
+
+    hostPlatform.SubSystems().Finalize();
   }
 }
 
@@ -153,8 +153,7 @@ CoreApplication::Initialize()
     return Application::ExitCode::InitializationError;
   }
 
-  // TODO: Using an instance copy for some reason. Why?
-  auto creationPreferences = *preferences;
+  auto& creationPreferences = *preferences;
 #if defined(_DEBUG)
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->Resolution()) {
