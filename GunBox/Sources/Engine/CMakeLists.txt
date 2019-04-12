@@ -64,8 +64,10 @@ include ("Engine_Base.cmake")
 # Target: ${PROJECT_NAME}
 ################################################################################
 
-# Engine library target
+# Source files
 include ("Engine_SourceFiles.cmake")
+
+# Engine library target
 add_library (${PROJECT_NAME} ${.EngineLibraryType}
   # Source files
   ${.Engine_SourceFiles}
@@ -178,7 +180,8 @@ endif ()
 
 # Main library target
 add_library (${PROJECT_NAME}_main STATIC
-  "Sources/main.cpp"
+  # Source files
+  ${.main_SourceFiles}
 )
 target_compile_definitions (${PROJECT_NAME}_main
   PRIVATE

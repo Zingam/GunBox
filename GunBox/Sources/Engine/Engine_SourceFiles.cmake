@@ -128,10 +128,17 @@ set (.Engine_SourceFiles
   "Sources/System/EventProcessor.cpp"
   "Sources/System/EventProcessor.hpp"
   "Sources/System/EventProcessor.inl"
+  "Sources/System/Main.cpp"
+  "Sources/System/Main.hpp"
   "Sources/System/MessageBox.cpp"
   "Sources/System/MessageBox.hpp"
   "Sources/System/Monitor.cpp"
   "Sources/System/Monitor.hpp"
   "Sources/System/Window.cpp"
   "Sources/System/Window.hpp"
+)
+
+set (.main_SourceFiles
+  "Sources/main.cpp"
+  "Sources/main.hpp"
 )
