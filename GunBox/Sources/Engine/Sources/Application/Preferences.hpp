@@ -8,7 +8,6 @@
 // Project headers - System
 #include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
 #include "System/DeviceTypes/Graphics/RendererTypes.hpp"
-#include "System/Window.hpp"
 
 // C++ Standard Library
 #include <optional>

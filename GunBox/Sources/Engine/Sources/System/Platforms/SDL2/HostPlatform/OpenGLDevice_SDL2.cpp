@@ -6,7 +6,7 @@
 #include "Common/Macros/Logging.hpp"
 // Project headers - System
 #include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
-#include "System/Window.hpp"
+#include "System/GUI/Window.hpp"
 
 // Third party libraries
 #include <SDL_video.h>

@@ -80,6 +80,12 @@ set (.Engine_SourceFiles
   "Sources/System/EventProcessing/SystemEventProcessorAccessor.cpp"
   "Sources/System/EventProcessing/SystemEventProcessorAccessor.hpp"
   "Sources/System/EventProcessing/SystemEventProcessorAccessor.inl"
+  "Sources/System/GUI/MessageBox.cpp"
+  "Sources/System/GUI/MessageBox.hpp"
+  "Sources/System/GUI/Monitor.cpp"
+  "Sources/System/GUI/Monitor.hpp"
+  "Sources/System/GUI/Window.cpp"
+  "Sources/System/GUI/Window.hpp"
   "Sources/System/HostPlatform/FileSystem.cpp"
   "Sources/System/HostPlatform/FileSystem.hpp"
   "Sources/System/HostPlatform/OpenGLDevice.cpp"
@@ -130,12 +136,6 @@ set (.Engine_SourceFiles
   "Sources/System/EventProcessor.inl"
   "Sources/System/Main.cpp"
   "Sources/System/Main.hpp"
-  "Sources/System/MessageBox.cpp"
-  "Sources/System/MessageBox.hpp"
-  "Sources/System/Monitor.cpp"
-  "Sources/System/Monitor.hpp"
-  "Sources/System/Window.cpp"
-  "Sources/System/Window.hpp"
 )
 
 set (.main_SourceFiles

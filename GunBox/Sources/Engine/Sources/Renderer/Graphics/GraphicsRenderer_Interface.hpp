@@ -4,7 +4,7 @@
 #include "Common/Macros/Base.hpp"
 
 // Project headers - System
-#include "System/Window.hpp"
+#include "System/GUI/Window.hpp"
 
 // C++ Standard Library
 #include <memory>

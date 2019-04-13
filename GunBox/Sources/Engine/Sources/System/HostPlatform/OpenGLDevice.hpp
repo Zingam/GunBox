@@ -7,7 +7,7 @@
 #include "Common/implementedBy.hpp"
 // Project headers - System
 #include "System/Platforms/OpenGLDevice_Implementation.hpp"
-#include "System/Window.hpp"
+#include "System/GUI/Window.hpp"
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
