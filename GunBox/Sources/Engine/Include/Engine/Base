@@ -1,0 +1,3 @@
+#pragma once
+
+#include "../Sources/Common/Macros/Base.hpp"

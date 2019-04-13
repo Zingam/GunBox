@@ -159,4 +159,9 @@ target_link_libraries(${PROJECT_NAME}_Base
     $<$<CXX_COMPILER_ID:GNU>:-lstdc++fs>
 )
 
+target_include_directories (${PROJECT_NAME}_Base
+  INTERFACE
+    "Include"
+)
+
 ################################################################################
