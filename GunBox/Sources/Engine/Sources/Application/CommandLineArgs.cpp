@@ -6,8 +6,8 @@
 // C++ Standard Library
 #include <filesystem>
 #include <iomanip>
-#include <iostream>
 #include <regex>
+#include <sstream>
 
 NAMESPACE_BEGIN(Application)
 
@@ -102,6 +102,53 @@ CommandLineArgs::Resolution() const
 // Methods
 ////////////////////////////////////////////////////////////////////////////////
 
+std::string
+CommandLineArgs::AsString()
+{
+  auto const& executableFilename = this->executableFilename.value();
+  std::stringstream ss;
+  ss << "Usage:\n\n";
+  ss << "  " << executableFilename << " <options>\n\n";
+  ss << "Options:\n\n";
+
+  auto maxOptionLength = 0ull;
+  auto maxParametersLength = 0ull;
+
+  for (auto& option : this->options) {
+    auto const nameLength = option.first.size();
+    auto const parametersLength = option.second.Parameters.Description.size();
+    if (nameLength > maxOptionLength) {
+      maxOptionLength = nameLength;
+    }
+    if (parametersLength > maxParametersLength) {
+      maxParametersLength = parametersLength;
+    }
+  }
+
+  maxOptionLength += 1;
+  maxParametersLength += 1;
+
+  ss << std::left << "  " << std::setw(maxOptionLength) << "Name";
+  ss << std::setw(maxParametersLength) << "Parameters";
+  ss << std::setw(2) << "  Description"
+     << "\n\n";
+
+  for (auto& option : this->options) {
+    auto const& name = option.first;
+    auto const& parameters = option.second.Parameters.Description;
+    auto const& description = option.second.Description;
+
+    // Name
+    ss << std::left << "  " << std::setw(maxOptionLength) << name;
+    // Parameters
+    ss << std::setw(maxParametersLength) << parameters;
+    // Description
+    ss << std::setw(2) << "-" << description << "\n";
+  }
+
+  return ss.str();
+}
+
 std::optional<std::string>
 CommandLineArgs::Parse(int argc, char* argv[])
 {
@@ -132,46 +179,6 @@ CommandLineArgs::Parse(int argc, char* argv[])
   }
 
   return std::nullopt;
-}
-
-auto
-CommandLineArgs::Print() -> void
-{
-  std::cout << "Usage:\n\n";
-  std::cout << "  " << executableFilename.value() << " <options>\n\n";
-  std::cout << "Options:\n\n";
-
-  auto maxOptionLength = 0ull;
-  auto maxParametersLength = 0ull;
-
-  for (auto& option : this->options) {
-    auto const nameLength = option.first.size();
-    auto const parametersLength = option.second.Parameters.Description.size();
-    if (nameLength > maxOptionLength) {
-      maxOptionLength = nameLength;
-    }
-    if (parametersLength > maxParametersLength) {
-      maxParametersLength = parametersLength;
-    }
-  }
-
-  maxOptionLength += 1;
-  maxParametersLength += 1;
-
-  std::cout << std::left << "  " << std::setw(maxOptionLength) << "Name"
-            << std::setw(maxParametersLength) << "Parameters" << std::setw(2)
-            << "  Description"
-            << "\n\n";
-
-  for (auto& option : this->options) {
-    auto& name = option.first;
-    auto& parameters = option.second.Parameters.Description;
-    auto& description = option.second.Description;
-
-    std::cout << std::left << "  " << std::setw(maxOptionLength) << name
-              << std::setw(maxParametersLength) << parameters << std::setw(2)
-              << "-" << description << "\n";
-  }
 }
 
 std::optional<std::string>

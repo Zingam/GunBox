@@ -52,8 +52,8 @@ public:
 
   // Methods
 public:
+  auto AsString() -> std::string;
   auto Parse(int argc, char* argv[]) -> std::optional<std::string>;
-  auto Print() -> void;
 
 private:
   auto ParseFullscreen(
