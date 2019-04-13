@@ -8,6 +8,10 @@
 // Project headers - System
 #include "System/Platforms/SystemConsole_Implementation.hpp"
 
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 class SystemConsole : public implementedBy<SystemConsole_Implementation>

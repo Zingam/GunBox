@@ -9,6 +9,10 @@
 #include "System/Platforms/OpenGLDevice_Implementation.hpp"
 #include "System/GUI/Window.hpp"
 
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 class OpenGLDevice : public implementedBy<OpenGLDevice_Implementation>

@@ -8,6 +8,10 @@
 // Project headers - System
 #include "System/Platforms/SubSystems_Implementation.hpp"
 
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 class SubSystems : public implementedBy<SubSystems_Implementation>
