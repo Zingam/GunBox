@@ -47,7 +47,7 @@ private:
   friend class System::EventProcessing::KeyboardStateAccessor;
 
 private:
-  std::array<KeyState_t, System::DeviceTypes::Input::ScanCode_t_ElementsCount>
+  std::array<KeyState_t, System::DeviceTypes::Input::ScanCode_t_ElementCount>
     keyStates;
 };
 

@@ -18,18 +18,18 @@ NAMESPACE_BEGIN(System)
 class Monitor
 {
 private:
-  Monitor(DeviceTypes::Graphics::Rectangle2D rectangle);
+  Monitor(DeviceTypes::Graphics::Rectangle2D_t rectangle);
 
   // Properties
 public:
   auto IsPrimary() -> bool;
-  auto MidPoint() -> DeviceTypes::Graphics::Point2D;
+  auto MidPoint() -> DeviceTypes::Graphics::Point2D_t;
 
 public:
   friend auto EnumerateMonitors() -> std::vector<Monitor>;
 
 private:
-  DeviceTypes::Graphics::Rectangle2D rectangle;
+  DeviceTypes::Graphics::Rectangle2D_t rectangle;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -31,7 +31,7 @@ class Preferences
     std::string identifier{};
     size_t version = 0;
     size_t offset_2 = 0; // of hash_2
-    System::DeviceTypes::Graphics::Rectangle2D mainWindowMetrics{ { 0, 0 },
+    System::DeviceTypes::Graphics::Rectangle2D_t mainWindowMetrics{ { 0, 0 },
                                                                   { 0, 0 } };
     bool fullscreen = false;
     hash_t hash_2 = 0;
@@ -45,8 +45,8 @@ public:
   // Properties
 public:
   auto Fullscreen() const -> bool;
-  auto MainWindowMetrics() -> System::DeviceTypes::Graphics::Rectangle2D&;
-  auto MainWindowMetrics() const -> System::DeviceTypes::Graphics::Rectangle2D const&;
+  auto MainWindowMetrics() -> System::DeviceTypes::Graphics::Rectangle2D_t&;
+  auto MainWindowMetrics() const -> System::DeviceTypes::Graphics::Rectangle2D_t const&;
   auto RendererAPI() -> System::DeviceTypes::Graphics::API_t&;
   auto RendererAPI() const -> System::DeviceTypes::Graphics::API_t const&;
   auto SuccesfullyLoaded() const -> bool;

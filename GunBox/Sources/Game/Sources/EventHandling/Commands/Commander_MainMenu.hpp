@@ -84,11 +84,11 @@ private:
 private:
   std::array<
     std::shared_ptr<Command_Interface>,
-    System::DeviceTypes::Input::GamepadEvent_t_ElementsCount>
+    System::DeviceTypes::Input::GamepadEvent_t_ElementCount>
     commands_Gamepad;
   std::array<
     std::shared_ptr<Command_Interface>,
-    System::DeviceTypes::Input::ScanCode_t_ElementsCount>
+    System::DeviceTypes::Input::ScanCode_t_ElementCount>
     commands_Keyboard;
   MainMenu& mainMenu;
 

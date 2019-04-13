@@ -46,7 +46,7 @@ public:
   auto Fullscreen() const -> std::optional<bool>;
   auto Renderer() const -> std::optional<System::DeviceTypes::Graphics::API_t>;
   auto Resolution() const
-    -> std::optional<System::DeviceTypes::Graphics::Dimensions>;
+    -> std::optional<System::DeviceTypes::Graphics::Dimensions_t>;
   auto ShowHelp() const -> std::optional<bool>;
   auto ShowSystemConsole() const -> std::optional<bool>;
 
@@ -81,7 +81,7 @@ private:
   std::optional<std::string> executableFilename;
   std::optional<bool> fullscreen;
   std::optional<System::DeviceTypes::Graphics::API_t> renderer;
-  std::optional<System::DeviceTypes::Graphics::Dimensions> resolution;
+  std::optional<System::DeviceTypes::Graphics::Dimensions_t> resolution;
   std::optional<bool> showHelp;
   std::optional<bool> showSystemConsole;
 };

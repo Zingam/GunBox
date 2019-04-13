@@ -54,11 +54,11 @@ private:
   friend class System::EventProcessing::GamepadStateAccessor;
 
 private:
-  std::array<double, System::DeviceTypes::Input::GamepadAxis_t_ElementsCount>
+  std::array<double, System::DeviceTypes::Input::GamepadAxis_t_ElementCount>
     axisStates;
   std::array<
     ButtonState_t,
-    System::DeviceTypes::Input::GamepadButton_t_ElementsCount>
+    System::DeviceTypes::Input::GamepadButton_t_ElementCount>
     buttonStates;
 };
 

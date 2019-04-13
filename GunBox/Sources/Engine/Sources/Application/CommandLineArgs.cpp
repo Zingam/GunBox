@@ -92,7 +92,7 @@ CommandLineArgs::ShowSystemConsole() const
   return showSystemConsole;
 }
 
-std::optional<System::DeviceTypes::Graphics::Dimensions>
+std::optional<System::DeviceTypes::Graphics::Dimensions_t>
 CommandLineArgs::Resolution() const
 {
   return resolution;
@@ -264,7 +264,7 @@ CommandLineArgs::ParseResolution(
     for (auto const& dimensionString : matches) {
       dimensionStrings.emplace_back(dimensionString.str());
     }
-    System::DeviceTypes::Graphics::Dimensions dimensions;
+    System::DeviceTypes::Graphics::Dimensions_t dimensions;
     // The groups start at index [1]
     dimensions.Width = std::stoi(dimensionStrings[1]);
     dimensions.Height = std::stoi(dimensionStrings[2]);

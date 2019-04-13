@@ -162,3 +162,11 @@
 #else
 #  error EnumCast is already defined
 #endif
+
+#if !defined(EnumSize)
+#  define EnumSize(enumclassname)                                                       \
+    constexpr auto enumclassname##_ElementCount =                                      \
+      EnumCast(enumclassname::__ElementCount__)
+#else
+#  error EnumSize is already defined
+#endif

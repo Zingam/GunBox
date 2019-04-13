@@ -7,7 +7,7 @@
 #include <cstdint>
 
 ////////////////////////////////////////////////////////////////////////////////
-// Class declarations
+// Type declarations
 ////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(System::DeviceTypes::Input)
@@ -23,11 +23,11 @@ enum class GamepadAxis_t
   TriggerLeft,
   TriggerRight,
   _UNKNOWN_,
-  __ElementsCount__
+  __ElementCount__
 };
 
-constexpr auto GamepadAxis_t_ElementsCount =
-  EnumCast(GamepadAxis_t::__ElementsCount__);
+// Define 'GamepadAxis_t_ElementCount'
+EnumSize(GamepadAxis_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -49,11 +49,11 @@ enum class GamepadButton_t
   DPadLeft,
   DPadRight,
   _UNKNOWN_,
-  __ElementsCount__
+  __ElementCount__
 };
 
-constexpr auto GamepadButton_t_ElementsCount =
-  EnumCast(GamepadButton_t::__ElementsCount__);
+// Define 'GamepadButton_t_ElementCount'
+EnumSize(GamepadButton_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -91,11 +91,11 @@ enum class GamepadEvent_t
   TriggerLeft,
   TriggerRight,
   _UNKNOWN_,
-  __ElementsCount__
+  __ElementCount__
 };
 
-constexpr auto GamepadEvent_t_ElementsCount =
-  EnumCast(GamepadEvent_t::__ElementsCount__);
+// Define 'GamepadEvent_t_ElementCount'
+EnumSize(GamepadEvent_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 

@@ -28,10 +28,10 @@ Window::~Window()
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-DeviceTypes::Graphics::Point2D
+DeviceTypes::Graphics::Point2D_t
 Window::Position()
 {
-  DeviceTypes::Graphics::Point2D coordinate{};
+  DeviceTypes::Graphics::Point2D_t coordinate{};
   SDL_GetWindowPosition(handle, &coordinate.X, &coordinate.Y);
 
   return coordinate;

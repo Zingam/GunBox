@@ -41,11 +41,11 @@ public:
       Default
     };
 
-    DeviceTypes::Graphics::Point2D Coordinate;
+    DeviceTypes::Graphics::Point2D_t Coordinate;
     FullscreenState_t Fullscreen;
     Location_t Location;
     DeviceTypes::Graphics::API_t RendererAPI;
-    DeviceTypes::Graphics::Dimensions Size;
+    DeviceTypes::Graphics::Dimensions_t Size;
   };
 
 public:
@@ -54,7 +54,7 @@ public:
 
 public:
   auto Id() const -> SDL_Window*;
-  DeviceTypes::Graphics::Point2D Position();
+  DeviceTypes::Graphics::Point2D_t Position();
 
 public:
   auto Destroy() -> void;

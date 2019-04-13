@@ -59,13 +59,13 @@ Preferences::Fullscreen() const
   return data.fullscreen;
 }
 
-System::DeviceTypes::Graphics::Rectangle2D&
+System::DeviceTypes::Graphics::Rectangle2D_t&
 Preferences::MainWindowMetrics()
 {
   return data.mainWindowMetrics;
 }
 
-System::DeviceTypes::Graphics::Rectangle2D const&
+System::DeviceTypes::Graphics::Rectangle2D_t const&
 Preferences::MainWindowMetrics() const
 {
   return data.mainWindowMetrics;

@@ -7,10 +7,12 @@
 #include <cstdint>
 
 ////////////////////////////////////////////////////////////////////////////////
-// Class declarations
+// Type declarations
 ////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(System::DeviceTypes::Input)
+
+////////////////////////////////////////////////////////////////////////////////
 
 using KeyCode_t = std::int32_t;
 
@@ -34,11 +36,11 @@ enum class KeyModifier_t
   WindowsKey, // Left or Right
   WindowsKeyLeft,
   WindowsKeyRight,
-  __ElementsCount__
+  __ElementCount__
 };
 
-constexpr auto KeyModifier_t_ElementsCount =
-  EnumCast(KeyModifier_t::__ElementsCount__);
+// Define 'KeyModifier_t_ElementCount'
+EnumSize(KeyModifier_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -142,11 +144,11 @@ enum class ScanCode_t
   SK_PageDown,
   SK_PageUp,
   _UNKNOWN_,
-  __ElementsCount__
+  __ElementCount__
 };
 
-constexpr auto ScanCode_t_ElementsCount =
-  EnumCast(ScanCode_t::__ElementsCount__);
+// Define 'ScanCode_t_ElementCount'
+EnumSize(ScanCode_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 
