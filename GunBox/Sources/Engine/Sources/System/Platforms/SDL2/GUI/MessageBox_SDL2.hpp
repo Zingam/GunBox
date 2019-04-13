@@ -3,13 +3,21 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers - Common
-#include "Common/implementedBy.hpp"
-// Project headers - System
-#include "System/Platforms/MessageBox_Implementation.hpp"
+// Project headers - System/Platforms
+#include "System/GUI/Common/MessageBox_Base.hpp"
 
 // C++ Standard Library
 #include <string>
+
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(Application)
+
+class ApplicationInfo;
+
+NAMESPACE_END(Application)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -17,16 +25,15 @@
 
 NAMESPACE_BEGIN(System::GUI)
 
-class MessageBox
-  : public implementedBy<System::GUI::MessageBox_Implementation>
+using MessageBox_Implementation =
+  class MessageBox_SDL : public System::GUI::Common::MessageBox_Base
 {
+  // Methods
 public:
-  MessageBox(
+  auto Initialize(
     std::string const& caption,
     std::string const& content,
-    System::GUI::Common::MessageBox_Base::MessageType_t messageType);
-
-public:
+    System::GUI::Common::MessageBox_Base::MessageType_t messageType) -> void;
   auto Show() -> void;
 };
 

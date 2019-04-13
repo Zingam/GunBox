@@ -3,11 +3,6 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers - Common
-#include "Common/implementedBy.hpp"
-// Project headers - System
-#include "System/Platforms/MessageBox_Implementation.hpp"
-
 // C++ Standard Library
 #include <string>
 
@@ -15,19 +10,32 @@
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System::GUI)
+NAMESPACE_BEGIN(System::GUI::Common)
 
-class MessageBox
-  : public implementedBy<System::GUI::MessageBox_Implementation>
+class MessageBox_Base
 {
+  // Types
 public:
-  MessageBox(
+  enum class MessageType_t
+  {
+    Error,
+    Info,
+    Warning
+  };
+
+  // Constructors & Destructors
+protected:
+  MessageBox_Base();
+  MessageBox_Base(
     std::string const& caption,
     std::string const& content,
-    System::GUI::Common::MessageBox_Base::MessageType_t messageType);
+    MessageType_t messageType);
 
-public:
-  auto Show() -> void;
+  // Variables
+protected:
+  std::string caption;
+  std::string content;
+  MessageType_t messageType;
 };
 
-NAMESPACE_END(System::GUI)
+NAMESPACE_END(System::GUI::Common)

@@ -3,13 +3,11 @@
 
 // Project headers - Common
 #include "Common/Macros/Logging.hpp"
-
 // Project headers - Renderer/Graphics
 #include "Renderer/Graphics/GraphicsRendererFactory.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
-
-// Third party libraries
-#include <SDL.h>
+// Project headers - System/GUI
+#include "System/GUI/MessageBox.hpp"
 
 // C++ Standard Library
 #include <iostream>
@@ -65,11 +63,12 @@ CoreApplication::Finalize()
       errorMessage << "Unable to save preferences!\n";
       errorMessage << "    Error:\n";
       errorMessage << hasSaveError.value();
-      SDL_ShowSimpleMessageBox(
-        SDL_MESSAGEBOX_ERROR,
-        info.Title().c_str(),
-        errorMessage.str().c_str(),
-        nullptr);
+
+      using namespace System::GUI;
+      MessageBox messageBox{ info.Title(),
+                             errorMessage.str(),
+                             Common::MessageBox_Base::MessageType_t::Error };
+      messageBox.Show();
     }
 
     hostPlatform.SubSystems().Finalize();
@@ -139,11 +138,11 @@ CoreApplication::Initialize()
     errorMessage << "    " << hasLoadError.value() << "\n";
     errorMessage << "Using default values!";
 
-    SDL_ShowSimpleMessageBox(
-      SDL_MESSAGEBOX_ERROR,
-      info.Title().c_str(),
-      errorMessage.str().c_str(),
-      nullptr);
+    using namespace System::GUI;
+    MessageBox messageBox{ info.Title(),
+                           errorMessage.str(),
+                           Common::MessageBox_Base::MessageType_t::Error };
+    messageBox.Show();
 
     // Main window
     preferences->SetMainWindowDefaultValues();
@@ -193,8 +192,12 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
     std::stringstream errorMessage;
     errorMessage << "Error parsing command line arguments.\n";
     errorMessage << hasParsingError.value() << "\n";
-    SDL_ShowSimpleMessageBox(
-      SDL_MESSAGEBOX_ERROR, "GunBox", errorMessage.str().c_str(), nullptr);
+
+    using namespace System::GUI;
+    MessageBox messageBox{ info.Title(),
+                           errorMessage.str(),
+                           Common::MessageBox_Base::MessageType_t::Error };
+    messageBox.Show();
 
     commandLineArgs.reset();
   }
