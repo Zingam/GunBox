@@ -1,0 +1,2 @@
+// Self
+#include "LogAPI.hpp"
