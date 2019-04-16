@@ -3,6 +3,11 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - Common
+#include "Common/implementedBy.hpp"
+// Project headers - System
+#include "System/Platforms/AlertBox_Implementation.hpp"
+
 // C++ Standard Library
 #include <string>
 
@@ -10,32 +15,19 @@
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(System::GUI::Common)
+NAMESPACE_BEGIN(System::GUI)
 
-class MessageBox_Base
+class AlertBox
+  : public implementedBy<System::GUI::AlertBox_Implementation>
 {
-  // Types
 public:
-  enum class MessageType_t
-  {
-    Error,
-    Info,
-    Warning
-  };
-
-  // Constructors & Destructors
-protected:
-  MessageBox_Base();
-  MessageBox_Base(
+  AlertBox(
     std::string const& caption,
     std::string const& content,
-    MessageType_t messageType);
+    System::GUI::Common::AlertBox_Base::AlertType_t alertType);
 
-  // Variables
-protected:
-  std::string caption;
-  std::string content;
-  MessageType_t messageType;
+public:
+  auto Show() -> void;
 };
 
-NAMESPACE_END(System::GUI::Common)
+NAMESPACE_END(System::GUI)

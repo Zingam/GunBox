@@ -7,7 +7,8 @@
 #include "Renderer/Graphics/GraphicsRendererFactory.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 // Project headers - System/GUI
-#include "System/GUI/MessageBox.hpp"
+#include "Logger/Logger.hpp"
+#include "System/GUI/AlertBox.hpp"
 
 // C++ Standard Library
 #include <iostream>
@@ -65,10 +66,10 @@ CoreApplication::Finalize()
       errorMessage << hasSaveError.value();
 
       using namespace System::GUI;
-      MessageBox messageBox{ info.Title(),
-                             errorMessage.str(),
-                             Common::MessageBox_Base::MessageType_t::Error };
-      messageBox.Show();
+      AlertBox AlertBox{ info.Title(),
+                         errorMessage.str(),
+                         Common::AlertBox_Base::AlertType_t::Error };
+      AlertBox.Show();
     }
 
     hostPlatform.SubSystems().Finalize();
@@ -142,10 +143,10 @@ CoreApplication::Initialize()
     errorMessage << "Using default values!";
 
     using namespace System::GUI;
-    MessageBox messageBox{ info.Title(),
-                           errorMessage.str(),
-                           Common::MessageBox_Base::MessageType_t::Error };
-    messageBox.Show();
+    AlertBox AlertBox{ info.Title(),
+                       errorMessage.str(),
+                       Common::AlertBox_Base::AlertType_t::Error };
+    AlertBox.Show();
 
     // Main window
     preferences->SetMainWindowDefaultValues();
@@ -197,10 +198,10 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
     errorMessage << hasParsingError.value() << "\n";
 
     using namespace System::GUI;
-    MessageBox messageBox{ info.Title(),
-                           errorMessage.str(),
-                           Common::MessageBox_Base::MessageType_t::Error };
-    messageBox.Show();
+    AlertBox AlertBox{ info.Title(),
+                       errorMessage.str(),
+                       Common::AlertBox_Base::AlertType_t::Error };
+    AlertBox.Show();
 
     commandLineArgs.reset();
   }

@@ -1,5 +1,5 @@
 // Self
-#include "MessageBox_SDL2.hpp"
+#include "AlertBox_SDL2.hpp"
 
 // Project headers - System
 #include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
@@ -14,38 +14,39 @@ NAMESPACE_BEGIN(System::GUI)
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-MessageBox_SDL::Initialize(
+AlertBox_SDL::Initialize(
   std::string const& caption,
   std::string const& content,
-  System::GUI::Common::MessageBox_Base::MessageType_t messageType)
+  System::GUI::Common::AlertBox_Base::AlertType_t alertType)
 {
   this->caption = caption;
   this->content = content;
-  this->messageType = messageType;
+  this->alertType = alertType;
 }
 
 void
-MessageBox_SDL::Show()
+AlertBox_SDL::Show()
 {
   using namespace System::GUI::Common;
 
-  auto messageType = SDL_MESSAGEBOX_ERROR;
-  switch (this->messageType) {
-    case MessageBox_Base::MessageType_t::Error: {
-      messageType = SDL_MESSAGEBOX_ERROR;
+  auto alertType = SDL_MESSAGEBOX_WARNING;
+  switch (this->alertType) {
+    case AlertBox_Base::AlertType_t::Error: {
+      alertType = SDL_MESSAGEBOX_ERROR;
       break;
     }
-    case MessageBox_Base::MessageType_t::Info: {
-      messageType = SDL_MESSAGEBOX_INFORMATION;
-    }
-    case MessageBox_Base::MessageType_t::Warning: {
-      messageType = SDL_MESSAGEBOX_WARNING;
+    case AlertBox_Base::AlertType_t::Info: {
+      alertType = SDL_MESSAGEBOX_INFORMATION;
       break;
     }
+    case AlertBox_Base::AlertType_t::Warning: {
+      [[fallthrough]];
+    }
+    default: {}
   }
 
   SDL_ShowSimpleMessageBox(
-    messageType, caption.c_str(), content.c_str(), nullptr);
+    alertType, caption.c_str(), content.c_str(), nullptr);
 }
 
 NAMESPACE_END(System::GUI)

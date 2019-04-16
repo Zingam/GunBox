@@ -80,10 +80,10 @@ set (.Engine_SourceFiles
   "Sources/System/EventProcessing/SystemEventProcessorAccessor.cpp"
   "Sources/System/EventProcessing/SystemEventProcessorAccessor.hpp"
   "Sources/System/EventProcessing/SystemEventProcessorAccessor.inl"
-  "Sources/System/GUI/Common/MessageBox_Base.cpp"
-  "Sources/System/GUI/Common/MessageBox_Base.hpp"
-  "Sources/System/GUI/MessageBox.cpp"
-  "Sources/System/GUI/MessageBox.hpp"
+  "Sources/System/GUI/Common/AlertBox_Base.cpp"
+  "Sources/System/GUI/Common/AlertBox_Base.hpp"
+  "Sources/System/GUI/AlertBox.cpp"
+  "Sources/System/GUI/AlertBox.hpp"
   "Sources/System/GUI/Monitor.cpp"
   "Sources/System/GUI/Monitor.hpp"
   "Sources/System/GUI/Window.cpp"
@@ -105,8 +105,8 @@ set (.Engine_SourceFiles
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.hpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemInfo_Linux.cpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemInfo_Linux.hpp>
-  "Sources/System/Platforms/SDL2/GUI/MessageBox_SDL2.cpp"
-  "Sources/System/Platforms/SDL2/GUI/MessageBox_SDL2.hpp"
+  "Sources/System/Platforms/SDL2/GUI/AlertBox_SDL2.cpp"
+  "Sources/System/Platforms/SDL2/GUI/AlertBox_SDL2.hpp"
   "Sources/System/Platforms/SDL2/HostPlatform/FileSystem_SDL2.cpp"
   "Sources/System/Platforms/SDL2/HostPlatform/FileSystem_SDL2.hpp"
   "Sources/System/Platforms/SDL2/HostPlatform/OpenGLDevice_SDL2.cpp"
@@ -128,7 +128,7 @@ set (.Engine_SourceFiles
   $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemInfo_Windows.cpp>
   $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemInfo_Windows.hpp>
   "Sources/System/Platforms/FileSystem_Implementation.hpp"
-  "Sources/System/Platforms/MessageBox_Implementation.hpp"
+  "Sources/System/Platforms/AlertBox_Implementation.hpp"
   "Sources/System/Platforms/OpenGLDevice_Implementation.hpp"
   "Sources/System/Platforms/SubSystems_Implementation.hpp"
   "Sources/System/Platforms/SystemConsole_Implementation.hpp"

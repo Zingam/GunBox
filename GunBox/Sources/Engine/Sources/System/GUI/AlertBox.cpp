@@ -1,5 +1,5 @@
 // Self
-#include "MessageBox.hpp"
+#include "AlertBox.hpp"
 
 NAMESPACE_BEGIN(System::GUI)
 
@@ -7,12 +7,12 @@ NAMESPACE_BEGIN(System::GUI)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-MessageBox::MessageBox(
+AlertBox::AlertBox(
   std::string const& caption,
   std::string const& content,
-  System::GUI::Common::MessageBox_Base::MessageType_t messageType)
+  System::GUI::Common::AlertBox_Base::AlertType_t alertType)
 {
-  this->o_ptr->Initialize(caption, content, messageType);
+  this->o_ptr->Initialize(caption, content, alertType);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,7 +20,7 @@ MessageBox::MessageBox(
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-MessageBox::Show()
+AlertBox::Show()
 {
   this->o_ptr->Show();
 }

@@ -1,17 +1,18 @@
 // Self
-#include "MessageBox_Base.hpp"
+#include "AlertBox_Base.hpp"
 
 NAMESPACE_BEGIN(System::GUI::Common)
 
-MessageBox_Base::MessageBox_Base(){};
+AlertBox_Base::AlertBox_Base()
+  : alertType{ AlertType_t::Error } {};
 
-MessageBox_Base::MessageBox_Base(
+AlertBox_Base::AlertBox_Base(
   std::string const& caption,
   std::string const& content,
-  MessageType_t messageType)
+  AlertType_t alertType)
   : caption{ caption }
   , content{ content }
-  , messageType{ messageType }
+  , alertType{ alertType }
 {}
 
 NAMESPACE_END(System::GUI::Common)
