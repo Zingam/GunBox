@@ -10,9 +10,9 @@ AlertBox_Base::AlertBox_Base(
   std::string const& caption,
   std::string const& content,
   AlertType_t alertType)
-  : caption{ caption }
+  : alertType{ alertType }
+  , caption{ caption }
   , content{ content }
-  , alertType{ alertType }
 {}
 
 NAMESPACE_END(System::GUI::Common)

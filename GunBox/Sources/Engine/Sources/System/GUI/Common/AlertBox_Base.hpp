@@ -33,9 +33,9 @@ protected:
 
   // Variables
 protected:
+  AlertType_t alertType;
   std::string caption;
   std::string content;
-  AlertType_t alertType;
 };
 
 NAMESPACE_END(System::GUI::Common)
