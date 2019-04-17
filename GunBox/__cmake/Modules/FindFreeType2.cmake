@@ -165,7 +165,9 @@ unset (.FreeType2_find_path_Hints)
 
 if (NOT DEFINED .UsePostfixedDebugLibrary_FreeType2)
   # Link against the postfixed library by default
-  if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if (ANDROID
+      OR (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  )
     set (.UsePostfixedDebugLibrary_FreeType2 YES)
   else ()
     set (.UsePostfixedDebugLibrary_FreeType2 NO)

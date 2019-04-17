@@ -101,9 +101,13 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform/SystemInfo.hpp"
   "Sources/System/Platforms/Common/CompilerInfo.cpp"
   "Sources/System/Platforms/Common/CompilerInfo.hpp"
+  $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>
+  $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.hpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.hpp>
+  $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemInfo_Linux.cpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemInfo_Linux.cpp>
+  $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemInfo_Linux.hpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemInfo_Linux.hpp>
   "Sources/System/Platforms/SDL2/GUI/AlertBox_SDL2.cpp"
   "Sources/System/Platforms/SDL2/GUI/AlertBox_SDL2.hpp"

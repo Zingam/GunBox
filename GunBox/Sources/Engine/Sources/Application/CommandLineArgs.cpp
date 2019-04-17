@@ -153,7 +153,9 @@ std::optional<std::string>
 CommandLineArgs::Parse(int argc, char* argv[])
 {
   std::filesystem::path executablePath{ argv[0] };
+#if !defined(__ANDROID__)
   this->executableFilename = executablePath.stem().string();
+#endif
 
   // Skip the first argument which is the path of the executable
   for (int argumentIndex = 1; argumentIndex < argc; ++argumentIndex) {
