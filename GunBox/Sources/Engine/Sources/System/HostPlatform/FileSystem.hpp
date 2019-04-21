@@ -3,10 +3,11 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers - Common
-#include "Common/implementedBy.hpp"
 // Project headers - System
 #include "System/Platforms/FileSystem_Implementation.hpp"
+
+// Project headers - Common
+#include "Common/implementedBy.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations

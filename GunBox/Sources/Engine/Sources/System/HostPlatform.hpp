@@ -20,6 +20,7 @@ NAMESPACE_BEGIN(System)
 
 class HostPlatform
 {
+  // Properties
 public:
   HostPlatformClasses::FileSystem& FileSystem();
   HostPlatformClasses::OpenGLDevice& OpenGLDevice();
@@ -27,6 +28,7 @@ public:
   HostPlatformClasses::SystemConsole& SystemConsole();
   HostPlatformClasses::SystemInfo& SystemInfo();
 
+  // Data members
 private:
   HostPlatformClasses::FileSystem fileSystem;
   HostPlatformClasses::OpenGLDevice openGLDevice;
@@ -38,7 +40,7 @@ private:
 NAMESPACE_END(System)
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inline method implementations
+// Inline implementations
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "HostPlatform.inl"

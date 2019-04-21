@@ -53,7 +53,7 @@ make_unique_delegate(ClassName object, MethodPointerType method_Ptr)
   -> std::unique_ptr<SimpleDelegate<ClassName, MethodPointerType>>;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inline method implementations
+// Inline implementations
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "SimpleDelegate.inl"

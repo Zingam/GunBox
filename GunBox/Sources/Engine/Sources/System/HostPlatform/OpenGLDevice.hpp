@@ -3,10 +3,12 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - System
+#include "System/Platforms/OpenGLDevice_Implementation.hpp"
+
 // Project headers - Common
 #include "Common/implementedBy.hpp"
 // Project headers - System
-#include "System/Platforms/OpenGLDevice_Implementation.hpp"
 #include "System/GUI/Window.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -16,14 +16,17 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 class CompilerInfo
 {
+  // Constructors & Destructors
 public:
   CompilerInfo();
 
+  // Properties
 public:
   auto LanguageStandard() const -> std::uint32_t;
   auto Name() const -> std::string const&;
   auto GetVersion() const -> Version const&;
 
+  // Data members
 private:
   std::uint32_t languageStandard;
   std::string name;

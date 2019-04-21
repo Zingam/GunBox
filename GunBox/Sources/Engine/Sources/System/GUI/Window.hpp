@@ -24,6 +24,7 @@ NAMESPACE_BEGIN(System)
 
 class Window
 {
+  // Types
 public:
   struct Properties
   {
@@ -48,19 +49,23 @@ public:
     DeviceTypes::Graphics::Dimensions_t Size;
   };
 
+  // Constructors & Destructors
 public:
   Window(std::string const& title, Properties const& properties);
   ~Window();
 
+  // Properties
 public:
   auto Id() const -> SDL_Window*;
   DeviceTypes::Graphics::Point2D_t Position();
 
+  // Methods
 public:
   auto Destroy() -> void;
   auto Hide() -> void;
   auto Show() -> bool;
 
+  // Member variables
 private:
   SDL_Window* handle;
   Properties properties;
@@ -70,7 +75,7 @@ private:
 NAMESPACE_END(System)
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inline method implementations
+// Inline implementations
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "Window.inl"

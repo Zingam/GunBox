@@ -31,8 +31,14 @@ NAMESPACE_BEGIN(System)
 
 class EventProcessor
 {
+  // Constructors
 public:
   EventProcessor();
+
+  // Properties
+public:
+  inline System::EventProcessing::InputEventProcessor& InputEventProcessor();
+  inline System::EventProcessing::SystemEventProcessor& SystemEventProcessor();
 
   // Methods
 public:
@@ -48,20 +54,17 @@ public:
   auto ProcessEvents() -> void;
   // clang-format on
 
-  // Properties
-public:
-  inline System::EventProcessing::InputEventProcessor& InputEventProcessor();
-  inline System::EventProcessing::SystemEventProcessor& SystemEventProcessor();
-
   // Method templates
 public:
   template<typename EventHandler, typename... Args>
   auto RegisterEventHandler(Args&&... args) -> void;
 
+  // Private methods
 private:
   auto InitializeInputEventHandlers() -> void;
   auto InitializeSystemEventHandlers() -> void;
 
+  // Data members
 private:
   std::vector<std::unique_ptr<System::EventHandlers::EventHandler>>
     eventHandlers;
@@ -72,7 +75,7 @@ private:
 NAMESPACE_END(System)
 
 ////////////////////////////////////////////////////////////////////////////////
-// Inline method implementations
+// Inline implementations
 ////////////////////////////////////////////////////////////////////////////////
 
 #include "EventProcessor.inl"

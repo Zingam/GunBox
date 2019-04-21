@@ -22,6 +22,7 @@ NAMESPACE_BEGIN(Application)
 
 class CommandLineArgs
 {
+  // Types
 public:
   struct OptionInfo
   {
@@ -72,11 +73,11 @@ private:
     std::string const& option,
     std::vector<std::string> const& parameters) -> std::optional<std::string>;
 
-  // Constant fields
+  // Data members (constants)
 private:
   const std::map<const std::string, const OptionInfo> options;
 
-  // Variable fields
+  // Data members (variables)
 private:
   std::optional<std::string> executableFilename;
   std::optional<bool> fullscreen;
