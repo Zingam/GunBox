@@ -1,9 +1,8 @@
 // Self
 #include "Monitor.hpp"
 
-// BASE MACROS header
-#include "Common/Macros/Logging.hpp"
-
+// Project headers - Logger
+#include "Logger/LogAPI.hpp"
 // Project headers - System
 #include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
 
@@ -49,19 +48,19 @@ Monitor::MidPoint()
 std::vector<Monitor>
 EnumerateMonitors()
 {
-  LogInfo("Enumerating video displays:");
+  reLogI("Enumerating video displays:");
 
   auto videoDisplayCount = SDL_GetNumVideoDisplays();
   SDL_IfFailed(videoDisplayCount)
   {
-    LogError("Unable to get video display count: %s", SDL_GetError());
+    reLogE("Unable to get video display count: ", SDL_GetError());
 
     return {};
   }
 
   std::vector<Monitor> monitors;
   for (auto i = 0; i < videoDisplayCount; ++i) {
-    LogInfo("  Video display name: %s", SDL_GetDisplayName(i));
+    reLogI("  Video display name: ", SDL_GetDisplayName(i));
 
     SDL_Rect displayBounds;
     SDL_GetDisplayBounds(i, &displayBounds);

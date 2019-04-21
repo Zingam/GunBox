@@ -1,8 +1,8 @@
 // Self
 #include "GraphicsRenderer_OpenGL.hpp"
 
-// Project headers - Common
-#include "Common/Macros/Logging.hpp"
+// Project headers - Logger
+#include "Logger/LogAPI.hpp"
 // Project headers - Renderer
 #include "Renderer/Graphics/OpenGL/OpenGL.hpp"
 // Project headers - System
@@ -46,11 +46,11 @@ GraphicsRenderer_OpenGL::Initialize()
           auto version = glGetString(GL_VERSION);
           auto glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 
-          LogInfo("Graphics Renderer: OpenGL");
-          LogInfo("  Vendor:          %s", vendor);
-          LogInfo("  Renderer:        %s", renderer);
-          LogInfo("  Version:         %s", version);
-          LogInfo("  GLSL version:    %s", glslVersion);
+          reLogI("Graphics Renderer: OpenGL");
+          reLogI("  Vendor:          ", vendor);
+          reLogI("  Renderer:        ", renderer);
+          reLogI("  Version:         ", version);
+          reLogI("  GLSL version:    ", glslVersion);
 
           isInitialized = true;
 

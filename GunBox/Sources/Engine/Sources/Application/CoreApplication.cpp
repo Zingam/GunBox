@@ -1,17 +1,17 @@
 // Self
 #include "CoreApplication.hpp"
 
-// Project headers - Common
-#include "Common/Macros/Logging.hpp"
+// Project headers - Logger
+#include "Logger/LogAPI.hpp"
 // Project headers - Renderer/Graphics
 #include "Renderer/Graphics/GraphicsRendererFactory.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 // Project headers - System/GUI
-#include "Logger/Logger.hpp"
 #include "System/GUI/AlertBox.hpp"
 
 // C++ Standard Library
 #include <iostream>
+#include <string>
 #include <sstream>
 
 NAMESPACE_BEGIN(Application)
@@ -49,7 +49,7 @@ CoreApplication::Finalize()
   if (isInitialized) {
 
 #if defined(_DEBUG)
-    LogInfo("Finalizing: %s", info.Title().c_str());
+    reLogI("Finalizing: ", info.Title());
 
     if (nullptr != commandLineArgs) {
       if (commandLineArgs->ShowSystemConsole()) {
@@ -97,23 +97,25 @@ CoreApplication::Initialize()
 #endif
   }
 
+  using namespace std::string_literals;
+
   // clang-format off
-  LogInfo(
-    "Initializing:      %s", info.Title().c_str());
-  LogInfo(
-    "  Version:         %s", info.GetVersion().AsString().c_str());
-  LogInfo(
+  reLogI(
+    "Initializing:      ", info.Title());
+  reLogI(
+    "  Version:         ", info.GetVersion().AsString());
+  reLogI(
     "  Directories:");
-  LogInfo(
+  reLogI(
     "    Base:");
-  LogInfo(
-    "      %s",
-    hostPlatform.FileSystem().BasePath().c_str());
-  LogInfo(
+  reLogI(
+    "      ",
+    hostPlatform.FileSystem().BasePath());
+  reLogI(
     "    Preferencies:");
-  LogInfo(
-    "      %s",
-    hostPlatform.FileSystem().PreferencesRootPath().c_str());
+  reLogI(
+    "      ",
+    hostPlatform.FileSystem().PreferencesRootPath());
   // clang-format on
   auto const& compilerInfo = hostPlatform.SystemInfo().CompilerInfo();
   auto const& longVersion = compilerInfo.GetVersion().LongVersion();
@@ -124,14 +126,14 @@ CoreApplication::Initialize()
     compilerVersion = compilerInfo.GetVersion().AsString();
   }
   // clang-format off
-  LogInfo(
-    "  Compiler:        %s",
-    compilerInfo.Name().c_str());
-  LogInfo(
-    "    Version:       %s",
+  reLogI(
+    "  Compiler:        ",
+    compilerInfo.Name());
+  reLogI(
+    "    Version:       ",
     compilerVersion.data());
-  LogInfo(
-    "    C++ Standard:  %d",
+  reLogI(
+    "    C++ Standard:  ",
     compilerInfo.LanguageStandard());
   // clang-format on
 
@@ -163,7 +165,7 @@ CoreApplication::Initialize()
       auto height = commandLineArgs->Resolution().value().Height;
       auto width = commandLineArgs->Resolution().value().Width;
 
-      LogInfo("Desired resolution: %dx%d", width, height);
+      reLogI("Desired resolution: ", width,"x", height);
 
       creationPreferences.MainWindowMetrics().Size.Height = height;
       creationPreferences.MainWindowMetrics().Size.Width = width;
@@ -172,7 +174,7 @@ CoreApplication::Initialize()
     if (commandLineArgs->Renderer()) {
       auto renderer = commandLineArgs->Renderer().value();
 
-      LogInfo("Desired renderer: %d", static_cast<int>(renderer));
+      reLogI("Desired renderer: ", static_cast<int>(renderer));
 
       creationPreferences.RendererAPI() = renderer;
     }

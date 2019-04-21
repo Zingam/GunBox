@@ -24,6 +24,8 @@ set (.Engine_SourceFiles
   "Sources/Common/Version.inl"
   "Sources/Logger/Logger.cpp"
   "Sources/Logger/Logger.hpp"
+  "Sources/Logger/LogAPI.cpp"
+  "Sources/Logger/LogAPI.hpp"
   "Sources/Renderer/Graphics/Constants/GpuPreferences.hpp"
   "Sources/Renderer/Graphics/OpenGL/GraphicsRenderer_OpenGL.cpp"
   "Sources/Renderer/Graphics/OpenGL/GraphicsRenderer_OpenGL.hpp"

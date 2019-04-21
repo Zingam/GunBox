@@ -12,9 +12,9 @@
 
 #if !defined(reLogE)
 #  if defined(_DEBUG)
-#    define reLogE(message) Logger::Log(message, Logger::LogLevel::Error);
+#    define reLogE(...) Logger::Log(Logger::LogLevel::Error, __VA_ARGS__);
 #  else
-#    define reLogE(message)
+#    define reLogE(...)
 #  endif
 #else
 #  error reLogE is already defined...
@@ -22,9 +22,9 @@
 
 #if !defined(reLogI)
 #  if defined(_DEBUG)
-#    define reLogI(message) Logger::Log(message, Logger::LogLevel::Info);
+#    define reLogI(...) Logger::Log(Logger::LogLevel::Info, __VA_ARGS__);
 #  else
-#    define reLogI(message)
+#    define reLogI(...)
 #  endif
 #else
 #  error reLogI is already defined...
@@ -32,9 +32,9 @@
 
 #if !defined(reLogW)
 #  if defined(_DEBUG)
-#    define reLogW(message) Logger::Log(message, Logger::LogLevel::Warning);
+#    define reLogW(...) Logger::Log(Logger::LogLevel::Warning, __VA_ARGS__);
 #  else
-#    define reLogW(message)
+#    define reLogW(...)
 #  endif
 #else
 #  error reLogW is already defined...
