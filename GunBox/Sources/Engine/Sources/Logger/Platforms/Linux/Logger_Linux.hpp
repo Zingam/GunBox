@@ -14,8 +14,13 @@ NAMESPACE_BEGIN(Logger)
 
 using Logger_Implementation = class Logger_Linux : public LoggerBase
 {
+  // Properties
 public:
-  auto WriteLog() const -> void;
+  auto SetLogLevel(LogLevel_t logLevel) -> void;
+
+  // Methods
+public:
+  auto WriteLog() -> void;
 };
 
 NAMESPACE_END(Logger)

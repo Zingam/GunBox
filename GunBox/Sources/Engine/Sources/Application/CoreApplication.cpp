@@ -79,6 +79,8 @@ CoreApplication::Finalize()
 Application::ExitCode
 CoreApplication::Initialize()
 {
+  reLogInitialize(info.Title());
+
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowHelp()) {
       hostPlatform.SystemConsole().Show();

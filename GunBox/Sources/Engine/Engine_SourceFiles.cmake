@@ -24,6 +24,7 @@ set (.Engine_SourceFiles
   "Sources/Common/Version.inl"
   "Sources/Logger/Internal/Logger.cpp"
   "Sources/Logger/Internal/Logger.hpp"
+  "Sources/Logger/Internal/Logger.inl"
   "Sources/Logger/Internal/LoggerBase.cpp"
   "Sources/Logger/Internal/LoggerBase.hpp"
   "Sources/Logger/Internal/LoggerTypes.cpp"

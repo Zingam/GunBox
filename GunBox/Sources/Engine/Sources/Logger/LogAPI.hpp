@@ -21,6 +21,16 @@
 // Macro definitions
 ////////////////////////////////////////////////////////////////////////////////
 
+#if !defined(reLogInitialize)
+#  if defined(LoggingLevel_Verbose)
+#    define reLogInitialize(logTag) Logger::Logger::CreateInstance(logTag);
+#  else
+#    define reLogInitialize(...)
+#  endif
+#else
+#  error reLogInitialize is already defined...
+#endif
+
 #if !defined(reLogE)
 #  if defined(LoggingLevel_Verbose)
 #    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__);

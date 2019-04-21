@@ -10,6 +10,9 @@
 // Project headers - Common
 #include "Common/implementedBy.hpp"
 
+// C Standard Library
+#include <cassert>
+
 // C++ Standard Library
 #include <map>
 #include <memory>
@@ -25,6 +28,7 @@ class Logger : public implementedBy<Logger_Implementation>
 {
 public:
   Logger();
+  Logger(std::string const& logtag);
 
   // Properties
 public:
@@ -35,24 +39,14 @@ public:
 public:
   auto WriteLog() const -> void;
 
+  // Static methods
+public:
+  static auto GetInstance() -> Logger&;
+  static auto CreateInstance(std::string const& logtag) -> void;
+
 private:
-  const std::map<LogLevel_t, std::string> logLevels;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-// Functions
-////////////////////////////////////////////////////////////////////////////////
-
-inline auto
-GetLoggerInstance() -> Logger&
-{
   static std::unique_ptr<Logger> logger;
-  if (nullptr == logger) {
-    logger = std::make_unique<Logger>();
-  }
-
-  return *logger;
-}
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function templates
@@ -60,16 +54,14 @@ GetLoggerInstance() -> Logger&
 
 template<typename... Args>
 auto
-Log(LogLevel_t logLevel, Args const&... args) -> void
-{
-  auto& logger = GetLoggerInstance();
-
-  logger.SetLogLevel(logLevel);
-
-  auto& ss = logger.GetLogStringStream();
-  (ss << ... << args) << "\n";
-
-  GetLoggerInstance().WriteLog();
-}
+Log(LogLevel_t logLevel, Args const&... args) -> void;
 
 NAMESPACE_END(Logger)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline method & function template implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "Logger.inl"
+
+////////////////////////////////////////////////////////////////////////////////
