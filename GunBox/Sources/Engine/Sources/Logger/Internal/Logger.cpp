@@ -1,27 +1,21 @@
 // Self
 #include "Logger.hpp"
 
-// System headers
-#if defined(WIN32)
-#  include <Windows.h>
-#endif
-
-// C Standard Library
-#include <cstdio>
-
 NAMESPACE_BEGIN(Logger)
 
 ////////////////////////////////////////////////////////////////////////////////
-// Static data
+// Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-// clang-format off
-std::map<LogLevel_t, std::string> logLevels{
-  { LogLevel_t::Error, "Error" },
-  { LogLevel_t::Info, "Info" },
-  { LogLevel_t::Warning, "Warning" }
-};
-// clang-format on
+Logger::Logger()
+  : logLevels{ { LogLevel_t::Error, "Error" },
+               { LogLevel_t::Info, "Info" },
+               { LogLevel_t::Warning, "Warning" } }
+{}
+
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
 
 std::stringstream&
 Logger::GetLogStringStream() const
@@ -30,25 +24,20 @@ Logger::GetLogStringStream() const
 }
 
 void
-Logger::WriteLog() const
+Logger::SetLogLevel(LogLevel_t logLevel)
 {
-  o_ptr->WriteLog();
+  auto& ss = GetLogStringStream();
+  ss << "-- " << logLevels.at(logLevel) << ": ";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Functions
+// Methods
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-WriteLog(std::stringstream const& ss)
+Logger::WriteLog() const
 {
-  // Output in the system console
-  printf("%s", ss.str().c_str());
-
-  // Output in the debug window
-#if defined(WIN32)
-  OutputDebugString(ss.str().c_str());
-#endif
+  o_ptr->WriteLog();
 }
 
 NAMESPACE_END(Logger)

@@ -1,17 +1,28 @@
 #pragma once
+
 ////////////////////////////////////////////////////////////////////////////////
-#include <Engine/Base>
+// Defines
 ////////////////////////////////////////////////////////////////////////////////
 
+#if defined(_DEBUG)
+#  define LoggingLevel_Verbose
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Headers
+////////////////////////////////////////////////////////////////////////////////
+
+#if defined(LoggingLevel_Verbose)
 // Project headers
-#include "Internal/Logger.hpp"
+#  include "Internal/Logger.hpp"
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macro definitions
 ////////////////////////////////////////////////////////////////////////////////
 
 #if !defined(reLogE)
-#  if defined(_DEBUG)
+#  if defined(LoggingLevel_Verbose)
 #    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__);
 #  else
 #    define reLogE(...)
@@ -21,7 +32,7 @@
 #endif
 
 #if !defined(reLogI)
-#  if defined(_DEBUG)
+#  if defined(LoggingLevel_Verbose)
 #    define reLogI(...) Logger::Log(Logger::LogLevel_t::Info, __VA_ARGS__);
 #  else
 #    define reLogI(...)
@@ -31,7 +42,7 @@
 #endif
 
 #if !defined(reLogW)
-#  if defined(_DEBUG)
+#  if defined(LoggingLevel_Verbose)
 #    define reLogW(...) Logger::Log(Logger::LogLevel_t::Warning, __VA_ARGS__);
 #  else
 #    define reLogW(...)

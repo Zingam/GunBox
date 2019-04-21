@@ -24,15 +24,20 @@ NAMESPACE_BEGIN(Logger)
 class Logger : public implementedBy<Logger_Implementation>
 {
 public:
+  Logger();
+
+  // Properties
+public:
   auto GetLogStringStream() const -> std::stringstream&;
+  auto SetLogLevel(LogLevel_t logLevel) -> void;
+
+  // Methods
+public:
   auto WriteLog() const -> void;
+
+private:
+  const std::map<LogLevel_t, std::string> logLevels;
 };
-
-////////////////////////////////////////////////////////////////////////////////
-// Static data
-////////////////////////////////////////////////////////////////////////////////
-
-extern "C++" std::map<LogLevel_t, std::string> logLevels;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -49,9 +54,6 @@ GetLoggerInstance() -> Logger&
   return *logger;
 }
 
-auto
-WriteLog(std::stringstream const& ss) -> void;
-
 ////////////////////////////////////////////////////////////////////////////////
 // Function templates
 ////////////////////////////////////////////////////////////////////////////////
@@ -60,8 +62,12 @@ template<typename... Args>
 auto
 Log(LogLevel_t logLevel, Args const&... args) -> void
 {
-  auto& ss = GetLoggerInstance().GetLogStringStream();
-  ((ss << "-- " << logLevels.at(logLevel) << ": ") << ... << args) << "\n";
+  auto& logger = GetLoggerInstance();
+
+  logger.SetLogLevel(logLevel);
+
+  auto& ss = logger.GetLogStringStream();
+  (ss << ... << args) << "\n";
 
   GetLoggerInstance().WriteLog();
 }
