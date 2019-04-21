@@ -97,8 +97,6 @@ CoreApplication::Initialize()
 #endif
   }
 
-  using namespace std::string_literals;
-
   // clang-format off
   reLogI(
     "Initializing:      ", info.Title());

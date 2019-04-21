@@ -3,8 +3,16 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - Logger
+#include "Logger/Internal/LoggerTypes.hpp"
+#include "Logger/Platforms/Logger_Implementation.hpp"
+
+// Project headers - Common
+#include "Common/implementedBy.hpp"
+
 // C++ Standard Library
 #include <map>
+#include <memory>
 #include <sstream>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -13,22 +21,33 @@
 
 NAMESPACE_BEGIN(Logger)
 
-enum class LogLevel
+class Logger : public implementedBy<Logger_Implementation>
 {
-  Error,
-  Info,
-  Warning
+public:
+  auto GetLogStringStream() const -> std::stringstream&;
+  auto WriteLog() const -> void;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Static data
 ////////////////////////////////////////////////////////////////////////////////
 
-extern "C++" std::map<LogLevel, std::string> logLevels;
+extern "C++" std::map<LogLevel_t, std::string> logLevels;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions
 ////////////////////////////////////////////////////////////////////////////////
+
+inline auto
+GetLoggerInstance() -> Logger&
+{
+  static std::unique_ptr<Logger> logger;
+  if (nullptr == logger) {
+    logger = std::make_unique<Logger>();
+  }
+
+  return *logger;
+}
 
 auto
 WriteLog(std::stringstream const& ss) -> void;
@@ -39,12 +58,12 @@ WriteLog(std::stringstream const& ss) -> void;
 
 template<typename... Args>
 auto
-Log(LogLevel logLevel, Args const&... args) -> void
+Log(LogLevel_t logLevel, Args const&... args) -> void
 {
-  std::stringstream ss;
+  auto& ss = GetLoggerInstance().GetLogStringStream();
   ((ss << "-- " << logLevels.at(logLevel) << ": ") << ... << args) << "\n";
 
-  WriteLog(ss);
+  GetLoggerInstance().WriteLog();
 }
 
 NAMESPACE_END(Logger)

@@ -16,12 +16,24 @@ NAMESPACE_BEGIN(Logger)
 ////////////////////////////////////////////////////////////////////////////////
 
 // clang-format off
-std::map<LogLevel, std::string> logLevels{
-  { LogLevel::Error, "Error" },
-  { LogLevel::Info, "Info" },
-  { LogLevel::Warning, "Warning" }
+std::map<LogLevel_t, std::string> logLevels{
+  { LogLevel_t::Error, "Error" },
+  { LogLevel_t::Info, "Info" },
+  { LogLevel_t::Warning, "Warning" }
 };
 // clang-format on
+
+std::stringstream&
+Logger::GetLogStringStream() const
+{
+  return o_ptr->GetLogStream();
+}
+
+void
+Logger::WriteLog() const
+{
+  o_ptr->WriteLog();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Functions

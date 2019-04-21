@@ -5,5 +5,5 @@
 #elif defined(_WINDOWS)
 #  include "System/Platforms/Windows/HostPlatform/SystemConsole_Windows.hpp"
 #else
-#  error Unsupported platform
+#  error Unsupported platform ...
 #endif

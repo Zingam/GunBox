@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers
-#include "Logger.hpp"
+#include "Internal/Logger.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macro definitions
@@ -12,7 +12,7 @@
 
 #if !defined(reLogE)
 #  if defined(_DEBUG)
-#    define reLogE(...) Logger::Log(Logger::LogLevel::Error, __VA_ARGS__);
+#    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__);
 #  else
 #    define reLogE(...)
 #  endif
@@ -22,7 +22,7 @@
 
 #if !defined(reLogI)
 #  if defined(_DEBUG)
-#    define reLogI(...) Logger::Log(Logger::LogLevel::Info, __VA_ARGS__);
+#    define reLogI(...) Logger::Log(Logger::LogLevel_t::Info, __VA_ARGS__);
 #  else
 #    define reLogI(...)
 #  endif
@@ -32,7 +32,7 @@
 
 #if !defined(reLogW)
 #  if defined(_DEBUG)
-#    define reLogW(...) Logger::Log(Logger::LogLevel::Warning, __VA_ARGS__);
+#    define reLogW(...) Logger::Log(Logger::LogLevel_t::Warning, __VA_ARGS__);
 #  else
 #    define reLogW(...)
 #  endif
