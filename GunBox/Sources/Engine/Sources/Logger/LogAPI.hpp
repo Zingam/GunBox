@@ -1,18 +1,11 @@
 #pragma once
 
 ////////////////////////////////////////////////////////////////////////////////
-// Defines
-////////////////////////////////////////////////////////////////////////////////
-
-#if defined(_DEBUG)
-#  define LoggingLevel_Verbose
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////////////////////////
 
-#if defined(LoggingLevel_Verbose)
+#if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_INFO) ||           \
+  defined(LOGGING_LEVEL_NONE)
 // Project headers
 #  include "Internal/Logger.hpp"
 #endif
@@ -22,7 +15,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #if !defined(reLogInitialize)
-#  if defined(LoggingLevel_Verbose)
+#  if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_INFO) ||         \
+    defined(LOGGING_LEVEL_NONE)
 #    define reLogInitialize(logTag) Logger::Logger::CreateInstance(logTag);
 #  else
 #    define reLogInitialize(...)
@@ -32,7 +26,7 @@
 #endif
 
 #if !defined(reLogE)
-#  if defined(LoggingLevel_Verbose)
+#  if defined(LOGGING_LEVEL_VERBOSE)
 #    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__);
 #  else
 #    define reLogE(...)
@@ -42,7 +36,7 @@
 #endif
 
 #if !defined(reLogI)
-#  if defined(LoggingLevel_Verbose)
+#  if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_INFO)
 #    define reLogI(...) Logger::Log(Logger::LogLevel_t::Info, __VA_ARGS__);
 #  else
 #    define reLogI(...)
@@ -52,7 +46,7 @@
 #endif
 
 #if !defined(reLogW)
-#  if defined(LoggingLevel_Verbose)
+#  if defined(LOGGING_LEVEL_VERBOSE)
 #    define reLogW(...) Logger::Log(Logger::LogLevel_t::Warning, __VA_ARGS__);
 #  else
 #    define reLogW(...)

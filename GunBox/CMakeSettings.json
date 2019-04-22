@@ -25,6 +25,11 @@
           "name": "option_CheckGraphicsApiCalls",
           "type": "BOOL",
           "value": "YES"
+        },
+        {
+          "name": "option_EnableLoggingLevel_Verbose",
+          "type": "BOOL",
+          "value": "YES"
         }
       ],
       "buildCommandArgs": "-v",

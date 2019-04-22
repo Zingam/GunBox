@@ -41,6 +41,26 @@ option (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline
   YES
 )
 
+# Logging options:
+
+# Specifies if all messages should be logged
+option (option_EnableLoggingLevel_Verbose
+  "Log all messages?"
+  NO
+)
+
+# Specifies if "INFO" prefixed informational messages should be logged
+option (option_EnableLoggingLevel_Info
+  "Log info messages?"
+  NO
+)
+
+# Specifies if non-prefixed informational messages should be logged
+option (option_EnableLoggingLevel_None
+  "Log non-prefixed info messages?"
+  NO
+)
+
 ################################################################################
 # Third party libraries
 ################################################################################
@@ -93,6 +113,28 @@ if (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline)
       "OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE"
   )
 endif ()
+
+if (option_EnableLoggingLevel_Verbose)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "LOGGING_LEVEL_VERBOSE"
+  )
+endif ()
+
+if (option_EnableLoggingLevel_Info)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "LOGGING_LEVEL_INFO"
+  )
+endif ()
+
+if (option_EnableLoggingLevel_None)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "LOGGING_LEVEL_NONE"
+  )
+endif ()
+
 
 target_include_directories (${PROJECT_NAME}
   PUBLIC
