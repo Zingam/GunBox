@@ -1,13 +1,12 @@
 // Self
 #include "MainMenu.hpp"
 
+// Engine headers - Logger
+#include <Logger/LogAPI.hpp>
 // Engine headers - Renderer
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
-
 // Engine headers - System
 #include "System/DeviceTypes/Input/KeyboardTypes.hpp"
-
-#include <iostream>
 
 NAMESPACE_BEGIN(GunBox)
 
@@ -68,7 +67,7 @@ void
 MainMenu::Back()
 {
   if (isRequestingToQuit) {
-    std::cout << "Quit canceled!\n";
+    reLog("Quit canceled!");
 
     isRequestingToQuit = false;
     isQuitting = false;
@@ -78,35 +77,35 @@ MainMenu::Back()
 void
 MainMenu::MoveDown()
 {
-  std::cout << "  MainMenu > Move down" << std::endl;
+  reLog("  MainMenu > Move down");
 }
 
 void
 MainMenu::MoveLeft()
 {
-  std::cout << "  MainMenu > Move left" << std::endl;
+  reLog("  MainMenu > Move left");
 }
 
 void
 MainMenu::MoveRight()
 {
-  std::cout << "  MainMenu > Move right" << std::endl;
+  reLog("  MainMenu > Move right");
 }
 
 void
 MainMenu::MoveUp()
 {
-  std::cout << "  MainMenu > Move up" << std::endl;
+  reLog("  MainMenu > Move up");
 };
 
 void
 MainMenu::Quit()
 {
   if (isRequestingToQuit) {
-    std::cout << "Quitting GunBox!\n";
+    reLog("Quitting GunBox!");
     isQuitting = true;
   } else {
-    std::cout << "Quit GunBox?\n";
+    reLog("Quit GunBox?");
     isRequestingToQuit = true;
   }
 };

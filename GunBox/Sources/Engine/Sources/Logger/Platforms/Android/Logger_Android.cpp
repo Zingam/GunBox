@@ -23,30 +23,29 @@ Logger_Android::SetLogLevel(LogLevel_t logLevel) -> void
 void
 Logger_Android::WriteLog()
 {
-  auto logError = ANDROID_LOG_ERROR;
+  auto logPriority = ANDROID_LOG_ERROR;
 
   switch (logLevel) {
     case LogLevel_t::Error: {
-      logError = ANDROID_LOG_ERROR;
+      logPriority = ANDROID_LOG_ERROR;
       break;
     }
     case LogLevel_t::Info: {
-      logError = ANDROID_LOG_INFO;
+      logPriority = ANDROID_LOG_INFO;
       break;
     }
     case LogLevel_t::None: {
+      logPriority = ANDROID_LOG_VERBOSE;
       break;
     }
     case LogLevel_t::Warning: {
-      logError = ANDROID_LOG_WARN;
+      logPriority = ANDROID_LOG_WARN;
       break;
     }
   }
 
   // Output to the debug window
-  if (LogLevel_t::None != logLevel) {
-    __android_log_write(logError, logTag.c_str(), ss.str().c_str());
-  }
+  __android_log_write(logPriority, logTag.c_str(), ss.str().c_str());
 
   // Finish
   ClearLog();

@@ -6,10 +6,11 @@
 #include "EventHandling/SystemEventCallbacks.hpp"
 #include "GameStates/GameStateManager.hpp"
 
+// Engine headers - Logger
+#include <Logger/LogAPI.hpp>
+
 // C Standard Library
 #include <cassert>
-// C++ Standard Library
-#include <iostream>
 
 NAMESPACE_BEGIN(GunBox)
 
@@ -40,7 +41,7 @@ Game::Execute()
 void
 Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
 {
-  std::cout << Info().Title() << ": Running the game...\n";
+  reLog(Info().Title(), ": Running the game...");
 
   std::chrono::time_point lastExecutionTime =
     std::chrono::high_resolution_clock::now();
@@ -65,7 +66,7 @@ Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
 void
 Game::MainLoop_Finalize()
 {
-  std::cout << Info().Title() << ": Exiting the game...\n";
+  reLog(Info().Title(), ": Exiting the game...");
 
   graphicsRenderer->Finalize();
 }
@@ -73,7 +74,7 @@ Game::MainLoop_Finalize()
 std::unique_ptr<GameStateManager>
 Game::MainLoop_Initialize()
 {
-  std::cout << Info().Title() << ": Staring a new game...\n";
+  reLog(Info().Title(), ": Staring a new game...");
 
   assert(
     (nullptr != graphicsRenderer) &&

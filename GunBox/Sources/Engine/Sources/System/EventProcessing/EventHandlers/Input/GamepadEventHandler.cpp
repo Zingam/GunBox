@@ -12,7 +12,6 @@
 
 // C Standard Library
 #include <cmath>
-#include <iostream>
 
 NAMESPACE_BEGIN(System::EventHandlers)
 

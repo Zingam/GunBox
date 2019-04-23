@@ -1,10 +1,10 @@
 // Self
 #include "InGame.hpp"
 
+// Engine headers - Logger
+#include "Logger/LogAPI.hpp"
 // Engine headers - System
 #include "System/DeviceTypes/Input/KeyboardTypes.hpp"
-
-#include <iostream>
 
 NAMESPACE_BEGIN(GunBox)
 
@@ -29,8 +29,7 @@ InGame::Update()
 
   auto arrow_DownState =
     inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Down);
-  if (KeyboardState::KeyState_t::Pressed == arrow_DownState)
-  {
+  if (KeyboardState::KeyState_t::Pressed == arrow_DownState) {
     nextGameState = GameState_t::MainMenu;
   }
 
@@ -38,7 +37,7 @@ InGame::Update()
   auto arrow_UpState =
     inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
   if (KeyboardState::KeyState_t::Pressed == arrow_UpState) {
-    std::cout << "Arrow up is pressed " << ++i << "\n";
+    reLog("Arrow up is pressed ", ++i);
   }
 
   if (isQuitting) {

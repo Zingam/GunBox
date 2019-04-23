@@ -84,7 +84,9 @@ CoreApplication::Initialize()
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowHelp()) {
       hostPlatform.SystemConsole().Show();
+
       std::cout << commandLineArgs->AsString() << "\n";
+
       hostPlatform.SystemConsole().Pause();
       hostPlatform.SystemConsole().Hide();
 

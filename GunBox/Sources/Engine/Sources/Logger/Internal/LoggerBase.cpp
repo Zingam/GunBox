@@ -1,7 +1,7 @@
 // Self
 #include "LoggerBase.hpp"
 
-// C Standard Library
+// C++ Standard Library
 #include <iostream>
 #include <string>
 

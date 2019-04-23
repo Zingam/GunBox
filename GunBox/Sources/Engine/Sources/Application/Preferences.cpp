@@ -8,7 +8,6 @@
 #include <cassert>
 // C++ Standard Library
 #include <fstream>
-#include <iostream>
 #include <sstream>
 
 NAMESPACE_BEGIN(Application)

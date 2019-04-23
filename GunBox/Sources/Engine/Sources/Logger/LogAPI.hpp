@@ -25,6 +25,16 @@
 #  error reLogInitialize is already defined...
 #endif
 
+#if !defined(reLog)
+#  if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_NONE)
+#    define reLog(...) Logger::Log(Logger::LogLevel_t::None, __VA_ARGS__);
+#  else
+#    define reLog(...)
+#  endif
+#else
+#  error reLogE is already defined...
+#endif
+
 #if !defined(reLogE)
 #  if defined(LOGGING_LEVEL_VERBOSE)
 #    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__);
