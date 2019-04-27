@@ -22,13 +22,13 @@ NAMESPACE_END(System::EventProcessing)
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class QuitEventHandler : public EventHandler
+class ApplicationSuspend_EventHandler : public EventHandler
 {
 public:
-  QuitEventHandler(
+  ApplicationSuspend_EventHandler(
     System::EventProcessing::SystemEventProcessor& systemEventProcessor);
 
-  ~QuitEventHandler() final;
+  ~ApplicationSuspend_EventHandler() final;
 
 public:
   auto Process(SDL_Event const& event) -> bool final;

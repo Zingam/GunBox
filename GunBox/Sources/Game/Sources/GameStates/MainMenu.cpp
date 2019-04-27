@@ -26,19 +26,24 @@ MainMenu::MainMenu(
 GameState_t
 MainMenu::Update()
 {
+  if (Application::State_t ::Suspending == applicationState)
+  {
+    return nextGameState;
+  }
+
   using namespace System::DeviceTypes::Input;
   using namespace System::EventProcessing;
 
   auto specialKey_Escape =
     inputEventProcessor.KeyboardKeyState(ScanCode_t::SK_Esc);
-  static auto wasPressed_SpecailKey_Escape = false;
-  if (!wasPressed_SpecailKey_Escape) {
+  static auto wasPressed_SpecialKey_Escape = false;
+  if (!wasPressed_SpecialKey_Escape) {
     if (KeyboardState::KeyState_t::Pressed == specialKey_Escape) {
-      wasPressed_SpecailKey_Escape = true;
+      wasPressed_SpecialKey_Escape = true;
     }
   } else {
     if (KeyboardState::KeyState_t::Released == specialKey_Escape) {
-      wasPressed_SpecailKey_Escape = false;
+      wasPressed_SpecialKey_Escape = false;
 
       Back();
     }

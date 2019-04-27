@@ -20,10 +20,11 @@ enum class Commands_MainMenu_t
   MoveRight,
   MoveUp,
   _NULL_,
-  __ElementsCount__
+  UpdateApplicationState,
+  __ElementCount__
 };
 
-constexpr auto Commands_MainMenu_t_ElementsCount =
-  EnumCast(Commands_MainMenu_t::__ElementsCount__);
+// Define 'Commands_MainMenu_t_ElementsCount'
+EnumSize(Commands_MainMenu_t);
 
 NAMESPACE_END(GunBox)

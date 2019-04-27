@@ -7,8 +7,14 @@ auto
 SystemEventProcessor::InitializeCallbacks(
   SystemEventCallbacks_Interface& systemEventCallbacks) -> void
 {
-  cbQuit_UPtr =
-    make_unique_delegate(systemEventCallbacks, &SystemEventCallbacks_Interface::Quit);
+  // clang-format off
+  cbApplicationQuit_UPtr = make_unique_delegate(
+    systemEventCallbacks, &SystemEventCallbacks_Interface::ApplicationQuit);
+  cbApplicationResume_UPtr = make_unique_delegate(
+    systemEventCallbacks, &SystemEventCallbacks_Interface::ApplicationResume);
+  cbApplicationSuspend_UPtr = make_unique_delegate(
+    systemEventCallbacks, &SystemEventCallbacks_Interface::ApplicationSuspend);
+  // clang-format on
 }
 
 NAMESPACE_END(System::EventProcessing)

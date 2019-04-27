@@ -3,6 +3,8 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Engine headers - Application
+#include "Application/ApplicationState.hpp"
 // Engine headers - System
 #include "System/DeviceTypes/Input/GamepadTypes.hpp"
 #include "System/DeviceTypes/Input/KeyboardTypes.hpp"
@@ -28,10 +30,12 @@ NAMESPACE_BEGIN(GunBox)
 
 class Commander_Interface
 {
+  // Constructors & Destructors
 public:
   Commander_Interface();
   virtual ~Commander_Interface() = 0;
 
+  // Virtual methods - Input
 public:
   // clang-format off
   virtual auto GamepadAxisMotion(
@@ -67,6 +71,12 @@ public:
     -> void = 0;
   // clang-format on
 
+  // Virtual methods - System events
+public:
+  virtual auto SystemEvent(Application::State_t applicationState)
+    -> void = 0;
+
+  // Data members - variables
 protected:
   std::shared_ptr<Command_Interface> const command_Null;
 };

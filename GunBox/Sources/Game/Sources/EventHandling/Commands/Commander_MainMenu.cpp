@@ -1,32 +1,49 @@
 // Self
 #include "Commander_MainMenu.hpp"
 
-// Project headers
+// Project headers - EventHandling
+#include "EventHandling/Commands/Command_UpdateApplicationState.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_Accept.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_Back.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveDown.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveLeft.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveRight.hpp"
 #include "EventHandling/Commands/MainMenu/Command_MainMenu_MoveUp.hpp"
+// Project headers - GameStates
+//#include "GameStates/GameState.hpp"
 
 // C Standard Library
 #include <cmath>
+// C++ Standard Library
+#include <any>
 
 using namespace std::chrono_literals;
 
 NAMESPACE_BEGIN(GunBox)
 
+////////////////////////////////////////////////////////////////////////////////
+// Constructors & Destructors
+////////////////////////////////////////////////////////////////////////////////
+
 Commander_MainMenu::Commander_MainMenu(MainMenu& mainMenu)
-  : mainMenu{ mainMenu }
-  , executionPeriod{ 0.5s }
+  : executionPeriod{ 0.5s }
+  , mainMenu{ mainMenu }
 {
   commands_Gamepad.fill(command_Null);
   commands_Keyboard.fill(command_Null);
+
   // Initialize default input-to-command mappings
   Initialize();
+
+  commands_SystemCommand =
+    MakeCommand(Commands_MainMenu_t::UpdateApplicationState);
 }
 
-Commander_MainMenu::~Commander_MainMenu() {}
+Commander_MainMenu::~Commander_MainMenu() = default;
+
+////////////////////////////////////////////////////////////////////////////////
+// Virtual methods
+////////////////////////////////////////////////////////////////////////////////
 
 void
 Commander_MainMenu::GamepadAxisMotion(
@@ -37,7 +54,7 @@ Commander_MainMenu::GamepadAxisMotion(
   // Limit MainMenu command execution frequency
   auto currentTime = std::chrono::high_resolution_clock::now();
   static std::chrono::time_point lastExecutionTime = currentTime;
-  
+
   if (executionPeriod >= currentTime - lastExecutionTime) {
     return;
   }
@@ -209,7 +226,7 @@ Commander_MainMenu::GamepadDeviceAdd(System::DeviceTypes::Input::GamepadId_t id)
 {
   using namespace System::DeviceTypes::Input;
 
-  auto command = commands_Gamepad[EnumCast(GamepadEvent_t::DeviceAdded)];
+  auto& command = commands_Gamepad[EnumCast(GamepadEvent_t::DeviceAdded)];
   command->Execute(id);
 }
 
@@ -219,7 +236,7 @@ Commander_MainMenu::GamepadDeviceRemove(
 {
   using namespace System::DeviceTypes::Input;
 
-  auto command = commands_Gamepad[EnumCast(GamepadEvent_t::DeviceRemoved)];
+  auto& command = commands_Gamepad[EnumCast(GamepadEvent_t::DeviceRemoved)];
   command->Execute(id);
 }
 
@@ -228,13 +245,19 @@ Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
 {
   using namespace System::DeviceTypes::Input;
 
-  auto command = commands_Keyboard[EnumCast(key.ScanCode)];
-  command->Execute();
+  auto& command = commands_Keyboard[EnumCast(key.ScanCode)];
+  command->Execute(key);
 }
 
 void
 Commander_MainMenu::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
 {}
+
+void
+Commander_MainMenu::SystemEvent(Application::State_t applicationState)
+{
+  commands_SystemCommand->Execute(applicationState);
+}
 
 auto
 Commander_MainMenu::Initialize() -> void
@@ -270,6 +293,10 @@ Commander_MainMenu::Initialize() -> void
     MakeCommand(Commands_MainMenu_t::Accept);
   commands_Keyboard[EnumCast(ScanCode_t::SK_Backspace)] =
     MakeCommand(Commands_MainMenu_t::Back);
+
+  // System commands
+  commands_SystemCommand =
+    MakeCommand(Commands_MainMenu_t::UpdateApplicationState);
 }
 
 std::shared_ptr<Command_Interface>
@@ -300,6 +327,10 @@ Commander_MainMenu::MakeCommand(Commands_MainMenu_t commandType)
     case Commands_MainMenu_t::MoveUp: {
       return std::make_unique<Command_MainMenu_MoveUp>(mainMenu);
     }
+    case Commands_MainMenu_t::UpdateApplicationState: {
+      return std::make_unique<Command_UpdateApplicationState>(
+        reinterpret_cast<GameState&>(mainMenu));
+    }
     case Commands_MainMenu_t::_NULL_: {
       [[fallthrough]];
     }
@@ -307,7 +338,6 @@ Commander_MainMenu::MakeCommand(Commands_MainMenu_t commandType)
       return command_Null;
     }
   }
-  return std::unique_ptr<Command_Interface>();
 }
 
 NAMESPACE_END(GunBox)

@@ -84,8 +84,9 @@ Game::MainLoop_Initialize()
 
   auto gameStateManager =
     std::make_unique<GameStateManager>(eventProcessor.InputEventProcessor());
-  // clang-format off
   gameStateManager->Initialize(graphicsRenderer);
+
+  // clang-format off
   eventProcessor.InitializeCallbacks(
     gameStateManager->GetInputEventCallbacks());
   eventProcessor.InitializeCallbacks(

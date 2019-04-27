@@ -7,6 +7,8 @@
 #include "GameStates/GameState.hpp"
 #include "GameStates/GameStateTypes.hpp"
 
+// Engine headers - Application
+#include "Application/ApplicationState.hpp"
 // Enigne headers - System
 #include "System/EventProcessing/InputEventProcessor.hpp"
 
@@ -50,7 +52,7 @@ public:
   auto MoveUp() -> void;
   auto Quit() -> void;
 
-  // Fields
+  // Data members - variables
 private:
   bool isQuitting = false;
   bool isRequestingToQuit = false;

@@ -3,8 +3,8 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// C Standard Library
-#include <cstdint>
+// C++ Standard Library
+#include <any>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -18,7 +18,7 @@ public:
   virtual ~Command_Interface() = 0;
 
 public:
-  virtual auto Execute(std::int32_t id = -1) -> void = 0;
+  virtual auto Execute([[maybe_unused]] std::any const value) -> void = 0;
 };
 
 NAMESPACE_END(GunBox)

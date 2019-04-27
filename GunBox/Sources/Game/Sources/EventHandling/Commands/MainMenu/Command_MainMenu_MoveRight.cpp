@@ -4,6 +4,9 @@
 // Project headers
 #include "GameStates/MainMenu.hpp"
 
+// C++ Standard Library
+#include <any>
+
 NAMESPACE_BEGIN(GunBox)
 
 Command_MainMenu_MoveRight::Command_MainMenu_MoveRight(MainMenu& mainMenu)
@@ -13,7 +16,7 @@ Command_MainMenu_MoveRight::Command_MainMenu_MoveRight(MainMenu& mainMenu)
 Command_MainMenu_MoveRight::~Command_MainMenu_MoveRight() {}
 
 void
-Command_MainMenu_MoveRight::Execute(std::int32_t id)
+Command_MainMenu_MoveRight::Execute(std::any const value)
 {
   mainMenu.MoveRight();
 }

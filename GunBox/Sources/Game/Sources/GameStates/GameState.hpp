@@ -6,6 +6,9 @@
 // Project headers
 #include "GameStates/GameStateTypes.hpp"
 
+// Engine headers - Application
+#include "Application/ApplicationState.hpp"
+
 // C++ Standard Library
 #include <memory>
 
@@ -38,14 +41,19 @@ protected:
   GameState(
     System::EventProcessing::InputEventProcessor const& inputEventProcessor);
 
+  // Properties
+public:
+  auto SetApplicationState(Application::State_t applicationState) -> void;
+
   // Methods
 public:
   auto Initialize(
     std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
       graphicsRenderer) -> void;
 
-  // Fields
+  // Data members - variables
 protected:
+  Application::State_t applicationState = Application::State_t::NotRunning;
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;
   System::EventProcessing::InputEventProcessor const& inputEventProcessor;

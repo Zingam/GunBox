@@ -13,7 +13,7 @@ Command_MainMenu_Back::Command_MainMenu_Back(MainMenu& mainMenu)
 Command_MainMenu_Back::~Command_MainMenu_Back() {}
 
 void
-Command_MainMenu_Back::Execute(std::int32_t id)
+Command_MainMenu_Back::Execute(std::any const value)
 {
   mainMenu.Back();
 }

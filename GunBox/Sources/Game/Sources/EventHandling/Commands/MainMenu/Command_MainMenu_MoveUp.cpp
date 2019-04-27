@@ -13,7 +13,7 @@ Command_MainMenu_MoveUp::Command_MainMenu_MoveUp(MainMenu& mainMenu)
 Command_MainMenu_MoveUp::~Command_MainMenu_MoveUp() {}
 
 void
-Command_MainMenu_MoveUp::Execute(std::int32_t id)
+Command_MainMenu_MoveUp::Execute(std::any const value)
 {
   mainMenu.MoveUp();
 }

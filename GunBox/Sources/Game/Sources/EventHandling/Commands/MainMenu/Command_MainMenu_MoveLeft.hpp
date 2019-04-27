@@ -6,8 +6,8 @@
 // Project headers
 #include "EventHandling/Commands/Command_Interface.hpp"
 
-// C Standard Library
-#include <cstdint>
+// C++ Standard Library
+#include <any>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -32,7 +32,7 @@ public:
   ~Command_MainMenu_MoveLeft() final;
 
 public:
-  auto Execute(std::int32_t id) -> void final;
+  auto Execute([[maybe_unused]] std::any const value) -> void final;
 
 private:
   MainMenu& mainMenu;

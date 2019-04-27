@@ -9,8 +9,11 @@
 // Engine headers - Common
 #include "Common/Version.hpp"
 // Engine headers - Application
+#include "Application/ApplicationInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
+
+#include <memory>
 
 NAMESPACE_BEGIN(Application)
 
@@ -24,17 +27,16 @@ NAMESPACE_BEGIN(Application)
 /// <remarks>
 ///   Declared in <b>Engine</b> library.
 /// </remarks>
-CoreApplication&
+std::unique_ptr<CoreApplication>
 Create()
 {
-  static GunBox::Game game{ { Game_DeveloperOrganization,
-                              Game_Title,
-                              Version::Version_t{ Game_VersionMajor,
-                                                  Game_VersionMinor,
-                                                  Game_VersionPatch,
-                                                  Game_VersionBuildNumber } } };
-
-  return game;
+  return std::make_unique<GunBox::Game>(
+    ApplicationInfo{ Game_DeveloperOrganization,
+                     Game_Title,
+                     Version::Version_t{ Game_VersionMajor,
+                                         Game_VersionMinor,
+                                         Game_VersionPatch,
+                                         Game_VersionBuildNumber } });
 }
 
 ////////////////////////////////////////////////////////////////////////////////

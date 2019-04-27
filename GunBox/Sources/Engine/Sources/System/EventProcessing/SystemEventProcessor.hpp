@@ -19,6 +19,7 @@ NAMESPACE_BEGIN(System::EventProcessing)
 
 class SystemEventProcessor
 {
+  // Methods
 public:
   auto InitializeCallbacks(SystemEventCallbacks_Interface& systemEventCallbacks)
     -> void;
@@ -27,10 +28,17 @@ public:
 private:
   // clang-format off
   std::unique_ptr<SimpleDelegate<SystemEventCallbacks_Interface,
-    decltype(&SystemEventCallbacks_Interface::Quit)>>
-    cbQuit_UPtr;
+    decltype(&SystemEventCallbacks_Interface::ApplicationResume)>>
+    cbApplicationResume_UPtr;
+  std::unique_ptr<SimpleDelegate<SystemEventCallbacks_Interface,
+    decltype(&SystemEventCallbacks_Interface::ApplicationSuspend)>>
+    cbApplicationSuspend_UPtr;
+  std::unique_ptr<SimpleDelegate<SystemEventCallbacks_Interface,
+    decltype(&SystemEventCallbacks_Interface::ApplicationQuit)>>
+    cbApplicationQuit_UPtr;
   // clang-format on
 
+  // Data members
 private:
   friend class SystemEventProcessorAccessor;
 };

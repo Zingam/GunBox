@@ -6,6 +6,19 @@
 // Engine headers - System
 #include "System/EventProcessing/SystemEventCallbacks_Interface.hpp"
 
+// C++ Standard Library
+#include <memory>
+
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(GunBox)
+
+class Commander_Interface;
+
+NAMESPACE_END(GunBox)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
@@ -15,15 +28,38 @@ NAMESPACE_BEGIN(GunBox)
 class SystemEventCallbacks final
   : public System::EventProcessing::SystemEventCallbacks_Interface
 {
+  // Constructors & Destructors
 public:
+  SystemEventCallbacks() = default;
   ~SystemEventCallbacks() final;
+
+  // Methods templates
+public:
+  template<typename Commander, typename... Args>
+  auto SetCommander(Args&&... args) -> void;
 
   // Virtual methods
 public:
   // clang-format off
-  auto Quit()
+  auto ApplicationResume()
+    -> void final;
+  auto ApplicationSuspend()
+    -> void final;
+  auto ApplicationQuit()
     -> void final;
   // clang-format on
+
+  // Data members
+private:
+  std::unique_ptr<Commander_Interface> commander;
 };
 
 NAMESPACE_END(GunBox)
+
+////////////////////////////////////////////////////////////////////////////////
+// Inline implementations
+////////////////////////////////////////////////////////////////////////////////
+
+#include "SystemEventCallbacks.inl"
+
+////////////////////////////////////////////////////////////////////////////////

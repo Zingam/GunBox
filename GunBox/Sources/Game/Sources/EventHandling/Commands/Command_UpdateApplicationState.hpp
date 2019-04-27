@@ -15,7 +15,7 @@
 
 NAMESPACE_BEGIN(GunBox)
 
-class MainMenu;
+class GameState;
 
 NAMESPACE_END(GunBox)
 
@@ -25,17 +25,20 @@ NAMESPACE_END(GunBox)
 
 NAMESPACE_BEGIN(GunBox)
 
-class Command_MainMenu_MoveRight final : public Command_Interface
+class Command_UpdateApplicationState final : public Command_Interface
 {
+  // Constructors & Destructors
 public:
-  Command_MainMenu_MoveRight(MainMenu& mainMenu);
-  ~Command_MainMenu_MoveRight() final;
+  Command_UpdateApplicationState(GameState& gameState);
+  ~Command_UpdateApplicationState() final;
 
+  // Virtual methods
 public:
-  auto Execute([[maybe_unused]] std::any const value) -> void final;
+  auto Execute([[maybe_unused]] std::any const data) -> void final;
 
+  // Data members - variables
 private:
-  MainMenu& mainMenu;
+  GameState& gameState;
 };
 
 NAMESPACE_END(GunBox)

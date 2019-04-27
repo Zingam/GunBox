@@ -44,6 +44,7 @@ OpenGLDevice_SDL::Finalize()
   assert((nullptr != openGLContext) && "Invalid OpenGL context");
   if (nullptr != openGLContext) {
     SDL_GL_DeleteContext(openGLContext);
+    openGLContext = nullptr;
   }
 }
 

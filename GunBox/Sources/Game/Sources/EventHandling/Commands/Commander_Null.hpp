@@ -30,8 +30,10 @@ NAMESPACE_BEGIN(GunBox)
 class Commander_Null final : public Commander_Interface
 {
 public:
+  // Constructors & Destructors
   ~Commander_Null() final;
 
+  // Virtual methods
 public:
   // clang-format off
   auto GamepadAxisMotion(
@@ -66,6 +68,10 @@ public:
     System::DeviceTypes::Input::Key_t key)
     -> void final;
   // clang-format on
+
+  // Virtual methods - System events
+public:
+  auto SystemEvent(Application::State_t applicationState) -> void final;
 };
 
 NAMESPACE_END(GunBox)

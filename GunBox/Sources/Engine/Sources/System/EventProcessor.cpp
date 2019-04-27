@@ -5,7 +5,9 @@
 #include "System/EventProcessing/EventHandlers/EventHandler.hpp"
 #include "System/EventProcessing/EventHandlers/Input/GamepadEventHandler.hpp"
 #include "System/EventProcessing/EventHandlers/Input/KeyboardEventHandler.hpp"
-#include "System/EventProcessing/EventHandlers/System/QuitEventHandler.hpp"
+#include "System/EventProcessing/EventHandlers/System/ApplicationResume_EventHandler.hpp"
+#include "System/EventProcessing/EventHandlers/System/ApplicationSuspend_EventHandler.hpp"
+#include "System/EventProcessing/EventHandlers/System/ApplicationQuit_EventHandler.hpp"
 
 // Third party headers
 #include <SDL_events.h>
@@ -55,7 +57,11 @@ void
 EventProcessor::InitializeSystemEventHandlers()
 {
   // Initialized in order of occurrence frequency
-  RegisterEventHandler<System::EventHandlers::QuitEventHandler>(
+  RegisterEventHandler<System::EventHandlers::ApplicationResume_EventHandler>(
+    systemEventProcessor);
+  RegisterEventHandler<System::EventHandlers::ApplicationSuspend_EventHandler>(
+    systemEventProcessor);
+  RegisterEventHandler<System::EventHandlers::ApplicationQuit_EventHandler>(
     systemEventProcessor);
 }
 

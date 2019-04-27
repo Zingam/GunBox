@@ -3,11 +3,18 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - System
+#include "System/EventProcessing/EventHandlers/EventHandler.hpp"
+
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-union SDL_Event;
+NAMESPACE_BEGIN(System::EventProcessing)
+
+class SystemEventProcessor;
+
+NAMESPACE_END(System::EventProcessing)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -15,15 +22,19 @@ union SDL_Event;
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class EventHandler
+class ApplicationResume_EventHandler : public EventHandler
 {
-  // Constructors & Destructors
 public:
-  virtual ~EventHandler() = 0;
+  ApplicationResume_EventHandler(
+    System::EventProcessing::SystemEventProcessor& systemEventProcessor);
 
-  // Virtual methods
+  ~ApplicationResume_EventHandler() final;
+
 public:
-  virtual auto Process(SDL_Event const& event) -> bool = 0;
+  auto Process(SDL_Event const& event) -> bool final;
+
+private:
+  System::EventProcessing::SystemEventProcessor& systemEventProcessor;
 };
 
 NAMESPACE_END(System::EventHandlers)

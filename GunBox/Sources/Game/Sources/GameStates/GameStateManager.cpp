@@ -43,6 +43,7 @@ GameStateManager::Initialize(
 {
   this->graphicsRenderer = graphicsRenderer;
   inputEventCallbacks.SetCommander<Commander_Null>();
+  systemEventCallbacks.SetCommander<Commander_Null>();
 }
 
 bool
@@ -69,11 +70,13 @@ GameStateManager::Run()
           isStateInitialized = true;
           mainMenu.Initialize(graphicsRenderer);
           inputEventCallbacks.SetCommander<Commander_MainMenu>(mainMenu);
+          systemEventCallbacks.SetCommander<Commander_MainMenu>(mainMenu);
         }
         gameState = mainMenu.Update();
         if (GameState_t::MainMenu != gameState) {
           isStateInitialized = false;
           inputEventCallbacks.SetCommander<Commander_Null>();
+          systemEventCallbacks.SetCommander<Commander_Null>();
         }
         return true;
       }

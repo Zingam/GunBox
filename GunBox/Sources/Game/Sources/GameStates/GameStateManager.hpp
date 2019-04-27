@@ -51,15 +51,22 @@ public:
   auto GetInputEventCallbacks() -> InputEventCallbacks&;
   auto GetSystemEventCallbacks() -> SystemEventCallbacks&;
 
+  // Data members - GameStates
+private:
+  InGame inGame;
+  MainMenu mainMenu;
+
+  // Data members - Callbacks
+private:
+  InputEventCallbacks inputEventCallbacks;
+  SystemEventCallbacks systemEventCallbacks;
+
+  // Data members
 private:
   GameState_t gameState = GameState_t::MainMenu;
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;
-  InGame inGame;
-  MainMenu mainMenu;
-  InputEventCallbacks inputEventCallbacks;
   bool isStateInitialized = false;
-  SystemEventCallbacks systemEventCallbacks;
 };
 
 NAMESPACE_END(GunBox)

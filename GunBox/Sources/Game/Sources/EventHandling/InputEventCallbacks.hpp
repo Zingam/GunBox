@@ -30,10 +30,12 @@ NAMESPACE_BEGIN(GunBox)
 class InputEventCallbacks final
   : public System::EventProcessing::InputEventCallbacks_Interface
 {
+  // Constructors & Destructors
 public:
-  InputEventCallbacks();
+  InputEventCallbacks() = default;
   ~InputEventCallbacks() final;
 
+  // Methods templates
 public:
   template<typename Commander, typename... Args>
   auto SetCommander(Args&&... args) -> void;
@@ -74,6 +76,7 @@ public:
     -> void final;
   // clang-format on
 
+  // Data members
 private:
   std::unique_ptr<Commander_Interface> commander;
 };

@@ -3,6 +3,8 @@
 
 // Engine headers - Logger
 #include "Logger/LogAPI.hpp"
+// Engine headers - Renderer
+#include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 // Engine headers - System
 #include "System/DeviceTypes/Input/KeyboardTypes.hpp"
 
@@ -39,7 +41,7 @@ InGame::Update()
   if (KeyboardState::KeyState_t::Pressed == arrow_UpState) {
     reLog("Arrow up is pressed ", ++i);
   }
-
+  
   if (isQuitting) {
     return GameState_t::Quit;
   } else {

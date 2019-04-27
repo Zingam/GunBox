@@ -41,10 +41,11 @@ GraphicsRenderer_OpenGL::Initialize()
         auto getProcAddress = openGLDevice.GetProcAddress();
         auto version = InitializeOpenGL((GLADloadfunc)getProcAddress);
         if (0 != version) {
-          auto vendor = glGetString(GL_VENDOR);
-          auto renderer = glGetString(GL_RENDERER);
-          auto version = glGetString(GL_VERSION);
-          auto glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+          [[maybe_unused]] auto const vendor = glGetString(GL_VENDOR);
+          [[maybe_unused]] auto const renderer = glGetString(GL_RENDERER);
+          [[maybe_unused]] auto const version = glGetString(GL_VERSION);
+          [[maybe_unused]] auto const glslVersion =
+            glGetString(GL_SHADING_LANGUAGE_VERSION);
 
           reLogI("Graphics Renderer: OpenGL");
           reLogI("  Vendor:          ", vendor);

@@ -3,25 +3,21 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers
-#include "EventHandling/Commands/Command_Interface.hpp"
-
-// C++ Standard Library
-#include <any>
-
 ////////////////////////////////////////////////////////////////////////////////
-// Class declarations
+// Type declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(GunBox)
+NAMESPACE_BEGIN(Application)
 
-class Command_Null final : public Command_Interface
+enum class State_t
 {
-public:
-  ~Command_Null() final;
-
-public:
-  auto Execute([[maybe_unused]] std::any const value) -> void final;
+  NotRunning,
+  Quitting,
+  Resuming,
+  Suspending,
+  Terminating
 };
 
-NAMESPACE_END(GunBox)
+NAMESPACE_END(Application)
+
+////////////////////////////////////////////////////////////////////////////////

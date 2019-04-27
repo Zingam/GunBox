@@ -1,5 +1,5 @@
 // Self
-#include "QuitEventHandler.hpp"
+#include "ApplicationQuit_EventHandler.hpp"
 
 // Project headers - System
 #include "System/EventProcessing/SystemEventProcessorAccessor.hpp"
@@ -9,20 +9,20 @@
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-QuitEventHandler::QuitEventHandler(
+ApplicationQuit_EventHandler::ApplicationQuit_EventHandler(
   System::EventProcessing::SystemEventProcessor& systemEventProcessor)
   : systemEventProcessor{ systemEventProcessor }
 {}
 
-QuitEventHandler::~QuitEventHandler() {}
+ApplicationQuit_EventHandler::~ApplicationQuit_EventHandler() = default;
 
 bool
-QuitEventHandler::Process(SDL_Event const& event)
+ApplicationQuit_EventHandler::Process(SDL_Event const& event)
 {
   switch (event.type) {
     case SDL_QUIT: {
-      System::EventProcessing::SystemEventProcessorAccessor::Quit(
-        systemEventProcessor);
+      System::EventProcessing::SystemEventProcessorAccessor::
+        ApplicationQuit(systemEventProcessor);
       return true;
     }
     default: {

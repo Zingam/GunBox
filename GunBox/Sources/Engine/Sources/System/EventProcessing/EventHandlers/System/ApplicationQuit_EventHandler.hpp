@@ -3,39 +3,38 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers
-#include "EventHandling/Commands/Command_Interface.hpp"
-
-// C++ Standard Library
-#include <any>
+// Project headers - System
+#include "System/EventProcessing/EventHandlers/EventHandler.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(GunBox)
+NAMESPACE_BEGIN(System::EventProcessing)
 
-class MainMenu;
+class SystemEventProcessor;
 
-NAMESPACE_END(GunBox)
+NAMESPACE_END(System::EventProcessing)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(GunBox)
+NAMESPACE_BEGIN(System::EventHandlers)
 
-class Command_MainMenu_MoveRight final : public Command_Interface
+class ApplicationQuit_EventHandler : public EventHandler
 {
 public:
-  Command_MainMenu_MoveRight(MainMenu& mainMenu);
-  ~Command_MainMenu_MoveRight() final;
+  ApplicationQuit_EventHandler(
+    System::EventProcessing::SystemEventProcessor& systemEventProcessor);
+
+  ~ApplicationQuit_EventHandler() final;
 
 public:
-  auto Execute([[maybe_unused]] std::any const value) -> void final;
+  auto Process(SDL_Event const& event) -> bool final;
 
 private:
-  MainMenu& mainMenu;
+  System::EventProcessing::SystemEventProcessor& systemEventProcessor;
 };
 
-NAMESPACE_END(GunBox)
+NAMESPACE_END(System::EventHandlers)

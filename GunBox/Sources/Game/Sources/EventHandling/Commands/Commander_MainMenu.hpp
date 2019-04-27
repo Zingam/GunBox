@@ -37,10 +37,12 @@ NAMESPACE_BEGIN(GunBox)
 
 class Commander_MainMenu final : public Commander_Interface
 {
+  // Constructors & Destructors
 public:
   Commander_MainMenu(MainMenu& mainMenu);
   ~Commander_MainMenu() final;
 
+  // Virtual methods
 public:
   // clang-format off
   auto GamepadAxisMotion(
@@ -76,11 +78,23 @@ public:
     -> void final;
   // clang-format on
 
+  // Virtual methods - System events
+public:
+  auto SystemEvent(Application::State_t applicationState) -> void final;
+
+  // Methods
 private:
   auto Initialize() -> void;
   auto MakeCommand(Commands_MainMenu_t commandType)
     -> std::shared_ptr<Command_Interface>;
 
+  // Data members - Constants
+private:
+  double const commandActivationDeadZoneMinValue = 0.1;
+  // 60Hz clock using fractional ticks
+  std::chrono::duration<double, std::ratio<1, 60>> const executionPeriod;
+
+  // Data members - Variables
 private:
   std::array<
     std::shared_ptr<Command_Interface>,
@@ -90,13 +104,8 @@ private:
     std::shared_ptr<Command_Interface>,
     System::DeviceTypes::Input::ScanCode_t_ElementCount>
     commands_Keyboard;
+  std::shared_ptr<Command_Interface> commands_SystemCommand;
   MainMenu& mainMenu;
-
-  // Constants
-private:
-  double const commandActivationDeadZoneMinValue = 0.1;
-  // 60Hz clock using fractional ticks
-  std::chrono::duration<double, std::ratio<1, 60>> const executionPeriod;
 };
 
 NAMESPACE_END(GunBox)

@@ -17,7 +17,11 @@ public:
   // Pure virtual methods
 public:
   // clang-format off
-  virtual auto Quit()
+  virtual auto ApplicationResume()
+    -> void = 0;
+  virtual auto ApplicationSuspend()
+    -> void = 0;
+  virtual auto ApplicationQuit()
     -> void = 0;
   // clang-format on
 };

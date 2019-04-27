@@ -12,7 +12,9 @@
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class QuitEventHandler;
+class ApplicationSuspend_EventHandler;
+class ApplicationResume_EventHandler;
+class ApplicationQuit_EventHandler;
 
 NAMESPACE_END(System::EventHandlers)
 
@@ -26,12 +28,18 @@ class SystemEventProcessorAccessor
 {
 private:
   // clang-format off
-  static auto Quit(SystemEventProcessor& systemEventProcessor)
+  static auto ApplicationQuit(SystemEventProcessor& systemEventProcessor)
+    -> void;
+  static auto ApplicationResume(SystemEventProcessor& systemEventProcessor)
+    -> void;
+  static auto ApplicationSuspend(SystemEventProcessor& systemEventProcessor)
     -> void;
   // clang-format on
 
 private:
-  friend class System::EventHandlers::QuitEventHandler;
+  friend class System::EventHandlers::ApplicationQuit_EventHandler;
+  friend class System::EventHandlers::ApplicationSuspend_EventHandler;
+  friend class System::EventHandlers::ApplicationResume_EventHandler;
 };
 
 NAMESPACE_END(System::EventProcessing)

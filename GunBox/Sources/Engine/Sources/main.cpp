@@ -13,14 +13,14 @@ int
 main(int argc, char* argv[])
 {
   // Initialize
-  auto& application = Application::Create();
-  application.ProcessCommandLineArgs(argc, argv);
-  auto exitCode = application.Initialize();
+  auto application = Application::Create();
+  application->ProcessCommandLineArgs(argc, argv);
+  auto exitCode = application->Initialize();
   if (Application::ExitCode::NoError == exitCode) {
     // Execute the Main loop
-    exitCode = application.Execute();
+    exitCode = application->Execute();
   }
-  application.Finalize();
+  application->Finalize();
 
   return static_cast<int>(exitCode);
 }

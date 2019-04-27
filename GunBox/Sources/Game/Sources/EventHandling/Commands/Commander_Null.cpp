@@ -40,4 +40,10 @@ void
 Commander_Null::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
 {}
 
+void
+Commander_Null::SystemEvent(Application::State_t applicationState)
+{
+  return;
+}
+
 NAMESPACE_END(GunBox)
