@@ -38,9 +38,9 @@ PrintOpenGLError(char const* call, int line, char const* filename) -> void
     
     reLogE(
       "OpenGL error \'", glErrorString,"\' (code: ", glErrorCode,")\n"
-      "       in call ", call, "\n"
-      "           at line ", line, "\n"
-      "           in file '", filename, "'");
+      "          in call ", call, "\n"
+      "            at line ", line, "\n"
+      "            in file '", filename, "'");
   }
 }
 
