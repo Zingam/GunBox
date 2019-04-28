@@ -3,13 +3,15 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers - Common
-#include "Common/Macros/Logging.hpp"
+#if defined(OPENGL_CHECK_CALLS)
+// Project headers - Logger
+#  include "Logger/LogAPI.hpp"
 // Project headers - Renderer
-#include "Renderer/Graphics/OpenGL/OpenGL_Loader.hpp"
+#  include "Renderer/Graphics/OpenGL/OpenGL_Loader.hpp"
 
 // C++ Standard Library
-#include <type_traits>
+#  include <type_traits>
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Defines

@@ -35,16 +35,12 @@ PrintOpenGLError(char const* call, int line, char const* filename) -> void
         glErrorString = "INVALID_FRAMEBUFFER_OPERATION";
         break;
     }
-    LogError(
-      "OpenGL error \'%s\' (code: 0x0%X)\n"
-      "       in call %s\n"
-      "           at line %d\n"
-      "           in file '%s'",
-      glErrorString,
-      glErrorCode,
-      call,
-      line,
-      filename);
+    
+    reLogE(
+      "OpenGL error \'", glErrorString,"\' (code: ", glErrorCode,")\n"
+      "       in call ", call, "\n"
+      "           at line ", line, "\n"
+      "           in file '", filename, "'");
   }
 }
 

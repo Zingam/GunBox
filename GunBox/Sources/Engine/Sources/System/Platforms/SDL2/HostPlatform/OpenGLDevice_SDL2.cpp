@@ -1,9 +1,8 @@
-#include "OpenGLDevice_SDL2.hpp"
 // Self
 #include "OpenGLDevice_SDL2.hpp"
 
-// Project headers - Common
-#include "Common/Macros/Logging.hpp"
+// Project headers - Logger
+#include "Logger/LogAPI.hpp"
 // Project headers - System
 #include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
 #include "System/GUI/Window.hpp"
@@ -68,7 +67,7 @@ OpenGLDevice_SDL::Initialize(Window const& window)
 
   SDL_IfFailed(SDL_GL_LoadLibrary(nullptr))
   {
-    LogError("Unable to load OpenGL library: %s", SDL_GetError());
+    reLogE("Unable to load OpenGL library: ", SDL_GetError());
 
     return false;
   }
@@ -103,7 +102,7 @@ OpenGLDevice_SDL::InitializeContext()
     }
   }
   if (nullptr == openGLContext) {
-    LogError("Unable to create OpenGL context: %s", SDL_GetError());
+    reLogE("Unable to create OpenGL context: ", SDL_GetError());
 
     return false;
   }
