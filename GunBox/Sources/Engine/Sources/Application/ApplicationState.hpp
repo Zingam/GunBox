@@ -14,6 +14,7 @@ enum class State_t
   NotRunning,
   Quitting,
   Resuming,
+  Running,
   Suspending,
   Terminating
 };

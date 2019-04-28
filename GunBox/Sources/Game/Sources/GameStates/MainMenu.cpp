@@ -26,9 +26,18 @@ MainMenu::MainMenu(
 GameState_t
 MainMenu::Update()
 {
-  if (Application::State_t ::Suspending == applicationState)
-  {
-    return nextGameState;
+  switch (applicationState) {
+    case Application::State_t ::Suspending: {
+      return nextGameState;
+    }
+    case Application::State_t ::Quitting: {
+      applicationState = Application::State_t::Running;
+      if (!isRequestingToQuit) {
+        Quit();
+      }
+      break;
+    }
+    default: {}
   }
 
   using namespace System::DeviceTypes::Input;
