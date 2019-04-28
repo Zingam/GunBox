@@ -289,6 +289,8 @@ Commander_MainMenu::Initialize() -> void
     MakeCommand(Commands_MainMenu_t::MoveRight);
   commands_Keyboard[EnumCast(ScanCode_t::Arrow_Up)] =
     MakeCommand(Commands_MainMenu_t::MoveUp);
+  commands_Keyboard[EnumCast(ScanCode_t::NKP_Enter)] =
+    MakeCommand(Commands_MainMenu_t::Accept);
   commands_Keyboard[EnumCast(ScanCode_t::SK_Enter)] =
     MakeCommand(Commands_MainMenu_t::Accept);
   commands_Keyboard[EnumCast(ScanCode_t::SK_Backspace)] =
