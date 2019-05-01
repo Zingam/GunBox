@@ -18,4 +18,4 @@ public:
   auto CompilerInfo() const -> CompilerInfo const&;
 };
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::HostPlatformClasses)

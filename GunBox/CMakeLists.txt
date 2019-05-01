@@ -13,5 +13,5 @@ project (GunBox)
 list (APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/__cmake/Modules")
 ################################################################################
 
-add_subdirectory(Sources/Engine)
-add_subdirectory(Sources/Game)
+add_subdirectory ("Sources/Engine")
+add_subdirectory ("Sources/Game")

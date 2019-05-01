@@ -18,4 +18,4 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 class SubSystems : public implementedBy<SubSystems_Implementation>
 {};
 
-NAMESPACE_END(System)
+NAMESPACE_END(System::HostPlatformClasses)
