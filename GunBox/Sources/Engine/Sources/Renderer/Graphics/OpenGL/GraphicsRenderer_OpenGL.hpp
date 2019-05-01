@@ -34,6 +34,7 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 
 class GraphicsRenderer_OpenGL final : public GraphicsRenderer_Interface
 {
+  // Constructors & Destructors
 private:
   GraphicsRenderer_OpenGL(Application::ApplicationInfo const& info,
                           Application::Preferences& preferences,
@@ -42,6 +43,7 @@ private:
 public:
   ~GraphicsRenderer_OpenGL() final;
 
+  // Methods
 public:
   auto Initialize() -> bool final;
   auto Finalize() -> void final;
