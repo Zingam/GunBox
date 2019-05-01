@@ -143,18 +143,51 @@ target_include_directories (${PROJECT_NAME}
 
 # External libraries search paths and find_package variables
 if (ANDROID)
+  include("${.ExternalLibrariesRootDir}/__cmake/ExternalLibraries.cmake")
+
   set (__VariantSubdir "${CMAKE_BUILD_TYPE}/${ANDROID_ABI}")
 
-  # FreeType2 find_package configuration
+  # Set find_package configuration variables:
+  #   .ANDROID_AddLibraryAs_SHARED_FreeType2
+  #   .ANDROID_LibraryArtifactsPath_FreeType2
+  #   .ANDROID_SourcePath_FreeType2
+  SetFindPackageConfiguration ("FreeType2")
+  #   .ANDROID_AddLibraryAs_SHARED_SDL2
+  #   .ANDROID_LibraryArtifactsPath_SDL2
+  #   .ANDROID_SourcePath_SDL2
+  SetFindPackageConfiguration ("SDL2")
+
+  string (APPEND __AndroidConfigurationMessage
+    "Android find_package configuration variables:\n")
+  string (APPEND __ErrorMessage
+    "  - .ANDROID_AddLibraryAs_SHARED_FreeType2:  ${.ANDROID_AddLibraryAs_SHARED_FreeType2}\n")
+  string (APPEND __ErrorMessage
+    "  - .ANDROID_LibraryArtifactsPath_FreeType2: ${.ANDROID_LibraryArtifactsPath_FreeType2}\n")
+  string (APPEND __ErrorMessage
+    "  - .ANDROID_SourcePath_FreeType2:           ${.ANDROID_SourcePath_FreeType2}\n")
+  string (APPEND __ErrorMessage
+    "  - .ANDROID_AddLibraryAs_SHARED_SDL2:       ${.ANDROID_AddLibraryAs_SHARED_SDL2}\n")
+  string (APPEND __ErrorMessage
+    "  - .ANDROID_LibraryArtifactsPath_SDL2:      ${.ANDROID_LibraryArtifactsPath_SDL2}\n")
+  string (APPEND __ErrorMessage
+    "  .ANDROID_SourcePath_SDL2:                  ${.ANDROID_SourcePath_SDL2}\n")
+  message ("${__AndroidConfigurationMessage}")
+  unset (__AndroidConfigurationMessage)
+
+  if (FALSE)
   set (.ANDROID_AddLibraryAs_SHARED_FreeType2
     ${.UseSharedLibrary_FreeType2}
   )
   set (.ANDROID_LibraryArtifactsPath_FreeType2
     "${.LibraryArtifactsPath_FreeType2}/${__VariantSubdir}"
   )
+  set (__FreeType2_RootDir "${.ExternalLibrariesRootDir}/FreeType2")
+  GetLibraryDirectory(__LibraryDirectory "${__FreeType2_RootDir}" "FreeType2")
   set (.ANDROID_SourcePath_FreeType2
-    "${.ExternalLibrariesRootDir}/FreeType2/FreeType2"
+    "${__FreeType2_RootDir}/${__LibraryDirectory}"
   )
+  unset (__FreeType2_RootDir)
+
   # SDL2 find_package configuration
   set (.ANDROID_AddLibraryAs_SHARED_SDL2
     ${.UseSharedLibrary_SDL2}
@@ -162,10 +195,13 @@ if (ANDROID)
   set (.ANDROID_LibraryArtifactsPath_SDL2
     "${.LibraryArtifactsPath_SDL2}/${__VariantSubdir}"
   )
+  set (__SDL2_RootDir "${.ExternalLibrariesRootDir}/SDL2")
+  GetLibraryDirectory(__LibraryDirectory "${__SDL2_RootDir}" "SDL2")
   set (.ANDROID_SourcePath_SDL2
-    "${.ExternalLibrariesRootDir}/SDL2/SDL2"
+    "${__SDL2_RootDir}/${__LibraryDirectory}"
   )
-
+  unset (__SDL2_RootDir)
+  endif ()
   # Keep variables local
   unset (__VariantSubdir)
 endif ()
