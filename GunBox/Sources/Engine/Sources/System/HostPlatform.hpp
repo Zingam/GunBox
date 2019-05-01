@@ -7,11 +7,11 @@
 #include "Common/implementedBy.hpp"
 // Project headers - System
 #include "System/HostPlatform/FileSystem.hpp"
-#include "System/HostPlatform/OpenGLDevice.hpp"
+#include "System/HostPlatform/GPUDevice_OpenGL.hpp"
+#include "System/HostPlatform/GPUDevice_Vulkan.hpp"
 #include "System/HostPlatform/SubSystems.hpp"
 #include "System/HostPlatform/SystemConsole.hpp"
 #include "System/HostPlatform/SystemInfo.hpp"
-#include "System/HostPlatform/VulkanDevice.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations

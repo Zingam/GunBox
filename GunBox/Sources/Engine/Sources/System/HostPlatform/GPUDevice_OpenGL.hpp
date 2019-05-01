@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - System
-#include "System/Platforms/OpenGLDevice_Implementation.hpp"
+#include "System/Platforms/GPUDevice_OpenGL_Implementation.hpp"
 
 // Project headers - Common
 #include "Common/implementedBy.hpp"
@@ -44,6 +44,6 @@ NAMESPACE_END(System::HostPlatformClasses)
 // Inline method implementations
 ////////////////////////////////////////////////////////////////////////////////
 
-#include "OpenGLDevice.inl"
+#include "GPUDevice_OpenGL.inl"
 
 ////////////////////////////////////////////////////////////////////////////////

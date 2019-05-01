@@ -1,5 +1,5 @@
 // Self
-#include "OpenGLDevice_SDL2.hpp"
+#include "GPUDevice_OpenGL_SDL2.hpp"
 
 // Project headers - Logger
 #include "Logger/LogAPI.hpp"

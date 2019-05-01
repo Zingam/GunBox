@@ -1,5 +1,5 @@
 // Self
-#include "VulkanDevice.hpp"
+#include "GPUDevice_Vulkan.hpp"
 
 // Project headers - System
 #include "System/GUI/Window.hpp"
