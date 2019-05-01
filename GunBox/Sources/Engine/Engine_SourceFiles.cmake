@@ -117,6 +117,8 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform/SystemConsole.hpp"
   "Sources/System/HostPlatform/SystemInfo.cpp"
   "Sources/System/HostPlatform/SystemInfo.hpp"
+  "Sources/System/HostPlatform/VulkanDevice.cpp"
+  "Sources/System/HostPlatform/VulkanDevice.hpp"
   "Sources/System/Platforms/Common/CompilerInfo.cpp"
   "Sources/System/Platforms/Common/CompilerInfo.hpp"
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>

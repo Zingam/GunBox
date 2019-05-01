@@ -40,4 +40,10 @@ HostPlatform::SystemInfo()
   return systemInfo;
 }
 
+inline HostPlatformClasses::VulkanDevice&
+HostPlatform::VulkanDevice()
+{
+  return vulkanDevice;
+}
+
 NAMESPACE_END(System)

@@ -11,6 +11,7 @@
 #include "System/HostPlatform/SubSystems.hpp"
 #include "System/HostPlatform/SystemConsole.hpp"
 #include "System/HostPlatform/SystemInfo.hpp"
+#include "System/HostPlatform/VulkanDevice.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -27,6 +28,7 @@ public:
   HostPlatformClasses::SubSystems& SubSystems();
   HostPlatformClasses::SystemConsole& SystemConsole();
   HostPlatformClasses::SystemInfo& SystemInfo();
+  HostPlatformClasses::VulkanDevice& VulkanDevice();
 
   // Data members
 private:
@@ -35,6 +37,7 @@ private:
   HostPlatformClasses::SubSystems subSystems;
   HostPlatformClasses::SystemConsole systemConsole;
   HostPlatformClasses::SystemInfo systemInfo;
+  HostPlatformClasses::VulkanDevice vulkanDevice;
 };
 
 NAMESPACE_END(System)
