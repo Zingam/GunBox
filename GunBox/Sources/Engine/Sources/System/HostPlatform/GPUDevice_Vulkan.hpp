@@ -22,7 +22,7 @@ NAMESPACE_END(System)
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-class VulkanDevice //: public implementedBy<Vulkan_Implementation>
+class GPUDevice_Vulkan //: public implementedBy<Vulkan_Implementation>
 {
   // Methods
 public:

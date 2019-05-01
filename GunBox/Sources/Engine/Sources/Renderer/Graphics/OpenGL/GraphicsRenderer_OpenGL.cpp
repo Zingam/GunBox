@@ -35,14 +35,14 @@ GraphicsRenderer_OpenGL::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
 
-  auto& openGLDevice = hostPlatform.OpenGLDevice();
-  auto isSuccess = openGLDevice.Initialize(*window);
+  auto& GPUDevice_OpenGL = hostPlatform.GPUDevice_OpenGL();
+  auto isSuccess = GPUDevice_OpenGL.Initialize(*window);
   if (isSuccess) {
     isSuccess = GraphicsRenderer_Interface::Initialize();
     if (isSuccess) {
-      isSuccess = openGLDevice.InitializeContext();
+      isSuccess = GPUDevice_OpenGL.InitializeContext();
       if (isSuccess) {
-        auto getProcAddress = openGLDevice.GetProcAddress();
+        auto getProcAddress = GPUDevice_OpenGL.GetProcAddress();
         auto version = InitializeOpenGL((GLADloadfunc)getProcAddress);
         if (0 != version) {
           [[maybe_unused]] auto const vendor = glGetString(GL_VENDOR);
@@ -73,7 +73,7 @@ GraphicsRenderer_OpenGL::Initialize()
 void
 GraphicsRenderer_OpenGL::Finalize()
 {
-  hostPlatform.OpenGLDevice().Finalize();
+  hostPlatform.GPUDevice_OpenGL().Finalize();
 
   GraphicsRenderer_Interface::Finalize();
 }
@@ -84,7 +84,7 @@ GraphicsRenderer_OpenGL::Render()
   gl_(glClearColor, 0.1f, 0.1f, 1.0f, 0.0f);
   gl_(glClear, GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  hostPlatform.OpenGLDevice().SwapBuffer();
+  hostPlatform.GPUDevice_OpenGL().SwapBuffer();
 }
 
 NAMESPACE_END(Renderer::Graphics)

@@ -31,7 +31,7 @@ GraphicsRenderer_Vulkan::~GraphicsRenderer_Vulkan() {}
 void
 GraphicsRenderer_Vulkan::Finalize()
 {
-  hostPlatform.VulkanDevice().Finalize();
+  hostPlatform.GPUDevice_Vulkan().Finalize();
 
   GraphicsRenderer_Interface::Finalize();
 }
@@ -41,8 +41,8 @@ GraphicsRenderer_Vulkan::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
 
-  auto& vulkanDevice = hostPlatform.VulkanDevice();
-  auto isSuccess = vulkanDevice.Initialize(*window);
+  auto& GPUDevice_Vulkan = hostPlatform.GPUDevice_Vulkan();
+  auto isSuccess = GPUDevice_Vulkan.Initialize(*window);
   if (isSuccess) {
     isSuccess = GraphicsRenderer_Interface::Initialize();
     if (isSuccess) {

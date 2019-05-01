@@ -16,10 +16,10 @@ HostPlatform::FileSystem()
   return fileSystem;
 }
 
-inline HostPlatformClasses::OpenGLDevice&
-HostPlatform::OpenGLDevice()
+inline HostPlatformClasses::GPUDevice_OpenGL&
+HostPlatform::GPUDevice_OpenGL()
 {
-  return openGLDevice;
+  return gpuDevice_OpenGL;
 }
 
 inline HostPlatformClasses::SubSystems&
@@ -40,10 +40,10 @@ HostPlatform::SystemInfo()
   return systemInfo;
 }
 
-inline HostPlatformClasses::VulkanDevice&
-HostPlatform::VulkanDevice()
+inline HostPlatformClasses::GPUDevice_Vulkan&
+HostPlatform::GPUDevice_Vulkan()
 {
-  return vulkanDevice;
+  return gpuDevice_Vulkan;
 }
 
 NAMESPACE_END(System)

@@ -25,7 +25,7 @@ NAMESPACE_END(System)
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-class OpenGLDevice : public implementedBy<OpenGLDevice_Implementation>
+class GPUDevice_OpenGL : public implementedBy<GPUDevice_OpenGL_Implementation>
 {
   // Properties
 public:

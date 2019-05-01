@@ -19,7 +19,7 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-OpenGLDevice_SDL::OpenGLDevice_SDL()
+GPUDevice_OpenGL_SDL::GPUDevice_OpenGL_SDL()
   : openGLContextVersion{ 0, 0, 0, 0, 0 }
 {}
 
@@ -28,7 +28,7 @@ OpenGLDevice_SDL::OpenGLDevice_SDL()
 ////////////////////////////////////////////////////////////////////////////////
 
 auto
-OpenGLDevice_SDL::GetProcAddress() -> void*
+GPUDevice_OpenGL_SDL::GetProcAddress() -> void*
 {
   return reinterpret_cast<void*>(SDL_GL_GetProcAddress);
 }
@@ -38,7 +38,7 @@ OpenGLDevice_SDL::GetProcAddress() -> void*
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-OpenGLDevice_SDL::Finalize()
+GPUDevice_OpenGL_SDL::Finalize()
 {
   assert((nullptr != openGLContext) && "Invalid OpenGL context");
   if (nullptr != openGLContext) {
@@ -48,7 +48,7 @@ OpenGLDevice_SDL::Finalize()
 }
 
 bool
-OpenGLDevice_SDL::Initialize(Window const& window)
+GPUDevice_OpenGL_SDL::Initialize(Window const& window)
 {
   openGLContextVersion.ContextProfile = SDL_GL_CONTEXT_PROFILE_CORE;
   openGLContextVersion.SupportedMajorVersion = 4;
@@ -76,9 +76,9 @@ OpenGLDevice_SDL::Initialize(Window const& window)
 }
 
 bool
-OpenGLDevice_SDL::InitializeContext()
+GPUDevice_OpenGL_SDL::InitializeContext()
 {
-  assert((!platformName.empty()) && "OpenGLDevice is not initialized");
+  assert((!platformName.empty()) && "GPUDevice_OpenGL is not initialized");
 
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
   SDL_GL_SetAttribute(
@@ -111,7 +111,7 @@ OpenGLDevice_SDL::InitializeContext()
 }
 
 auto
-OpenGLDevice_SDL::SwapBuffer() -> void
+GPUDevice_OpenGL_SDL::SwapBuffer() -> void
 {
   SDL_GL_SwapWindow(window->Id());
 }

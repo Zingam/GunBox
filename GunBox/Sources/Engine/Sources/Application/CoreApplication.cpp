@@ -175,8 +175,8 @@ CoreApplication::Initialize()
 
     if (commandLineArgs->Renderer()) {
       auto renderer = commandLineArgs->Renderer().value();
-
-      reLogI("Desired renderer: ", static_cast<int>(renderer));
+      
+      reLogI("Desired renderer:   ", Renderer::Graphics::AsString(renderer));
 
       creationPreferences.RendererAPI() = renderer;
     }

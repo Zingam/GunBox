@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 ////////////////////////////////////////////////////////////////////////////////
 
 inline auto
-OpenGLDevice::SwapBuffer() -> void
+GPUDevice_OpenGL::SwapBuffer() -> void
 {
   o_ptr->SwapBuffer();
 }

@@ -27,10 +27,10 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 using OpenGLContext = void*;
 
-using OpenGLDevice_Implementation = class OpenGLDevice_SDL
+using GPUDevice_OpenGL_Implementation = class GPUDevice_OpenGL_SDL
 {
 public:
-  OpenGLDevice_SDL();
+  GPUDevice_OpenGL_SDL();
 
   // Properties
 public:

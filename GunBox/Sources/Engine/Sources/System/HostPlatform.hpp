@@ -24,20 +24,20 @@ class HostPlatform
   // Properties
 public:
   HostPlatformClasses::FileSystem& FileSystem();
-  HostPlatformClasses::OpenGLDevice& OpenGLDevice();
+  HostPlatformClasses::GPUDevice_OpenGL& GPUDevice_OpenGL();
   HostPlatformClasses::SubSystems& SubSystems();
   HostPlatformClasses::SystemConsole& SystemConsole();
   HostPlatformClasses::SystemInfo& SystemInfo();
-  HostPlatformClasses::VulkanDevice& VulkanDevice();
+  HostPlatformClasses::GPUDevice_Vulkan& GPUDevice_Vulkan();
 
   // Data members
 private:
   HostPlatformClasses::FileSystem fileSystem;
-  HostPlatformClasses::OpenGLDevice openGLDevice;
+  HostPlatformClasses::GPUDevice_OpenGL gpuDevice_OpenGL;
   HostPlatformClasses::SubSystems subSystems;
   HostPlatformClasses::SystemConsole systemConsole;
   HostPlatformClasses::SystemInfo systemInfo;
-  HostPlatformClasses::VulkanDevice vulkanDevice;
+  HostPlatformClasses::GPUDevice_Vulkan gpuDevice_Vulkan;
 };
 
 NAMESPACE_END(System)

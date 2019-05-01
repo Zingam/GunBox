@@ -17,7 +17,7 @@
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 bool
-VulkanDevice::Initialize(Window const& window) const
+GPUDevice_Vulkan::Initialize(Window const& window) const
 {
   if (ret_SUCCESS(SDL_Vulkan_LoadLibrary(nullptr))) {
     std::uint32_t extensionsCount = 0;
@@ -38,7 +38,7 @@ VulkanDevice::Initialize(Window const& window) const
 };
 
 void
-VulkanDevice::Finalize()
+GPUDevice_Vulkan::Finalize()
 {}
 
 NAMESPACE_END(System::HostPlatformClasses)

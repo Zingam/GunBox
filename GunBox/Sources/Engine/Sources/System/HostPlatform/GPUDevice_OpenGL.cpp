@@ -8,7 +8,7 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 ////////////////////////////////////////////////////////////////////////////////
 
 auto
-OpenGLDevice::GetProcAddress() -> void*
+GPUDevice_OpenGL::GetProcAddress() -> void*
 {
   return o_ptr->GetProcAddress();
 }
@@ -18,13 +18,13 @@ OpenGLDevice::GetProcAddress() -> void*
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-OpenGLDevice::Initialize(Window const& window)
+GPUDevice_OpenGL::Initialize(Window const& window)
 {
   return o_ptr->Initialize(window);
 }
 
 bool
-OpenGLDevice::InitializeContext()
+GPUDevice_OpenGL::InitializeContext()
 {
   return o_ptr->InitializeContext();
 }
