@@ -49,6 +49,8 @@ set (.Engine_SourceFiles
   "Sources/Renderer/Graphics/OpenGL/OpenGL_ErrorChecking_FuncImpl.inl"
   "Sources/Renderer/Graphics/OpenGL/OpenGL_Loader.cpp"
   "Sources/Renderer/Graphics/OpenGL/OpenGL_Loader.hpp"
+  "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.cpp"
+  "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.hpp"
   "Sources/Renderer/Graphics/GraphicsRenderer_Interface.cpp"
   "Sources/Renderer/Graphics/GraphicsRenderer_Interface.hpp"
   "Sources/Renderer/Graphics/GraphicsRendererFactory.cpp"

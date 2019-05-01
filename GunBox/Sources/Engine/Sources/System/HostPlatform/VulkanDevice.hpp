@@ -3,19 +3,31 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers - System
-#include "System/Platforms/SystemInfo_Implementation.hpp"
-
 // Project headers - Common
 #include "Common/implementedBy.hpp"
 
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(System)
+
+class Window;
+
+NAMESPACE_END(System)
+
+////////////////////////////////////////////////////////////////////////////////
+// Class declarations
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-class VulkanDevice : public implementedBy<SystemInfo_Implementation>
+class VulkanDevice //: public implementedBy<Vulkan_Implementation>
 {
   // Methods
 public:
-  auto Initialize() const -> void;
+  auto Initialize(Window const& window) const -> bool;
+  auto Finalize() -> void;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

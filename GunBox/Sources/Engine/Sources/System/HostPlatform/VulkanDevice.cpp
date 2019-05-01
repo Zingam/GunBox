@@ -1,8 +1,13 @@
 // Self
 #include "VulkanDevice.hpp"
 
+// Project headers - System
+#include "System/GUI/Window.hpp"
+
+// Third party libraries
 #include <SDL_vulkan.h>
 
+// C++ Standard Library
 #include <iostream>
 #include <vector>
 
@@ -11,16 +16,14 @@
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-void
-VulkanDevice::Initialize() const
+bool
+VulkanDevice::Initialize(Window const& window) const
 {
-
-  return;
   if (ret_SUCCESS(SDL_Vulkan_LoadLibrary(nullptr))) {
     std::uint32_t extensionsCount = 0;
     std::vector<char const*> extensions;
     if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
-          nullptr, &extensionsCount, nullptr))) {
+          window.Id(), &extensionsCount, nullptr))) {
       extensions.resize(extensionsCount);
       if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
             nullptr, &extensionsCount, extensions.data()))) {
@@ -30,6 +33,12 @@ VulkanDevice::Initialize() const
       }
     }
   }
+
+  return true;
 };
+
+void
+VulkanDevice::Finalize()
+{}
 
 NAMESPACE_END(System::HostPlatformClasses)
