@@ -1,44 +1,14 @@
+#include "GPUDevice_Vulkan.hpp"
 // Self
 #include "GPUDevice_Vulkan.hpp"
-
-// Project headers - System
-#include "System/GUI/Window.hpp"
-
-// Third party libraries
-#include <SDL_vulkan.h>
-
-// C++ Standard Library
-#include <iostream>
-#include <vector>
-
-#define ret_SUCCESS(x) (0 == (x))
-#define sdl_SUCCESS(x) (SDL_TRUE == (x))
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 bool
-GPUDevice_Vulkan::Initialize(Window const& window) const
+GPUDevice_Vulkan::Initialize(Window const& window)
 {
-  if (ret_SUCCESS(SDL_Vulkan_LoadLibrary(nullptr))) {
-    std::uint32_t extensionsCount = 0;
-    std::vector<char const*> extensions;
-    if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
-          window.Id(), &extensionsCount, nullptr))) {
-      extensions.resize(extensionsCount);
-      if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
-            nullptr, &extensionsCount, extensions.data()))) {
-        for (auto extension : extensions) {
-          std::cout << extension << "\n";
-        }
-      }
-    }
-  }
+  return o_ptr->Initialize(window);
+}
 
-  return true;
-};
-
-void
-GPUDevice_Vulkan::Finalize()
-{}
 
 NAMESPACE_END(System::HostPlatformClasses)

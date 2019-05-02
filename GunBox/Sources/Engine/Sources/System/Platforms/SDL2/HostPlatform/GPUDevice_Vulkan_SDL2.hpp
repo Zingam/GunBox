@@ -4,10 +4,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - System
-#include "System/Platforms/GPUDevice_Vulkan_Implementation.hpp"
+#include "System/DeviceTypes/Graphics/RendererTypes.hpp"
 
-// Project headers - Common
-#include "Common/implementedBy.hpp"
+// C++ Standard Library
+#include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -25,11 +25,21 @@ NAMESPACE_END(System)
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-class GPUDevice_Vulkan : public implementedBy<GPUDevice_Vulkan_Implementation>
+using GPUDevice_Vulkan_Implementation = class GPUDevice_Vulkan_SDL
 {
+public:
+  // Constructors & Destructors
+  GPUDevice_Vulkan_SDL();
+
   // Methods
 public:
+  auto Finalize() -> void;
   auto Initialize(Window const& window) -> bool;
+
+  // Data members
+private:
+  std::string platformName;
+  Window const* window = nullptr;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)
