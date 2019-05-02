@@ -41,6 +41,7 @@ void
 GPUDevice_OpenGL_SDL::Finalize()
 {
   assert((nullptr != openGLContext) && "Invalid OpenGL context");
+
   if (nullptr != openGLContext) {
     SDL_GL_DeleteContext(openGLContext);
     openGLContext = nullptr;
@@ -57,6 +58,7 @@ GPUDevice_OpenGL_SDL::Initialize(Window const& window)
   openGLContextVersion.MinimalSupportedMinorVersion = 0;
 
   platformName = SDL_GetPlatform();
+
   if ("Android" == platformName) {
     openGLContextVersion.ContextProfile = SDL_GL_CONTEXT_PROFILE_ES;
     openGLContextVersion.SupportedMajorVersion = 3;
@@ -102,6 +104,7 @@ GPUDevice_OpenGL_SDL::InitializeContext()
     }
   }
   if (nullptr == openGLContext) {
+    // TODO: Replace with a message box
     reLogE("Unable to create OpenGL context: ", SDL_GetError());
 
     return false;
