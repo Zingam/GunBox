@@ -6,6 +6,8 @@
 // Project headers - System
 #include "System/HostPlatform.hpp"
 
+#include "glad/vulkan.h"
+
 // C Standard Library
 #include <cassert>
 
@@ -41,14 +43,57 @@ GraphicsRenderer_Vulkan::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
 
-  auto& GPUDevice_Vulkan = hostPlatform.GPUDevice_Vulkan();
-  auto isSuccess = GPUDevice_Vulkan.Initialize(*window);
+  auto isSuccess = GraphicsRenderer_Interface::Initialize();
   if (isSuccess) {
-    isSuccess = GraphicsRenderer_Interface::Initialize();
+    auto& GPUDevice_Vulkan = hostPlatform.GPUDevice_Vulkan();
+    isSuccess = GPUDevice_Vulkan.Initialize(*window);
     if (isSuccess) {
-      isInitialized = true;
+      auto& surfaceCreationExtensions =
+        GPUDevice_Vulkan.SurfaceCreationExtensions();
+      if (2 >= surfaceCreationExtensions.size()) {
+        auto version = gladLoaderLoadVulkan(nullptr, nullptr, nullptr);
+        if (0 < version) {
+          reLogI("Graphics Renderer: OpenGL");
+          reLogI("  Surface creation extensions:");
+          for (auto extension : surfaceCreationExtensions) {
+            reLogI("    ", extension);
+          }
 
-      return isInitialized;
+          std::uint32_t vkVersion = 0L;
+          vkEnumerateInstanceVersion(&vkVersion);
+          std::uint32_t instanceLayerCount;
+          vkEnumerateInstanceLayerProperties(&instanceLayerCount, nullptr);
+          std::vector<VkLayerProperties> instanceLayers;
+          instanceLayers.resize(instanceLayerCount);
+          vkEnumerateInstanceLayerProperties(
+            &instanceLayerCount, instanceLayers.data());
+
+          reLogI("  Instance layers:");
+          for (auto layer : instanceLayers) {
+            reLogI("    ", layer.layerName);
+          }
+
+          std::uint32_t instanceExtensionCount;
+          vkEnumerateInstanceExtensionProperties(
+            nullptr, &instanceExtensionCount, nullptr);
+          std::vector<VkExtensionProperties> instanceExtensions;
+          vkEnumerateInstanceExtensionProperties(
+            nullptr, &instanceExtensionCount, instanceExtensions.data());
+
+          reLogI("  Instance extensions:");
+          for (auto extension : instanceExtensions) {
+            reLogI("    ", extension.extensionName);
+          }
+
+          isInitialized = true;
+
+          return isInitialized;
+        } else {
+          reLogE("Failed to load Vulkan function pointers!");
+        }
+      } else {
+        reLogE("No Vulkan surfrace creation extensions are available!");
+      }
     }
   }
 

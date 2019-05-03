@@ -161,7 +161,7 @@ CoreApplication::Initialize()
   }
 
   auto& creationPreferences = *preferences;
-#if defined(_DEBUG)
+#if defined(_DEBUG) || !defined(NDEBUG)
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->Resolution()) {
       auto height = commandLineArgs->Resolution().value().Height;

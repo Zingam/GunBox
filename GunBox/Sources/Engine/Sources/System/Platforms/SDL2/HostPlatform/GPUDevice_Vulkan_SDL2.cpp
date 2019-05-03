@@ -19,6 +19,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #define ret_SUCCESS(x) (0 == (x))
+#define sdl_FAIL(x) (SDL_FALSE == (x))
 #define sdl_SUCCESS(x) (SDL_TRUE == (x))
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
@@ -28,6 +29,22 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 ////////////////////////////////////////////////////////////////////////////////
 
 GPUDevice_Vulkan_SDL::GPUDevice_Vulkan_SDL() {}
+
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
+void*
+GPUDevice_Vulkan_SDL::InstanceProcAddress() const
+{
+  return SDL_Vulkan_GetVkGetInstanceProcAddr();
+}
+
+std::vector<char const*> const&
+GPUDevice_Vulkan_SDL::SurfaceCreationExtensions() const
+{
+  return surfaceCreationExtensions;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Methods
@@ -44,19 +61,15 @@ GPUDevice_Vulkan_SDL::Initialize(Window const& window)
 
   if (ret_SUCCESS(SDL_Vulkan_LoadLibrary(nullptr))) {
     std::uint32_t extensionsCount = 0;
-    std::vector<char const*> extensions;
+
     if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
           window.Id(), &extensionsCount, nullptr))) {
-      extensions.resize(extensionsCount);
+      surfaceCreationExtensions.resize(extensionsCount);
 
-      reLogI("Graphics Renderer: Vulkan");
-      reLogI("  Instance extensions:")
-
-      if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
-            nullptr, &extensionsCount, extensions.data()))) {
-        for (auto extension : extensions) {
-          reLogI("    ", extension);
-        }
+      if (sdl_FAIL(SDL_Vulkan_GetInstanceExtensions(
+        window.Id(), &extensionsCount, surfaceCreationExtensions.data()))) {
+        errorStatus = "Unable to get Vulkan surface creation extensions";
+        return false;
       }
     }
   }
