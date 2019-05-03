@@ -17,7 +17,7 @@
 #if !defined(reLogInitialize)
 #  if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_INFO) ||         \
     defined(LOGGING_LEVEL_NONE)
-#    define reLogInitialize(logTag) Logger::Logger::CreateInstance(logTag);
+#    define reLogInitialize(logTag) Logger::Logger::CreateInstance(logTag)
 #  else
 #    define reLogInitialize(...)
 #  endif
@@ -27,7 +27,7 @@
 
 #if !defined(reLog)
 #  if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_NONE)
-#    define reLog(...) Logger::Log(Logger::LogLevel_t::None, __VA_ARGS__);
+#    define reLog(...) Logger::Log(Logger::LogLevel_t::None, __VA_ARGS__)
 #  else
 #    define reLog(...)
 #  endif
@@ -37,7 +37,7 @@
 
 #if !defined(reLogE)
 #  if defined(LOGGING_LEVEL_VERBOSE)
-#    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__);
+#    define reLogE(...) Logger::Log(Logger::LogLevel_t::Error, __VA_ARGS__)
 #  else
 #    define reLogE(...)
 #  endif
@@ -47,7 +47,7 @@
 
 #if !defined(reLogI)
 #  if defined(LOGGING_LEVEL_VERBOSE) || defined(LOGGING_LEVEL_INFO)
-#    define reLogI(...) Logger::Log(Logger::LogLevel_t::Info, __VA_ARGS__);
+#    define reLogI(...) Logger::Log(Logger::LogLevel_t::Info, __VA_ARGS__)
 #  else
 #    define reLogI(...)
 #  endif
@@ -57,7 +57,7 @@
 
 #if !defined(reLogW)
 #  if defined(LOGGING_LEVEL_VERBOSE)
-#    define reLogW(...) Logger::Log(Logger::LogLevel_t::Warning, __VA_ARGS__);
+#    define reLogW(...) Logger::Log(Logger::LogLevel_t::Warning, __VA_ARGS__)
 #  else
 #    define reLogW(...)
 #  endif
