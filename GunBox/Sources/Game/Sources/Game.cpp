@@ -18,8 +18,8 @@ NAMESPACE_BEGIN(GunBox)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-Game::Game(Application::ApplicationInfo info)
-  : Application::CoreApplication{ info }
+Game::Game(Application::ApplicationInfo applicationInfo)
+  : Application::CoreApplication{ applicationInfo }
 {}
 
 Game::~Game() {}
@@ -41,7 +41,7 @@ Game::Execute()
 void
 Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
 {
-  reLog(Info().Title(), ": Running the game...");
+  reLog(GetApplicationInfo().Title(), ": Running the game...");
 
   std::chrono::time_point lastExecutionTime =
     std::chrono::high_resolution_clock::now();
@@ -66,7 +66,7 @@ Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
 void
 Game::MainLoop_Finalize()
 {
-  reLog(Info().Title(), ": Exiting the game...");
+  reLog(GetApplicationInfo().Title(), ": Exiting the game...");
 
   graphicsRenderer->Finalize();
 }
@@ -74,7 +74,7 @@ Game::MainLoop_Finalize()
 std::unique_ptr<GameStateManager>
 Game::MainLoop_Initialize()
 {
-  reLog(Info().Title(), ": Staring a new game...");
+  reLog(GetApplicationInfo().Title(), ": Staring a new game...");
 
   assert(
     (nullptr != graphicsRenderer) &&

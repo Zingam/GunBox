@@ -1,6 +1,8 @@
 #pragma once
 ////////////////////////////////////////////////////////////////////////////////
 
+// C Standard Library
+#include <cstdint>
 // C++ Standard Library
 #include <optional>
 #include <string>
@@ -14,7 +16,7 @@ class Version
 {
   // Types
 public:
-  using BuildNumber_t = std::uint64_t;
+  using BuildNumber_t = std::uint32_t;
   using Major_t = std::uint32_t;
   using Minor_t = std::uint32_t;
   using PatchLevel_t = std::uint32_t;
@@ -43,6 +45,7 @@ public:
 
   // Methods
 public:
+  auto AsNumber() const -> std::uint32_t const;
   auto AsNumbers() const -> Version_t const&;
   auto AsString() const -> std::string const&;
 

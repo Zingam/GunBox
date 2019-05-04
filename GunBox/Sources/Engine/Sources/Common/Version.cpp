@@ -64,6 +64,35 @@ Version::PatchLevel() const
 // Methods
 ////////////////////////////////////////////////////////////////////////////////
 
+std::uint32_t const
+Version::AsNumber() const
+{
+  std::uint32_t version[][3]{
+    { 0, 1, this->Major() },
+    { 0, 1, this->Minor() },
+    { 0, 1, this->PatchLevel() },
+  };
+  constexpr size_t elementCount = sizeof(version) / sizeof(std::uint32_t) / 3;
+
+  // Calculate the digit count in each version number
+  for (std::int32_t i = 0L; elementCount > i; ++i) {
+    version[i][0] = static_cast<std::uint32_t>(log10(version[i][2])) + 1;
+    version[i][1] = static_cast<std::uint32_t>(pow(10, version[i][0]));
+  }
+
+  for (std::int32_t i = (elementCount - 2); 0 <= i; --i) {
+    version[i][1] = version[i][1] * version[i + 1][1];
+  }
+
+  std::uint32_t versionNumber = 0L;
+  for (std::int32_t i = 0; (elementCount - 1) > i; ++i) {
+    versionNumber += version[i + 1][1] * version[i][2];
+  }
+  versionNumber += version[elementCount - 1][2];
+
+  return versionNumber;
+}
+
 Version::Version_t const&
 Version::AsNumbers() const
 {

@@ -18,6 +18,7 @@
 NAMESPACE_BEGIN(Application)
 
 class ApplicationInfo;
+class EngineInfo;
 class Preferences;
 
 NAMESPACE_END(Application)
@@ -39,6 +40,7 @@ class GraphicsRenderer_Interface
 protected:
   GraphicsRenderer_Interface(
     Application::ApplicationInfo const& applicationInfo,
+    Application::EngineInfo const& engineInfo,
     Application::Preferences& preferences,
     System::HostPlatform& hostPlatform);
 
@@ -55,6 +57,8 @@ private:
     -> System::Window::Properties;
 
 protected:
+  Application::ApplicationInfo const& applicationInfo;
+  Application::EngineInfo const& engineInfo;
   System::HostPlatform& hostPlatform;
   bool isInitialized = false;
   std::unique_ptr<System::Window> window;

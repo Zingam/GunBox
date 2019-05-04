@@ -1,8 +1,8 @@
 include_guard ()
 
 set (.Engine_SourceFiles
-  "Sources/Application/ApplicationInfo.cpp"
-  "Sources/Application/ApplicationInfo.hpp"
+  "Sources/Application/ModuleInfo.cpp"
+  "Sources/Application/ModuleInfo.hpp"
   "Sources/Application/ApplicationState.cpp"
   "Sources/Application/ApplicationState.hpp"
   "Sources/Application/CommandLineArgs.cpp"

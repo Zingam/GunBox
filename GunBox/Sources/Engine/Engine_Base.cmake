@@ -139,8 +139,8 @@ target_compile_definitions (${PROJECT_NAME}_Base
 )
 target_compile_features (${PROJECT_NAME}_Base
   INTERFACE
-    # Enable C++17 Standard compliance
-    cxx_std_17
+    # Enable C++20 Standard compliance
+    cxx_std_20
 )
 target_compile_options (${PROJECT_NAME}_Base
   INTERFACE

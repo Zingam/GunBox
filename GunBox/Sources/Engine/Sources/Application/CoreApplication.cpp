@@ -1,6 +1,8 @@
 // Self
 #include "CoreApplication.hpp"
 
+// Project headers - Application
+#include "Application/Configuration/Values.hpp"
 // Project headers - Logger
 #include "Logger/LogAPI.hpp"
 // Project headers - Renderer/Graphics
@@ -11,8 +13,8 @@
 
 // C++ Standard Library
 #include <iostream>
-#include <string>
 #include <sstream>
+#include <string>
 
 NAMESPACE_BEGIN(Application)
 
@@ -20,11 +22,16 @@ NAMESPACE_BEGIN(Application)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-CoreApplication::CoreApplication(ApplicationInfo const& info)
-  : info{ std::move(info) }
-  , preferences{ std::make_unique<Preferences>(this->info) }
+CoreApplication::CoreApplication(ApplicationInfo const& applicationInfo)
+  : applicationInfo{ std::move(applicationInfo) }
+  , engineInfo{ Engine_Title,
+                Version::Version_t{ Engine_VersionMajor,
+                                    Engine_VersionMinor,
+                                    Engine_VersionPatch,
+                                    Engine_VersionBuildNumber } }
+  , preferences{ std::make_unique<Preferences>(this->applicationInfo) }
 {
-  hostPlatform.FileSystem().Initialize(info);
+  hostPlatform.FileSystem().Initialize(applicationInfo);
 }
 
 CoreApplication::~CoreApplication() {}
@@ -34,9 +41,15 @@ CoreApplication::~CoreApplication() {}
 ////////////////////////////////////////////////////////////////////////////////
 
 ApplicationInfo const&
-CoreApplication::Info() const
+CoreApplication::GetApplicationInfo() const
 {
-  return info;
+  return applicationInfo;
+}
+
+EngineInfo const&
+CoreApplication::GetEngineInfo() const
+{
+  return engineInfo;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +62,7 @@ CoreApplication::Finalize()
   if (isInitialized) {
 
 #if defined(_DEBUG)
-    reLogI("Finalizing: ", info.Title());
+    reLogI("Finalizing: ", applicationInfo.Title());
 
     if (nullptr != commandLineArgs) {
       if (commandLineArgs->ShowSystemConsole()) {
@@ -66,7 +79,7 @@ CoreApplication::Finalize()
       errorMessage << hasSaveError.value();
 
       using namespace System::GUI;
-      AlertBox AlertBox{ info.Title(),
+      AlertBox AlertBox{ applicationInfo.Title(),
                          errorMessage.str(),
                          Common::AlertBox_Base::AlertType_t::Error };
       AlertBox.Show();
@@ -79,7 +92,7 @@ CoreApplication::Finalize()
 Application::ExitCode
 CoreApplication::Initialize()
 {
-  reLogInitialize(info.Title());
+  reLogInitialize(applicationInfo.Title());
 
   if (nullptr != commandLineArgs) {
     if (commandLineArgs->ShowHelp()) {
@@ -103,9 +116,9 @@ CoreApplication::Initialize()
 
   // clang-format off
   reLogI(
-    "Initializing:      ", info.Title());
+    "Initializing:      ", applicationInfo.Title());
   reLogI(
-    "  Version:         ", info.GetVersion().AsString());
+    "  Version:         ", applicationInfo.GetVersion().AsString());
   reLogI(
     "  Directories:");
   reLogI(
@@ -147,7 +160,7 @@ CoreApplication::Initialize()
     errorMessage << "Using default values!";
 
     using namespace System::GUI;
-    AlertBox AlertBox{ info.Title(),
+    AlertBox AlertBox{ applicationInfo.Title(),
                        errorMessage.str(),
                        Common::AlertBox_Base::AlertType_t::Error };
     AlertBox.Show();
@@ -167,7 +180,7 @@ CoreApplication::Initialize()
       auto height = commandLineArgs->Resolution().value().Height;
       auto width = commandLineArgs->Resolution().value().Width;
 
-      reLogI("Desired resolution: ", width,"x", height);
+      reLogI("Desired resolution: ", width, "x", height);
 
       creationPreferences.MainWindowMetrics().Size.Height = height;
       creationPreferences.MainWindowMetrics().Size.Width = width;
@@ -175,7 +188,7 @@ CoreApplication::Initialize()
 
     if (commandLineArgs->Renderer()) {
       auto renderer = commandLineArgs->Renderer().value();
-      
+
       reLogI("Desired renderer:   ", Renderer::Graphics::AsString(renderer));
 
       creationPreferences.RendererAPI() = renderer;
@@ -183,8 +196,8 @@ CoreApplication::Initialize()
   }
 #endif
 
-  graphicsRenderer =
-    Renderer::Graphics::Create(info, creationPreferences, hostPlatform);
+  graphicsRenderer = Renderer::Graphics::Create(
+    applicationInfo, engineInfo, creationPreferences, hostPlatform);
 
   isInitialized = true;
 
@@ -202,7 +215,7 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
     errorMessage << hasParsingError.value() << "\n";
 
     using namespace System::GUI;
-    AlertBox AlertBox{ info.Title(),
+    AlertBox AlertBox{ applicationInfo.Title(),
                        errorMessage.str(),
                        Common::AlertBox_Base::AlertType_t::Error };
     AlertBox.Show();

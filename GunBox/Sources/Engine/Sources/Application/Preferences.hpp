@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - Application
-#include "Application/ApplicationInfo.hpp"
+#include "Application/ModuleInfo.hpp"
 // Project headers - System
 #include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
 #include "System/DeviceTypes/Graphics/RendererTypes.hpp"

@@ -1,6 +1,8 @@
 // Self
 #include "GraphicsRenderer_Vulkan.hpp"
 
+// Project headers - Application
+#include "Application/ModuleInfo.hpp"
 // Project headers - Logger
 #include "Logger/LogAPI.hpp"
 // Project headers - System
@@ -11,6 +13,12 @@
 // C Standard Library
 #include <cassert>
 
+////////////////////////////////////////////////////////////////////////////////
+// Macros
+////////////////////////////////////////////////////////////////////////////////
+
+#define _vk(x) (VK_SUCCESS == x)
+
 NAMESPACE_BEGIN(Renderer::Graphics)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -18,10 +26,14 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsRenderer_Vulkan::GraphicsRenderer_Vulkan(
-  Application::ApplicationInfo const& info,
+  Application::ApplicationInfo const& applicationInfo,
+  Application::EngineInfo const& engineInfo,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
-  : GraphicsRenderer_Interface{ info, preferences, hostPlatform }
+  : GraphicsRenderer_Interface{ applicationInfo,
+                                engineInfo,
+                                preferences,
+                                hostPlatform }
 {}
 
 GraphicsRenderer_Vulkan::~GraphicsRenderer_Vulkan() {}
@@ -77,7 +89,8 @@ GraphicsRenderer_Vulkan::Initialize()
           vkEnumerateInstanceExtensionProperties(
             nullptr, &instanceExtensionCount, nullptr);
           std::vector<VkExtensionProperties> instanceExtensions;
-          vkEnumerateInstanceExtensionProperties(
+          instanceExtensions.resize(instanceExtensionCount);
+          auto result = vkEnumerateInstanceExtensionProperties(
             nullptr, &instanceExtensionCount, instanceExtensions.data());
 
           reLogI("  Instance extensions:");
@@ -85,9 +98,33 @@ GraphicsRenderer_Vulkan::Initialize()
             reLogI("    ", extension.extensionName);
           }
 
-          isInitialized = true;
+          VkApplicationInfo applicationInfo{
+            .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
+            .pNext = nullptr,
+            .pApplicationName = this->applicationInfo.Title().c_str(),
+            .applicationVersion = this->applicationInfo.GetVersion().AsNumber(),
+            .pEngineName = this->engineInfo.Title().c_str(),
+            .engineVersion = this->engineInfo.GetVersion().AsNumber(),
+            .apiVersion = VK_MAKE_VERSION(1, 1, 0),
+          };
+          VkInstanceCreateInfo instanceCreateInfo{
+            .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
+            .pNext = nullptr,
+            .flags = 0,
+            .pApplicationInfo = &applicationInfo,
+            .enabledLayerCount = 0L,
+            .ppEnabledLayerNames = nullptr,
+            .enabledExtensionCount = 0L,
+            .ppEnabledExtensionNames = nullptr,
+          };
+          VkInstance instance = nullptr;
+          if (_vk(vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
+            isInitialized = true;
 
-          return isInitialized;
+            return isInitialized;
+          } else {
+            reLogE("Failed to create Vulkan instance!");
+          }
         } else {
           reLogE("Failed to load Vulkan function pointers!");
         }

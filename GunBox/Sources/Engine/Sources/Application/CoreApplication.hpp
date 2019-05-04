@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - Application
-#include "Application/ApplicationInfo.hpp"
+#include "Application/ModuleInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/Preferences.hpp"
 
@@ -38,14 +38,15 @@ enum class ExitCode
 class CoreApplication
 {
 protected:
-  CoreApplication(ApplicationInfo const& info);
+  CoreApplication(ApplicationInfo const& applicationInfo);
 
 public:
   virtual ~CoreApplication() = 0;
 
   // Properties
 public:
-  auto Info() const -> ApplicationInfo const&;
+  auto GetApplicationInfo() const -> ApplicationInfo const&;
+  auto GetEngineInfo() const -> EngineInfo const&;
 
   // Pure virtual methods
 public:
@@ -63,7 +64,8 @@ protected:
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;
   System::HostPlatform hostPlatform;
-  ApplicationInfo const info;
+  ApplicationInfo const applicationInfo;
+  EngineInfo const engineInfo;
   bool isInitialized = false;
   std::unique_ptr<Preferences> preferences;
 };

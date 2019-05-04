@@ -9,7 +9,7 @@
 // Engine headers - Common
 #include "Common/Version.hpp"
 // Engine headers - Application
-#include "Application/ApplicationInfo.hpp"
+#include "Application/ModuleInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
 

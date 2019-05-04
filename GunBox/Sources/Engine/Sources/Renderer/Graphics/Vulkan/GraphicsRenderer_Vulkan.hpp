@@ -36,9 +36,11 @@ class GraphicsRenderer_Vulkan final : public GraphicsRenderer_Interface
 {
   // Constructors & Destructors
 private:
-  GraphicsRenderer_Vulkan(Application::ApplicationInfo const& info,
-                          Application::Preferences& preferences,
-                          System::HostPlatform& hostPlatform);
+  GraphicsRenderer_Vulkan(
+    Application::ApplicationInfo const& applicationInfo,
+    Application::EngineInfo const& engineInfo,
+    Application::Preferences& preferences,
+    System::HostPlatform& hostPlatform);
 
 public:
   ~GraphicsRenderer_Vulkan() final;
@@ -51,7 +53,8 @@ public:
 
 public:
   friend std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> Create(
-    Application::ApplicationInfo const& info,
+    Application::ApplicationInfo const& applicationInfo,
+    Application::EngineInfo const& engineInfo,
     Application::Preferences& preferences,
     System::HostPlatform& hostPlatform);
 };

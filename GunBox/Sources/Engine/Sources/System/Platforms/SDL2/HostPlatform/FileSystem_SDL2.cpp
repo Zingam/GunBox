@@ -4,7 +4,7 @@
 // Project headers - Common
 #include "Common/Macros/Logging.hpp"
 // Inlcude headers - Application
-#include "Application/ApplicationInfo.hpp"
+#include "Application/ModuleInfo.hpp"
 // Project headers - System
 #include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
 

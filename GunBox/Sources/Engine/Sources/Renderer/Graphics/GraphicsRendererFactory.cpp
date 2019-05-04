@@ -2,7 +2,7 @@
 #include "GraphicsRendererFactory.hpp"
 
 // Project headers - Application
-#include "Application/ApplicationInfo.hpp"
+#include "Application/ModuleInfo.hpp"
 #include "Application/Preferences.hpp"
 // Project headers - Renderer/Graphics
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
@@ -16,20 +16,21 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 
 std::unique_ptr<GraphicsRenderer_Interface>
 Create(
-  Application::ApplicationInfo const& info,
+  Application::ApplicationInfo const& applicationInfo,
+  Application::EngineInfo const& engineInfo,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
 {
   std::unique_ptr<GraphicsRenderer_Interface> graphicsRenderer;
   switch (preferences.RendererAPI()) {
     case System::DeviceTypes::Graphics::API_t::OpenGL: {
-      graphicsRenderer.reset(
-        new GraphicsRenderer_OpenGL(info, preferences, hostPlatform));
+      graphicsRenderer.reset(new GraphicsRenderer_OpenGL(
+        applicationInfo, engineInfo, preferences, hostPlatform));
       break;
     }
     case System::DeviceTypes::Graphics::API_t::Vulkan: {
-      graphicsRenderer.reset(
-        new GraphicsRenderer_Vulkan(info, preferences, hostPlatform));
+      graphicsRenderer.reset(new GraphicsRenderer_Vulkan(
+        applicationInfo, engineInfo, preferences, hostPlatform));
       break;
     }
     default: {

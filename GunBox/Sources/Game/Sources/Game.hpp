@@ -4,7 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Engine headers - Application
-#include "Application/ApplicationInfo.hpp"
+#include "Application/ModuleInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
 
@@ -30,7 +30,7 @@ NAMESPACE_BEGIN(GunBox)
 class Game : public Application::CoreApplication
 {
 public:
-  Game(Application::ApplicationInfo title);
+  Game(Application::ApplicationInfo applicationInfo);
   ~Game() final;
 
   // Virtual methods
