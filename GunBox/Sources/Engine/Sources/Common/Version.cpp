@@ -1,6 +1,8 @@
 // Self
 #include "Version.hpp"
 
+// C Standard Library
+#include <cmath>
 // C++ Standard Library
 #include <sstream>
 
@@ -76,8 +78,8 @@ Version::AsNumber() const
 
   // Calculate the digit count in each version number
   for (std::int32_t i = 0L; elementCount > i; ++i) {
-    version[i][0] = static_cast<std::uint32_t>(log10(version[i][2])) + 1;
-    version[i][1] = static_cast<std::uint32_t>(pow(10, version[i][0]));
+    version[i][0] = static_cast<std::uint32_t>(std::log10(version[i][2])) + 1;
+    version[i][1] = static_cast<std::uint32_t>(std::pow(10, version[i][0]));
   }
 
   for (std::int32_t i = (elementCount - 2); 0 <= i; --i) {
