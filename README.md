@@ -170,6 +170,12 @@ A game programming exercise with **SDL2 API** and **OpenGL**...
 To pass command line arguments to the executing program in a **CMake/Open Folder** based project:
 1. In **Solution Explorer** right-click the top `CMakeLists.txt` and select *Debug and Launch Settings->GunBox_Game.exe (Install)* which will open `launch.vs.json`
 2. In `launch.vs.json` add `"args": [ "--show-system-console", "--resolution: 640x480" ]` to `"configurations"`:
+3. Available command line options:
+   + --fullscreen
+   + --help
+   + --renderer: <OpenGL|Vulkan>
+   + --resolution: &lt;width>x&lt;height>
+   + --show-system-console
 
 Example:
 ```json5
@@ -183,8 +189,9 @@ Example:
       "project": "CMakeLists.txt",
       "projectTarget": "GunBox_Game.exe (Install)",
       "args": [
-        "--show-system-console",
-        "--resolution: 640x480"
+        "--renderer: Vulkan",
+        "--resolution: 640x480",
+        "--show-system-console"
       ]
     }
   ]
