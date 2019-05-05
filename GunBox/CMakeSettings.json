@@ -1,12 +1,5 @@
-// See https://go.microsoft.com//fwlink//?linkid=834763 for more information about this file.
-{
-  //////////////////////////////////////////////////////////////////////////////
-  // Configurations
-  //////////////////////////////////////////////////////////////////////////////
+﻿{
   "configurations": [
-    ////////////////////////////////////////////////////////////////////////////
-    // Ninja-MSVC-x64
-    ////////////////////////////////////////////////////////////////////////////
     {
       "name": "Ninja-MSVC-x64-Debug",
       "generator": "Ninja",
@@ -18,18 +11,18 @@
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         },
         {
           "name": "option_CheckGraphicsApiCalls",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         },
         {
           "name": "option_EnableLoggingLevel_Verbose",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         }
       ],
       "buildCommandArgs": "-v",
@@ -46,16 +39,13 @@
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         }
       ],
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
     },
-    ////////////////////////////////////////////////////////////////////////////
-    // Ninja-Clang-x64
-    ////////////////////////////////////////////////////////////////////////////
     {
       "name": "Ninja-Clang-x64-Debug",
       "generator": "Ninja",
@@ -67,19 +57,16 @@
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         }
       ],
       "buildCommandArgs": "-v",
       "ctestCommandArgs": ""
     },
-    ////////////////////////////////////////////////////////////////////////////
-    // VS2017-MSVC-x64
-    ////////////////////////////////////////////////////////////////////////////
     {
-      "name": "VS2017-MSVC-x64-Debug",
-      "generator": "Visual Studio 15 2017 Win64",
+      "name": "VS2019-MSVC-x64-Debug",
+      "generator": "Visual Studio 16 2019 Win64",
       "configurationType": "Debug",
       "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
       "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
@@ -87,16 +74,14 @@
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         }
       ],
       "buildCommandArgs": "-m -v:minimal",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "inheritEnvironments": []
     },
-    ////////////////////////////////////////////////////////////////////////////
-    // VS2017-Clang-x64
-    ////////////////////////////////////////////////////////////////////////////
     {
       "name": "VS2017-Clang-x64-Debug",
       "generator": "Visual Studio 15 2017 Win64",
@@ -107,17 +92,15 @@
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "type": "BOOL",
-          "value": "YES"
+          "value": "YES",
+          "type": "BOOL"
         }
       ],
       "buildCommandArgs": "-m -v:minimal",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "inheritEnvironments": []
     }
   ],
-  //////////////////////////////////////////////////////////////////////////////
-  // Environments
-  //////////////////////////////////////////////////////////////////////////////
   "environments": [
     {
       "environment": "clang_cl_x64",
@@ -129,5 +112,4 @@
       "CMakeCommandArgs": "${clang_cl_x64_env.CMake_C_Compiler} ${clang_cl_x64_env.CMake_CXX_Compiler}"
     }
   ]
-  //////////////////////////////////////////////////////////////////////////////
 }
