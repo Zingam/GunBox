@@ -68,11 +68,11 @@ public:
     -> void final;
 
   auto KeyboardKeyDown(
-    System::DeviceTypes::Input::Key_t const key)
+    System::DeviceTypes::Input::Key_t const& key)
     -> void final;
 
   auto KeyboardKeyUp(
-    System::DeviceTypes::Input::Key_t const key)
+    System::DeviceTypes::Input::Key_t const& key)
     -> void final;
   // clang-format on
 

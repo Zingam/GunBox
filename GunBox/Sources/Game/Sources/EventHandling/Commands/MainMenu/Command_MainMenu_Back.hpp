@@ -32,7 +32,7 @@ public:
   ~Command_MainMenu_Back() final;
 
 public:
-  auto Execute(std::any const value) -> void final;
+  auto Execute(std::any const& value) -> void final;
 
 private:
   MainMenu& mainMenu;

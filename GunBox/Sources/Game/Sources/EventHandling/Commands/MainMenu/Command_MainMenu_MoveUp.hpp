@@ -32,7 +32,7 @@ public:
   ~Command_MainMenu_MoveUp() final;
 
 public:
-  auto Execute([[maybe_unused]] std::any const value) -> void final;
+  auto Execute([[maybe_unused]] std::any const& value) -> void final;
 
 private:
   MainMenu& mainMenu;

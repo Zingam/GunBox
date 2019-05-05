@@ -32,14 +32,14 @@ Application::ExitCode
 Game::Execute()
 {
   auto gameStateManager = MainLoop_Initialize();
-  MainLoop_Execute(std::move(gameStateManager));
+  MainLoop_Execute(*gameStateManager);
   MainLoop_Finalize();
 
   return Application::ExitCode::NoError;
 }
 
 void
-Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
+Game::MainLoop_Execute(GameStateManager& gameStateManager)
 {
   reLog(GetApplicationInfo().Title(), ": Running the game...");
 
@@ -58,7 +58,7 @@ Game::MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
       // Process system events and device input
       eventProcessor.ProcessEvents();
       // Update the game state
-      isRunning = gameStateManager->Run();
+      isRunning = gameStateManager.Run();
     }
   } while (isRunning);
 }
@@ -93,7 +93,7 @@ Game::MainLoop_Initialize()
     gameStateManager->GetSystemEventCallbacks());
   // clang-format on
 
-  return gameStateManager;
+  return std::move(gameStateManager);
 }
 
 NAMESPACE_END(GunBox)

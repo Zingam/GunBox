@@ -21,7 +21,7 @@ public:
   ~Command_Null() final;
 
 public:
-  auto Execute([[maybe_unused]] std::any const value) -> void final;
+  auto Execute([[maybe_unused]] std::any const& value) -> void final;
 };
 
 NAMESPACE_END(GunBox)

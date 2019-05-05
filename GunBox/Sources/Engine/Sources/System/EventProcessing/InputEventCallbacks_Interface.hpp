@@ -46,11 +46,11 @@ public:
     -> void = 0;
 
   virtual auto KeyboardKeyDown(
-    System::DeviceTypes::Input::Key_t key)
+    System::DeviceTypes::Input::Key_t const& key)
     -> void = 0;
 
   virtual auto KeyboardKeyUp(
-    System::DeviceTypes::Input::Key_t key)
+    System::DeviceTypes::Input::Key_t const& key)
     -> void = 0;
   // clang-format on
 };

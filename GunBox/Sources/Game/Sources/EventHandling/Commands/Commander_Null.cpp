@@ -33,11 +33,11 @@ Commander_Null::GamepadDeviceRemove(System::DeviceTypes::Input::GamepadId_t id)
 {}
 
 void
-Commander_Null::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
+Commander_Null::KeyboardKeyDown(System::DeviceTypes::Input::Key_t const& key)
 {}
 
 void
-Commander_Null::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
+Commander_Null::KeyboardKeyUp(System::DeviceTypes::Input::Key_t const& key)
 {}
 
 void

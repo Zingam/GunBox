@@ -25,7 +25,7 @@ Command_UpdateApplicationState::~Command_UpdateApplicationState() = default;
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-Command_UpdateApplicationState::Execute(std::any const value)
+Command_UpdateApplicationState::Execute(std::any const& value)
 {
   gameState.SetApplicationState(std::any_cast<Application::State_t>(value));
 }

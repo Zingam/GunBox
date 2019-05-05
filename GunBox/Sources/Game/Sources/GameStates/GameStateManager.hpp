@@ -39,6 +39,9 @@ public:
   GameStateManager(
     System::EventProcessing::InputEventProcessor const& inputEventProcessor);
 
+public:
+  GameStateManager(GameStateManager const&) = delete;
+
   // Methods
 public:
   auto Initialize(

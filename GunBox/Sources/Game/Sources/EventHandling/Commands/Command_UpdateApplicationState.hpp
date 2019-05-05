@@ -34,7 +34,7 @@ public:
 
   // Virtual methods
 public:
-  auto Execute([[maybe_unused]] std::any const data) -> void final;
+  auto Execute([[maybe_unused]] std::any const& data) -> void final;
 
   // Data members - variables
 private:

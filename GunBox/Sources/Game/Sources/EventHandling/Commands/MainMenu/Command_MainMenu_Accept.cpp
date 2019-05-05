@@ -13,7 +13,7 @@ Command_MainMenu_Accept::Command_MainMenu_Accept(MainMenu& mainMenu)
 Command_MainMenu_Accept::~Command_MainMenu_Accept() {}
 
 void
-Command_MainMenu_Accept::Execute(std::any const value)
+Command_MainMenu_Accept::Execute(std::any const& value)
 {
   mainMenu.Accept();
 }

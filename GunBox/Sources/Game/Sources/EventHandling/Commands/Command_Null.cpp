@@ -9,7 +9,7 @@ NAMESPACE_BEGIN(GunBox)
 Command_Null::~Command_Null() {}
 
 void
-Command_Null::Execute(std::any const value)
+Command_Null::Execute(std::any const& value)
 {}
 
 NAMESPACE_END(GunBox)

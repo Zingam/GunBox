@@ -18,7 +18,7 @@ public:
   virtual ~Command_Interface() = 0;
 
 public:
-  virtual auto Execute([[maybe_unused]] std::any const value) -> void = 0;
+  virtual auto Execute([[maybe_unused]] std::any const& value) -> void = 0;
 };
 
 NAMESPACE_END(GunBox)

@@ -55,13 +55,13 @@ InputEventCallbacks::GamepadDeviceRemove(
 }
 
 void
-InputEventCallbacks::KeyboardKeyDown(System::DeviceTypes::Input::Key_t const key)
+InputEventCallbacks::KeyboardKeyDown(System::DeviceTypes::Input::Key_t const& key)
 {
   commander->KeyboardKeyDown(key);
 }
 
 void
-InputEventCallbacks::KeyboardKeyUp(System::DeviceTypes::Input::Key_t const key)
+InputEventCallbacks::KeyboardKeyUp(System::DeviceTypes::Input::Key_t const& key)
 {
   commander->KeyboardKeyUp(key);
 }

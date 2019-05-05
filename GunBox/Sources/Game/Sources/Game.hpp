@@ -4,9 +4,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Engine headers - Application
-#include "Application/ModuleInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
+#include "Application/ModuleInfo.hpp"
 
 // C++ Standard Library
 #include <chrono>
@@ -39,8 +39,7 @@ public:
 
 private:
   auto MainLoop_Initialize() -> std::unique_ptr<GameStateManager>;
-  auto MainLoop_Execute(std::unique_ptr<GameStateManager> gameStateManager)
-    -> void;
+  auto MainLoop_Execute(GameStateManager& gameStateManager) -> void;
   auto MainLoop_Finalize() -> void;
 
   // Constants

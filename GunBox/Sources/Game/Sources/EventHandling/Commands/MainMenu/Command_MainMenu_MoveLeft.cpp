@@ -13,7 +13,7 @@ Command_MainMenu_MoveLeft::Command_MainMenu_MoveLeft(MainMenu& mainMenu)
 Command_MainMenu_MoveLeft::~Command_MainMenu_MoveLeft() {}
 
 void
-Command_MainMenu_MoveLeft::Execute(std::any const value)
+Command_MainMenu_MoveLeft::Execute(std::any const& value)
 {
   mainMenu.MoveLeft();
 }

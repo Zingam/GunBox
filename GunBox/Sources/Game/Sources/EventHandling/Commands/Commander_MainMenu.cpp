@@ -241,7 +241,7 @@ Commander_MainMenu::GamepadDeviceRemove(
 }
 
 void
-Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
+Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::Input::Key_t const& key)
 {
   using namespace System::DeviceTypes::Input;
 
@@ -250,7 +250,7 @@ Commander_MainMenu::KeyboardKeyDown(System::DeviceTypes::Input::Key_t key)
 }
 
 void
-Commander_MainMenu::KeyboardKeyUp(System::DeviceTypes::Input::Key_t key)
+Commander_MainMenu::KeyboardKeyUp(System::DeviceTypes::Input::Key_t const& key)
 {}
 
 void
