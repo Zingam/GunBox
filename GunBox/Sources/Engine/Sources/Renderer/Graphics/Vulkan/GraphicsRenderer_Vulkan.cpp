@@ -17,7 +17,7 @@
 // Macros
 ////////////////////////////////////////////////////////////////////////////////
 
-#define _vk(x) (VK_SUCCESS == x)
+#define vk_(x) (VK_SUCCESS == x)
 
 NAMESPACE_BEGIN(Renderer::Graphics)
 
@@ -105,32 +105,108 @@ GraphicsRenderer_Vulkan::Initialize()
             .applicationVersion = this->applicationInfo.GetVersion().AsNumber(),
             .pEngineName = this->engineInfo.Title().c_str(),
             .engineVersion = this->engineInfo.GetVersion().AsNumber(),
-            .apiVersion = VK_MAKE_VERSION(1, 1, 0),
+            .apiVersion = VK_API_VERSION_1_1,
           };
           VkInstanceCreateInfo instanceCreateInfo{
             .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
             .pNext = nullptr,
-            .flags = 0,
+            .flags = 0L,
             .pApplicationInfo = &applicationInfo,
             .enabledLayerCount = 0L,
             .ppEnabledLayerNames = nullptr,
-            .enabledExtensionCount = 0L,
-            .ppEnabledExtensionNames = nullptr,
+            .enabledExtensionCount =
+              static_cast<std::uint32_t>(surfaceCreationExtensions.size()),
+            .ppEnabledExtensionNames = surfaceCreationExtensions.data(),
           };
           VkInstance instance = nullptr;
-          if (_vk(vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
-            isInitialized = true;
+          if (vk_(vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
+            std::uint32_t physicalDeviceGroupCount = 0L;
+            std::vector<VkPhysicalDeviceGroupProperties> physicalDeviceGroups;
+            if (vk_(vkEnumeratePhysicalDeviceGroups(
+                  instance, &physicalDeviceGroupCount, nullptr))) {
+              physicalDeviceGroups.resize(physicalDeviceGroupCount);
+              vkEnumeratePhysicalDeviceGroups(
+                instance,
+                &physicalDeviceGroupCount,
+                physicalDeviceGroups.data());
+            }
+            std::uint32_t physicalDeviceCount = 0L;
+            std::vector<VkPhysicalDevice> physicalDevices;
+            std::vector<VkPhysicalDeviceProperties> physicalDeviceProperties;
+            if (vk_(vkEnumeratePhysicalDevices(
+                  instance, &physicalDeviceCount, nullptr))) {
+              physicalDevices.resize(physicalDeviceCount);
+              vkEnumeratePhysicalDevices(
+                instance, &physicalDeviceCount, physicalDevices.data());
 
-            return isInitialized;
+              physicalDeviceProperties.resize(physicalDeviceCount);
+              size_t i = 0LL;
+              for (auto physicalDevice : physicalDevices) {
+                vkGetPhysicalDeviceProperties(
+                  physicalDevice, &physicalDeviceProperties[i++]);
+              }
+
+              auto DeviceTypeAsString =
+                [](VkPhysicalDeviceType physicalDeviceType) {
+                  using namespace std::string_literals;
+                  switch (physicalDeviceType) {
+                    case VK_PHYSICAL_DEVICE_TYPE_OTHER:
+                      return "Other"s;
+                    case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+                      return "Integrated GPU"s;
+                    case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+                      return "Discrete GPU"s;
+                    case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
+                      return "Virtual GPU"s;
+                    case VK_PHYSICAL_DEVICE_TYPE_CPU:
+                      return "CPU"s;
+                    default:
+                      return "Unnown Vulkan device"s;
+                  }
+                };
+              auto ApiVersionAsString = [](std::uint32_t apiVersion) {
+                auto major = apiVersion >> 22 & 0x3ff;
+                auto minor = apiVersion >> 12 & 0x3ff;
+                auto patch = apiVersion & 0x3ff;
+
+                std::stringstream ss;
+                ss << major << "." << minor << "." << patch;
+
+                return ss.str();
+              };
+
+              reLogI("  Physical devices:");
+              for (auto& physicalDevice : physicalDeviceProperties) {
+                reLogI("    deviceName:      ", physicalDevice.deviceName);
+                reLogI(
+                  "      deviceType:    ",
+                  DeviceTypeAsString(physicalDevice.deviceType));
+                reLogI(
+                  "      apiVersion:    ",
+                  ApiVersionAsString(physicalDevice.apiVersion));
+                reLogI("      driverVersion: ", physicalDevice.driverVersion);
+                reLogI("      vendorID:      ", physicalDevice.vendorID);
+                reLogI("      deviceID:      ", physicalDevice.deviceID);
+                // reLogI("    ", physicalDevice.limits);
+                // reLogI("    ", physicalDevice.pipelineCacheUUID);
+                // reLogI("    ", physicalDevice.sparseProperties);
+              }
+
+              isInitialized = true;
+
+              return isInitialized;
+            }
           } else {
-            reLogE("Failed to create Vulkan instance!");
+            reLogE("Failed to enumerate physical devices!");
           }
         } else {
-          reLogE("Failed to load Vulkan function pointers!");
+          reLogE("Failed to create Vulkan instance!");
         }
       } else {
-        reLogE("No Vulkan surfrace creation extensions are available!");
+        reLogE("Failed to load Vulkan function pointers!");
       }
+    } else {
+      reLogE("No Vulkan surfrace creation extensions are available!");
     }
   }
 
