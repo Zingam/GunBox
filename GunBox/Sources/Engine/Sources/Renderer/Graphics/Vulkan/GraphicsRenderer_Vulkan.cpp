@@ -120,6 +120,8 @@ GraphicsRenderer_Vulkan::Initialize()
           };
           VkInstance instance = nullptr;
           if (vk_(vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
+            gladLoaderLoadVulkan(instance, nullptr, nullptr);
+
             std::uint32_t physicalDeviceGroupCount = 0L;
             std::vector<VkPhysicalDeviceGroupProperties> physicalDeviceGroups;
             if (vk_(vkEnumeratePhysicalDeviceGroups(
@@ -165,9 +167,9 @@ GraphicsRenderer_Vulkan::Initialize()
                   }
                 };
               auto ApiVersionAsString = [](std::uint32_t apiVersion) {
-                auto major = apiVersion >> 22 & 0x3ff;
-                auto minor = apiVersion >> 12 & 0x3ff;
-                auto patch = apiVersion & 0x3ff;
+                auto major = VK_VERSION_MAJOR(apiVersion);
+                auto minor = VK_VERSION_MINOR(apiVersion);
+                auto patch = VK_VERSION_PATCH(apiVersion);
 
                 std::stringstream ss;
                 ss << major << "." << minor << "." << patch;
@@ -187,9 +189,6 @@ GraphicsRenderer_Vulkan::Initialize()
                 reLogI("      driverVersion: ", physicalDevice.driverVersion);
                 reLogI("      vendorID:      ", physicalDevice.vendorID);
                 reLogI("      deviceID:      ", physicalDevice.deviceID);
-                // reLogI("    ", physicalDevice.limits);
-                // reLogI("    ", physicalDevice.pipelineCacheUUID);
-                // reLogI("    ", physicalDevice.sparseProperties);
               }
 
               isInitialized = true;
