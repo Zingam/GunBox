@@ -46,7 +46,7 @@ void
 GraphicsRenderer_Vulkan::Finalize()
 {
   hostPlatform.GPUDevice_Vulkan().Finalize();
-
+  gladLoaderUnloadVulkan();
   GraphicsRenderer_Interface::Finalize();
 }
 
