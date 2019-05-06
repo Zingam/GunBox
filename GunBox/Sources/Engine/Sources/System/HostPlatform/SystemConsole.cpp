@@ -4,6 +4,12 @@
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 void
+SystemConsole::EnableInput() const
+{
+  o_ptr->EnableInput();
+}
+
+void
 SystemConsole::Hide() const
 {
   o_ptr->Hide();

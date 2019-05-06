@@ -4,6 +4,10 @@
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 void
+SystemConsole_Linux::EnableInput() const
+{}
+
+void
 SystemConsole_Linux::Hide() const
 {}
 

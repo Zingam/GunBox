@@ -19,6 +19,7 @@ class SystemConsole : public implementedBy<SystemConsole_Implementation>
 {
   // Methods
 public:
+  auto EnableInput() const -> void;
   auto Hide() const -> void;
   auto Pause() const -> void;
   auto Show() const -> void;
