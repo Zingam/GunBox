@@ -1,6 +1,6 @@
 # GunBox
 
-A game programming exercise with **SDL2 API** and **OpenGL**...
+A game programming exercise with **SDL2**, **OpenGL**, **Vulkan**...
 
 [![Build status](https://ci.appveyor.com/api/projects/status/beo40x7kkylor8r5?svg=true)](https://ci.appveyor.com/project/Zingam/gunbox)
 
