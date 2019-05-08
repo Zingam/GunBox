@@ -56,6 +56,8 @@ set (.Engine_SourceFiles
   "Sources/Renderer/Graphics/Vulkan/Objects/Utilities/Utilities.cpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/Instance.cpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/Instance.hpp"
+  "Sources/Renderer/Graphics/Vulkan/Objects/PhysicalDevice.cpp"
+  "Sources/Renderer/Graphics/Vulkan/Objects/PhysicalDevice.hpp"
   "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.cpp"
   "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.hpp"
   "Sources/Renderer/Graphics/GraphicsRenderer_Interface.cpp"
