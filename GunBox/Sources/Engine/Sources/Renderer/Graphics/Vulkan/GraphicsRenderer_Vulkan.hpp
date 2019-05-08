@@ -4,6 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - Renderer/Graphics
+#include "Renderer/Graphics/Vulkan/Objects/Instance.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 
 // C++ Standard Library
@@ -51,12 +52,17 @@ public:
   auto Initialize() -> bool final;
   auto Render() -> void final;
 
+  // Friend functions
 public:
   friend std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> Create(
     Application::ApplicationInfo const& applicationInfo,
     Application::EngineInfo const& engineInfo,
     Application::Preferences& preferences,
     System::HostPlatform& hostPlatform);
+
+  // Private data members
+private:
+  std::unique_ptr<Instance const> instance;
 };
 
 NAMESPACE_END(Renderer::Graphics)

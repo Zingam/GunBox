@@ -23,6 +23,12 @@ class Preferences;
 
 NAMESPACE_END(Application)
 
+NAMESPACE_BEGIN(Renderer::Graphics)
+
+class GraphicsRenderer_InterfaceAccessor;
+
+NAMESPACE_END(Renderer::Graphics)
+
 NAMESPACE_BEGIN(System)
 
 class HostPlatform;
@@ -62,6 +68,9 @@ protected:
   System::HostPlatform& hostPlatform;
   bool isInitialized = false;
   std::unique_ptr<System::Window> window;
+
+private:
+  friend class Renderer::Graphics::GraphicsRenderer_InterfaceAccessor;
 
 private:
   Application::Preferences& preferences;
