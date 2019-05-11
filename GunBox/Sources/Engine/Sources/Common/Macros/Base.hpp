@@ -169,9 +169,45 @@
 #endif
 
 #if !defined(EnumSize)
-#  define EnumSize(enumclassname)                                                       \
-    constexpr auto enumclassname##_ElementCount =                                      \
+#  define EnumSize(enumclassname)                                              \
+    constexpr auto enumclassname##_ElementCount =                              \
       EnumCast(enumclassname::__ElementCount__)
 #else
 #  error EnumSize is already defined
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Pointer checking function templates
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+auto
+IsInstance(T const& object)
+{
+  return (nullptr != object);
+}
+
+template<typename T>
+auto
+IsNull(T const& object)
+{
+  return (nullptr == object);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Boolean checking function templates
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+auto
+IsFalse(T const& object)
+{
+  return (false == object);
+}
+
+template<typename T>
+auto
+IsTrue(T const& object)
+{
+  return (true == object);
+}

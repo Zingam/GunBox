@@ -7,8 +7,8 @@
 #include <glad/vulkan.h>
 
 // C++ Standard Library
-#include <string>
 #include <optional>
+#include <string>
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +32,10 @@ class Instance
   // Constructors & Destructors
 public:
   Instance(GraphicsRenderer_Interface const& graphicsRenderer);
+
+public:
   Instance(Instance const&) = delete;
+  Instance(Instance&&) = default;
 
   // Properties
 public:

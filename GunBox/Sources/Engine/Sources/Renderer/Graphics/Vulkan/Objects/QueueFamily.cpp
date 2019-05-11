@@ -1,0 +1,14 @@
+// Self
+#include "QueueFamily.hpp"
+
+NAMESPACE_BEGIN(Renderer::Graphics)
+
+////////////////////////////////////////////////////////////////////////////////
+// Constructors & Destructors
+////////////////////////////////////////////////////////////////////////////////
+
+QueueFamily::QueueFamily(VkQueueFamilyProperties const& queueFamily)
+  : queueFamily{ queueFamily }
+{}
+
+NAMESPACE_END(Renderer::Graphics)

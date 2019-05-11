@@ -56,7 +56,8 @@ GraphicsRenderer_Vulkan::Initialize()
     isSuccess = GPUDevice_Vulkan.Initialize(*window);
     if (isSuccess) {
       instance = std::make_unique<Instance>(*this);
-      auto instanceHandle = instance->GetInstance();
+      auto physicalDevices =
+        EnumeratePhysicalDevices<PhysicalDevice>(*instance);
     } else {
       reLogE("No Vulkan surfrace creation extensions are available!");
     }
