@@ -7,7 +7,6 @@
 #include "Logger/LogAPI.hpp"
 // Project headers - Renderer
 #include "Renderer/Graphics/Vulkan/Objects/Instance.hpp"
-#include "Renderer/Graphics/Vulkan/Objects/PhysicalDevice.hpp"
 // Project headers - System
 #include "System/HostPlatform.hpp"
 
@@ -56,8 +55,8 @@ GraphicsRenderer_Vulkan::Initialize()
     isSuccess = GPUDevice_Vulkan.Initialize(*window);
     if (isSuccess) {
       instance = std::make_unique<Instance>(*this);
-      auto physicalDevices =
-        EnumeratePhysicalDevices<PhysicalDevice>(*instance);
+      instance->EnumeratePhysicalDevices();
+      auto& physicalDevices = instance->PhysicalDevices();
     } else {
       reLogE("No Vulkan surfrace creation extensions are available!");
     }

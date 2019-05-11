@@ -5,6 +5,8 @@
 #include "Application/ModuleInfo.hpp"
 // Project headers - Logger
 #include "Logger/LogAPI.hpp"
+// Project headers - Renderer
+#include "Renderer/Graphics/Vulkan/Objects/Utilities/PropertyEnumerators.hpp"
 // Project headers - System
 #include "System/HostPlatform.hpp"
 

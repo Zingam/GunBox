@@ -3,6 +3,9 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - Renderer
+#include "Renderer/Graphics/Vulkan/Objects/PhysicalDevice.hpp"
+
 // Third party libraries
 #include <glad/vulkan.h>
 
@@ -39,9 +42,13 @@ public:
 
   // Properties
 public:
-  auto GetInstance() const -> VkInstance;
+  auto Get() const -> VkInstance;
+  auto PhysicalDevices() -> std::vector<PhysicalDevice>&;
 
   // Methods
+public:
+  auto EnumeratePhysicalDevices() -> void;
+
 private:
   auto Create() -> void;
 
@@ -49,6 +56,7 @@ private:
 private:
   GraphicsRenderer_Interface const& graphicsRenderer;
   VkInstance instance = nullptr;
+  std::vector<PhysicalDevice> physicalDevices;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

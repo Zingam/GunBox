@@ -4,9 +4,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - Renderer
-#include "Renderer/Graphics/Vulkan/Objects/Instance.hpp"
 #include "Renderer/Graphics/Vulkan/Objects/QueueFamily.hpp"
-#include "Renderer/Graphics/Vulkan/Objects/Utilities/Utilities.hpp"
 
 // Third party libraries
 #include <glad/vulkan.h>
@@ -19,6 +17,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(Renderer::Graphics)
+class Instance;
 
 class PhysicalDevice
 {
@@ -44,45 +43,4 @@ private:
   std::vector<QueueFamily> queueFamilies;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// Function templates
-////////////////////////////////////////////////////////////////////////////////
-
-template<typename T>
-auto
-EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
-  -> std::vector<T>;
-
-template<>
-auto
-EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
-  -> std::vector<VkQueueFamilyProperties>;
-
-template<>
-auto
-EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
-  -> std::vector<QueueFamily>;
-
-template<typename T>
-auto
-EnumeratePhysicalDevices(Instance const& instance) -> std::vector<T>;
-
-template<>
-inline auto
-EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
-  -> std::vector<VkPhysicalDevice>;
-
-template<>
-inline auto
-EnumeratePhysicalDevices<PhysicalDevice>(Instance const& instance)
-  -> std::vector<PhysicalDevice>;
-
 NAMESPACE_END(Renderer::Graphics)
-
-////////////////////////////////////////////////////////////////////////////////
-// Inline method implementations
-////////////////////////////////////////////////////////////////////////////////
-
-#include "PhysicalDevice.inl"
-
-////////////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,9 @@
 // Inline implementations
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - Renderer
+#include "Renderer/Graphics/Vulkan/Objects/Utilities/Utilities.hpp"
+
 // C Standard Library
 #include <cassert>
 // C++ Standard Library
@@ -15,9 +18,8 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 ////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-inline auto
+inline std::vector<T>
 EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
-  -> std::vector<T>
 {
   static_assert(
     std::is_same_v<T, VkQueueFamilyProperties> ||
@@ -28,9 +30,9 @@ EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
 }
 
 template<>
-inline auto
+inline std::vector<VkQueueFamilyProperties>
 EnumeratePhysicalDeviceQueueFamilies<VkQueueFamilyProperties>(
-  PhysicalDevice const& physicalDevice) -> std::vector<VkQueueFamilyProperties>
+  PhysicalDevice const& physicalDevice)
 {
   assert(
     IsInstance(physicalDevice.Get()) && "Physical device is not initialized!");
@@ -50,9 +52,9 @@ EnumeratePhysicalDeviceQueueFamilies<VkQueueFamilyProperties>(
 }
 
 template<>
-inline auto
+inline std::vector<QueueFamily>
 EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
-  -> std::vector<QueueFamily>
+
 {
   assert(
     IsInstance(physicalDevice.Get()) && "Vulkan object is not initialized!");
@@ -69,8 +71,8 @@ EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
 }
 
 template<typename T>
-auto
-EnumeratePhysicalDevices(Instance const& instance) -> std::vector<T>
+inline std::vector<T>
+EnumeratePhysicalDevices(Instance const& instance)
 {
   static_assert(
     std::is_same_v<T, VkPhysicalDevice> || std::is_same_v<T, PhysicalDevice>,
@@ -85,15 +87,15 @@ EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
   -> std::vector<VkPhysicalDevice>
 {
   assert(
-    IsInstance(instance.GetInstance()) &&
+    IsInstance(instance.Get()) &&
     "Vulkan instance is not initialized!");
 
   std::uint32_t physicalDeviceCount = 0L;
   if (vkCallSuccess(vkEnumeratePhysicalDevices(
-        instance.GetInstance(), &physicalDeviceCount, nullptr))) {
+        instance.Get(), &physicalDeviceCount, nullptr))) {
     std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
     if (vkCallSuccess(vkEnumeratePhysicalDevices(
-          instance.GetInstance(),
+          instance.Get(),
           &physicalDeviceCount,
           physicalDevices.data()))) {
       return physicalDevices;
@@ -104,9 +106,9 @@ EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
 }
 
 template<>
-inline auto
+inline std::vector<PhysicalDevice>
 EnumeratePhysicalDevices<PhysicalDevice>(Instance const& instance)
-  -> std::vector<PhysicalDevice>
+
 {
   auto physicalDeviceHandles =
     EnumeratePhysicalDevices<VkPhysicalDevice>(instance);

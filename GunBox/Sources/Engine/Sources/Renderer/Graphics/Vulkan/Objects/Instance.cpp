@@ -8,7 +8,9 @@
 // Project headers - Renderer
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_InterfaceAccessor.hpp"
+#include "Renderer/Graphics/Vulkan/Objects/Utilities/PropertyEnumerators.hpp"
 #include "Renderer/Graphics/Vulkan/Objects/Utilities/Utilities.hpp"
+
 // Project headers - System
 #include "System/HostPlatform.hpp"
 
@@ -32,9 +34,15 @@ Instance::Instance(GraphicsRenderer_Interface const& graphicsRenderer)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 VkInstance
-Instance::GetInstance() const
+Instance::Get() const
 {
   return this->instance;
+}
+
+std::vector<PhysicalDevice>&
+Instance::PhysicalDevices()
+{
+  return physicalDevices;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +97,13 @@ Instance::Create()
         instance);
     }
   }
+}
+
+void
+Instance::EnumeratePhysicalDevices()
+{
+  physicalDevices =
+    Renderer::Graphics::EnumeratePhysicalDevices<PhysicalDevice>(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -62,7 +62,7 @@ public:
 
   // Private data members
 private:
-  std::unique_ptr<Instance const> instance;
+  std::unique_ptr<Instance> instance;
 };
 
 NAMESPACE_END(Renderer::Graphics)
