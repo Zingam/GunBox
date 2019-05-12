@@ -11,6 +11,7 @@
 
 // C++ Standard Library
 #include <any>
+#include <string>
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -22,6 +23,18 @@ class Instance;
 
 class PhysicalDevice
 {
+  // Types
+public:
+  enum class Type_t
+  {
+    CPU,
+    GPU_Discrete,
+    GPU_Integrated,
+    GPU_Virtual,
+    Other,
+    Unknown
+  };
+
   // Constructors & Destructors
 public:
   PhysicalDevice(
@@ -35,7 +48,10 @@ public:
   // Properties
 public:
   auto Get() const -> VkPhysicalDevice;
+  auto Name() const -> std::string;
   auto QueueFamilies() const -> std::vector<QueueFamily> const&;
+  auto Type() const -> Type_t;
+  auto TypeAsString() const -> std::string;
 
   // Methods
 public:

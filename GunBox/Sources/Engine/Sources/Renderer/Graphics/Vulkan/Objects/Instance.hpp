@@ -48,6 +48,16 @@ public:
   // Methods
 public:
   auto EnumeratePhysicalDevices() -> void;
+  /// <summary>
+  /// Selects a suitable physical device of the requested type if possible.
+  /// </summary>
+  auto SelectPhysicalDevice(PhysicalDevice::Type_t physicalDeviceType) const
+    -> PhysicalDevice const&;
+  /// <summary>
+  /// Selects a physical device of the required type if available.
+  /// </summary>
+  auto SelectPreferredPhysicalDevice(PhysicalDevice::Type_t physicalDeviceType) const
+    -> std::optional<std::reference_wrapper<PhysicalDevice const>>;
 
 private:
   auto Create() -> void;

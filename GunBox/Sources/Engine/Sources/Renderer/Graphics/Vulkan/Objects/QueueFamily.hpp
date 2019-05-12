@@ -19,6 +19,7 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 
 class QueueFamily
 {
+  // Types
 public:
   struct Capabilities_t
   {
@@ -28,14 +29,16 @@ public:
     bool SparseBinding = false;
     bool Transfer = false;
   };
+
   using CapabilityFlags = std::uint8_t;
+
   enum class Capability_t : CapabilityFlags
   {
     Compute = 0b0000'0001,
     Graphics = 0b0000010,
     Protected = 0b0000'0100,
     SparseBinding = 0b0000'1000,
-    Transfer = 0b0001'0000
+    Transfer = 0b0001'0000,
   };
 
   // Constructors & Destructors

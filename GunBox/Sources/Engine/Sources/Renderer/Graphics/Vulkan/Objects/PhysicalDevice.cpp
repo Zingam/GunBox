@@ -32,7 +32,7 @@ PhysicalDevice::PhysicalDevice(
   vkGetPhysicalDeviceProperties(physicalDevice, &properties);
   reLogI("  Physical device: ", properties.deviceName);
   reLogI("    name: ", properties.deviceName);
-  reLogI("    type: ", properties.deviceType);
+  reLogI("    type: ", TypeAsString());
 
   queueFamilies = EnumeratePhysicalDeviceQueueFamilies<QueueFamily>(*this);
 }
@@ -45,6 +45,50 @@ std::vector<QueueFamily> const&
 PhysicalDevice::QueueFamilies() const
 {
   return queueFamilies;
+}
+
+PhysicalDevice::Type_t
+PhysicalDevice::Type() const
+{
+  switch (properties.deviceType) {
+    case VK_PHYSICAL_DEVICE_TYPE_OTHER:
+      return Type_t::Other;
+    case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+      return Type_t::GPU_Integrated;
+    case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+      return Type_t::GPU_Discrete;
+    case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
+      return Type_t::GPU_Virtual;
+    case VK_PHYSICAL_DEVICE_TYPE_CPU:
+      return Type_t::CPU;
+    default: {
+      assert(false && "Unknown physical device type");
+      return Type_t::Unknown;
+    }
+  }
+}
+
+std::string
+PhysicalDevice::TypeAsString() const
+{
+  using namespace std::string_literals;
+
+  switch (properties.deviceType) {
+    case VK_PHYSICAL_DEVICE_TYPE_OTHER:
+      return "Other"s;
+    case VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU:
+      return "Integrated GPU"s;
+    case VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU:
+      return "Discrete GPU"s;
+    case VK_PHYSICAL_DEVICE_TYPE_VIRTUAL_GPU:
+      return "Virtual GPUs";
+    case VK_PHYSICAL_DEVICE_TYPE_CPU:
+      return "CPU"s;
+    default: {
+      assert(false && "Unknown physical device type");
+      return "Unknown";
+    }
+  }
 }
 
 std::any
@@ -159,6 +203,12 @@ VkPhysicalDevice
 PhysicalDevice::Get() const
 {
   return this->physicalDevice;
+}
+
+auto
+PhysicalDevice::Name() const -> std::string
+{
+  return { properties.deviceName };
 }
 
 NAMESPACE_END(Renderer::Graphics)

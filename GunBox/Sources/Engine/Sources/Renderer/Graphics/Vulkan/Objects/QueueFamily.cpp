@@ -83,6 +83,7 @@ QueueFamily::IsCapable(
       return (flag == capabilities.Transfer);
     default: {
       assert(false && "Unknown capablity flag!");
+      return false;
     }
   }
 }

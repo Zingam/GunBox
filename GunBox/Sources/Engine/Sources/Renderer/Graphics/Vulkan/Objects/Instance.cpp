@@ -106,6 +106,37 @@ Instance::EnumeratePhysicalDevices()
     Renderer::Graphics::EnumeratePhysicalDevices<PhysicalDevice>(*this);
 }
 
+PhysicalDevice const&
+Instance::SelectPhysicalDevice(
+  PhysicalDevice::Type_t const physicalDeviceType) const
+{
+  assert(
+    IsFalse(physicalDevices.empty()) && "No physical devices are available");
+
+  auto physicalDevice = SelectPreferredPhysicalDevice(physicalDeviceType);
+  if (physicalDevice.has_value()) {
+    return physicalDevice.value();
+  } else {
+    return physicalDevices[0];
+  }
+}
+
+std::optional<std::reference_wrapper<PhysicalDevice const>>
+Instance::SelectPreferredPhysicalDevice(
+  PhysicalDevice::Type_t physicalDeviceType) const
+{
+  assert(
+    IsFalse(physicalDevices.empty()) && "No physical devices are available");
+
+  for (auto const& physicalDevice : physicalDevices) {
+    if (physicalDevice.Type() == physicalDeviceType) {
+      return std::reference_wrapper<PhysicalDevice const>{ physicalDevice };
+    }
+  }
+
+  return {};
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Free functions
 ////////////////////////////////////////////////////////////////////////////////
