@@ -10,6 +10,7 @@
 #include <glad/vulkan.h>
 
 // C++ Standard Library
+#include <any>
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,27 @@ public:
   // Properties
 public:
   auto Get() const -> VkPhysicalDevice;
+  auto QueueFamilies() const -> std::vector<QueueFamily> const&;
+
+  // Methods
+public:
+  // clang-format off
+  /// <summary>
+  /// Searches for the first compute only capable queue family if available
+  /// otherwise returns the first compute capable queue family.
+  /// </summary>
+  auto FindComputeQueueFamily() const
+    -> std::any;
+  /// <summary>
+  /// Searches for the first graphics capable queue family.
+  /// </summary>
+  auto FindGraphicsQueueFamily() const
+    -> std::any;
+  auto FindQueueFamily(QueueFamily::CapabilityFlags queueCapabilityFlags) const
+    -> std::any;
+  auto FindQueueFamily(QueueFamily::Capability_t queueCapability) const
+    -> std::any;
+  // clang-format on
 
   // Private data members
 private:

@@ -57,6 +57,32 @@ GraphicsRenderer_Vulkan::Initialize()
       instance = std::make_unique<Instance>(*this);
       instance->EnumeratePhysicalDevices();
       auto& physicalDevices = instance->PhysicalDevices();
+      auto result = physicalDevices[1].FindComputeQueueFamily();
+      //auto result = physicalDevices[0].FindGraphicsQueueFamily();
+
+      std::unique_ptr<QueueFamily const> queueFamily_Ptr;
+      std::string capabilityNotAvailableError;
+      reLogI(result.type().name());
+      if (auto data =
+            std::any_cast<std::reference_wrapper<QueueFamily const>>(&result);
+          IsInstance(data)) {
+        queueFamily_Ptr.reset(&data->get());
+      } else if (auto data = std::any_cast<std::string>(&result);
+                 IsInstance(data)) {
+        capabilityNotAvailableError = *data;
+      } else {
+        assert(false && "Unknown any_cast<T>() result!");
+      }
+
+      auto const& queueFamily = *queueFamily_Ptr.release();
+      auto& caps = queueFamily.Capabilities();
+      reLogI("  Queue family selected:");
+      reLogI("    Compute:       ", std::boolalpha, caps.Compute);
+      reLogI("    Graphics:      ", std::boolalpha, caps.Graphics);
+      reLogI("    Protected:     ", std::boolalpha, caps.ProtectedMemory);
+      reLogI("    SparseBinding: ", std::boolalpha, caps.SparseBinding);
+      reLogI("    Transfer:      ", std::boolalpha, caps.Transfer);
+
     } else {
       reLogE("No Vulkan surfrace creation extensions are available!");
     }
