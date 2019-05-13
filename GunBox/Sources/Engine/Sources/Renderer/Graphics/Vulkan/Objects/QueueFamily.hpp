@@ -43,7 +43,7 @@ public:
 
   // Constructors & Destructors
 public:
-  QueueFamily(VkQueueFamilyProperties const& queueFamily);
+  QueueFamily(VkQueueFamilyProperties const& queueFamily, std::uint32_t index);
 
 public:
   QueueFamily(QueueFamily const&) = delete;
@@ -52,6 +52,7 @@ public:
   // Properties
 public:
   auto Capabilities() const -> Capabilities_t const&;
+  auto Index() const -> std::uint32_t;
 
   // Methods
 public:
@@ -66,6 +67,7 @@ public:
 
 private:
   Capabilities_t capabilities{};
+  std::uint32_t index = 0;
   std::uint32_t queueCount = 0;
   VkQueueFamilyProperties queueFamily{};
 };

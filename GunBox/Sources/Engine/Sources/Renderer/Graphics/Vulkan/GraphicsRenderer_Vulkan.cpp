@@ -79,13 +79,14 @@ GraphicsRenderer_Vulkan::Initialize()
 
       auto const& queueFamily = *queueFamily_Ptr.release();
       auto& caps = queueFamily.Capabilities();
-      reLogI("    Queue family selected:");
-      reLogI("      Compute:       ", std::boolalpha, caps.Compute);
-      reLogI("      Graphics:      ", std::boolalpha, caps.Graphics);
-      reLogI("      Protected:     ", std::boolalpha, caps.ProtectedMemory);
-      reLogI("      SparseBinding: ", std::boolalpha, caps.SparseBinding);
-      reLogI("      Transfer:      ", std::boolalpha, caps.Transfer);
-
+      reLogI("    Queue family selected at index:");
+      reLogI("      Index:           ", queueFamily.Index());
+      reLogI("      Capabilities:");
+      reLogI("        Compute:       ", std::boolalpha, caps.Compute);
+      reLogI("        Graphics:      ", std::boolalpha, caps.Graphics);
+      reLogI("        Protected:     ", std::boolalpha, caps.ProtectedMemory);
+      reLogI("        SparseBinding: ", std::boolalpha, caps.SparseBinding);
+      reLogI("        Transfer:      ", std::boolalpha, caps.Transfer);
     } else {
       reLogE("No Vulkan surfrace creation extensions are available!");
     }

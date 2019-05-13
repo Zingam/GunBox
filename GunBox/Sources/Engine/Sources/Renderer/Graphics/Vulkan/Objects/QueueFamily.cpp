@@ -10,9 +10,12 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-QueueFamily::QueueFamily(VkQueueFamilyProperties const& queueFamily)
-  : queueFamily{ queueFamily }
+QueueFamily::QueueFamily(
+  VkQueueFamilyProperties const& queueFamily,
+  std::uint32_t index)
+  : index{ index }
   , queueCount{ queueFamily.queueCount }
+  , queueFamily{ queueFamily }
 {
   capabilities.Compute =
     queueFamily.queueFlags & VkQueueFlagBits::VK_QUEUE_COMPUTE_BIT;
@@ -34,6 +37,12 @@ QueueFamily::Capabilities_t const&
 QueueFamily::Capabilities() const
 {
   return capabilities;
+}
+
+std::uint32_t
+QueueFamily::Index() const
+{
+  return index;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

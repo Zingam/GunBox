@@ -63,8 +63,9 @@ EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
     EnumeratePhysicalDeviceQueueFamilies<VkQueueFamilyProperties>(
       physicalDevice);
   std::vector<QueueFamily> queueFamilies;
-  for (auto queueFamilyStruct : queueFamilyStructs) {
-    queueFamilies.emplace_back(queueFamilyStruct);
+
+  for (std::uint32_t index = 0U;queueFamilyStructs.size() != index; ++index) {
+    queueFamilies.emplace_back(queueFamilyStructs[index], index);
   }
 
   return queueFamilies;
