@@ -15,12 +15,17 @@
           "type": "BOOL"
         },
         {
-          "name": "option_CheckGraphicsApiCalls",
+          "name": "option_EnableLoggingLevel_Verbose",
           "value": "YES",
           "type": "BOOL"
         },
         {
-          "name": "option_EnableLoggingLevel_Verbose",
+          "name": "option_Graphics_CheckGraphicsApiCalls",
+          "value": "YES",
+          "type": "BOOL"
+        },
+        {
+          "name": "option_Graphics_OpenGL_PreferIntegratedGPU",
           "value": "YES",
           "type": "BOOL"
         }

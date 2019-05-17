@@ -14,7 +14,7 @@ project ("GunBox_Engine")
 # Project settings
 ################################################################################
 
-# Library options:
+# -- Library options:
 
 # Build the targets as STATIC libraries by default
 option (option_EngineLibraryAs_SHARED
@@ -27,21 +27,7 @@ if (option_EngineLibraryAs_SHARED)
   set (.EngineLibraryType "SHARED")
 endif ()
 
-# Graphics API options:
-
-# Specifies if error checking should be performed on graphics API calls
-option (option_CheckGraphicsApiCalls
-  "Perform error checking on graphics API calls?"
-  NO
-)
-
-# Specifies if error printing function should be inlined for better performance
-option (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline
-  "Disallow inlining of the error printing function?"
-  YES
-)
-
-# Logging options:
+# -- Logging options:
 
 # Specifies if all messages should be logged
 option (option_EnableLoggingLevel_Verbose
@@ -60,6 +46,27 @@ option (option_EnableLoggingLevel_None
   "Log non-prefixed info messages?"
   NO
 )
+
+# -- Graphics API options:
+
+# Specifies if error checking should be performed on graphics API calls
+option (option_Graphics_CheckGraphicsApiCalls
+  "Perform error checking on graphics API calls?"
+  NO
+)
+
+# Specifies if error printing function should be inlined for better performance
+option (option_Graphics_CheckGraphicsApiCalls_DoNotPrintErrorsInline
+  "Disallow inlining of the error printing function?"
+  YES
+)
+
+# Specifies if an integrated GPU should be used for OpenGL rendering
+option (option_Graphics_OpenGL_PreferIntegratedGPU
+  "Prefer an integrated GPU for OpenGL rendering if available?"
+  NO
+)
+
 
 ################################################################################
 # Third party libraries
@@ -100,42 +107,45 @@ if (WIN32 AND option_EngineLibraryAs_SHARED)
   )
 endif ()
 
-if (option_CheckGraphicsApiCalls)
-  target_compile_definitions (${PROJECT_NAME}
-    PUBLIC
-      "OPENGL_CHECK_CALLS"
-  )
-endif ()
-
-if (option_CheckGraphicsApiCalls_DoNotPrintErrorsInline)
-  target_compile_definitions (${PROJECT_NAME}
-    PUBLIC
-      "OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE"
-  )
-endif ()
-
+# Compile definitions
 if (option_EnableLoggingLevel_Verbose)
   target_compile_definitions (${PROJECT_NAME}
     PUBLIC
       "LOGGING_LEVEL_VERBOSE"
   )
 endif ()
-
 if (option_EnableLoggingLevel_Info)
   target_compile_definitions (${PROJECT_NAME}
     PUBLIC
       "LOGGING_LEVEL_INFO"
   )
 endif ()
-
 if (option_EnableLoggingLevel_None)
   target_compile_definitions (${PROJECT_NAME}
     PUBLIC
       "LOGGING_LEVEL_NONE"
   )
 endif ()
+if (option_Graphics_CheckGraphicsApiCalls)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "OPENGL_CHECK_CALLS"
+  )
+endif ()
+if (option_Graphics_CheckGraphicsApiCalls_DoNotPrintErrorsInline)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "OPENGL_CHECK_CALLS_DO_NOT_PRINT_ERRORS_INLINE"
+  )
+endif ()
+if (option_Graphics_OpenGL_PreferIntegratedGPU)
+  target_compile_definitions (${PROJECT_NAME}
+    PUBLIC
+      "PREFER_INTEGRATED_GPU"
+  )
+endif ()
 
-
+# Include directories
 target_include_directories (${PROJECT_NAME}
   PUBLIC
     "Sources"
