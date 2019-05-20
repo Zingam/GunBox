@@ -5,6 +5,7 @@
 
 // Project headers - System
 #include "System/DeviceTypes/Graphics/RendererTypes.hpp"
+#include "System/Platforms/GPUDevice_Vulkan_Base.hpp"
 
 // C++ Standard Library
 #include <optional>
@@ -27,7 +28,8 @@ NAMESPACE_END(System)
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-using GPUDevice_Vulkan_Implementation = class GPUDevice_Vulkan_SDL
+using GPUDevice_Vulkan_Implementation =
+  class GPUDevice_Vulkan_SDL : protected GPUDevice_Vulkan_Base
 {
   // Constructors & Destructors
 public:
@@ -37,6 +39,7 @@ public:
 public:
   auto InstanceProcAddress() const -> void*;
   auto SurfaceCreationExtensions() const -> std::vector<char const*> const&;
+  auto ValidationLayerNames() const -> std::vector<char const*> const&;
 
   // Methods
 public:

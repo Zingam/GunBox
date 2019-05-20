@@ -46,6 +46,12 @@ GPUDevice_Vulkan_SDL::SurfaceCreationExtensions() const
   return surfaceCreationExtensions;
 }
 
+std::vector<char const*> const&
+GPUDevice_Vulkan_SDL::ValidationLayerNames() const
+{
+  return validationLayerNames;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Methods
 ////////////////////////////////////////////////////////////////////////////////

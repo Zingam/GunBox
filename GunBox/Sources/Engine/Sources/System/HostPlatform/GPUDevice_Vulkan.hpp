@@ -35,6 +35,7 @@ class GPUDevice_Vulkan : public implementedBy<GPUDevice_Vulkan_Implementation>
 public:
   auto InstanceProcAddress() const -> void*;
   auto SurfaceCreationExtensions() const -> std::vector<char const*> const&;
+  auto ValidationLayerNames() const -> std::vector<char const*> const&;
 
   // Methods
 public:

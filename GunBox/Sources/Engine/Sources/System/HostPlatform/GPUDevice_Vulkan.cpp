@@ -20,6 +20,12 @@ GPUDevice_Vulkan::SurfaceCreationExtensions() const
   return o_ptr->SurfaceCreationExtensions();
 }
 
+std::vector<char const*> const&
+GPUDevice_Vulkan::ValidationLayerNames() const
+{
+  return o_ptr->ValidationLayerNames();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Methods
 ////////////////////////////////////////////////////////////////////////////////

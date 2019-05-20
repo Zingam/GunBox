@@ -22,6 +22,12 @@ HostPlatform::GPUDevice_OpenGL()
   return gpuDevice_OpenGL;
 }
 
+inline HostPlatformClasses::GPUDevice_Vulkan&
+HostPlatform::GPUDevice_Vulkan()
+{
+  return gpuDevice_Vulkan;
+}
+
 inline HostPlatformClasses::SubSystems&
 HostPlatform::SubSystems()
 {
@@ -38,12 +44,6 @@ inline HostPlatformClasses::SystemInfo&
 HostPlatform::SystemInfo()
 {
   return systemInfo;
-}
-
-inline HostPlatformClasses::GPUDevice_Vulkan&
-HostPlatform::GPUDevice_Vulkan()
-{
-  return gpuDevice_Vulkan;
 }
 
 NAMESPACE_END(System)
