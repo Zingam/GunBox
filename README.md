@@ -173,7 +173,7 @@ To pass command line arguments to the executing program in a **CMake/Open Folder
 3. Available command line options:
    + --fullscreen
    + --help
-   + --renderer: <OpenGL|Vulkan>
+   + --renderer: <OpenGL|Vulkan>[Debug]
    + --resolution: &lt;width>x&lt;height>
    + --show-system-console
 
@@ -189,13 +189,19 @@ Example:
       "project": "CMakeLists.txt",
       "projectTarget": "GunBox_Game.exe (Install)",
       "args": [
-        "--renderer: Vulkan",
+        //"--renderer: OpenGL",
+        //"--renderer: Vulkan",
+        "--renderer: Vulkan[Debug]",
         "--resolution: 640x480",
         "--show-system-console"
       ]
     }
   ]
 }
+```
+**Note:** In case Visual Studio 2019 is used to open the project root folder and the root *"CMakeLists.txt"* is located in *"GunBox/GunBox/CMakeLists.txt"* it maybe necessary to change the project path as follows:
+```json5
+      "project": "GunBox/CMakeLists.txt",
 ```
 
 ## Configuring Debug
