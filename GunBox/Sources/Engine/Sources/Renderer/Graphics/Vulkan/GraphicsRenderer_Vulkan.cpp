@@ -89,7 +89,7 @@ GraphicsRenderer_Vulkan::Initialize()
       }
 
       // If everything is OK
-      if (capabilityNotAvailableError.empty()) {
+      if (IsInstance(queueFamily_Ptr)) {
         auto const& queueFamily = *queueFamily_Ptr.release();
         auto& caps = queueFamily.Capabilities();
 
@@ -101,11 +101,10 @@ GraphicsRenderer_Vulkan::Initialize()
         reLogI("        Protected:     ", std::boolalpha, caps.ProtectedMemory);
         reLogI("        SparseBinding: ", std::boolalpha, caps.SparseBinding);
         reLogI("        Transfer:      ", std::boolalpha, caps.Transfer);
-      }
-
-      // To prevent crash on destructor call
-      if (IsInstance(queueFamily_Ptr)) {
-        queueFamily_Ptr.release();
+      } else if (!capabilityNotAvailableError.empty()) {
+        reLogE(capabilityNotAvailableError);
+      } else {
+        assert(false && "Unknown any_cast<T>() result!");
       }
     } else {
       reLogE("No Vulkan surfrace creation extensions are available!");
