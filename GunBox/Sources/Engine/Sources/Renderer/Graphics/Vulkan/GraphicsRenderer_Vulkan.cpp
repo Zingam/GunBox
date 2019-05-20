@@ -36,6 +36,16 @@ GraphicsRenderer_Vulkan::~GraphicsRenderer_Vulkan() {}
 // Methods
 ////////////////////////////////////////////////////////////////////////////////
 
+bool
+GraphicsRenderer_Vulkan::SetupRenderingPipeLine()
+{
+  return false;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Virtual methods
+////////////////////////////////////////////////////////////////////////////////
+
 void
 GraphicsRenderer_Vulkan::Finalize()
 {
@@ -59,9 +69,10 @@ GraphicsRenderer_Vulkan::Initialize()
       auto& physicalDevice =
         instance->SelectPhysicalDevice(PhysicalDevice::Type_t::GPU_Integrated);
       auto result = physicalDevice.FindGraphicsQueueFamily();
+
       reLogI("  Selected physical device:");
-      reLogI("     name: ", physicalDevice.Name());
-      reLogI("     type: ", physicalDevice.TypeAsString());
+      reLogI("    Name: ", physicalDevice.Name());
+      reLogI("    Type: ", physicalDevice.TypeAsString());
 
       std::unique_ptr<QueueFamily const> queueFamily_Ptr;
       std::string capabilityNotAvailableError;
@@ -77,22 +88,33 @@ GraphicsRenderer_Vulkan::Initialize()
         assert(false && "Unknown any_cast<T>() result!");
       }
 
-      auto const& queueFamily = *queueFamily_Ptr.release();
-      auto& caps = queueFamily.Capabilities();
-      reLogI("    Queue family selected at index:");
-      reLogI("      Index:           ", queueFamily.Index());
-      reLogI("      Capabilities:");
-      reLogI("        Compute:       ", std::boolalpha, caps.Compute);
-      reLogI("        Graphics:      ", std::boolalpha, caps.Graphics);
-      reLogI("        Protected:     ", std::boolalpha, caps.ProtectedMemory);
-      reLogI("        SparseBinding: ", std::boolalpha, caps.SparseBinding);
-      reLogI("        Transfer:      ", std::boolalpha, caps.Transfer);
+      // If everything is OK
+      if (capabilityNotAvailableError.empty()) {
+        auto const& queueFamily = *queueFamily_Ptr.release();
+        auto& caps = queueFamily.Capabilities();
+
+        reLogI("    Queue family selected at index:");
+        reLogI("      Index:           ", queueFamily.Index());
+        reLogI("      Capabilities:");
+        reLogI("        Compute:       ", std::boolalpha, caps.Compute);
+        reLogI("        Graphics:      ", std::boolalpha, caps.Graphics);
+        reLogI("        Protected:     ", std::boolalpha, caps.ProtectedMemory);
+        reLogI("        SparseBinding: ", std::boolalpha, caps.SparseBinding);
+        reLogI("        Transfer:      ", std::boolalpha, caps.Transfer);
+      }
+
+      // To prevent crash on destructor call
+      if (IsInstance(queueFamily_Ptr)) {
+        queueFamily_Ptr.release();
+      }
     } else {
       reLogE("No Vulkan surfrace creation extensions are available!");
-    }
-  }
 
-  isInitialized = false;
+      isInitialized = false;
+    }
+  } else {
+    isInitialized = false;
+  }
 
   return isInitialized;
 }

@@ -48,6 +48,10 @@ public:
 
   // Methods
 public:
+  auto SetupRenderingPipeLine() -> bool;
+
+  // Virtual methods
+public:
   auto Finalize() -> void final;
   auto Initialize() -> bool final;
   auto Render() -> void final;
