@@ -206,19 +206,63 @@ CommandLineArgs::ParseRenderer(
   }
   assert((1 == parameters.size()) && "Too many parameters");
 
-  auto rendererParameter = parameters[0];
-  if ("Direct3D_12" == rendererParameter) {
-    renderer = System::DeviceTypes::Graphics::API_t::Direct3D_12;
-  } else if ("OpenGL" == rendererParameter) {
-    renderer = System::DeviceTypes::Graphics::API_t::OpenGL;
-  } else if ("Vulkan" == rendererParameter) {
-    renderer = System::DeviceTypes::Graphics::API_t::Vulkan;
+  using namespace std::string_literals;
+
+  auto const& rendererParameters = parameters[0];
+  std::smatch matches;
+  // ^      - a beginning of a line
+  // \s*    - zero or more white spaces
+  // \w+    - at least one alphanumeric character [a-zA-Z0-9_]
+  // \[     - a chacater '['
+  // \]     - a chacater ']'
+  // $      - an end of a line
+  // ()     - a group, e.g. '([0-0]+)' matches a group of digits
+  // ()?    - an optional group, e.g. '(\[\w+\])?' matches a word in square
+  //          brackets if available
+  // The following patterns should be matched:
+  //   DirectX12
+  //   DirectX12[Debug]
+  //   OpenGL
+  //   Vulkan
+  //   Vulkan[Debug]
+  std::regex rendererPattern{ R"(^\s*(\w+)((\[)(\w+)(\]))?$\s*$)" };
+  std::regex_match(rendererParameters, matches, rendererPattern);
+  // The whole string an two groups should be matched
+  if (6LL == matches.size()) {
+    std::vector<std::string> rendererParameterStrings;
+    for (auto const& rendererParameterString : matches) {
+      rendererParameterStrings.emplace_back(rendererParameterString.str());
+    }
+
+    auto const& rendererParameter = rendererParameterStrings[1];
+
+    if ("Direct3D_12"s == rendererParameter) {
+      renderer = System::DeviceTypes::Graphics::API_t::Direct3D_12;
+    } else if ("OpenGL"s == rendererParameter) {
+      renderer = System::DeviceTypes::Graphics::API_t::OpenGL;
+    } else if ("Vulkan"s == rendererParameter) {
+      renderer = System::DeviceTypes::Graphics::API_t::Vulkan;
+    } else {
+      goto ParseRenderer_Error;
+    }
+
+    if (!rendererParameterStrings[4].empty()) {
+      if ("Debug"s == rendererParameterStrings[4]) {
+        rendererFeatures.push_back(
+          System::DeviceTypes::Graphics::APIFeatures_t::Debug);
+      } else {
+        goto ParseRenderer_Error;
+      }
+    }
   } else {
-    return std::optional{ "Invalid parameter: " + rendererParameter + "\n" +
-                          "  for option: " + option };
+    goto ParseRenderer_Error;
   }
 
   return std::nullopt;
+
+ParseRenderer_Error:
+  return { "Invalid parameter: " + rendererParameters + "\n" +
+           "  for option: " + option };
 }
 
 std::optional<std::string>
@@ -257,7 +301,7 @@ CommandLineArgs::ParseResolution(
   }
   assert((1 == parameters.size()) && "Too many parameters");
 
-  auto resolutionParameter = parameters[0];
+  auto const& resolutionParameter = parameters[0];
   std::smatch matches;
   // ^      - a beginning of a line
   // \s*    - zero or more white spaces
@@ -267,7 +311,7 @@ CommandLineArgs::ParseResolution(
   // ()     - a group, e.g. '([0-0]+)' matches a group of digits
   std::regex resolutionPattern{ R"(^\s*([0-9]+)x([0-9]+)$\s*$)" };
   std::regex_match(resolutionParameter, matches, resolutionPattern);
-  // The whole string an two groups should be matched
+  // The whole string and two groups should be matched
   if (3 == matches.size()) {
     std::vector<std::string> dimensionStrings;
     for (auto const& dimensionString : matches) {

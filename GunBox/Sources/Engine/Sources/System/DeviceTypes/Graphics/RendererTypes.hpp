@@ -24,6 +24,14 @@ enum class API_t : std::uint64_t
 
 ////////////////////////////////////////////////////////////////////////////////
 
+enum class APIFeatures_t : std::uint64_t
+{
+  Debug = UINT64_C(10'000'000'000'000'000'001),
+  Unknown = UINT64_C(18'446'744'073'709'551'615),
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
 struct OpenGLContextVersion_t
 {
   int SupportedMajorVersion;

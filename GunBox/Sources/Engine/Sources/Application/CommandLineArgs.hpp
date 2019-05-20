@@ -82,6 +82,7 @@ private:
   std::optional<std::string> executableFilename;
   std::optional<bool> fullscreen;
   std::optional<System::DeviceTypes::Graphics::API_t> renderer;
+  std::vector<System::DeviceTypes::Graphics::APIFeatures_t> rendererFeatures;
   std::optional<System::DeviceTypes::Graphics::Dimensions_t> resolution;
   std::optional<bool> showHelp;
   std::optional<bool> showSystemConsole;
