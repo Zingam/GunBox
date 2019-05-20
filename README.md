@@ -13,6 +13,18 @@ A game programming exercise with **SDL2**, **OpenGL**, **Vulkan**...
 1. FreeType 2.9.1 (or newer)
 2. SDL 2.0.8 (or newer)
 
+### How to Install Third Party Libraries with `vcpkg`
+
+* To install a library `library_name` with enabled feature `[feature]` for platform `x64-windows` use the command syntax:
+```bat
+.\vcpkg.exe install library_name[feature] --triplet x64-windows`
+```
+* To install the required libraries:
+```bat
+.\vcpkg.exe install freetype sdl2[vulkan] --triplet x64-windows
+
+```
+
 ## Notes
 
 * Markdown (*.md)
