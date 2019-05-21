@@ -225,10 +225,13 @@ CommandLineArgs::ParseRenderer(
   //   OpenGL
   //   Vulkan
   //   Vulkan[Debug]
-  std::regex rendererPattern{ R"(^\s*(\w+)((\[)(\w+)(\]))?$\s*$)" };
+  auto const rendererPatternString = R"(^\s*(\w+)((\[)(\w+)(\]))?$\s*$)"s;
+  // The number of groups that will be matched contained in the above raw string
+  auto const rendererPatternStringGroupCount = 6LL;
+  std::regex const rendererPattern{ rendererPatternString };
   std::regex_match(rendererParameters, matches, rendererPattern);
-  // The whole string an two groups should be matched
-  if (6LL == matches.size()) {
+  // The whole string and two groups should be matched
+  if (rendererPatternStringGroupCount == matches.size()) {
     std::vector<std::string> rendererParameterStrings;
     for (auto const& rendererParameterString : matches) {
       rendererParameterStrings.emplace_back(rendererParameterString.str());
@@ -309,7 +312,7 @@ CommandLineArgs::ParseResolution(
   // x      - a letter 'x'
   // $      - an end of a line
   // ()     - a group, e.g. '([0-0]+)' matches a group of digits
-  std::regex resolutionPattern{ R"(^\s*([0-9]+)x([0-9]+)$\s*$)" };
+  std::regex const resolutionPattern{ R"(^\s*([0-9]+)x([0-9]+)$\s*$)" };
   std::regex_match(resolutionParameter, matches, resolutionPattern);
   // The whole string and two groups should be matched
   if (3 == matches.size()) {
