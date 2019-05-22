@@ -4,8 +4,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - System
-#include "System/DeviceTypes/Graphics/RendererTypes.hpp"
 #include "System/DeviceTypes/Graphics/GeometryTypes.hpp"
+#include "System/DeviceTypes/Graphics/RendererTypes.hpp"
 
 // C++ Standard Library
 #include <functional>
@@ -46,6 +46,8 @@ public:
 public:
   auto Fullscreen() const -> std::optional<bool>;
   auto Renderer() const -> std::optional<System::DeviceTypes::Graphics::API_t>;
+  auto RendererFeatures() const
+    -> std::vector<System::DeviceTypes::Graphics::APIFeatures_t> const&;
   auto Resolution() const
     -> std::optional<System::DeviceTypes::Graphics::Dimensions_t>;
   auto ShowHelp() const -> std::optional<bool>;

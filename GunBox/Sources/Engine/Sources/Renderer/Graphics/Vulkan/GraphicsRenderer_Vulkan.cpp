@@ -20,12 +20,10 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsRenderer_Vulkan::GraphicsRenderer_Vulkan(
-  Application::ApplicationInfo const& applicationInfo,
-  Application::EngineInfo const& engineInfo,
+  Application::CoreApplication const& coreApplication,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
-  : GraphicsRenderer_Interface{ applicationInfo,
-                                engineInfo,
+  : GraphicsRenderer_Interface{ coreApplication,
                                 preferences,
                                 hostPlatform }
 {}

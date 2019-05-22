@@ -16,7 +16,7 @@
 
 NAMESPACE_BEGIN(Application)
 
-class ApplicationInfo;
+class CoreApplication;
 class Preferences;
 
 NAMESPACE_END(Application)
@@ -38,8 +38,7 @@ class GraphicsRenderer_Vulkan final : public GraphicsRenderer_Interface
   // Constructors & Destructors
 private:
   GraphicsRenderer_Vulkan(
-    Application::ApplicationInfo const& applicationInfo,
-    Application::EngineInfo const& engineInfo,
+    Application::CoreApplication const& coreApplication,
     Application::Preferences& preferences,
     System::HostPlatform& hostPlatform);
 
@@ -58,9 +57,12 @@ public:
 
   // Friend functions
 public:
-  friend std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> Create(
-    Application::ApplicationInfo const& applicationInfo,
-    Application::EngineInfo const& engineInfo,
+  //friend std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> Create(
+  //  Application::CoreApplication const& coreApplication,
+  //  Application::Preferences& preferences,
+  //  System::HostPlatform& hostPlatform);
+  friend std::unique_ptr<GraphicsRenderer_Interface> Create(
+    Application::CoreApplication const& coreApplication,
     Application::Preferences& preferences,
     System::HostPlatform& hostPlatform);
 

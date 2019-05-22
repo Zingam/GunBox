@@ -10,6 +10,14 @@
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
 
+NAMESPACE_BEGIN(Application)
+
+class ApplicationInfo;
+class CommandLineArgs;
+class EngineInfo;
+
+NAMESPACE_END(Application)
+
 NAMESPACE_BEGIN(Renderer::Graphics)
 
 class Instance;
@@ -29,6 +37,8 @@ private:
   // clang-format off
   static auto ApplicationInfo(GraphicsRenderer_Interface const& graphicsRenderer)
     -> Application::ApplicationInfo const&;
+  static auto CommandLineArgs(GraphicsRenderer_Interface const& graphicsRenderer)
+    -> Application::CommandLineArgs const&;
   static auto EngineInfo(GraphicsRenderer_Interface const& graphicsRenderer)
     -> Application::EngineInfo const&;
   static auto HostPlatform(GraphicsRenderer_Interface const& graphicsRenderer)

@@ -80,6 +80,12 @@ CommandLineArgs::Renderer() const
   return renderer;
 }
 
+std::vector<System::DeviceTypes::Graphics::APIFeatures_t> const&
+CommandLineArgs::RendererFeatures() const
+{
+  return rendererFeatures;
+}
+
 std::optional<bool>
 CommandLineArgs::ShowHelp() const
 {

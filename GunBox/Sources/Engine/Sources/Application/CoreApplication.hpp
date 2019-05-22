@@ -4,8 +4,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 // Project headers - Application
-#include "Application/ModuleInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
+#include "Application/ModuleInfo.hpp"
 #include "Application/Preferences.hpp"
 
 // Project headers - Renderer/Graphics
@@ -47,6 +47,7 @@ public:
 public:
   auto GetApplicationInfo() const -> ApplicationInfo const&;
   auto GetEngineInfo() const -> EngineInfo const&;
+  auto GetCommandLineArgs() const -> CommandLineArgs const&;
 
   // Pure virtual methods
 public:

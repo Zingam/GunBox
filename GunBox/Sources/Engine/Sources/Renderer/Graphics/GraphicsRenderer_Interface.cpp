@@ -2,6 +2,7 @@
 #include "GraphicsRenderer_Interface.hpp"
 
 // Project headers - Application
+#include "Application/CoreApplication.hpp"
 #include "Application/ModuleInfo.hpp"
 #include "Application/Preferences.hpp"
 // Project headers - System
@@ -17,15 +18,13 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsRenderer_Interface::GraphicsRenderer_Interface(
-  Application::ApplicationInfo const& applicationInfo,
-  Application::EngineInfo const& engineInfo,
+  Application::CoreApplication const& coreApplication,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
-  : applicationInfo{ applicationInfo }
-  , engineInfo{ engineInfo}
+  : coreApplication{ coreApplication }
   , hostPlatform{ hostPlatform }
   , window{ std::make_unique<System::Window>(
-      applicationInfo.Title(),
+      coreApplication.GetApplicationInfo().Title(),
       this->MakeWindowProperties(preferences)) }
   , preferences{ preferences }
 {}

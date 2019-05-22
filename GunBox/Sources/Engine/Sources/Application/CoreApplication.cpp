@@ -1,3 +1,4 @@
+#include "CoreApplication.hpp"
 // Self
 #include "CoreApplication.hpp"
 
@@ -50,6 +51,12 @@ EngineInfo const&
 CoreApplication::GetEngineInfo() const
 {
   return engineInfo;
+}
+
+CommandLineArgs const&
+CoreApplication::GetCommandLineArgs() const
+{
+  return *commandLineArgs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,8 +203,8 @@ CoreApplication::Initialize()
   }
 #endif
 
-  graphicsRenderer = Renderer::Graphics::Create(
-    applicationInfo, engineInfo, creationPreferences, hostPlatform);
+  graphicsRenderer =
+    Renderer::Graphics::Create(*this, creationPreferences, hostPlatform);
 
   isInitialized = true;
 

@@ -12,8 +12,7 @@
 
 NAMESPACE_BEGIN(Application)
 
-class ApplicationInfo;
-class EngineInfo;
+class CoreApplication;
 class Preferences;
 
 NAMESPACE_END(Application)
@@ -38,8 +37,7 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 
 std::unique_ptr<GraphicsRenderer_Interface>
 Create(
-  Application::ApplicationInfo const& applicationInfo,
-  Application::EngineInfo const&,
+  Application::CoreApplication const& coreApplication,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform);
 

@@ -1,7 +1,8 @@
 // Self
 #include "Instance.hpp"
 
-//// Project headers - Application
+// Project headers - Application
+#include "Application/CommandLineArgs.hpp"
 #include "Application/ModuleInfo.hpp"
 // Project headers - Logger
 #include "Logger/LogAPI.hpp"
@@ -74,16 +75,30 @@ Instance::Create()
     .engineVersion = engineInfo.GetVersion().AsNumber(),
     .apiVersion = VK_API_VERSION_1_1,
   };
+  auto const& commandLineArgs =
+    GraphicsRenderer_InterfaceAccessor::CommandLineArgs(graphicsRenderer);
+  auto debugFeature = std::find(
+    commandLineArgs.RendererFeatures().begin(),
+    commandLineArgs.RendererFeatures().end(),
+    System::DeviceTypes::Graphics::APIFeatures_t::Debug);
+  auto enabledLayerCount = 0U;
+  const char* const* enabledLayerNames = nullptr;
+  if (debugFeature != commandLineArgs.RendererFeatures().end()) {
+    enabledLayerCount =
+      static_cast<std::uint32_t>(vulkanDevice.ValidationLayerNames().size());
+    enabledLayerNames = vulkanDevice.ValidationLayerNames().data();
+  }
 
-  auto& surfaceCreationExtensions = vulkanDevice.SurfaceCreationExtensions();
+  auto const& surfaceCreationExtensions =
+    vulkanDevice.SurfaceCreationExtensions();
   if (2LL <= vulkanDevice.SurfaceCreationExtensions().size()) {
     VkInstanceCreateInfo instanceCreateInfo{
       .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
       .pNext = nullptr,
       .flags = 0L,
       .pApplicationInfo = &vulkanApplicationInfo,
-      .enabledLayerCount = 0L,
-      .ppEnabledLayerNames = nullptr,
+      .enabledLayerCount = enabledLayerCount,
+      .ppEnabledLayerNames = enabledLayerNames,
       .enabledExtensionCount = static_cast<std::uint32_t>(
         vulkanDevice.SurfaceCreationExtensions().size()),
       .ppEnabledExtensionNames =

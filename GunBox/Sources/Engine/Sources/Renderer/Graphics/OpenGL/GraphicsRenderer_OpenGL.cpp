@@ -18,14 +18,10 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 ////////////////////////////////////////////////////////////////////////////////
 
 GraphicsRenderer_OpenGL::GraphicsRenderer_OpenGL(
-  Application::ApplicationInfo const& applicationInfo,
-  Application::EngineInfo const& engineInfo,
+  Application::CoreApplication const& coreApplication,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
-  : GraphicsRenderer_Interface{ applicationInfo,
-                                engineInfo,
-                                preferences,
-                                hostPlatform }
+  : GraphicsRenderer_Interface{ coreApplication, preferences, hostPlatform }
 {}
 
 GraphicsRenderer_OpenGL::~GraphicsRenderer_OpenGL() {}
