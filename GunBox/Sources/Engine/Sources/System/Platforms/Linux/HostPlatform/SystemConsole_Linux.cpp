@@ -4,11 +4,11 @@
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 void
-SystemConsole_Linux::EnableInput() const
+SystemConsole_Linux::EnableInput()
 {}
 
 void
-SystemConsole_Linux::Hide() const
+SystemConsole_Linux::Hide()
 {}
 
 void
@@ -16,7 +16,7 @@ SystemConsole_Linux::Pause() const
 {}
 
 void
-SystemConsole_Linux::Show() const
+SystemConsole_Linux::Show()
 {}
 
 NAMESPACE_END(System::HostPlatformClasses)

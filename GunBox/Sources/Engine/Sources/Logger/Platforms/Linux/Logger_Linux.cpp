@@ -10,8 +10,8 @@ NAMESPACE_BEGIN(Logger)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-auto
-Logger_Linux::SetLogLevel(LogLevel_t logLevel) -> void
+void
+Logger_Linux::SetLogLevel(LogLevel_t logLevel)
 {
   LoggerBase::SetLogLevel(logLevel);
   LoggerBase::SetLogPrefix();
@@ -22,7 +22,7 @@ Logger_Linux::SetLogLevel(LogLevel_t logLevel) -> void
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-Logger_Linux::WriteLog() const
+Logger_Linux::WriteLog()
 {
   // Output to the system console
   DoLog();

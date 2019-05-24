@@ -32,8 +32,10 @@ set (.Engine_SourceFiles
   "Sources/Logger/Internal/LoggerTypes.cpp"
   "Sources/Logger/Internal/LoggerTypes.hpp"
   $<$<PLATFORM_ID:Android>:Sources/Logger/Platforms/Android/Logger_Android.cpp>
-  $<$<PLATFORM_ID:Android>:Sources/Logger/Platforms/Android/Logger_Android.hpp>
+  $<$<PLATFORM_ID:Linux>:Sources/Logger/Platforms/Linux/Logger_Linux.cpp>
   $<$<PLATFORM_ID:Windows>:Sources/Logger/Platforms/Windows/Logger_Windows.cpp>
+  $<$<PLATFORM_ID:Android>:Sources/Logger/Platforms/Android/Logger_Android.hpp>
+  $<$<PLATFORM_ID:Linux>:Sources/Logger/Platforms/Linux/Logger_Linux.hpp>
   $<$<PLATFORM_ID:Windows>:Sources/Logger/Platforms/Windows/Logger_Windows.hpp>
   "Sources/Logger/Platforms/Logger_Implementation.hpp"
   "Sources/Logger/LogAPI.cpp"

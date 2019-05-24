@@ -9,9 +9,9 @@ using SystemConsole_Implementation = class SystemConsole_Linux
 {
 public:
   auto EnableInput() -> void;
-  auto Hide() const -> void;
+  auto Hide() -> void;
   auto Pause() const -> void;
-  auto Show() const -> void;
+  auto Show() -> void;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

@@ -10,8 +10,8 @@ NAMESPACE_BEGIN(Logger)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-auto
-Logger_Android::SetLogLevel(LogLevel_t logLevel) -> void
+void
+Logger_Android::SetLogLevel(LogLevel_t logLevel)
 {
   LoggerBase::SetLogLevel(logLevel);
 }
