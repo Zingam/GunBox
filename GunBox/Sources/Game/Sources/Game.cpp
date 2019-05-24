@@ -32,10 +32,14 @@ Application::ExitCode
 Game::Execute()
 {
   auto gameStateManager = MainLoop_Initialize();
-  MainLoop_Execute(*gameStateManager);
-  MainLoop_Finalize();
+  if (gameStateManager) {
+    MainLoop_Execute(*gameStateManager);
+    MainLoop_Finalize();
 
-  return Application::ExitCode::NoError;
+    return Application::ExitCode::NoError;
+  } else {
+    return Application::ExitCode::InitializationError;
+  }
 }
 
 void
@@ -80,7 +84,9 @@ Game::MainLoop_Initialize()
     (nullptr != graphicsRenderer) &&
     "The Graphics Renderer was not properly created");
 
-  graphicsRenderer->Initialize();
+  if (!graphicsRenderer->Initialize()) {
+    return nullptr;
+  }
 
   auto gameStateManager =
     std::make_unique<GameStateManager>(eventProcessor.InputEventProcessor());

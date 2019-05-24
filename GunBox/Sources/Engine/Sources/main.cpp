@@ -17,8 +17,10 @@ main(int argc, char* argv[])
   application->ProcessCommandLineArgs(argc, argv);
   auto exitCode = application->Initialize();
   if (Application::ExitCode::NoError == exitCode) {
+    // TODO: Allow just one instance
     // Execute the Main loop
     exitCode = application->Execute();
+    // TODO: Error reporting on execution failure
   }
   application->Finalize();
 
