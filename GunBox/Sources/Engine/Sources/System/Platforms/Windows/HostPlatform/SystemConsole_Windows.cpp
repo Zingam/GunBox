@@ -54,7 +54,6 @@ SystemConsole_Windows::Show()
 
   // Create a system console window for the current process
   AllocConsole();
-  AttachConsole(GetCurrentProcessId());
 
   // Disable the close menu button to prevent the system console window from
   // closing the application if clicked
