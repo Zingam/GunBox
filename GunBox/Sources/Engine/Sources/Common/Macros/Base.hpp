@@ -200,7 +200,21 @@ IsNull(T const& object)
 
 template<typename T>
 auto
+IsFailed(T const& object)
+{
+  return (false == object);
+}
+
+template<typename T>
+auto
 IsFalse(T const& object)
+{
+  return (false == object);
+}
+
+template<typename T>
+auto
+IsSuccess(T const& object)
 {
   return (false == object);
 }

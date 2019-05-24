@@ -29,6 +29,7 @@ NAMESPACE_BEGIN(GunBox)
 
 class Game : public Application::CoreApplication
 {
+  // Constructors & Destructors
 public:
   Game(Application::ApplicationInfo applicationInfo);
   ~Game() final;
@@ -37,7 +38,9 @@ public:
 public:
   auto Execute() -> Application::ExitCode final;
 
+  // Methods
 private:
+  auto InitializeGraphicsRenderer() -> bool;
   auto MainLoop_Initialize() -> std::unique_ptr<GameStateManager>;
   auto MainLoop_Execute(GameStateManager& gameStateManager) -> void;
   auto MainLoop_Finalize() -> void;

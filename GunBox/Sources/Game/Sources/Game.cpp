@@ -8,6 +8,8 @@
 
 // Engine headers - Logger
 #include <Logger/LogAPI.hpp>
+// Engine headers - System
+#include <System/GUI/AlertBox.hpp>
 
 // C Standard Library
 #include <cassert>
@@ -40,6 +42,33 @@ Game::Execute()
   } else {
     return Application::ExitCode::InitializationError;
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Methods
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+Game::InitializeGraphicsRenderer()
+{
+  if (!graphicsRenderer->Initialize()) {
+    reLogE("Failed to initialize the graphics renderer!");
+
+    std::stringstream errorMessage;
+    errorMessage << "Failed to initialize the graphics renderer:\n\n"
+                    "  (Tip) Try a different renderer.\n\n"
+                    "Press OK to quit the application!";
+
+    using namespace System::GUI;
+    AlertBox AlertBox{ applicationInfo.Title(),
+                       errorMessage.str(),
+                       Common::AlertBox_Base::AlertType_t::Error };
+    AlertBox.Show();
+
+    return false;
+  }
+
+  return true;
 }
 
 void
@@ -84,7 +113,7 @@ Game::MainLoop_Initialize()
     (nullptr != graphicsRenderer) &&
     "The Graphics Renderer was not properly created");
 
-  if (!graphicsRenderer->Initialize()) {
+  if (IsFalse(InitializeGraphicsRenderer())) {
     return nullptr;
   }
 
