@@ -35,7 +35,7 @@ InGame::Update()
     nextGameState = GameState_t::MainMenu;
   }
 
-  static auto i = 0ll;
+  [[maybe_unused]] static auto i = 0ll;
   auto arrow_UpState =
     inputEventProcessor.KeyboardKeyState(ScanCode_t::Arrow_Up);
   if (KeyboardState::KeyState_t::Pressed == arrow_UpState) {

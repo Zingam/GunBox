@@ -59,7 +59,7 @@ Instance::Create()
       .GPUDevice_Vulkan();
   gladLoadVulkanUserPtr(
     nullptr,
-    static_cast<GLADuserptrloadfunc>(vulkanDevice.InstanceProcAddress()),
+    reinterpret_cast<GLADuserptrloadfunc>(vulkanDevice.InstanceProcAddress()),
     nullptr);
 
   auto const& applicationInfo =
@@ -75,30 +75,15 @@ Instance::Create()
     .engineVersion = engineInfo.GetVersion().AsNumber(),
     .apiVersion = VK_API_VERSION_1_1,
   };
-  auto const& commandLineArgs =
-    GraphicsRenderer_InterfaceAccessor::CommandLineArgs(graphicsRenderer);
-  auto debugFeature = std::find(
-    commandLineArgs.RendererFeatures().begin(),
-    commandLineArgs.RendererFeatures().end(),
-    System::DeviceTypes::Graphics::APIFeatures_t::Debug);
-  auto enabledLayerCount = 0U;
-  const char* const* enabledLayerNames = nullptr;
-  if (debugFeature != commandLineArgs.RendererFeatures().end()) {
-    enabledLayerCount =
-      static_cast<std::uint32_t>(vulkanDevice.ValidationLayerNames().size());
-    enabledLayerNames = vulkanDevice.ValidationLayerNames().data();
-  }
 
-  auto const& surfaceCreationExtensions =
-    vulkanDevice.SurfaceCreationExtensions();
   if (2LL <= vulkanDevice.SurfaceCreationExtensions().size()) {
     VkInstanceCreateInfo instanceCreateInfo{
       .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
       .pNext = nullptr,
       .flags = 0L,
       .pApplicationInfo = &vulkanApplicationInfo,
-      .enabledLayerCount = enabledLayerCount,
-      .ppEnabledLayerNames = enabledLayerNames,
+      .enabledLayerCount = 0,
+      .ppEnabledLayerNames = nullptr,
       .enabledExtensionCount = static_cast<std::uint32_t>(
         vulkanDevice.SurfaceCreationExtensions().size()),
       .ppEnabledExtensionNames =
@@ -108,7 +93,8 @@ Instance::Create()
           vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
       gladLoadVulkanUserPtr(
         nullptr,
-        static_cast<GLADuserptrloadfunc>(vulkanDevice.InstanceProcAddress()),
+        reinterpret_cast<GLADuserptrloadfunc>(
+          vulkanDevice.InstanceProcAddress()),
         instance);
     }
   }

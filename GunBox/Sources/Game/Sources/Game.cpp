@@ -99,7 +99,7 @@ Game::MainLoop_Initialize()
     gameStateManager->GetSystemEventCallbacks());
   // clang-format on
 
-  return std::move(gameStateManager);
+  return gameStateManager;
 }
 
 NAMESPACE_END(GunBox)

@@ -89,7 +89,7 @@ GraphicsRenderer_Vulkan::Initialize()
       // If everything is OK
       if (IsInstance(queueFamily_Ptr)) {
         auto const& queueFamily = *queueFamily_Ptr.release();
-        auto& caps = queueFamily.Capabilities();
+        [[maybe_unused]] auto& caps = queueFamily.Capabilities();
 
         reLogI("    Queue family selected at index:");
         reLogI("      Index:           ", queueFamily.Index());
