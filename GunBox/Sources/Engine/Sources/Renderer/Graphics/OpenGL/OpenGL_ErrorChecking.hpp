@@ -8,10 +8,10 @@
 #  include "Logger/LogAPI.hpp"
 // Project headers - Renderer
 #  include "Renderer/Graphics/OpenGL/OpenGL_Loader.hpp"
+#endif
 
 // C++ Standard Library
 #  include <type_traits>
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Defines
