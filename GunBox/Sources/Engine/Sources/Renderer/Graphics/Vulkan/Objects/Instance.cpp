@@ -17,6 +17,7 @@
 
 // C Standard Library
 #include <cstdint>
+#include <cstring>
 
 NAMESPACE_BEGIN(Renderer::Graphics)
 
@@ -62,10 +63,12 @@ Instance::Create()
     reinterpret_cast<GLADuserptrloadfunc>(vulkanDevice.InstanceProcAddress()),
     nullptr);
 
+  // Create Vulkan instance
   auto const& applicationInfo =
     GraphicsRenderer_InterfaceAccessor::ApplicationInfo(graphicsRenderer);
   auto const& engineInfo =
     GraphicsRenderer_InterfaceAccessor::EngineInfo(graphicsRenderer);
+
   VkApplicationInfo vulkanApplicationInfo{
     .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
     .pNext = nullptr,
@@ -76,18 +79,20 @@ Instance::Create()
     .apiVersion = VK_API_VERSION_1_1,
   };
 
+  auto layersToEnable = GetLayerNamesToEnable();
+  auto const& extensionsToEnable = vulkanDevice.SurfaceCreationExtensions();
+
   if (2LL <= vulkanDevice.SurfaceCreationExtensions().size()) {
     VkInstanceCreateInfo instanceCreateInfo{
       .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
       .pNext = nullptr,
       .flags = 0L,
       .pApplicationInfo = &vulkanApplicationInfo,
-      .enabledLayerCount = 0,
-      .ppEnabledLayerNames = nullptr,
-      .enabledExtensionCount = static_cast<std::uint32_t>(
-        vulkanDevice.SurfaceCreationExtensions().size()),
-      .ppEnabledExtensionNames =
-        vulkanDevice.SurfaceCreationExtensions().data(),
+      .enabledLayerCount = static_cast<std::uint32_t>(layersToEnable.size()),
+      .ppEnabledLayerNames = layersToEnable.data(),
+      .enabledExtensionCount =
+        static_cast<std::uint32_t>(extensionsToEnable.size()),
+      .ppEnabledExtensionNames = extensionsToEnable.data(),
     };
     if (vkCallSuccess(
           vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
@@ -97,7 +102,44 @@ Instance::Create()
           vulkanDevice.InstanceProcAddress()),
         instance);
     }
+
+    assert(IsInstance(instance) && "Vulkan instance is not initialized!");
   }
+}
+
+std::vector<char const*>
+Instance::GetLayerNamesToEnable() const
+{
+  auto const& commandLineArgs =
+    GraphicsRenderer_InterfaceAccessor::CommandLineArgs(graphicsRenderer);
+  auto debugFeature = std::find(
+    commandLineArgs.RendererFeatures().begin(),
+    commandLineArgs.RendererFeatures().end(),
+    System::DeviceTypes::Graphics::APIFeatures_t::Debug);
+  if (debugFeature != commandLineArgs.RendererFeatures().end()) {
+    return GetRequiredLayerNames();
+  }
+
+  return {};
+}
+
+std::vector<char const*>
+Instance::GetRequiredLayerNames() const
+{
+  std::vector<char const*> availableLayers;
+  auto& vulkanDevice =
+    GraphicsRenderer_InterfaceAccessor::HostPlatform(graphicsRenderer)
+      .GPUDevice_Vulkan();
+  auto layers = EnumerateInstanceLayers();
+  for (auto const layerName : vulkanDevice.ValidationLayerNames()) {
+    for (auto& layer : layers) {
+      if (!std::strcmp(layerName, layer.layerName)) {
+        availableLayers.emplace_back(layerName);
+      }
+    }
+  }
+
+  return availableLayers;
 }
 
 void
@@ -145,6 +187,12 @@ Instance::SelectPreferredPhysicalDevice(
 std::vector<VkExtensionProperties>
 EnumerateInstanceExtensions(std::optional<std::string> layerName)
 {
+  // clang-format off
+  assert(
+    IsInstance(vkEnumerateInstanceExtensionProperties) &&
+    "vkEnumerateInstanceExtensionProperties is not initialized. Were Vulkan function pointers properly loaded?");
+  // clang-fomrat on
+
   char const* layerName_cstr = nullptr;
   if (layerName) {
     layerName_cstr = layerName.value().c_str();
@@ -168,11 +216,17 @@ EnumerateInstanceExtensions(std::optional<std::string> layerName)
 std::vector<VkLayerProperties>
 EnumerateInstanceLayers()
 {
+  // clang-format off
+  assert(
+    IsInstance(vkEnumerateInstanceLayerProperties) &&
+    "vkEnumerateInstanceLayerProperties is not initialized. Were Vulkan function pointers properly loaded?");
+  // clang-fomrat on
+
   auto instanceLayerCount = 0U;
   if (vkCallSuccess(
         vkEnumerateInstanceLayerProperties(&instanceLayerCount, nullptr))) {
-    std::vector<VkLayerProperties> instanceLayers(0);
-    if (vkCallFail(vkEnumerateInstanceLayerProperties(
+    std::vector<VkLayerProperties> instanceLayers(instanceLayerCount);
+    if (vkCallSuccess(vkEnumerateInstanceLayerProperties(
           &instanceLayerCount, instanceLayers.data()))) {
       return instanceLayers;
     }

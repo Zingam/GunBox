@@ -56,17 +56,20 @@ public:
   /// <summary>
   /// Selects a physical device of the required type if available.
   /// </summary>
-  auto SelectPreferredPhysicalDevice(PhysicalDevice::Type_t physicalDeviceType) const
-    -> std::optional<std::reference_wrapper<PhysicalDevice const>>;
+  auto SelectPreferredPhysicalDevice(PhysicalDevice::Type_t physicalDeviceType)
+    const -> std::optional<std::reference_wrapper<PhysicalDevice const>>;
 
 private:
   auto Create() -> void;
+  auto GetLayerNamesToEnable() const -> std::vector<char const*>;
+  auto GetRequiredLayerNames() const -> std::vector<char const*>;
 
   // Private data members
 private:
   GraphicsRenderer_Interface const& graphicsRenderer;
   VkInstance instance = nullptr;
   std::vector<PhysicalDevice> physicalDevices;
+  std::vector<VkLayerProperties> layers;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
