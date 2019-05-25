@@ -185,7 +185,13 @@ Instance::SelectPreferredPhysicalDevice(
 ////////////////////////////////////////////////////////////////////////////////
 
 std::vector<VkExtensionProperties>
-EnumerateInstanceExtensions(std::optional<std::string> layerName)
+EnumerateInstanceExtensions()
+{
+  return EnumerateInstanceExtensions({});
+}
+
+std::vector<VkExtensionProperties>
+EnumerateInstanceExtensions(std::optional<std::string> const& layerName)
 {
   // clang-format off
   assert(
@@ -201,7 +207,7 @@ EnumerateInstanceExtensions(std::optional<std::string> layerName)
   auto instanceExtensionCount = 0U;
   if (vkCallSuccess(vkEnumerateInstanceExtensionProperties(
         layerName_cstr, &instanceExtensionCount, nullptr))) {
-    std::vector<VkExtensionProperties> instanceExtensions(0);
+    std::vector<VkExtensionProperties> instanceExtensions(instanceExtensionCount);
     if (vkCallSuccess(vkEnumerateInstanceExtensionProperties(
           layerName_cstr,
           &instanceExtensionCount,

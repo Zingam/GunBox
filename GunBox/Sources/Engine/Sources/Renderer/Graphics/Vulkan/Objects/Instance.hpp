@@ -79,7 +79,11 @@ private:
 // clang-format off
 
 auto
-EnumerateInstanceExtensions(std::string const& layerName)
+EnumerateInstanceExtensions()
+  -> std::vector<VkExtensionProperties>;
+
+auto
+EnumerateInstanceExtensions(std::optional<std::string> const& layerName)
   -> std::vector<VkExtensionProperties>;
 
 auto
