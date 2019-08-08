@@ -8,16 +8,28 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
+std::vector<char const*> const&
+GPUDevice_Vulkan::DebugExtensionNames() const
+{
+  return o_ptr->DebugExtensionNames();
+}
+
 void*
-GPUDevice_Vulkan::InstanceProcAddress() const
+GPUDevice_Vulkan::GetInstanceProcAddress() const
 {
   return o_ptr->InstanceProcAddress();
 }
 
 std::vector<char const*> const&
-GPUDevice_Vulkan::SurfaceCreationExtensions() const
+GPUDevice_Vulkan::InstanceExtensionNames() const
 {
-  return o_ptr->SurfaceCreationExtensions();
+  return o_ptr->InstanceExtensionNames();
+}
+
+std::vector<char const*> const&
+GPUDevice_Vulkan::SurfaceCreationExtensionNames() const
+{
+  return o_ptr->SurfaceCreationExtensionNames();
 }
 
 std::vector<char const*> const&

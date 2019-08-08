@@ -34,6 +34,12 @@ GPUDevice_Vulkan_SDL::GPUDevice_Vulkan_SDL() {}
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
+std::vector<char const*> const&
+GPUDevice_Vulkan_SDL::DebugExtensionNames() const
+{
+  return debugExtensionNames;
+}
+
 void*
 GPUDevice_Vulkan_SDL::InstanceProcAddress() const
 {
@@ -41,9 +47,15 @@ GPUDevice_Vulkan_SDL::InstanceProcAddress() const
 }
 
 std::vector<char const*> const&
-GPUDevice_Vulkan_SDL::SurfaceCreationExtensions() const
+GPUDevice_Vulkan_SDL::InstanceExtensionNames() const
 {
-  return surfaceCreationExtensions;
+  return instanceExtensionNames;
+}
+
+std::vector<char const*> const&
+GPUDevice_Vulkan_SDL::SurfaceCreationExtensionNames() const
+{
+  return surfaceCreationExtensionNames;
 }
 
 std::vector<char const*> const&
@@ -70,10 +82,10 @@ GPUDevice_Vulkan_SDL::Initialize(Window const& window)
 
     if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
           window.Id(), &extensionsCount, nullptr))) {
-      surfaceCreationExtensions.resize(extensionsCount);
+      surfaceCreationExtensionNames.resize(extensionsCount);
 
       if (sdl_FAIL(SDL_Vulkan_GetInstanceExtensions(
-        window.Id(), &extensionsCount, surfaceCreationExtensions.data()))) {
+        window.Id(), &extensionsCount, surfaceCreationExtensionNames.data()))) {
         errorStatus = "Unable to get Vulkan surface creation extensions";
         return false;
       }

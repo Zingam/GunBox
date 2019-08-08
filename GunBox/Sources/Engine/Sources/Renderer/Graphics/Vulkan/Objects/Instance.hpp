@@ -61,6 +61,7 @@ public:
 
 private:
   auto Create() -> void;
+  auto GetExtensionNamesToEnable() const -> std::vector<char const*>;
   auto GetLayerNamesToEnable() const -> std::vector<char const*>;
   auto GetRequiredLayerNames() const -> std::vector<char const*>;
 

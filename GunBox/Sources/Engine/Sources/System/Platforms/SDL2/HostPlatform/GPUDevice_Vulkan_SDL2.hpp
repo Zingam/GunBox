@@ -37,8 +37,10 @@ public:
 
   // Properties
 public:
+  auto DebugExtensionNames() const -> std::vector<char const*> const&;
+  auto InstanceExtensionNames() const -> std::vector<char const*> const&;
   auto InstanceProcAddress() const -> void*;
-  auto SurfaceCreationExtensions() const -> std::vector<char const*> const&;
+  auto SurfaceCreationExtensionNames() const -> std::vector<char const*> const&;
   auto ValidationLayerNames() const -> std::vector<char const*> const&;
 
   // Methods
@@ -50,7 +52,7 @@ public:
 private:
   std::optional<std::string> errorStatus;
   std::string platformName;
-  std::vector<char const*> surfaceCreationExtensions;
+  std::vector<char const*> surfaceCreationExtensionNames;
   Window const* window = nullptr;
 };
 

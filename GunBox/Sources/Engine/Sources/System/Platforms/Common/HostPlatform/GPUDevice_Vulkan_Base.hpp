@@ -6,20 +6,17 @@
 // Project headers - System/Platforms
 #include "System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.hpp"
 
-// C++ Standard Library
-#include <vector>
-
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-using GPUDevice_Vulkan_Base =
-  class GPUDevice_Vulkan_Base_Android : public GPUDevice_Vulkan_Base_Common
+class GPUDevice_Vulkan_Base : public GPUDevice_Vulkan_Base_Common
 {
+  // Constructors & Destructors
 protected:
-  GPUDevice_Vulkan_Base_Android();
+  GPUDevice_Vulkan_Base();
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

@@ -12,7 +12,7 @@
 
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
-using GPUDevice_Vulkan_Base = class GPUDevice_Vulkan_Base_Common
+class GPUDevice_Vulkan_Base_Common
 {
   // Constructors & Destructors
 protected:
@@ -20,6 +20,8 @@ protected:
 
   // Data members
 protected:
+  std::vector<char const*> debugExtensionNames;
+  std::vector<char const*> instanceExtensionNames;
   std::vector<char const*> validationLayerNames;
 };
 

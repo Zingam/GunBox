@@ -19,6 +19,22 @@
 #include <cstdint>
 #include <cstring>
 
+////////////////////////////////////////////////////////////////////////////////
+// Macros
+////////////////////////////////////////////////////////////////////////////////
+
+#if !defined(GetGRIProp)
+/// <summary>
+/// Returns a property of <c>GraphicsRenderer_Interface.</c>
+/// </summary>
+#  define GetGRIProp(PropertyName)                                             \
+    GraphicsRenderer_InterfaceAccessor::##PropertyName##(graphicsRenderer)
+#else
+#  error GetGRIProp is already defined!
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+
 NAMESPACE_BEGIN(Renderer::Graphics)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,19 +71,17 @@ void
 Instance::Create()
 {
   // Initialize glad
-  auto& vulkanDevice =
-    GraphicsRenderer_InterfaceAccessor::HostPlatform(graphicsRenderer)
-      .GPUDevice_Vulkan();
+  auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
+  // Load the function pointers
   gladLoadVulkanUserPtr(
     nullptr,
-    reinterpret_cast<GLADuserptrloadfunc>(vulkanDevice.InstanceProcAddress()),
+    reinterpret_cast<GLADuserptrloadfunc>(
+      vulkanDevice.GetInstanceProcAddress()),
     nullptr);
 
   // Create Vulkan instance
-  auto const& applicationInfo =
-    GraphicsRenderer_InterfaceAccessor::ApplicationInfo(graphicsRenderer);
-  auto const& engineInfo =
-    GraphicsRenderer_InterfaceAccessor::EngineInfo(graphicsRenderer);
+  auto const& applicationInfo = GetGRIProp(ApplicationInfo);
+  auto const& engineInfo = GetGRIProp(EngineInfo);
 
   VkApplicationInfo vulkanApplicationInfo{
     .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
@@ -79,10 +93,12 @@ Instance::Create()
     .apiVersion = VK_API_VERSION_1_1,
   };
 
-  auto layersToEnable = GetLayerNamesToEnable();
-  auto const& extensionsToEnable = vulkanDevice.SurfaceCreationExtensions();
+  auto const& layersToEnable = GetLayerNamesToEnable();
+  auto const& extensionNamesToEnable = GetExtensionNamesToEnable();
 
-  if (2LL <= vulkanDevice.SurfaceCreationExtensions().size()) {
+  // Check if enough extensions are available (the surface creation extensions
+  // are the minimum requirement)
+  if (0ULL < extensionNamesToEnable.size()) {
     VkInstanceCreateInfo instanceCreateInfo{
       .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
       .pNext = nullptr,
@@ -91,15 +107,17 @@ Instance::Create()
       .enabledLayerCount = static_cast<std::uint32_t>(layersToEnable.size()),
       .ppEnabledLayerNames = layersToEnable.data(),
       .enabledExtensionCount =
-        static_cast<std::uint32_t>(extensionsToEnable.size()),
-      .ppEnabledExtensionNames = extensionsToEnable.data(),
+        static_cast<std::uint32_t>(extensionNamesToEnable.size()),
+      .ppEnabledExtensionNames = extensionNamesToEnable.data(),
     };
+
     if (vkCallSuccess(
           vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
+      // Load the instance level function pointers
       gladLoadVulkanUserPtr(
         nullptr,
         reinterpret_cast<GLADuserptrloadfunc>(
-          vulkanDevice.InstanceProcAddress()),
+          vulkanDevice.GetInstanceProcAddress()),
         instance);
     }
 
@@ -108,15 +126,38 @@ Instance::Create()
 }
 
 std::vector<char const*>
+Instance::GetExtensionNamesToEnable() const
+{
+  auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
+  auto const& surfaceExtenionNames =
+    vulkanDevice.SurfaceCreationExtensionNames();
+
+  std::vector<char const*> extensionNamesToEnable;
+  // Check if surface extensions are available:
+  //   VK_KHR_surface
+  //   VK_KHR_<platform>_surface
+  // which are the required minimum for the graphics renderer
+  if (2ULL <= surfaceExtenionNames.size()) {
+    for (auto extensionName : surfaceExtenionNames) {
+      extensionNamesToEnable.push_back(extensionName);
+    }
+
+    return extensionNamesToEnable;
+  }
+
+  return {};
+}
+
+std::vector<char const*>
 Instance::GetLayerNamesToEnable() const
 {
-  auto const& commandLineArgs =
-    GraphicsRenderer_InterfaceAccessor::CommandLineArgs(graphicsRenderer);
+  auto const& rendererFeatures = GetGRIProp(CommandLineArgs).RendererFeatures();
   auto debugFeature = std::find(
-    commandLineArgs.RendererFeatures().begin(),
-    commandLineArgs.RendererFeatures().end(),
+    rendererFeatures.begin(),
+    rendererFeatures.end(),
     System::DeviceTypes::Graphics::APIFeatures_t::Debug);
-  if (debugFeature != commandLineArgs.RendererFeatures().end()) {
+
+  if (debugFeature != rendererFeatures.end()) {
     return GetRequiredLayerNames();
   }
 
@@ -127,9 +168,7 @@ std::vector<char const*>
 Instance::GetRequiredLayerNames() const
 {
   std::vector<char const*> availableLayers;
-  auto& vulkanDevice =
-    GraphicsRenderer_InterfaceAccessor::HostPlatform(graphicsRenderer)
-      .GPUDevice_Vulkan();
+  auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
   auto layers = EnumerateInstanceLayers();
   for (auto const layerName : vulkanDevice.ValidationLayerNames()) {
     for (auto& layer : layers) {

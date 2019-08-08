@@ -141,10 +141,12 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform/SystemInfo.hpp"
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Android/HostPlatform/GPUDevice_Vulkan_Base_Android.cpp>
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Android/HostPlatform/GPUDevice_Vulkan_Base_Android.hpp>
-  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.cpp>
-  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.hpp>
-  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.cpp>
-  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.hpp>
+  "Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.cpp"
+  "Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.hpp"
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base.cpp>
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base.hpp>
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base.cpp>
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base.hpp>
   "Sources/System/Platforms/Common/CompilerInfo.cpp"
   "Sources/System/Platforms/Common/CompilerInfo.hpp"
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>

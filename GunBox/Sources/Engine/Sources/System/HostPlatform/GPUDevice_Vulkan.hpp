@@ -33,8 +33,10 @@ class GPUDevice_Vulkan : public implementedBy<GPUDevice_Vulkan_Implementation>
 {
   // Properties
 public:
-  auto InstanceProcAddress() const -> void*;
-  auto SurfaceCreationExtensions() const -> std::vector<char const*> const&;
+  auto DebugExtensionNames() const -> std::vector<char const*> const&;
+  auto GetInstanceProcAddress() const -> void*;
+  auto InstanceExtensionNames() const -> std::vector<char const*> const&;
+  auto SurfaceCreationExtensionNames() const -> std::vector<char const*> const&;
   auto ValidationLayerNames() const -> std::vector<char const*> const&;
 
   // Methods
