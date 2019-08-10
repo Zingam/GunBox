@@ -72,7 +72,7 @@ Instance::Create()
 {
   // Initialize glad
   auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
-  // Load the function pointers
+  // Load the global level function pointers
   gladLoadVulkanUserPtr(
     nullptr,
     reinterpret_cast<GLADuserptrloadfunc>(

@@ -1,4 +1,3 @@
-#include "GPUDevice_Vulkan.hpp"
 // Self
 #include "GPUDevice_Vulkan.hpp"
 

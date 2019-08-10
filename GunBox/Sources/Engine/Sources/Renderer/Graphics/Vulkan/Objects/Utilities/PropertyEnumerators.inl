@@ -64,7 +64,7 @@ EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
       physicalDevice);
   std::vector<QueueFamily> queueFamilies;
 
-  for (std::uint32_t index = 0U;queueFamilyStructs.size() != index; ++index) {
+  for (std::uint32_t index = 0U; queueFamilyStructs.size() != index; ++index) {
     queueFamilies.emplace_back(queueFamilyStructs[index], index);
   }
 
@@ -87,18 +87,14 @@ inline auto
 EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
   -> std::vector<VkPhysicalDevice>
 {
-  assert(
-    IsInstance(instance.Get()) &&
-    "Vulkan instance is not initialized!");
+  assert(IsInstance(instance.Get()) && "Vulkan instance is not initialized!");
 
   std::uint32_t physicalDeviceCount = 0L;
   if (vkCallSuccess(vkEnumeratePhysicalDevices(
         instance.Get(), &physicalDeviceCount, nullptr))) {
     std::vector<VkPhysicalDevice> physicalDevices(physicalDeviceCount);
     if (vkCallSuccess(vkEnumeratePhysicalDevices(
-          instance.Get(),
-          &physicalDeviceCount,
-          physicalDevices.data()))) {
+          instance.Get(), &physicalDeviceCount, physicalDevices.data()))) {
       return physicalDevices;
     }
   }
