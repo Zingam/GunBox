@@ -28,7 +28,7 @@
 /// Returns a property of <c>GraphicsRenderer_Interface.</c>
 /// </summary>
 #  define GetGRIProp(PropertyName)                                             \
-    GraphicsRenderer_InterfaceAccessor::##PropertyName##(graphicsRenderer)
+    GraphicsRenderer_InterfaceAccessor::PropertyName(graphicsRenderer)
 #else
 #  error GetGRIProp is already defined!
 #endif

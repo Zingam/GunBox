@@ -8,13 +8,13 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 ////////////////////////////////////////////////////////////////////////////////
 
 GPUDevice_Vulkan_Base_Android::GPUDevice_Vulkan_Base_Android()
-  : validationLayerNames{
-    "VK_LAYER_GOOGLE_threading",
-    "VK_LAYER_GOOGLE_unique_objects",
-    "VK_LAYER_LUNARG_core_validation",
-    "VK_LAYER_LUNARG_object_tracker",
-    "VK_LAYER_LUNARG_parameter_validation",
-  }
-{}
+  : GPUDevice_Vulkan_Base_Common()
+{
+  validationLayerNames.push_back("VK_LAYER_GOOGLE_threading");
+  validationLayerNames.push_back("VK_LAYER_GOOGLE_unique_objects");
+  validationLayerNames.push_back("VK_LAYER_LUNARG_core_validation");
+  validationLayerNames.push_back("VK_LAYER_LUNARG_object_tracker");
+  validationLayerNames.push_back("VK_LAYER_LUNARG_parameter_validation");
+}
 
 NAMESPACE_END(System::HostPlatformClasses)
