@@ -8,10 +8,12 @@ A game programming exercise with **SDL2**, **OpenGL**, **Vulkan**...
 ### Software
 1. C++17 compiler (or newer)
 2. CMake 3.10 (or newer)
+3. vcpkg (optional)
 
 ### Third Party Library
 1. FreeType 2.9.1 (or newer)
 2. SDL 2.0.8 (or newer)
+3. Vulkan SDK
 
 ### How to Install Third Party Libraries with `vcpkg`
 
@@ -22,8 +24,33 @@ A game programming exercise with **SDL2**, **OpenGL**, **Vulkan**...
 * To install the required libraries:
 ```bat
 .\vcpkg.exe install freetype sdl2[vulkan] --triplet x64-windows
-
 ```
+
+### How to Install Third Party Libraries on Linux - Ubuntu 19.10+
+
+* Mesa development libraries:
+```bash
+sudo apt-get install libgl1-mesa-dev
+```
+* Vulkan SDK:
+  * Install from LunarG web site:
+    
+    https://vulkan.lunarg.com/sdk/home#linux
+  * Set environment variable ```VULKAN_SDK```:
+    ```bash
+    export VULKAN_SDK="\usr"
+    ```
+
+* Third party libraries with ```vcpkg``` on Linux:
+  * Install command:
+    ```bash
+    ./vcpkg install freetype sdl2[vulkan]
+    ```
+  * Set environment variable ```VCPKG_ROOT```:
+    ```bash
+    export VCPKG_ROOT="$HOME\Tools\vcpkg"
+    ```
+    Set the proper location if necessary.
 
 ## Notes
 
@@ -251,4 +278,16 @@ Example:
         }
     ]
 }
+```
+
+## Building on the Command Line
+
+### On Linux:
+```bash
+mkdir output-build
+mkdir output-install
+cd output-build
+cmake -G"Ninja" -DCMAKE_BUILD_TYPE=Debug -D"option_EngineLibraryAs_SHARED:BOOL=YES" -D"option_EnableLoggingLevel_Verbose:BOOL=YES" -D"CMAKE_INSTALL_PREFIX:STRING=$(dirname `pwd`)/output-install" ../GunBox/GunBox
+cmake --build .
+cmake --install .
 ```

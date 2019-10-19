@@ -301,17 +301,18 @@ if (__AreTargetsInstallable)
   endforeach ()
 
   # Set installation path
-  set (InstallationPath ${CMAKE_INSTALL_PREFIX})
+  set (__InstallationPath ${CMAKE_INSTALL_PREFIX})
+  if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    STRING(APPEND __InstallationPath "/lib")
+  endif ()
 
   if (option_EngineLibraryAs_SHARED)
     # Install targets
     install (
       TARGETS
         ${PROJECT_NAME}
-      RUNTIME DESTINATION
-        "${InstallationPath}"
       LIBRARY DESTINATION
-        "${InstallationPath}"
+        ${__InstallationPath}
     )
   endif ()
 
@@ -320,7 +321,7 @@ if (__AreTargetsInstallable)
     FILES
       ${.SharedLibraries}
     DESTINATION
-      "${InstallationPath}"
+      ${__InstallationPath}
   )
 endif ()
 
