@@ -37,7 +37,8 @@ if (WIN32)
 endif ()
 
 # Make the Linux executable fully relocatable on install
-if (UNIX)
+if (UNIX
+  AND NOT ANDROID)
   if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     set (__Unix_RPATH
       "$ORIGIN"
