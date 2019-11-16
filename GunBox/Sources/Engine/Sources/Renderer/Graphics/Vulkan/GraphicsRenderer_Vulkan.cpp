@@ -64,8 +64,12 @@ GraphicsRenderer_Vulkan::Initialize()
     if (isSuccess) {
       instance = std::make_unique<Instance>(*this);
       instance->EnumeratePhysicalDevices();
-      auto& physicalDevice =
-        instance->SelectPhysicalDevice(PhysicalDevice::Type_t::GPU_Integrated);
+#if defined(PREFER_INTEGRATED_GPU)
+      auto const physicalDeviceType = PhysicalDevice::Type_t::GPU_Integrated;
+#else
+      auto const physicalDeviceType = PhysicalDevice::Type_t::GPU_Discrete;
+#endif
+      auto& physicalDevice = instance->SelectPhysicalDevice(physicalDeviceType);
       auto result = physicalDevice.FindGraphicsQueueFamily();
 
       reLogI("  Selected physical device:");

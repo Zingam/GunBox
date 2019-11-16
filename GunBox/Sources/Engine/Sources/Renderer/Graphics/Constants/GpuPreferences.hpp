@@ -5,6 +5,10 @@
 #endif
 
 #if defined(_WINDOWS) && !defined(PREFER_INTEGRATED_GPU)
+////////////////////////////////////////////////////////////////////////////////
+// High Peformance Graphics variables
+////////////////////////////////////////////////////////////////////////////////
+
 // NVIDIA
 extern "C"
 {
@@ -23,6 +27,7 @@ extern "C"
   // NOTE: Needs to be in an executable in order to be detected.
   __declspec(dllexport) volatile unsigned long NvOptimusEnablement = 0x00000001;
 }
+
 // AMD
 extern "C"
 {
