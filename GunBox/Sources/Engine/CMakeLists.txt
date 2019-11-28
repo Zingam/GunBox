@@ -72,6 +72,8 @@ option (option_Graphics_OpenGL_PreferIntegratedGPU
 # Third party libraries
 ################################################################################
 
+# When specifying an out-of-tree source a binary directory must be explicitly
+# specified.
 add_subdirectory (
   "${CMAKE_SOURCE_DIR}/Sources/ThirdParty"
   "${PROJECT_BINARY_DIR}/../ThirdParty"
@@ -291,7 +293,7 @@ if (WIN32 OR UNIX)
 elseif (ANDROID)
   set (__AreTargetsInstallable NO)
 else ()
-  message (FATAL_ERROR "Unsupported platform ${}")
+  message (FATAL_ERROR "Unsupported target OS: ${CMAKE_SYSTEM_NAME}")
 endif ()
 
 if (__AreTargetsInstallable)

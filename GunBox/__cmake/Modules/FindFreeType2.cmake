@@ -103,7 +103,7 @@ if (DEFINED ENV{VCPKG_ROOT}
     string (APPEND .InstalledLibraryPathHints "-windows")
   else ()
     message (FATAL_ERROR
-      "Unknown target OS: ${CMAKE_SYSTEM_NAME}"
+      "Unsupported target OS: ${CMAKE_SYSTEM_NAME}"
     )
   endif ()
 
