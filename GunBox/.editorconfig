@@ -13,7 +13,7 @@ insert_final_newline = true
 
 # Editor guidelines (VS2019 extension)
 [*]
-guidelines = 80, 120
+guidelines = 80, 100, 120
 
 # Indentation
 [*]
