@@ -23,9 +23,7 @@ GraphicsRenderer_Vulkan::GraphicsRenderer_Vulkan(
   Application::CoreApplication const& coreApplication,
   Application::Preferences& preferences,
   System::HostPlatform& hostPlatform)
-  : GraphicsRenderer_Interface{ coreApplication,
-                                preferences,
-                                hostPlatform }
+  : GraphicsRenderer_Interface{ coreApplication, preferences, hostPlatform }
 {}
 
 GraphicsRenderer_Vulkan::~GraphicsRenderer_Vulkan() {}
@@ -70,29 +68,33 @@ GraphicsRenderer_Vulkan::Initialize()
       auto const physicalDeviceType = PhysicalDevice::Type_t::GPU_Discrete;
 #endif
       auto& physicalDevice = instance->SelectPhysicalDevice(physicalDeviceType);
-      auto result = physicalDevice.FindGraphicsQueueFamily();
 
       reLogI("  Selected physical device:");
       reLogI("    Name: ", physicalDevice.Name());
       reLogI("    Type: ", physicalDevice.TypeAsString());
 
+      auto queueFamilyResult = physicalDevice.FindGraphicsQueueFamily();
       std::unique_ptr<QueueFamily const> queueFamily_Ptr;
       std::string capabilityNotAvailableError;
 
-      if (auto data =
-            std::any_cast<std::reference_wrapper<QueueFamily const>>(&result);
-          IsInstance(data)) {
-        queueFamily_Ptr.reset(&data->get());
-      } else if (auto data = std::any_cast<std::string>(&result);
-                 IsInstance(data)) {
-        capabilityNotAvailableError = *data;
+      if (auto queueFamilyData =
+            std::any_cast<std::reference_wrapper<QueueFamily const>>(
+              &queueFamilyResult);
+          IsInstance(queueFamilyData)) {
+        queueFamily_Ptr.reset(&queueFamilyData->get());
+      } else if (auto errorData =
+                   std::any_cast<std::string>(&queueFamilyResult);
+                 IsInstance(errorData)) {
+        capabilityNotAvailableError = *errorData;
       } else {
+
         assert(false && "Unknown any_cast<T>() result!");
       }
 
       // If everything is OK
       if (IsInstance(queueFamily_Ptr)) {
         auto const& queueFamily = *queueFamily_Ptr.release();
+
         [[maybe_unused]] auto& caps = queueFamily.Capabilities();
 
         reLogI("    Queue family selected at index:");
@@ -103,6 +105,9 @@ GraphicsRenderer_Vulkan::Initialize()
         reLogI("        Protected:     ", std::boolalpha, caps.ProtectedMemory);
         reLogI("        SparseBinding: ", std::boolalpha, caps.SparseBinding);
         reLogI("        Transfer:      ", std::boolalpha, caps.Transfer);
+
+
+
       } else if (!capabilityNotAvailableError.empty()) {
         reLogE(capabilityNotAvailableError);
       } else {
