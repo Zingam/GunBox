@@ -297,7 +297,7 @@ else ()
 endif ()
 
 if (__AreTargetsInstallable)
-  message ("Shared libraries to install:")
+  message ("Shared third party libraries to install:")
   foreach (__SharedLibrary ${.SharedLibraries})
     message ("    ${__SharedLibrary}")
   endforeach ()
@@ -305,17 +305,26 @@ if (__AreTargetsInstallable)
   # Set installation path
   set (__InstallationPath ${CMAKE_INSTALL_PREFIX})
   if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    STRING(APPEND __InstallationPath "/lib")
+    string (APPEND __InstallationPath "/lib")
   endif ()
 
   if (option_EngineLibraryAs_SHARED)
     # Install targets
-    install (
-      TARGETS
-        ${PROJECT_NAME}
-      LIBRARY DESTINATION
-        ${__InstallationPath}
-    )
+    if (WIN32)
+      install (
+        TARGETS
+          ${PROJECT_NAME}
+        RUNTIME DESTINATION
+          ${__InstallationPath}
+      )
+    elseif (UNIX)
+      install (
+        TARGETS
+          ${PROJECT_NAME}
+        LIBRARY DESTINATION
+          ${__InstallationPath}
+      )
+    endif ()
   endif ()
 
   # Install required files
