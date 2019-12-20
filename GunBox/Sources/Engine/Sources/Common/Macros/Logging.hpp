@@ -1,21 +1,21 @@
 #pragma once
 ////////////////////////////////////////////////////////////////////////////////
 
-// Project headers - System
-#include "System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
+// Project headers - Logger
+#include "Logger/LogAPI.hpp"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macro definitions
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(LogError)
-#  define LogError SDL_LogError
+#if !defined(ELogE)
+#  define ELogE(...) reLogE("Engine: ", __VA_ARGS__)
 #else
-#  error LogError is already defined...
+#  error ELogE is already defined...
 #endif
 
-#if !defined(LogInfo)
-#  define LogInfo SDL_Log
+#if !defined(ELogI)
+#  define ELogI(...) reLogI("Engine: ", __VA_ARGS__)
 #else
-#  error LogError is already defined...
+#  error ELogI is already defined...
 #endif

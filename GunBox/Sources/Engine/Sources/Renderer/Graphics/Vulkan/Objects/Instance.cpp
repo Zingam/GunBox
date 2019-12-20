@@ -4,8 +4,8 @@
 // Project headers - Application
 #include "Application/CommandLineArgs.hpp"
 #include "Application/ModuleInfo.hpp"
-// Project headers - Logger
-#include "Logger/LogAPI.hpp"
+// Project headers - Common
+#include "Common/Macros/Logging.hpp"
 // Project headers - Renderer
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_InterfaceAccessor.hpp"
@@ -265,7 +265,7 @@ EnumerateInstanceLayers()
   assert(
     IsInstance(vkEnumerateInstanceLayerProperties) &&
     "vkEnumerateInstanceLayerProperties is not initialized. Were Vulkan function pointers properly loaded?");
-  // clang-fomrat on
+  // clang-format on
 
   auto instanceLayerCount = 0U;
   if (vkCallSuccess(
@@ -278,6 +278,28 @@ EnumerateInstanceLayers()
   }
 
   return {};
+}
+
+void
+ListPhysicalDevices(Instance const& instance)
+{
+  auto const& physicalDevices =
+    (const_cast<Instance&>(instance)).PhysicalDevices();
+
+  ELogI("Vulkan devices: (", physicalDevices.size(), ")");
+  for (auto& physicalDevice : physicalDevices) {
+    ELogI("  - Physical device:");
+    ELogI("      Name: ", physicalDevice.Name());
+    ELogI("      Type: ", physicalDevice.TypeAsString());
+    ELogI("      Queue families: (", physicalDevice.QueueFamilies().size(), ")");
+    ListQueueFamilies(physicalDevice);
+  }
+}
+
+void
+PrintPhysicalDeviceInfo(PhysicalDevice const& physicalDevice)
+{
+  ListQueueFamilies(physicalDevice);
 }
 
 NAMESPACE_END(Renderer::Graphics)

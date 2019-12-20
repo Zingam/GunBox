@@ -3,6 +3,8 @@
 
 // Project headers - Application
 #include "Application/ModuleInfo.hpp"
+// Project headers - Common
+#include "Common/Macros/Logging.hpp"
 // Project headers - Logger
 #include "Logger/LogAPI.hpp"
 // Project headers - Renderer
@@ -30,16 +32,24 @@ PhysicalDevice::PhysicalDevice(
   , physicalDevice{ physicalDevice }
 {
   vkGetPhysicalDeviceProperties(physicalDevice, &properties);
-  reLogI("  Physical device: ", properties.deviceName);
-  reLogI("    name: ", properties.deviceName);
-  reLogI("    type: ", TypeAsString());
-
   queueFamilies = EnumeratePhysicalDeviceQueueFamilies<QueueFamily>(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
+
+VkPhysicalDevice
+PhysicalDevice::Get() const
+{
+  return this->physicalDevice;
+}
+
+auto
+PhysicalDevice::Name() const -> std::string
+{
+  return { properties.deviceName };
+}
 
 std::vector<QueueFamily> const&
 PhysicalDevice::QueueFamilies() const
@@ -199,16 +209,27 @@ PhysicalDevice::FindQueueFamily(QueueFamily::Capability_t queueCapability) const
 // Free functions
 ////////////////////////////////////////////////////////////////////////////////
 
-VkPhysicalDevice
-PhysicalDevice::Get() const
+void
+ListQueueFamilies(PhysicalDevice const& physicalDevice)
 {
-  return this->physicalDevice;
+  for (auto const& queueFamily : physicalDevice.QueueFamilies()) {
+    PrintQueueFamilyInfo(queueFamily);
+  }
 }
 
-auto
-PhysicalDevice::Name() const -> std::string
+void
+PrintQueueFamilyInfo(QueueFamily const& queueFamily)
 {
-  return { properties.deviceName };
+  auto const& caps = queueFamily.Capabilities();
+
+  ELogI("        - Queue family:");
+  ELogI("            Index:           ", queueFamily.Index());
+  ELogI("            Capabilities:");
+  ELogI("              Compute:       ", std::boolalpha, caps.Compute);
+  ELogI("              Graphics:      ", std::boolalpha, caps.Graphics);
+  ELogI("              Protected:     ", std::boolalpha, caps.ProtectedMemory);
+  ELogI("              SparseBinding: ", std::boolalpha, caps.SparseBinding);
+  ELogI("              Transfer:      ", std::boolalpha, caps.Transfer);
 }
 
 NAMESPACE_END(Renderer::Graphics)

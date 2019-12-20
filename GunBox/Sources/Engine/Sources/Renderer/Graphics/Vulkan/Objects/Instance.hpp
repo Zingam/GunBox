@@ -91,6 +91,14 @@ auto
 EnumerateInstanceLayers()
   -> std::vector<VkLayerProperties>;
 
+auto
+ListPhysicalDevices(Instance const& instance)
+  -> void;
+
+auto
+PrintPhysicalDeviceInfo(PhysicalDevice const& physicalDevice)
+  -> void;
+
 // clang-format on
 
 NAMESPACE_END(Renderer::Graphics)

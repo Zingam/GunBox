@@ -1,9 +1,8 @@
 // Self
 #include "InputEventProcessor.hpp"
 
-// BASE MACROS header
+// Project headers - Common
 #include "Common/Macros/Logging.hpp"
-
 // Project headers - System
 #include "System/EventProcessing/InputDeviceStates/GamepadStateAccessor.hpp"
 #include "System/EventProcessing/InputDeviceStates/KeyboardStateAccessor.hpp"
@@ -73,7 +72,7 @@ InputEventProcessor::Gamepad_Add(
   // SDL_GameControllerOpen. Subsequent events return an instance ID.
   auto gameController = SDL_GameControllerOpen(deviceIndex);
   if (gameController == nullptr) {
-    LogError("Unable to open gamepad: %s", SDL_GetError());
+    ELogE("Unable to open gamepad: %s", SDL_GetError());
   } else {
     // Get the instance ID of this controller.
     auto gamepadId =

@@ -1,8 +1,6 @@
 // Self
 #include "FileSystem_SDL2.hpp"
 
-// Project headers - Common
-#include "Common/Macros/Logging.hpp"
 // Inlcude headers - Application
 #include "Application/ModuleInfo.hpp"
 // Project headers - System

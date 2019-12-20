@@ -81,4 +81,14 @@ private:
   std::vector<QueueFamily> queueFamilies;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+// Free functions
+////////////////////////////////////////////////////////////////////////////////
+
+auto
+ListQueueFamilies(PhysicalDevice const& physicalDevice) -> void;
+
+auto
+PrintQueueFamilyInfo(QueueFamily const& queueFamily) -> void;
+
 NAMESPACE_END(Renderer::Graphics)
