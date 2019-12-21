@@ -2,8 +2,11 @@
 #include "LoggerBase.hpp"
 
 // C++ Standard Library
+#include <algorithm>
 #include <iostream>
 #include <string>
+
+using namespace std::string_literals;
 
 NAMESPACE_BEGIN(Logger)
 
@@ -12,32 +15,47 @@ NAMESPACE_BEGIN(Logger)
 ////////////////////////////////////////////////////////////////////////////////
 
 LoggerBase::LoggerBase()
-  : logLevels{ { LogLevel_t::Error, "Error" },
-               { LogLevel_t::Info, "Info" },
-               { LogLevel_t::None, "" },
-               { LogLevel_t::Warning, "Warning" } }
-{}
+  : logLevels{ { LogLevel_t::Error, "Error"s },
+               { LogLevel_t::Info, "Info"s },
+               { LogLevel_t::None, ""s },
+               { LogLevel_t::Warning, "Warning"s } }
+  , totalPrefixWidth{ bulletPrefix.size() + MaxLogLevelLength() }
+{
+  ss.setf(std::ios::left, std::ios::adjustfield);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
 std::stringstream&
-LoggerBase::GetLogStream()
+LoggerBase::LogStream()
 {
   return ss;
 }
 
 void
-LoggerBase::SetLogLevel(LogLevel_t logLevel)
+LoggerBase::LogLevel(LogLevel_t logLevel)
 {
   this->logLevel = logLevel;
 }
 
 void
-LoggerBase::SetLogTag(std::string const& logTag)
+LoggerBase::LogTag(std::string const& logTag)
 {
   this->logTag = logTag;
+}
+
+std::size_t
+LoggerBase::MaxLogLevelLength()
+{
+  std::size_t maxSize = 0;
+
+  for (auto const& item : logLevels) {
+    maxSize = std::max(item.second.size(), maxSize);
+  }
+
+  return maxSize;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,8 +65,6 @@ LoggerBase::SetLogTag(std::string const& logTag)
 void
 LoggerBase::ClearLog()
 {
-  using namespace std::string_literals;
-
   ss.str(""s);
   ss.clear();
 }
@@ -64,7 +80,8 @@ void
 LoggerBase::SetLogPrefix()
 {
   if (LogLevel_t::None != logLevel) {
-    ss << "-- " << logLevels.at(logLevel) << ": ";
+    ss.width(totalPrefixWidth);
+    ss << bulletPrefix + logLevels.at(logLevel) << " - ";
   }
 }
 

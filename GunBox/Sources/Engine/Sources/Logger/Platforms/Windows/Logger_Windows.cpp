@@ -11,9 +11,9 @@ NAMESPACE_BEGIN(Logger)
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-Logger_Windows::SetLogLevel(LogLevel_t logLevel)
+Logger_Windows::LogLevel(LogLevel_t logLevel)
 {
-  LoggerBase::SetLogLevel(logLevel);
+  LoggerBase::LogLevel(logLevel);
   LoggerBase::SetLogPrefix();
 }
 

@@ -16,9 +16,9 @@ Log(LogLevel_t logLevel, Args const&... args)
 {
   auto& logger = Logger::GetInstance();
 
-  logger.SetLogLevel(logLevel);
+  logger.LogLevel(logLevel);
 
-  auto& ss = logger.GetLogStringStream();
+  auto& ss = logger.LogStringStream();
   (ss << ... << args) << "\n";
 
   logger.WriteLog();

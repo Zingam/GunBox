@@ -16,7 +16,7 @@ using Logger_Implementation = class Logger_Windows : public LoggerBase
 {
   // Properties
 public:
-  auto SetLogLevel(LogLevel_t logLevel) -> void;
+  auto LogLevel(LogLevel_t logLevel) -> void;
 
   // Methods
 public:

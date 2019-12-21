@@ -24,9 +24,12 @@ public:
 
   // Properties
 public:
-  auto GetLogStream() -> std::stringstream&;
-  auto SetLogLevel(LogLevel_t logLevel) -> void;
-  auto SetLogTag(std::string const& logTag) -> void;
+  auto LogStream() -> std::stringstream&;
+  auto LogLevel(LogLevel_t logLevel) -> void;
+  auto LogTag(std::string const& logTag) -> void;
+
+private:
+  auto MaxLogLevelLength() -> std::size_t;
 
   // Methods
 protected:
@@ -36,9 +39,13 @@ protected:
 
 protected:
   LogLevel_t logLevel = LogLevel_t::None;
-  const std::map<LogLevel_t, std::string> logLevels;
+  std::map<LogLevel_t, std::string> const logLevels;
   std::string logTag;
   std::stringstream ss;
+
+private:
+  std::string const bulletPrefix{ "< " };
+  std::size_t const totalPrefixWidth;
 };
 
 NAMESPACE_END(Logger)

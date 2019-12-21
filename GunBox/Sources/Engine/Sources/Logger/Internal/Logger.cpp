@@ -37,7 +37,7 @@ Logger::Logger(){};
 
 Logger::Logger(std::string const& logTag)
 {
-  o_ptr->SetLogTag(logTag);
+  o_ptr->LogTag(logTag);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,15 +45,15 @@ Logger::Logger(std::string const& logTag)
 ////////////////////////////////////////////////////////////////////////////////
 
 std::stringstream&
-Logger::GetLogStringStream() const
+Logger::LogStringStream() const
 {
-  return o_ptr->GetLogStream();
+  return o_ptr->LogStream();
 }
 
 void
-Logger::SetLogLevel(LogLevel_t logLevel)
+Logger::LogLevel(LogLevel_t logLevel)
 {
-  o_ptr->SetLogLevel(logLevel);
+  o_ptr->LogLevel(logLevel);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -4,8 +4,8 @@
 
 // Project headers - Application
 #include "Application/Configuration/Values.hpp"
-// Project headers - Logger
-#include "Logger/LogAPI.hpp"
+// Project headers - Common
+#include "Common/Macros/Logging.hpp"
 // Project headers - Renderer/Graphics
 #include "Renderer/Graphics/GraphicsRendererFactory.hpp"
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
@@ -69,7 +69,7 @@ CoreApplication::Finalize()
   if (isInitialized) {
 
 #if defined(_DEBUG)
-    reLogI("Finalizing: ", applicationInfo.Title());
+    ELogI("Finalizing: ", applicationInfo.Title());
 
     if (nullptr != commandLineArgs) {
       if (commandLineArgs->ShowSystemConsole()) {
@@ -122,20 +122,20 @@ CoreApplication::Initialize()
   }
 
   // clang-format off
-  reLogI(
+  ELogI(
     "Initializing:      ", applicationInfo.Title());
-  reLogI(
+  ELogI(
     "  Version:         ", applicationInfo.GetVersion().AsString());
-  reLogI(
+  ELogI(
     "  Directories:");
-  reLogI(
+  ELogI(
     "    Base:");
-  reLogI(
+  ELogI(
     "      ",
     hostPlatform.FileSystem().BasePath());
-  reLogI(
+  ELogI(
     "    Preferencies:");
-  reLogI(
+  ELogI(
     "      ",
     hostPlatform.FileSystem().PreferencesRootPath());
   // clang-format on
@@ -148,13 +148,13 @@ CoreApplication::Initialize()
     compilerVersion = compilerInfo.GetVersion().AsString();
   }
   // clang-format off
-  reLogI(
+  ELogI(
     "  Compiler:        ",
     compilerInfo.Name());
-  reLogI(
+  ELogI(
     "    Version:       ",
     compilerVersion.data());
-  reLogI(
+  ELogI(
     "    C++ Standard:  ",
     compilerInfo.LanguageStandard());
   // clang-format on
@@ -187,7 +187,7 @@ CoreApplication::Initialize()
       auto height = commandLineArgs->Resolution().value().Height;
       auto width = commandLineArgs->Resolution().value().Width;
 
-      reLogI("Desired resolution: ", width, "x", height);
+      ELogI("Desired resolution: ", width, "x", height);
 
       creationPreferences.MainWindowMetrics().Size.Height = height;
       creationPreferences.MainWindowMetrics().Size.Width = width;
@@ -196,7 +196,7 @@ CoreApplication::Initialize()
     if (commandLineArgs->Renderer()) {
       auto renderer = commandLineArgs->Renderer().value();
 
-      reLogI("Desired renderer:   ", Renderer::Graphics::AsString(renderer));
+      ELogI("Desired renderer:   ", Renderer::Graphics::AsString(renderer));
 
       creationPreferences.RendererAPI() = renderer;
     }

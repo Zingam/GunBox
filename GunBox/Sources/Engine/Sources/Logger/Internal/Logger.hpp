@@ -32,8 +32,8 @@ public:
 
   // Properties
 public:
-  auto GetLogStringStream() const -> std::stringstream&;
-  auto SetLogLevel(LogLevel_t logLevel) -> void;
+  auto LogStringStream() const -> std::stringstream&;
+  auto LogLevel(LogLevel_t logLevel) -> void;
 
   // Methods
 public:
