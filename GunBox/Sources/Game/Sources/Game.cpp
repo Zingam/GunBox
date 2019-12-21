@@ -5,6 +5,7 @@
 #include "EventHandling/InputEventCallbacks.hpp"
 #include "EventHandling/SystemEventCallbacks.hpp"
 #include "GameStates/GameStateManager.hpp"
+#include "Logging/Logging.hpp"
 
 // Engine headers - Logger
 #include <Logger/LogAPI.hpp>
@@ -74,7 +75,7 @@ Game::InitializeGraphicsRenderer()
 void
 Game::MainLoop_Execute(GameStateManager& gameStateManager)
 {
-  reLog(GetApplicationInfo().Title(), ": Running the game...");
+  GLogI(GetApplicationInfo().Title(), ": Running the game...");
 
   std::chrono::time_point lastExecutionTime =
     std::chrono::high_resolution_clock::now();
@@ -99,7 +100,7 @@ Game::MainLoop_Execute(GameStateManager& gameStateManager)
 void
 Game::MainLoop_Finalize()
 {
-  reLog(GetApplicationInfo().Title(), ": Exiting the game...");
+  GLogI(GetApplicationInfo().Title(), ": Exiting the game...");
 
   graphicsRenderer->Finalize();
 }
@@ -107,7 +108,7 @@ Game::MainLoop_Finalize()
 std::unique_ptr<GameStateManager>
 Game::MainLoop_Initialize()
 {
-  reLog(GetApplicationInfo().Title(), ": Staring a new game...");
+  GLogI(GetApplicationInfo().Title(), ": Staring a new game...");
 
   assert(
     (nullptr != graphicsRenderer) &&

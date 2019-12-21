@@ -44,6 +44,8 @@ set (Game_SourceFiles
   "Sources/GameStates/InGame.hpp"
   "Sources/GameStates/MainMenu.cpp"
   "Sources/GameStates/MainMenu.hpp"
+  "Sources/Logging/Logging.cpp"
+  "Sources/Logging/Logging.hpp"
   "Sources/Game.cpp"
   "Sources/Game.hpp"
   "Sources/GameFactory.cpp"
