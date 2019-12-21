@@ -73,9 +73,8 @@ CommandLineArgs::Fullscreen() const
   return fullscreen;
 }
 
-auto
+std::optional<System::DeviceTypes::Graphics::API_t>
 CommandLineArgs::Renderer() const
-  -> std::optional<System::DeviceTypes::Graphics::API_t>
 {
   return renderer;
 }
@@ -202,10 +201,10 @@ CommandLineArgs::ParseFullscreen(
   return std::nullopt;
 }
 
-auto
+std::optional<std::string>
 CommandLineArgs::ParseRenderer(
   std::string const& option,
-  std::vector<std::string> const& parameters) -> std::optional<std::string>
+  std::vector<std::string> const& parameters)
 {
   if (renderer) {
     return "Duplicated option: " + option + " " + parameters[0];
