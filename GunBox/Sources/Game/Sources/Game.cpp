@@ -1,14 +1,13 @@
 // Self
 #include "Game.hpp"
 
-// Project headers
+// Project headers - Common
+#include "Common/Macros/Logging.hpp"
 #include "EventHandling/InputEventCallbacks.hpp"
 #include "EventHandling/SystemEventCallbacks.hpp"
 #include "GameStates/GameStateManager.hpp"
 #include "Logging/Logging.hpp"
 
-// Engine headers - Logger
-#include <Logger/LogAPI.hpp>
 // Engine headers - System
 #include <System/GUI/AlertBox.hpp>
 
@@ -53,7 +52,7 @@ bool
 Game::InitializeGraphicsRenderer()
 {
   if (!graphicsRenderer->Initialize()) {
-    reLogE("Failed to initialize the graphics renderer!");
+    GLogE("Failed to initialize the graphics renderer!");
 
     std::stringstream errorMessage;
     errorMessage << "Failed to initialize the graphics renderer:\n\n"

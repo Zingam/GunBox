@@ -8,16 +8,16 @@
 // Macro definitions
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(ELogE)
+#if !defined(GLogE)
 // Game application logging macro
 #  define GLogE(...) reLogE("[Game]   > ", __VA_ARGS__)
 #else
-#  error ELogE is already defined...
+#  error GLogE is already defined...
 #endif
 
-#if !defined(ELogI)
+#if !defined(GLogI)
 // Game application logging macro
 #  define GLogI(...) reLogI("[Game]   > ", __VA_ARGS__)
 #else
-#  error ELogI is already defined...
+#  error GLogI is already defined...
 #endif
