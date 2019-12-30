@@ -56,6 +56,10 @@ GraphicsRenderer_Vulkan::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
 
+  using namespace std::string_literals;
+
+  ELogI("Initializing: Vulkan Renderer"s);
+
   // Create window
   auto isSuccess = GraphicsRenderer_Interface::Initialize();
   if (isSuccess) {
@@ -64,65 +68,64 @@ GraphicsRenderer_Vulkan::Initialize()
     if (isSuccess) {
       instance = std::make_unique<Instance>(*this);
       instance->EnumeratePhysicalDevices();
-      ListPhysicalDevices(*instance);
+      instance->ListPhysicalDevices();
 
 #if defined(PREFER_INTEGRATED_GPU)
       auto const physicalDeviceType = PhysicalDevice::Type_t::GPU_Integrated;
 #else
       auto const physicalDeviceType = PhysicalDevice::Type_t::GPU_Discrete;
 #endif
-      auto const& physicalDevice{ instance->SelectPhysicalDevice(
-        physicalDeviceType) };
+      instance->SelectPhysicalDevice(physicalDeviceType);
 
-      ELogI("Vulkan renderer:");
-      ELogI("  - Selected physical device:");
-      ELogI("      Name: ", physicalDevice.Name());
-      ELogI("      Type: ", physicalDevice.TypeAsString());
+      if (instance->SelectedPhysicalDevice().has_value()) {
+        auto const& physicalDevice{
+          instance->SelectedPhysicalDevice().value().get()
+        };
 
-      auto const queueFamilyResult{ physicalDevice.FindGraphicsQueueFamily() };
-      std::unique_ptr<QueueFamily const> queueFamily_Ptr;
-      std::string capabilityNotAvailableError;
+        auto const queueFamilyResult{
+          physicalDevice.FindGraphicsQueueFamily()
+        };
+        std::unique_ptr<QueueFamily const> queueFamily_Ptr;
+        std::string capabilityNotAvailableError;
 
-      if (auto const queueFamilyData =
-            std::any_cast<std::reference_wrapper<QueueFamily const>>(
-              &queueFamilyResult);
-          IsInstance(queueFamilyData)) {
-        queueFamily_Ptr.reset(&queueFamilyData->get());
-      } else if (auto const errorData =
-                   std::any_cast<std::string>(&queueFamilyResult);
-                 IsInstance(errorData)) {
-        capabilityNotAvailableError = *errorData;
-      } else {
-        assert(false && "Unknown any_cast<T>() result!");
-      }
+        if (auto const queueFamilyData =
+              std::any_cast<std::reference_wrapper<QueueFamily const>>(
+                &queueFamilyResult);
+            IsInstance(queueFamilyData)) {
+          queueFamily_Ptr.reset(&queueFamilyData->get());
+        } else if (auto const errorData =
+                     std::any_cast<std::string>(&queueFamilyResult);
+                   IsInstance(errorData)) {
+          capabilityNotAvailableError = *errorData;
+        } else {
+          assert(false && "Unknown any_cast<T>() result!");
+        }
 
-      // If everything is OK
-      if (IsInstance(queueFamily_Ptr)) {
-        auto const& queueFamily{ *queueFamily_Ptr.release() };
+        // If everything is OK
+        if (IsInstance(queueFamily_Ptr)) {
+          auto const& queueFamily{ *queueFamily_Ptr.release() };
 
-        [[maybe_unused]] auto const& caps = queueFamily.Capabilities();
-
-        ELogI("    - Selected queue family:");
-        ELogI("        Index:           ", queueFamily.Index());
-        ELogI("        Capabilities:");
-        ELogI("          Compute:       ", std::boolalpha, caps.Compute);
-        ELogI("          Graphics:      ", std::boolalpha, caps.Graphics);
-        ELogI("          Protected:     ", std::boolalpha, caps.ProtectedMemory);
-        ELogI("          SparseBinding: ", std::boolalpha, caps.SparseBinding);
-        ELogI("          Transfer:      ", std::boolalpha, caps.Transfer);
-
-      } else if (!capabilityNotAvailableError.empty()) {
-        reLogE(capabilityNotAvailableError);
-      } else {
-        assert(false && "Unknown any_cast<T>() result!");
+          [[maybe_unused]] auto const& caps = queueFamily.Capabilities();
+          // clang-format off
+          ELogI("      + Selected queue family:"s);
+          ELogI("          Index:           "s, queueFamily.Index());
+          ELogI("          Capabilities:"s);
+          ELogI("            Compute:       "s, std::boolalpha, caps.Compute);
+          ELogI("            Graphics:      "s, std::boolalpha, caps.Graphics);
+          ELogI("            Protected:     "s, std::boolalpha, caps.ProtectedMemory);
+          ELogI("            SparseBinding: "s, std::boolalpha, caps.SparseBinding);
+          ELogI("            Transfer:      "s, std::boolalpha, caps.Transfer);
+          // clang-format on
+          isInitialized = true;
+        } else if (!capabilityNotAvailableError.empty()) {
+          ELogE(capabilityNotAvailableError);
+        } else {
+          assert(false && "Unknown any_cast<T>() result!");
+        }
       }
     } else {
-      reLogE("No Vulkan surfrace creation extensions are available!");
-
-      isInitialized = false;
+      ELogE("No Vulkan surfrace creation extensions are available!");
     }
-  } else {
-    isInitialized = false;
   }
 
   return isInitialized;

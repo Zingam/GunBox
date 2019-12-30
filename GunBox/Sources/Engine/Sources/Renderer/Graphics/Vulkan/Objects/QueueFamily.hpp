@@ -3,8 +3,8 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Third party libraries
-#include <glad/vulkan.h>
+// Project headers - Renderer
+#include "Renderer/Graphics/Vulkan/Vulkan.hpp"
 
 // C Standard Library
 #include <cstdint>

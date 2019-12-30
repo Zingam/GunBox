@@ -78,6 +78,7 @@ PhysicalDevice::Type() const
   }
 }
 
+// Returns device type as a string
 std::string
 PhysicalDevice::TypeAsString() const
 {
@@ -220,16 +221,20 @@ ListQueueFamilies(PhysicalDevice const& physicalDevice)
 void
 PrintQueueFamilyInfo(QueueFamily const& queueFamily)
 {
+  using namespace std::string_literals;
+
   auto const& caps = queueFamily.Capabilities();
 
-  ELogI("        - Queue family:");
-  ELogI("            Index:           ", queueFamily.Index());
-  ELogI("            Capabilities:");
-  ELogI("              Compute:       ", std::boolalpha, caps.Compute);
-  ELogI("              Graphics:      ", std::boolalpha, caps.Graphics);
-  ELogI("              Protected:     ", std::boolalpha, caps.ProtectedMemory);
-  ELogI("              SparseBinding: ", std::boolalpha, caps.SparseBinding);
-  ELogI("              Transfer:      ", std::boolalpha, caps.Transfer);
+  // clang-format off
+  ELogI("          + Queue family:"s);
+  ELogI("              Index:           "s, queueFamily.Index());
+  ELogI("              Capabilities:"s);
+  ELogI("                Compute:       "s, std::boolalpha, caps.Compute);
+  ELogI("                Graphics:      "s, std::boolalpha, caps.Graphics);
+  ELogI("                Protected:     "s, std::boolalpha, caps.ProtectedMemory);
+  ELogI("                SparseBinding: "s, std::boolalpha, caps.SparseBinding);
+  ELogI("                Transfer:      "s, std::boolalpha, caps.Transfer);
+  // clang-format on
 }
 
 NAMESPACE_END(Renderer::Graphics)

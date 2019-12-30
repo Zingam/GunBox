@@ -45,6 +45,7 @@ protected:
 
 private:
   std::string const bulletPrefix{ "< " };
+  std::string const exclamationPrefix{ "! " };
   std::size_t const totalPrefixWidth;
 };
 

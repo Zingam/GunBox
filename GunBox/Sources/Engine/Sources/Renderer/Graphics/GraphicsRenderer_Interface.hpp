@@ -9,7 +9,6 @@
 
 // C++ Standard Library
 #include <memory>
-#include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -79,12 +78,5 @@ private:
 
 using GraphicsRenderer_UPtr = std::unique_ptr<GraphicsRenderer_Interface>;
 using GraphicsRenderer_SPtr = std::unique_ptr<GraphicsRenderer_Interface>;
-
-////////////////////////////////////////////////////////////////////////////////
-// Free functions
-////////////////////////////////////////////////////////////////////////////////
-
-auto
-AsString(System::DeviceTypes::Graphics::API_t graphicsApi) -> std::string;
 
 NAMESPACE_END(Renderer::Graphics)

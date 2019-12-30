@@ -10,6 +10,7 @@ enum class LogLevel_t
   Error,
   Info,
   None,
+  Validation,
   Warning
 };
 

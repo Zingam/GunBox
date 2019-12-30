@@ -42,7 +42,7 @@ GPUDevice_Vulkan::ValidationLayerNames() const
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-GPUDevice_Vulkan::Initialize(Window const& window)
+GPUDevice_Vulkan::Initialize(System::Window const& window)
 {
   return o_ptr->Initialize(window);
 }

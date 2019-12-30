@@ -1,8 +1,6 @@
 // Self
 #include "GPUDevice_Vulkan_SDL2.hpp"
 
-// Project headers - Logger
-#include "Logger/LogAPI.hpp"
 // Project headers - System
 #include "System/GUI/Window.hpp"
 
@@ -73,20 +71,24 @@ GPUDevice_Vulkan_SDL::Finalize()
 {}
 
 bool
-GPUDevice_Vulkan_SDL::Initialize(Window const& window)
+GPUDevice_Vulkan_SDL::Initialize(System::Window const& window)
 {
   platformName = SDL_GetPlatform();
 
   if (ret_SUCCESS(SDL_Vulkan_LoadLibrary(nullptr))) {
-    std::uint32_t extensionsCount = 0;
+    std::uint32_t extensionsCount = 0u;
 
     if (sdl_SUCCESS(SDL_Vulkan_GetInstanceExtensions(
           window.Id(), &extensionsCount, nullptr))) {
       surfaceCreationExtensionNames.resize(extensionsCount);
 
       if (sdl_FAIL(SDL_Vulkan_GetInstanceExtensions(
-        window.Id(), &extensionsCount, surfaceCreationExtensionNames.data()))) {
-        errorStatus = "Unable to get Vulkan surface creation extensions";
+            window.Id(),
+            &extensionsCount,
+            surfaceCreationExtensionNames.data()))) {
+        using namespace std::string_literals;
+
+        errorStatus = "Unable to get Vulkan surface creation extensions"s;
         return false;
       }
     }

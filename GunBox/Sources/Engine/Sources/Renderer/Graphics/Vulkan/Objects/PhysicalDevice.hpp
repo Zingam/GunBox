@@ -5,14 +5,13 @@
 
 // Project headers - Renderer
 #include "Renderer/Graphics/Vulkan/Objects/QueueFamily.hpp"
-
-// Third party libraries
-#include <glad/vulkan.h>
+#include "Renderer/Graphics/Vulkan/Vulkan.hpp"
 
 // C++ Standard Library
 #include <any>
 #include <string>
 #include <vector>
+#include <iostream>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
@@ -40,6 +39,7 @@ public:
   PhysicalDevice(
     Instance const& instance,
     VkPhysicalDevice const physicalDevice);
+  ~PhysicalDevice() { };
 
 public:
   PhysicalDevice(PhysicalDevice const&) = delete;

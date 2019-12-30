@@ -35,6 +35,10 @@ GraphicsRenderer_OpenGL::Initialize()
 {
   assert(!isInitialized && "Renderer is already initialized!");
 
+  using namespace std::string_literals;
+
+  ELogI("Initializing: OpenGL Renderer"s);
+
   auto& GPUDevice_OpenGL = hostPlatform.GPUDevice_OpenGL();
   auto isSuccess = GPUDevice_OpenGL.Initialize(*window);
   if (isSuccess) {
@@ -51,21 +55,16 @@ GraphicsRenderer_OpenGL::Initialize()
           [[maybe_unused]] auto const glslVersion =
             glGetString(GL_SHADING_LANGUAGE_VERSION);
 
-          ELogI("Graphics Renderer: OpenGL");
-          ELogI("  Vendor:          ", vendor);
-          ELogI("  Renderer:        ", renderer);
-          ELogI("  Version:         ", version);
-          ELogI("  GLSL version:    ", glslVersion);
+          ELogI("  Vendor:          "s, vendor);
+          ELogI("  Renderer:        "s, renderer);
+          ELogI("  Version:         "s, version);
+          ELogI("  GLSL version:    "s, glslVersion);
 
           isInitialized = true;
-
-          return isInitialized;
         }
       }
     }
   }
-
-  isInitialized = false;
 
   return isInitialized;
 }

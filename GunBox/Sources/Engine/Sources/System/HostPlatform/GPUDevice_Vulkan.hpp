@@ -10,7 +10,6 @@
 #include "Common/implementedBy.hpp"
 
 // C++ Standard Library
-#include <string>
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +40,7 @@ public:
 
   // Methods
 public:
-  auto Initialize(Window const& window) -> bool;
+  auto Initialize(System::Window const& window) -> bool;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

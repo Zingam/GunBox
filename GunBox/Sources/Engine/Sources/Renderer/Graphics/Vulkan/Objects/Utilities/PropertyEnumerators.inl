@@ -54,7 +54,6 @@ EnumeratePhysicalDeviceQueueFamilies<VkQueueFamilyProperties>(
 template<>
 inline std::vector<QueueFamily>
 EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
-
 {
   assert(
     IsInstance(physicalDevice.Get()) && "Vulkan object is not initialized!");

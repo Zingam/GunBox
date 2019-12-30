@@ -55,6 +55,16 @@
 #  error reLogI is already defined...
 #endif
 
+#if !defined(reLogV)
+#  if defined(LOGGING_LEVEL_VERBOSE)
+#    define reLogV(...) Logger::Log(Logger::LogLevel_t::Validation, __VA_ARGS__)
+#  else
+#    define reLogV(...)
+#  endif
+#else
+#  error reLogV is already defined...
+#endif
+
 #if !defined(reLogW)
 #  if defined(LOGGING_LEVEL_VERBOSE)
 #    define reLogW(...) Logger::Log(Logger::LogLevel_t::Warning, __VA_ARGS__)

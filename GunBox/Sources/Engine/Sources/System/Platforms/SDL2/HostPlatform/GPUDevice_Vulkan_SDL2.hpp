@@ -46,14 +46,14 @@ public:
   // Methods
 public:
   auto Finalize() -> void;
-  auto Initialize(Window const& window) -> bool;
+  auto Initialize(System::Window const& window) -> bool;
 
   // Data members
 private:
   std::optional<std::string> errorStatus;
   std::string platformName;
   std::vector<char const*> surfaceCreationExtensionNames;
-  Window const* window = nullptr;
+  System::Window const* window = nullptr;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

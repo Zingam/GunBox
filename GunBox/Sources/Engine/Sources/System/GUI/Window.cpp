@@ -1,6 +1,9 @@
 // Self
 #include "Window.hpp"
 
+// Project headers - Common
+#include "Common/Macros/Logging.hpp"
+
 // Third party
 #include <SDL_video.h>
 
@@ -65,6 +68,8 @@ Window::Hide()
 bool
 Window::Show()
 {
+  bool isCreated = true;
+
   if (nullptr != handle) {
     SDL_ShowWindow(handle);
   } else {
@@ -117,19 +122,34 @@ Window::Show()
       }
     }
 
-    handle = SDL_CreateWindow(title.c_str(),
-                              properties.Coordinate.X,
-                              properties.Coordinate.Y,
-                              properties.Size.Width,
-                              properties.Size.Height,
-                              windowFlags);
+    handle = SDL_CreateWindow(
+      title.c_str(),
+      properties.Coordinate.X,
+      properties.Coordinate.Y,
+      properties.Size.Width,
+      properties.Size.Height,
+      windowFlags);
 
     if (nullptr == handle) {
-      return false;
+      isCreated = false;
+
+      using namespace std::string_literals;
+
+      ELogE("Failed to create application window!"s);
+    } else {
+      using namespace std::string_literals;
+
+      auto const& graphicsApiName =
+        DeviceTypes::Graphics::AsString(properties.RendererAPI);
+      ELogI("  - Application window: "s, graphicsApiName);
+      ELogI("      X:      "s, properties.Coordinate.X);
+      ELogI("      Y:      "s, properties.Coordinate.Y);
+      ELogI("      Width:  "s, properties.Size.Width);
+      ELogI("      Height: "s, properties.Size.Height);
     }
   }
 
-  return true;
+  return isCreated;
 }
 
 NAMESPACE_END(System)

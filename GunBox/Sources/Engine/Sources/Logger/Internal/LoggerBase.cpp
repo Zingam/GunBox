@@ -1,6 +1,8 @@
 // Self
 #include "LoggerBase.hpp"
 
+// C Standard Library
+#include <cassert>
 // C++ Standard Library
 #include <algorithm>
 #include <iostream>
@@ -18,9 +20,14 @@ LoggerBase::LoggerBase()
   : logLevels{ { LogLevel_t::Error, "Error"s },
                { LogLevel_t::Info, "Info"s },
                { LogLevel_t::None, ""s },
+               { LogLevel_t::Validation, "Validation"s },
                { LogLevel_t::Warning, "Warning"s } }
   , totalPrefixWidth{ bulletPrefix.size() + MaxLogLevelLength() }
 {
+  assert(
+    (bulletPrefix.size() == exclamationPrefix.size()) &&
+    "Prefix size must be equal!");
+
   ss.setf(std::ios::left, std::ios::adjustfield);
 }
 
@@ -79,10 +86,28 @@ LoggerBase::DoLog()
 void
 LoggerBase::SetLogPrefix()
 {
-  if (LogLevel_t::None != logLevel) {
-    ss.width(totalPrefixWidth);
-    ss << bulletPrefix + logLevels.at(logLevel) << " - ";
-  }
+  switch (logLevel) {
+    case LogLevel_t::Validation:
+      [[fallthrough]];
+    case LogLevel_t::Error: {
+      ss.width(totalPrefixWidth);
+      ss << exclamationPrefix + logLevels.at(logLevel) << " ! ";
+      break;
+    }
+    case LogLevel_t::Info:
+      [[fallthrough]];
+    case LogLevel_t::Warning: {
+      ss.width(totalPrefixWidth);
+      ss << bulletPrefix + logLevels.at(logLevel) << " - ";
+      break;
+    }
+    case LogLevel_t::None: {
+      break;
+    }
+    default: {
+      assert(false && "Invalid Log Level value!");
+    }
+  };
 }
 
 NAMESPACE_END(Logger)

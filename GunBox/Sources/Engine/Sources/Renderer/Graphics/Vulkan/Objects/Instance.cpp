@@ -18,20 +18,40 @@
 // C Standard Library
 #include <cstdint>
 #include <cstring>
+// C++ Standard Library
+#include <type_traits>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macros
 ////////////////////////////////////////////////////////////////////////////////
 
-#if !defined(GetGRIProp)
+#if !defined(GRIProperty)
 /// <summary>
 /// Returns a property of <c>GraphicsRenderer_Interface.</c>
 /// </summary>
-#  define GetGRIProp(PropertyName)                                             \
+#  define GRIProperty(PropertyName)                                            \
     GraphicsRenderer_InterfaceAccessor::PropertyName(graphicsRenderer)
 #else
 #  error GetGRIProp is already defined!
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+template<
+  typename LHS,
+  typename RHS,
+  typename = std::enable_if_t<
+    (std::is_same<const char*, LHS>::value ||
+     std::is_same<const char[], LHS>::value) &&
+    (std::is_same<const char*, RHS>::value ||
+     std::is_same<const char[], RHS>::value)>>
+bool
+AreNamesEqual(LHS lhs, RHS rhs)
+{
+  return (0 == strcmp(lhs, rhs));
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -43,9 +63,17 @@ NAMESPACE_BEGIN(Renderer::Graphics)
 
 Instance::Instance(GraphicsRenderer_Interface const& graphicsRenderer)
   : graphicsRenderer{ graphicsRenderer }
-  , instance{ nullptr }
 {
   this->Create();
+}
+
+Instance::~Instance()
+{
+  if (isValidationEnabled) {
+    DebugMessangerDestroy();
+  }
+
+  vkDestroyInstance(instance, nullptr);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +89,12 @@ std::vector<PhysicalDevice>&
 Instance::PhysicalDevices()
 {
   return physicalDevices;
+}
+
+optional_ref<PhysicalDevice const>
+Instance::SelectedPhysicalDevice() const
+{
+  return selectedPhysicalDevice;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +105,7 @@ void
 Instance::Create()
 {
   // Initialize glad
-  auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
+  auto& vulkanDevice = GRIProperty(HostPlatform).GPUDevice_Vulkan();
   // Load the global level function pointers
   gladLoadVulkanUserPtr(
     nullptr,
@@ -80,8 +114,8 @@ Instance::Create()
     nullptr);
 
   // Create Vulkan instance
-  auto const& applicationInfo = GetGRIProp(ApplicationInfo);
-  auto const& engineInfo = GetGRIProp(EngineInfo);
+  auto const& applicationInfo = GRIProperty(ApplicationInfo);
+  auto const& engineInfo = GRIProperty(EngineInfo);
 
   VkApplicationInfo vulkanApplicationInfo{
     .sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
@@ -94,7 +128,9 @@ Instance::Create()
   };
 
   auto const& layersToEnable = GetLayerNamesToEnable();
-  auto const& extensionNamesToEnable = GetExtensionNamesToEnable();
+  isValidationEnabled = ((layersToEnable.size() > 0ull) ? true : false);
+  auto const& extensionNamesToEnable =
+    GetExtensionNamesToEnable(isValidationEnabled);
 
   // Check if enough extensions are available (the surface creation extensions
   // are the minimum requirement)
@@ -102,7 +138,7 @@ Instance::Create()
     VkInstanceCreateInfo instanceCreateInfo{
       .sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO,
       .pNext = nullptr,
-      .flags = 0L,
+      .flags = 0u,
       .pApplicationInfo = &vulkanApplicationInfo,
       .enabledLayerCount = static_cast<std::uint32_t>(layersToEnable.size()),
       .ppEnabledLayerNames = layersToEnable.data(),
@@ -113,33 +149,156 @@ Instance::Create()
 
     if (vkCallSuccess(
           vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
-      // Load the instance level function pointers
-      gladLoadVulkanUserPtr(
-        nullptr,
-        reinterpret_cast<GLADuserptrloadfunc>(
-          vulkanDevice.GetInstanceProcAddress()),
-        instance);
+
+      auto isSuccess = LoadVulkanInstanceFunctionPointers(
+        vulkanDevice.GetInstanceProcAddress(), instance);
+      if (!isSuccess) {
+        assert(false && "Failed to load Vulkan instance function pointers!");
+      }
+
+      if (isValidationEnabled) {
+        DebugMessangerCreate();
+      }
     }
 
     assert(IsInstance(instance) && "Vulkan instance is not initialized!");
   }
 }
 
-std::vector<char const*>
-Instance::GetExtensionNamesToEnable() const
+void
+Instance::DebugMessangerCreate()
 {
-  auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
+  assert(
+    IsInstance(vkGetInstanceProcAddr) &&
+    "Instance function pointers are not loaded!");
+
+  auto vkCreateDebugUtilsMessenger =
+    reinterpret_cast<PFN_vkCreateDebugUtilsMessengerEXT>(
+      vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT"));
+  assert(
+    (nullptr != vkCreateDebugUtilsMessenger) &&
+    "VK_EXT_debug_utils extension is not present!");
+  auto vkSubmitDebugUtilsMessage =
+    reinterpret_cast<PFN_vkSubmitDebugUtilsMessageEXT>(
+      vkGetInstanceProcAddr(instance, "vkSubmitDebugUtilsMessageEXT"));
+  assert(
+    (nullptr != vkSubmitDebugUtilsMessage) &&
+    "VK_EXT_debug_utils extension is not present!");
+
+  VkDebugUtilsMessengerCreateInfoEXT createInfo{};
+  createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+  createInfo.pNext = nullptr;
+  createInfo.flags = 0u;
+  createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT |
+                               VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT |
+                               VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+                               VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+  createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT |
+                           VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+                           VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+  createInfo.pfnUserCallback = DebugMessangerCallback;
+  createInfo.pUserData = nullptr;
+
+  if (vkCallFail(vkCreateDebugUtilsMessenger(
+        instance, &createInfo, nullptr, &debugMessenger))) {
+    ELogE("Failed to create DebugMessenger!");
+  }
+
+  using namespace std::string_literals;
+
+  std::vector<std::pair<VkDebugUtilsMessageSeverityFlagBitsEXT, std::string>>
+    messageSeverityFlags{
+      { VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT, "Verbose"s },
+      { VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT, "Info"s },
+      { VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT, "Warning"s },
+      { VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT, "Error"s }
+    };
+  std::vector<std::pair<VkDebugUtilsMessageTypeFlagBitsEXT, std::string>>
+    messageTypeFlags{
+      { VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT, "General"s },
+      { VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT, "Validation"s },
+      { VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT, "Performance"s }
+    };
+  for (auto const messageSeverity : messageSeverityFlags) {
+    for (auto const messageType : messageTypeFlags) {
+      std::string message{ "Callback Test: severity - "s +
+                           messageSeverity.second + ", type - "s +
+                           messageType.second };
+
+      VkDebugUtilsMessengerCallbackDataEXT callbackData{};
+      callbackData.sType =
+        VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CALLBACK_DATA_EXT;
+      callbackData.pNext = nullptr;
+      callbackData.flags = 0u;
+      callbackData.pMessageIdName = "Debug Message";
+      callbackData.messageIdNumber = 1;
+      callbackData.pMessage = message.c_str();
+      callbackData.queueLabelCount = 0;
+      callbackData.pQueueLabels = nullptr;
+      callbackData.cmdBufLabelCount = 0;
+      callbackData.pCmdBufLabels = nullptr;
+      callbackData.objectCount = 0;
+      callbackData.pObjects = nullptr;
+
+      vkSubmitDebugUtilsMessage(
+        instance, messageSeverity.first, messageType.first, &callbackData);
+    }
+  }
+}
+
+void
+Instance::DebugMessangerDestroy()
+{
+  if (IsInstance(instance) && IsInstance(debugMessenger)) {
+    auto vkDestroyDebugUtilsMessenger =
+      reinterpret_cast<PFN_vkDestroyDebugUtilsMessengerEXT>(
+        vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT"));
+    assert(
+      (nullptr != vkDestroyDebugUtilsMessenger) &&
+      "VK_EXT_debug_utils extension is not present!");
+
+    vkDestroyDebugUtilsMessenger(instance, debugMessenger, nullptr);
+  }
+}
+
+std::vector<char const*>
+Instance::GetExtensionNamesToEnable(bool isValidationEnabled) const
+{
+  auto& vulkanDevice = GRIProperty(HostPlatform).GPUDevice_Vulkan();
   auto const& surfaceExtenionNames =
     vulkanDevice.SurfaceCreationExtensionNames();
 
-  std::vector<char const*> extensionNamesToEnable;
+  std::vector<char const*> requestedExtensionNamesToEnable;
   // Check if surface extensions are available:
   //   VK_KHR_surface
   //   VK_KHR_<platform>_surface
   // which are the required minimum for the graphics renderer
   if (2ULL <= surfaceExtenionNames.size()) {
     for (auto extensionName : surfaceExtenionNames) {
-      extensionNamesToEnable.push_back(extensionName);
+      requestedExtensionNamesToEnable.push_back(extensionName);
+    }
+
+    if (isValidationEnabled) {
+      auto const& debugExtensionNames = vulkanDevice.DebugExtensionNames();
+      for (auto extensionName : debugExtensionNames) {
+        requestedExtensionNamesToEnable.push_back(extensionName);
+      }
+    }
+
+    auto availableExtensions = EnumerateInstanceExtensions();
+
+    using namespace std::string_literals;
+
+    ELogI("      + Extensions to enable:"s);
+    std::vector<char const*> extensionNamesToEnable;
+    for (auto const requestedExtension : requestedExtensionNamesToEnable) {
+      for (auto const& availableExtension : availableExtensions) {
+        if (AreNamesEqual(
+              requestedExtension, availableExtension.extensionName)) {
+          extensionNamesToEnable.emplace_back(requestedExtension);
+          ELogI("          "s, requestedExtension);
+        }
+      }
     }
 
     return extensionNamesToEnable;
@@ -170,18 +329,39 @@ Instance::GetLayerNamesToEnable() const
 std::vector<char const*>
 Instance::GetRequiredLayerNames() const
 {
-  std::vector<char const*> availableLayers;
-  auto& vulkanDevice = GetGRIProp(HostPlatform).GPUDevice_Vulkan();
-  auto layers = EnumerateInstanceLayers();
+  std::vector<char const*> availableLayerNames;
+  auto const& vulkanDevice = GRIProperty(HostPlatform).GPUDevice_Vulkan();
+  auto const layers = EnumerateInstanceLayers();
   for (auto const layerName : vulkanDevice.ValidationLayerNames()) {
-    for (auto& layer : layers) {
-      if (!std::strcmp(layerName, layer.layerName)) {
-        availableLayers.emplace_back(layerName);
+    for (auto const& layer : layers) {
+      if (AreNamesEqual(layerName, layer.layerName)) {
+        availableLayerNames.emplace_back(layerName);
       }
     }
   }
 
-  return availableLayers;
+  using namespace std::string_literals;
+
+  ELogI("      + Layers to enable:"s);
+  for (auto const instanceLayer : availableLayerNames) {
+    ELogI("          "s, instanceLayer);
+  }
+
+  return availableLayerNames;
+}
+
+VKAPI_ATTR VkBool32 VKAPI_CALL
+Instance::DebugMessangerCallback(
+  VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
+  VkDebugUtilsMessageTypeFlagsEXT messageTypes,
+  const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
+  void* pUserData)
+{
+  using namespace std::string_literals;
+
+  ELogV("Layer -> "s, pCallbackData->pMessage);
+
+  return VK_FALSE;
 }
 
 void
@@ -191,24 +371,50 @@ Instance::EnumeratePhysicalDevices()
     Renderer::Graphics::EnumeratePhysicalDevices<PhysicalDevice>(*this);
 }
 
-PhysicalDevice const&
-Instance::SelectPhysicalDevice(
-  PhysicalDevice::Type_t const physicalDeviceType) const
+void
+Instance::ListPhysicalDevices()
+{
+  using namespace std::string_literals;
+
+  ELogI("  - Vulkan devices: ("s, PhysicalDevices().size(), ")"s);
+  for (auto& device : PhysicalDevices()) {
+    ELogI("      + Physical device:"s);
+    ELogI("          Name: "s, device.Name());
+    ELogI("          Type: "s, device.TypeAsString());
+    ELogI("          Queue families: ("s, device.QueueFamilies().size(), ")");
+
+    ListQueueFamilies(device);
+  }
+}
+
+void
+Instance::SelectPhysicalDevice(PhysicalDevice::Type_t const physicalDeviceType)
 {
   assert(
     IsFalse(physicalDevices.empty()) && "No physical devices are available");
 
-  auto physicalDevice = SelectPreferredPhysicalDevice(physicalDeviceType);
+  auto physicalDevice = FindPhysicalDevice(physicalDeviceType);
   if (physicalDevice.has_value()) {
-    return physicalDevice.value();
+    selectedPhysicalDevice = (physicalDevice.value().get());
+  } else if (0 < physicalDevices.size()) {
+    selectedPhysicalDevice = physicalDevices[0];
   } else {
-    return physicalDevices[0];
+    selectedPhysicalDevice.reset();
+  }
+
+  if (selectedPhysicalDevice.has_value()) {
+    using namespace std::string_literals;
+
+    ELogI("  - Selected physical device:");
+    ELogI("      Name: ", selectedPhysicalDevice.value().get().Name());
+    ELogI("      Type: ", selectedPhysicalDevice.value().get().TypeAsString());
+  } else {
+    ELogE("No suitable physical device is available!");
   }
 }
 
 std::optional<std::reference_wrapper<PhysicalDevice const>>
-Instance::SelectPreferredPhysicalDevice(
-  PhysicalDevice::Type_t physicalDeviceType) const
+Instance::FindPhysicalDevice(PhysicalDevice::Type_t physicalDeviceType) const
 {
   assert(
     IsFalse(physicalDevices.empty()) && "No physical devices are available");
@@ -254,6 +460,14 @@ EnumerateInstanceExtensions(std::optional<std::string> const& layerName)
           layerName_cstr,
           &instanceExtensionCount,
           instanceExtensions.data()))) {
+      using namespace std::string_literals;
+
+      ELogI("  - Vulkan instance extensions:");
+      ELogI("      + Available extensions:"s);
+      for (auto const& extension : instanceExtensions) {
+        ELogI("          "s, extension.extensionName);
+      }
+
       return instanceExtensions;
     }
   }
@@ -264,11 +478,10 @@ EnumerateInstanceExtensions(std::optional<std::string> const& layerName)
 std::vector<VkLayerProperties>
 EnumerateInstanceLayers()
 {
-  // clang-format off
   assert(
     IsInstance(vkEnumerateInstanceLayerProperties) &&
-    "vkEnumerateInstanceLayerProperties is not initialized. Were Vulkan function pointers properly loaded?");
-  // clang-format on
+    "vkEnumerateInstanceLayerProperties is not initialized. Were Vulkan "
+    "function pointers properly loaded?");
 
   auto instanceLayerCount = 0U;
   if (vkCallSuccess(
@@ -276,33 +489,19 @@ EnumerateInstanceLayers()
     std::vector<VkLayerProperties> instanceLayers(instanceLayerCount);
     if (vkCallSuccess(vkEnumerateInstanceLayerProperties(
           &instanceLayerCount, instanceLayers.data()))) {
+      using namespace std::string_literals;
+
+      ELogI("  - Vulkan instance layers:");
+      ELogI("      + Available layers:"s);
+      for (auto const& instanceLayer : instanceLayers) {
+        ELogI("          "s, instanceLayer.layerName);
+      }
+
       return instanceLayers;
     }
   }
 
   return {};
-}
-
-void
-ListPhysicalDevices(Instance const& instance)
-{
-  auto const& physicalDevices =
-    (const_cast<Instance&>(instance)).PhysicalDevices();
-
-  ELogI("Vulkan devices: (", physicalDevices.size(), ")");
-  for (auto& physicalDevice : physicalDevices) {
-    ELogI("  - Physical device:");
-    ELogI("      Name: ", physicalDevice.Name());
-    ELogI("      Type: ", physicalDevice.TypeAsString());
-    ELogI("      Queue families: (", physicalDevice.QueueFamilies().size(), ")");
-    ListQueueFamilies(physicalDevice);
-  }
-}
-
-void
-PrintPhysicalDeviceInfo(PhysicalDevice const& physicalDevice)
-{
-  ListQueueFamilies(physicalDevice);
 }
 
 NAMESPACE_END(Renderer::Graphics)

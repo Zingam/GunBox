@@ -67,9 +67,10 @@ void
 CoreApplication::Finalize()
 {
   if (isInitialized) {
+    using namespace std::string_literals;
 
 #if defined(_DEBUG)
-    ELogI("Finalizing: ", applicationInfo.Title());
+    ELogI("Finalizing: "s, applicationInfo.Title());
 
     if (nullptr != commandLineArgs) {
       if (commandLineArgs->ShowSystemConsole()) {
@@ -81,8 +82,8 @@ CoreApplication::Finalize()
     auto hasSaveError = preferences->SaveToFile();
     if (hasSaveError) {
       std::stringstream errorMessage;
-      errorMessage << "Unable to save preferences!\n";
-      errorMessage << "    Error:\n";
+      errorMessage << "Unable to save preferences!\n"s;
+      errorMessage << "    Error:\n"s;
       errorMessage << hasSaveError.value();
 
       using namespace System::GUI;
@@ -105,7 +106,7 @@ CoreApplication::Initialize()
     if (commandLineArgs->ShowHelp()) {
       hostPlatform.SystemConsole().Show();
 
-      std::cout << commandLineArgs->AsString() << "\n";
+      std::cout << commandLineArgs->AsString() << "\n"s;
 
       hostPlatform.SystemConsole().Pause();
       hostPlatform.SystemConsole().Hide();
@@ -123,20 +124,20 @@ CoreApplication::Initialize()
 
   // clang-format off
   ELogI(
-    "Initializing:      ", applicationInfo.Title());
+    "Initializing:      "s, applicationInfo.Title(), " (Application)"s);
   ELogI(
-    "  Version:         ", applicationInfo.GetVersion().AsString());
+    "  Version:         "s, applicationInfo.GetVersion().AsString());
   ELogI(
-    "  Directories:");
+    "  Directories:"s);
   ELogI(
-    "    Base:");
+    "    Base:"s);
   ELogI(
-    "      ",
+    "      "s,
     hostPlatform.FileSystem().BasePath());
   ELogI(
-    "    Preferencies:");
+    "    Preferencies:"s);
   ELogI(
-    "      ",
+    "      "s,
     hostPlatform.FileSystem().PreferencesRootPath());
   // clang-format on
   auto const& compilerInfo = hostPlatform.SystemInfo().CompilerInfo();
@@ -149,24 +150,25 @@ CoreApplication::Initialize()
   }
   // clang-format off
   ELogI(
-    "  Compiler:        ",
+    "  Compiler:        "s,
     compilerInfo.Name());
   ELogI(
-    "    Version:       ",
+    "    Version:       "s,
     compilerVersion.data());
   ELogI(
-    "    C++ Standard:  ",
+    "    C++ Standard:  "s,
     compilerInfo.LanguageStandard());
   // clang-format on
 
   auto hasLoadError = preferences->LoadFromFile();
   if (hasLoadError) {
     std::stringstream errorMessage;
-    errorMessage << "Error loading preferences from file:\n";
-    errorMessage << "    " << hasLoadError.value() << "\n";
+    errorMessage << "Error loading preferences from file:\n"s;
+    errorMessage << "    "s << hasLoadError.value() << "\n";
     errorMessage << "Using default values!";
 
     using namespace System::GUI;
+
     AlertBox AlertBox{ applicationInfo.Title(),
                        errorMessage.str(),
                        Common::AlertBox_Base::AlertType_t::Error };
@@ -187,7 +189,7 @@ CoreApplication::Initialize()
       auto height = commandLineArgs->Resolution().value().Height;
       auto width = commandLineArgs->Resolution().value().Width;
 
-      ELogI("Desired resolution: ", width, "x", height);
+      ELogI("  Desired resolution: ", width, "x", height);
 
       creationPreferences.MainWindowMetrics().Size.Height = height;
       creationPreferences.MainWindowMetrics().Size.Width = width;
@@ -196,7 +198,9 @@ CoreApplication::Initialize()
     if (commandLineArgs->Renderer()) {
       auto renderer = commandLineArgs->Renderer().value();
 
-      ELogI("Desired renderer:   ", Renderer::Graphics::AsString(renderer));
+      using namespace System::DeviceTypes;
+
+      ELogI("  Desired renderer:   ", Graphics::AsString(renderer));
 
       creationPreferences.RendererAPI() = renderer;
     }
@@ -226,6 +230,7 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
     errorMessage << hasParsingError.value() << "\n";
 
     using namespace System::GUI;
+
     AlertBox AlertBox{ applicationInfo.Title(),
                        errorMessage.str(),
                        Common::AlertBox_Base::AlertType_t::Error };

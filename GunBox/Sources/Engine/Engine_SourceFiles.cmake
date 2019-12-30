@@ -67,6 +67,8 @@ set (.Engine_SourceFiles
   "Sources/Renderer/Graphics/Vulkan/Objects/QueueFamily.hpp"
   "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.cpp"
   "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.hpp"
+  "Sources/Renderer/Graphics/Vulkan/Vulkan.cpp"
+  "Sources/Renderer/Graphics/Vulkan/Vulkan.hpp"
   "Sources/Renderer/Graphics/GraphicsRenderer_Interface.cpp"
   "Sources/Renderer/Graphics/GraphicsRenderer_Interface.hpp"
   "Sources/Renderer/Graphics/GraphicsRenderer_InterfaceAccessor.cpp"
