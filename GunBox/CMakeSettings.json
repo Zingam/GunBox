@@ -1,120 +1,126 @@
 ﻿{
   "configurations": [
     {
-      "name": "Ninja-MSVC-x64-Debug",
+      "name": "Ninja-Clang-x64-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
-      "cmakeCommandArgs": "",
+      "inheritEnvironments": [ "clang_cl_x64", "msvc_x64", "root_paths" ],
+      "buildRoot": "${root_paths.buildRoot}",
+      "installRoot": "${root_paths.installRoot}",
+      "cmakeCommandArgs": "${clang_cl_x64.CMakeCommandArgs}",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "name": "Ninja-MSVC-x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64", "root_paths" ],
+      "buildRoot": "${root_paths.buildRoot}",
+      "installRoot": "${root_paths.installRoot}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
+          "value": "YES"
         },
         {
           "name": "option_EnableLoggingLevel_Verbose",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
         },
         {
           "name": "option_Graphics_CheckGraphicsApiCalls",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
         },
         {
           "name": "option_Graphics_OpenGL_PreferIntegratedGPU",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
         }
-      ],
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
+      ]
     },
     {
       "name": "Ninja-MSVC-x64-RelWithDebInfo",
       "generator": "Ninja",
       "configurationType": "RelWithDebInfo",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
+      "inheritEnvironments": [ "msvc_x64_x64", "root_paths" ],
+      "buildRoot": "${root_paths.buildRoot}",
+      "installRoot": "${root_paths.installRoot}",
       "cmakeCommandArgs": "",
+      "buildCommandArgs": "-v",
+      "ctestCommandArgs": "",
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
         }
-      ],
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
+      ]
     },
     {
-      "name": "Ninja-Clang-x64-Debug",
-      "generator": "Ninja",
+      "name": "VS2019-Clang-x64-Debug",
+      "generator": "Visual Studio 16 2019 Win64",
       "configurationType": "Debug",
-      "inheritEnvironments": [ "clang_cl_x64", "msvc_x64" ],
-      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
-      "cmakeCommandArgs": "${clang_cl_x64_env.CMakeCommandArgs}",
+      "inheritEnvironments": [ "root_paths" ],
+      "buildRoot": "${root_paths.buildRoot}",
+      "installRoot": "${root_paths.installRoot}",
+      "cmakeCommandArgs": "-T llvm",
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": "",
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
         }
-      ],
-      "buildCommandArgs": "-v",
-      "ctestCommandArgs": ""
+      ]
     },
     {
       "name": "VS2019-MSVC-x64-Debug",
       "generator": "Visual Studio 16 2019 Win64",
       "configurationType": "Debug",
-      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
+      "inheritEnvironments": [ "root_paths" ],
+      "buildRoot": "${root_paths.buildRoot}",
+      "installRoot": "${root_paths.installRoot}",
       "cmakeCommandArgs": "",
+      "buildCommandArgs": "-m -v:minimal",
+      "ctestCommandArgs": "",
       "variables": [
         {
           "name": "option_EngineLibraryAs_SHARED",
-          "value": "YES",
-          "type": "BOOL"
+          "type": "BOOL",
+          "value": "YES"
         }
-      ],
-      "buildCommandArgs": "-m -v:minimal",
-      "ctestCommandArgs": "",
-      "inheritEnvironments": []
-    },
-    {
-      "name": "VS2017-Clang-x64-Debug",
-      "generator": "Visual Studio 15 2017 Win64",
-      "configurationType": "Debug",
-      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
-      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}",
-      "cmakeCommandArgs": "-T llvm",
-      "variables": [
-        {
-          "name": "option_EngineLibraryAs_SHARED",
-          "value": "YES",
-          "type": "BOOL"
-        }
-      ],
-      "buildCommandArgs": "-m -v:minimal",
-      "ctestCommandArgs": "",
-      "inheritEnvironments": []
+      ]
     }
   ],
   "environments": [
     {
       "environment": "clang_cl_x64",
-      "namespace": "clang_cl_x64_env",
-      "ClangPath": "\"C:/Program Files/LLVM/bin/clang-cl.exe\"",
+      "namespace": "clang_cl_x64",
+      "ClangPath": "\"${env.LLVM_ROOT}/bin/clang-cl.exe\"",
       "ClangFlags": "\"-m64\"",
-      "CMake_C_Compiler": "-DCMAKE_C_COMPILER=${clang_cl_x64_env.ClangPath}",
-      "CMake_CXX_Compiler": "-DCMAKE_CXX_COMPILER=${clang_cl_x64_env.ClangPath}",
-      "CMakeCommandArgs": "${clang_cl_x64_env.CMake_C_Compiler} ${clang_cl_x64_env.CMake_CXX_Compiler}"
+      "CMake_C_Compiler": "-DCMAKE_C_COMPILER=${clang_cl_x64.ClangPath}",
+      "CMake_CXX_Compiler": "-DCMAKE_CXX_COMPILER=${clang_cl_x64.ClangPath}",
+      "CMakeCommandArgs": "${clang_cl_x64.CMake_C_Compiler} ${clang_cl_x64.CMake_CXX_Compiler}"
+    },
+    {
+      "environment": "root_paths",
+      "namespace": "root_paths",
+      "buildRoot": "${workspaceRoot}\\..\\__build-output\\${name}",
+      "installRoot": "${workspaceRoot}\\..\\__install-output\\${name}"
     }
   ]
 }
