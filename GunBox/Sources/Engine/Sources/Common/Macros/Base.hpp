@@ -13,6 +13,8 @@
 
 // C Standard Libraries
 #include <cstddef>
+// C++ Standard Libraries
+#include <type_traits>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Macro definitions
@@ -180,9 +182,12 @@
 // Pointer checking function templates
 ////////////////////////////////////////////////////////////////////////////////
 
+// clang-format off
+
 template<typename T>
 auto
 IsInstance(T const& object)
+  -> std::enable_if_t<std::is_object_v<T>, bool>
 {
   return (nullptr != object);
 }
@@ -190,38 +195,49 @@ IsInstance(T const& object)
 template<typename T>
 auto
 IsNull(T const& object)
+  -> std::enable_if_t<std::is_object_v<T>, bool>
 {
   return (nullptr == object);
 }
+
+// clang-format on
 
 ////////////////////////////////////////////////////////////////////////////////
 // Boolean checking function templates
 ////////////////////////////////////////////////////////////////////////////////
 
+// clang-format off
+
 template<typename T>
 auto
-IsFailed(T const& object)
+IsFail(T const& value)
+  -> std::enable_if_t<std::is_same_v<bool, T>, bool>
 {
-  return (false == object);
+  return (false == value);
 }
 
 template<typename T>
 auto
-IsFalse(T const& object)
+IsFalse(T const& value)
+  -> std::enable_if_t<std::is_same_v<bool, T>, bool>
 {
-  return (false == object);
+  return (false == value);
 }
 
 template<typename T>
 auto
-IsSuccess(T const& object)
+IsSuccess(T const& value)
+  -> std::enable_if_t<std::is_same_v<bool, T>, bool>
 {
-  return (false == object);
+  return (false == value);
 }
 
 template<typename T>
 auto
-IsTrue(T const& object)
+IsTrue(T const& value)
+  -> std::enable_if_t<std::is_same_v<bool, T>, bool>
 {
-  return (true == object);
+  return (true == value);
 }
+
+// clang-format on
