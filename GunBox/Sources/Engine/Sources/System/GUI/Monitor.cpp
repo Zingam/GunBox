@@ -9,6 +9,9 @@
 // Third party
 #include <SDL_video.h>
 
+// C++ Standard Library
+#include <string>
+
 NAMESPACE_BEGIN(System)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,19 +51,21 @@ Monitor::MidPoint()
 std::vector<Monitor>
 EnumerateMonitors()
 {
-  ELogI("Enumerating video displays:");
+  using namespace std::string_literals;
+
+  ELogI("Enumerating video displays:"s);
 
   auto videoDisplayCount = SDL_GetNumVideoDisplays();
   SDL_IfFailed(videoDisplayCount)
   {
-    reLogE("Unable to get video display count: ", SDL_GetError());
+    reLogE("Unable to get video display count: "s, SDL_GetError());
 
     return {};
   }
 
   std::vector<Monitor> monitors;
   for (auto i = 0; i < videoDisplayCount; ++i) {
-    ELogI("  Video display name: ", SDL_GetDisplayName(i));
+    ELogI("  Video display name: "s, SDL_GetDisplayName(i));
 
     SDL_Rect displayBounds;
     SDL_GetDisplayBounds(i, &displayBounds);

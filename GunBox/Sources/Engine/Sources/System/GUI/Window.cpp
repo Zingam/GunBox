@@ -139,7 +139,7 @@ Window::Show()
     } else {
       using namespace std::string_literals;
 
-      auto const& graphicsApiName =
+      [[maybe_unused]] auto const& graphicsApiName =
         DeviceTypes::Graphics::AsString(properties.RendererAPI);
       ELogI("  - Application window: "s, graphicsApiName);
       ELogI("      X:      "s, properties.Coordinate.X);
