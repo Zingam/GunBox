@@ -67,6 +67,8 @@ void
 CoreApplication::Finalize()
 {
   if (isInitialized) {
+    graphicsRenderer.reset();
+
     using namespace std::string_literals;
 
 #if defined(_DEBUG)
