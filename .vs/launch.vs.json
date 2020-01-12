@@ -1,0 +1,28 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "native",
+      "name": "GunBox_Game.exe (Install) - Vulkan",
+      "project": "GunBox/CMakeLists.txt",
+      "projectTarget": "GunBox_Game.exe (Install)",
+      "args": [
+        "--renderer: Vulkan[Debug]",
+        "--resolution: 640x480",
+        "--show-system-console"
+      ]
+    },
+    {
+      "type": "native",
+      "name": "GunBox_Game.exe (Install) - OpenGL",
+      "project": "GunBox/CMakeLists.txt",
+      "projectTarget": "GunBox_Game.exe (Install)",
+      "args": [
+        "--renderer: OpenGL[Debug]",
+        "--resolution: 640x480",
+        "--show-system-console"
+      ]
+    }
+  ]
+}
