@@ -185,6 +185,7 @@
 // clang-format off
 
 template<typename T>
+inline
 auto
 IsInstance(T const& object)
   -> std::enable_if_t<std::is_object_v<T>, bool>
@@ -193,6 +194,7 @@ IsInstance(T const& object)
 }
 
 template<typename T>
+inline
 auto
 IsNull(T const& object)
   -> std::enable_if_t<std::is_object_v<T>, bool>
@@ -209,6 +211,7 @@ IsNull(T const& object)
 // clang-format off
 
 template<typename T>
+inline
 auto
 IsFail(T const& value)
   -> std::enable_if_t<std::is_same_v<bool, T>, bool>
@@ -217,6 +220,7 @@ IsFail(T const& value)
 }
 
 template<typename T>
+inline
 auto
 IsFalse(T const& value)
   -> std::enable_if_t<std::is_same_v<bool, T>, bool>
@@ -225,6 +229,7 @@ IsFalse(T const& value)
 }
 
 template<typename T>
+inline
 auto
 IsSuccess(T const& value)
   -> std::enable_if_t<std::is_same_v<bool, T>, bool>
@@ -233,6 +238,7 @@ IsSuccess(T const& value)
 }
 
 template<typename T>
+inline
 auto
 IsTrue(T const& value)
   -> std::enable_if_t<std::is_same_v<bool, T>, bool>
