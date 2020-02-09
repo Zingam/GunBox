@@ -36,10 +36,10 @@ GameStateManager::GetSystemEventCallbacks()
   return systemEventCallbacks;
 }
 
-auto
+void
 GameStateManager::Initialize(
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
-    graphicsRenderer) -> void
+    graphicsRenderer)
 {
   this->graphicsRenderer = graphicsRenderer;
   inputEventCallbacks.SetCommander<Commander_Null>();
