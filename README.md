@@ -12,7 +12,7 @@ A game programming exercise with **SDL2**, **OpenGL**, **Vulkan**...
 
 ### Third Party Library
 1. FreeType 2.9.1 (or newer)
-2. SDL 2.0.8 (or newer)
+2. SDL 2.0.12 (or newer)
 3. Vulkan SDK
 
 ### How to Install Third Party Libraries with `vcpkg`
