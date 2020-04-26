@@ -53,10 +53,10 @@ CoreApplication::GetEngineInfo() const
   return engineInfo;
 }
 
-CommandLineArgs const&
+std::optional<CommandLineArgs> const&
 CoreApplication::GetCommandLineArgs() const
 {
-  return *commandLineArgs;
+  return commandLineArgs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +101,7 @@ CoreApplication::Initialize()
 {
   reLogInitialize(applicationInfo.Title());
 
-  if (nullptr != commandLineArgs) {
+  if (commandLineArgs.has_value()) {
     if (commandLineArgs->ShowHelp()) {
       hostPlatform.SystemConsole().Show();
 
@@ -113,7 +113,7 @@ CoreApplication::Initialize()
       return Application::ExitCode::InitializationError;
     }
 #if defined(_DEBUG)
-    if (nullptr != commandLineArgs) {
+    if (commandLineArgs.has_value()) {
       if (commandLineArgs->ShowSystemConsole()) {
         hostPlatform.SystemConsole().Show();
       }
@@ -182,7 +182,7 @@ CoreApplication::Initialize()
 
   auto& creationPreferences = *preferences;
 #if defined(_DEBUG) || !defined(NDEBUG)
-  if (nullptr != commandLineArgs) {
+  if (commandLineArgs.has_value()) {
     if (commandLineArgs->Resolution()) {
       auto height = commandLineArgs->Resolution().value().Height;
       auto width = commandLineArgs->Resolution().value().Width;
@@ -214,9 +214,13 @@ CoreApplication::Initialize()
 void
 CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
 {
-  commandLineArgs = std::make_unique<CommandLineArgs>();
+  commandLineArgs.emplace();
   auto hasParsingError = commandLineArgs->Parse(argc, argv);
   if (hasParsingError) {
+    // There aren't any valid command line arguments
+    commandLineArgs.reset();
+
+    // Show error message
     std::stringstream errorMessage;
     errorMessage << "Error parsing command line arguments.\n";
     errorMessage << hasParsingError.value() << "\n";
@@ -226,8 +230,6 @@ CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
                        errorMessage.str(),
                        Common::AlertBox_Base::AlertType_t::Error };
     AlertBox.Show();
-
-    commandLineArgs.reset();
   }
 }
 

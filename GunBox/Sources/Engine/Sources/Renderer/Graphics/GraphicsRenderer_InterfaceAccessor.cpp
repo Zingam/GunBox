@@ -18,7 +18,7 @@ GraphicsRenderer_InterfaceAccessor::ApplicationInfo(
   return graphicsRenderer.coreApplication.GetApplicationInfo();
 }
 
-Application::CommandLineArgs const&
+std::optional<Application::CommandLineArgs> const&
 GraphicsRenderer_InterfaceAccessor::CommandLineArgs(
   GraphicsRenderer_Interface const& graphicsRenderer)
 {

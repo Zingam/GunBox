@@ -6,6 +6,9 @@
 // Engine headers - Renderer
 #include "Renderer/Graphics/GraphicsRenderer_Interface.hpp"
 
+// C++ Standard Library
+#include <optional>
+
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +41,7 @@ private:
   static auto ApplicationInfo(GraphicsRenderer_Interface const& graphicsRenderer)
     -> Application::ApplicationInfo const&;
   static auto CommandLineArgs(GraphicsRenderer_Interface const& graphicsRenderer)
-    -> Application::CommandLineArgs const&;
+    -> std::optional<Application::CommandLineArgs> const&;
   static auto EngineInfo(GraphicsRenderer_Interface const& graphicsRenderer)
     -> Application::EngineInfo const&;
   static auto HostPlatform(GraphicsRenderer_Interface const& graphicsRenderer)

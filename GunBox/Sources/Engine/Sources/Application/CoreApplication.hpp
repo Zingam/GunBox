@@ -17,6 +17,7 @@
 
 // C++ Standard Library
 #include <memory>
+#include <optional>
 #include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,7 +48,7 @@ public:
 public:
   auto GetApplicationInfo() const -> ApplicationInfo const&;
   auto GetEngineInfo() const -> EngineInfo const&;
-  auto GetCommandLineArgs() const -> CommandLineArgs const&;
+  auto GetCommandLineArgs() const -> std::optional<CommandLineArgs> const&;
 
   // Pure virtual methods
 public:
@@ -60,7 +61,7 @@ public:
   virtual auto ProcessCommandLineArgs(int argc, char** argv) -> void;
 
 protected:
-  std::unique_ptr<CommandLineArgs> commandLineArgs;
+  std::optional<CommandLineArgs> commandLineArgs;
   System::EventProcessor eventProcessor;
   std::shared_ptr<Renderer::Graphics::GraphicsRenderer_Interface>
     graphicsRenderer;

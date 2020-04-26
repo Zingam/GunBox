@@ -151,14 +151,17 @@ Instance::GetExtensionNamesToEnable() const
 std::vector<char const*>
 Instance::GetLayerNamesToEnable() const
 {
-  auto const& rendererFeatures = GetGRIProp(CommandLineArgs).RendererFeatures();
-  auto debugFeature = std::find(
-    rendererFeatures.begin(),
-    rendererFeatures.end(),
-    System::DeviceTypes::Graphics::APIFeatures_t::Debug);
+  auto const& commandLineArgs = GetGRIProp(CommandLineArgs);
+  if (commandLineArgs.has_value()) {
+    auto const& rendererFeatures = commandLineArgs->RendererFeatures();
+    auto debugFeature = std::find(
+      rendererFeatures.begin(),
+      rendererFeatures.end(),
+      System::DeviceTypes::Graphics::APIFeatures_t::Debug);
 
-  if (debugFeature != rendererFeatures.end()) {
-    return GetRequiredLayerNames();
+    if (debugFeature != rendererFeatures.end()) {
+      return GetRequiredLayerNames();
+    }
   }
 
   return {};
