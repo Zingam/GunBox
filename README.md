@@ -251,7 +251,7 @@ Example:
 - "program": "${command:cmake.launchTargetPath}"
 - "program": "${workspaceRoot}/../__install-output-GunBox/Ninja-Debug/GunBox_Game"
 
-Example:
+Example (`launch.json`):
 ```json5
 {
     "version": "0.2.0",
@@ -262,7 +262,14 @@ Example:
             "request": "launch",
             // Resolved by CMake Tools:
             "program": "${command:cmake.launchTargetPath}",
-            "args": ["--show-system-console"],
+            "args": [
+                //"--renderer:", "OpenGL",
+                //"--renderer:", "OpenGL[Debug]",
+                //"--renderer:", "Vulkan",
+                "--renderer:", "Vulkan[Debug]",
+                "--resolution:", "640x480",
+                "--show-system-console"
+            ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -277,6 +284,20 @@ Example:
             ]
         }
     ]
+}
+```
+*Note: `"args": []` need to be passed as separate array elements.*
+
+Example (`settings.json`):
+```json5
+{
+    "cmake.buildDirectory": "${workspaceFolder}/../__build-output-${workspaceRootFolderName}",
+    "cmake.installPrefix": "${workspaceFolder}/../__install-output-${workspaceRootFolderName}",
+    "cmake.sourceDirectory": "${workspaceFolder}/GunBox",
+    "cmake.configureArgs": [
+        "-Doption_EngineLibraryAs_SHARED:BOOL=YES",
+        "-Doption_EnableLoggingLevel_Verbose:BOOL=YES",
+    ],
 }
 ```
 
