@@ -15,6 +15,62 @@
           "name": "option_EngineLibraryAs_SHARED",
           "type": "BOOL",
           "value": "YES"
+        },
+        {
+          "name": "option_EnableLoggingLevel_Verbose",
+          "type": "BOOL",
+          "value": "YES"
+        },
+        {
+          "name": "option_Graphics_CheckGraphicsApiCalls",
+          "type": "BOOL",
+          "value": "YES"
+        },
+        {
+          "name": "option_Graphics_OpenGL_PreferIntegratedGPU",
+          "type": "BOOL",
+          "value": "YES"
+        }
+      ]
+    },
+    {
+      "name": "Ninja-Clang-MSVC-CLI-x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "base_llvm_x64", "clang_cl_x64_x64", "root_paths" ],
+      "buildRoot": "${root_paths.buildRoot}",
+      "installRoot": "${root_paths.installRoot}",
+      "cmakeCommandArgs": "",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "CMAKE_C_COMPILER",
+          "value": "${base_llvm_x64.ClangPath_MSVC_CLI}"
+        },
+        {
+          "name": "CMAKE_CXX_COMPILER",
+          "value": "${base_llvm_x64.ClangPath_MSVC_CLI}"
+        },
+        {
+          "name": "option_EngineLibraryAs_SHARED",
+          "type": "BOOL",
+          "value": "YES"
+        },
+        {
+          "name": "option_EnableLoggingLevel_Verbose",
+          "type": "BOOL",
+          "value": "YES"
+        },
+        {
+          "name": "option_Graphics_CheckGraphicsApiCalls",
+          "type": "BOOL",
+          "value": "YES"
+        },
+        {
+          "name": "option_Graphics_OpenGL_PreferIntegratedGPU",
+          "type": "BOOL",
+          "value": "YES"
         }
       ]
     },
@@ -115,6 +171,12 @@
       "CMake_C_Compiler": "-DCMAKE_C_COMPILER=${clang_cl_x64.ClangPath}",
       "CMake_CXX_Compiler": "-DCMAKE_CXX_COMPILER=${clang_cl_x64.ClangPath}",
       "CMakeCommandArgs": "${clang_cl_x64.CMake_C_Compiler} ${clang_cl_x64.CMake_CXX_Compiler}"
+    },
+    {
+      "environment": "base_llvm_x64",
+      "namespace": "base_llvm_x64",
+      "ClangPath_MSVC_CLI": "${env.LLVM_ROOT}/bin/clang-cl.exe",
+      "ClangPath_GNU_CLI": "${env.LLVM_ROOT}/bin/clang.exe"
     },
     {
       "environment": "root_paths",
