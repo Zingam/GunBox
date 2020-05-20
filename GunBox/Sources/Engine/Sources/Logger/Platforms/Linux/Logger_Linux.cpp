@@ -11,7 +11,7 @@ NAMESPACE_BEGIN(Logger)
 ////////////////////////////////////////////////////////////////////////////////
 
 void
-Logger_Linux::SetLogLevel(LogLevel_t logLevel)
+Logger_Linux::LogLevel(LogLevel_t logLevel)
 {
   LoggerBase::LogLevel(logLevel);
   LoggerBase::SetLogPrefix();

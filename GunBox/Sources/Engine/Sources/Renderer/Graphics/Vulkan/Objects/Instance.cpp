@@ -310,7 +310,7 @@ Instance::GetExtensionNamesToEnable(bool isValidationEnabled) const
 std::vector<char const*>
 Instance::GetLayerNamesToEnable() const
 {
-  auto const& commandLineArgs = GetGRIProp(CommandLineArgs);
+  auto const& commandLineArgs = GRIProperty(CommandLineArgs);
   if (commandLineArgs.has_value()) {
     auto const& rendererFeatures = commandLineArgs->RendererFeatures();
     auto debugFeature = std::find(
@@ -359,7 +359,7 @@ Instance::DebugMessangerCallback(
 {
   using namespace std::string_literals;
 
-  ELogV("Layer -> "s, pCallbackData->pMessage);
+  ELogVI("Layer -> "s, pCallbackData->pMessage);
 
   return VK_FALSE;
 }
