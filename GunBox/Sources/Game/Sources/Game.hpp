@@ -27,7 +27,7 @@ NAMESPACE_END(GunBox)
 
 NAMESPACE_BEGIN(GunBox)
 
-class Game : public Application::CoreApplication
+class Game final : public Application::CoreApplication
 {
   // Constructors & Destructors
 public:
