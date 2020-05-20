@@ -22,7 +22,7 @@ NAMESPACE_END(System::EventProcessing)
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class ApplicationQuit_EventHandler : public EventHandler
+class ApplicationQuit_EventHandler final : public EventHandler
 {
 public:
   ApplicationQuit_EventHandler(

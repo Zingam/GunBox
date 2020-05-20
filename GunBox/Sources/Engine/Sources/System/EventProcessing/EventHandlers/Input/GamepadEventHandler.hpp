@@ -24,7 +24,7 @@ NAMESPACE_END(System::EventProcessing)
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class GamepadEventHandler : public EventHandler
+class GamepadEventHandler final : public EventHandler
 {
 public:
   GamepadEventHandler(

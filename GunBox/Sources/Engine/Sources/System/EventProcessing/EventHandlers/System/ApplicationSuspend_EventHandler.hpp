@@ -22,7 +22,7 @@ NAMESPACE_END(System::EventProcessing)
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class ApplicationSuspend_EventHandler : public EventHandler
+class ApplicationSuspend_EventHandler final : public EventHandler
 {
 public:
   ApplicationSuspend_EventHandler(

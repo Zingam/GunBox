@@ -24,7 +24,7 @@ NAMESPACE_END(System::EventProcessing)
 
 NAMESPACE_BEGIN(System::EventHandlers)
 
-class KeyboardEventHandler : public EventHandler
+class KeyboardEventHandler final : public EventHandler
 {
 public:
   KeyboardEventHandler(
