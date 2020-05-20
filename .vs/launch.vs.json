@@ -23,6 +23,6 @@
         "--resolution: 640x480",
         "--show-system-console"
       ]
-    }
+    },
   ]
 }
