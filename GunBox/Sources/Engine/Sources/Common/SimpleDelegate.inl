@@ -78,5 +78,6 @@ make_unique_delegate(ClassName& object, MethodPointerType method_Ptr)
 {
   using SimpleDelegateType =
     SimpleDelegate<ClassName, MethodPointerType>;
+
   return std::make_unique<SimpleDelegateType>(object, method_Ptr);
 }

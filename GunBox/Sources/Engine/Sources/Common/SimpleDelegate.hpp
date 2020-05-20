@@ -47,10 +47,14 @@ public:
 // Free functions
 ////////////////////////////////////////////////////////////////////////////////
 
+// WORKAROUND: error C2668: 'make_unique_delegate': ambiguous call to
+// overloaded function
+#if !defined(_MSC_VER)
 template<typename ClassName, typename MethodPointerType>
 auto
 make_unique_delegate(ClassName object, MethodPointerType method_Ptr)
   -> std::unique_ptr<SimpleDelegate<ClassName, MethodPointerType>>;
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inline implementations
