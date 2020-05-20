@@ -25,16 +25,21 @@ class ModuleInfo
 {
   // Constructors
 public:
-  ModuleInfo(std::string const& title, Version const& version);
+  ModuleInfo(
+    std::string const& title,
+    Version const& version,
+    std::string const& uuid);
 
   // Properties
 public:
   auto Title() const -> std::string const&;
   auto GetVersion() const -> Version const&;
+  auto UUID() const -> std::string const&;
 
 private:
   std::string const title;
   Version const version;
+  std::string const uuid;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +51,8 @@ public:
   ApplicationInfo(
     std::string const& organization,
     std::string const& title,
-    Version const& version);
+    Version const& version,
+    std::string const& uuid);
 
   // Properties
 public:
@@ -62,7 +68,10 @@ class EngineInfo : public ModuleInfo
 {
   // Constructors
 public:
-  EngineInfo(std::string const& title, Version const& version);
+  EngineInfo(
+    std::string const& title,
+    Version const& version,
+    std::string const& uuid);
 };
 
 ////////////////////////////////////////////////////////////////////////////////

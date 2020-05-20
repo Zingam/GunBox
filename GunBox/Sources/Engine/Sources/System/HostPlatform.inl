@@ -1,3 +1,4 @@
+#include "HostPlatform.hpp"
 #pragma once
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +27,12 @@ inline HostPlatformClasses::GPUDevice_Vulkan&
 HostPlatform::GPUDevice_Vulkan()
 {
   return gpuDevice_Vulkan;
+}
+
+inline HostPlatformClasses::ProcessSingleton&
+HostPlatform::ProcessSingleton()
+{
+  return processSingleton;
 }
 
 inline HostPlatformClasses::SubSystems&

@@ -50,6 +50,10 @@ public:
   auto GetEngineInfo() const -> EngineInfo const&;
   auto GetCommandLineArgs() const -> std::optional<CommandLineArgs> const&;
 
+  // Methods
+public:
+  auto IsAlreadyRunning() -> bool;
+
   // Pure virtual methods
 public:
   virtual auto Execute() -> ExitCode = 0;

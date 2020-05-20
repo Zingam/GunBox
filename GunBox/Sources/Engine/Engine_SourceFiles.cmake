@@ -135,6 +135,8 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform/GPUDevice_OpenGL.inl"
   "Sources/System/HostPlatform/GPUDevice_Vulkan.cpp"
   "Sources/System/HostPlatform/GPUDevice_Vulkan.hpp"
+  "Sources/System/HostPlatform/ProcessSingleton.cpp"
+  "Sources/System/HostPlatform/ProcessSingleton.hpp"
   "Sources/System/HostPlatform/SubSystems.cpp"
   "Sources/System/HostPlatform/SubSystems.hpp"
   "Sources/System/HostPlatform/SystemConsole.cpp"
@@ -151,6 +153,8 @@ set (.Engine_SourceFiles
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base.hpp>
   "Sources/System/Platforms/Common/CompilerInfo.cpp"
   "Sources/System/Platforms/Common/CompilerInfo.hpp"
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/ProcessSingleton_Linux.cpp>
+  $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/ProcessSingleton_Linux.hpp>
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>
   $<$<PLATFORM_ID:Linux>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.cpp>
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Linux/HostPlatform/SystemConsole_Linux.hpp>
@@ -179,6 +183,8 @@ set (.Engine_SourceFiles
   "Sources/System/Platforms/SDL2/Main_SDL2.hpp"
   "Sources/System/Platforms/SDL2/SDL2_ErrorChecking.cpp"
   "Sources/System/Platforms/SDL2/SDL2_ErrorChecking.hpp"
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/ProcessSingleton_Windows.cpp>
+  $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/ProcessSingleton_Windows.hpp>
   $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemConsole_Windows.cpp>
   $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemConsole_Windows.hpp>
   $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Windows/HostPlatform/SystemInfo_Windows.cpp>
@@ -188,6 +194,7 @@ set (.Engine_SourceFiles
   "Sources/System/Platforms/GPUDevice_OpenGL_Implementation.hpp"
   "Sources/System/Platforms/GPUDevice_Vulkan_Base.hpp"
   "Sources/System/Platforms/GPUDevice_Vulkan_Implementation.hpp"
+  "Sources/System/Platforms/ProcessSingleton_Implementation.hpp"
   "Sources/System/Platforms/SubSystems_Implementation.hpp"
   "Sources/System/Platforms/SystemConsole_Implementation.hpp"
   "Sources/System/Platforms/SystemInfo_Implementation.hpp"

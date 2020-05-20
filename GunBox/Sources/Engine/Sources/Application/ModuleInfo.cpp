@@ -7,9 +7,13 @@ NAMESPACE_BEGIN(Application)
 // [ModuleInfo] Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-ModuleInfo::ModuleInfo(std::string const& title, Version const& version)
+ModuleInfo::ModuleInfo(
+  std::string const& title,
+  Version const& version,
+  std::string const& uuid)
   : title{ title }
   , version{ version }
+  , uuid{ uuid }
 {}
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +32,12 @@ ModuleInfo::GetVersion() const
   return version;
 }
 
+std::string const&
+ModuleInfo::UUID() const
+{
+  return uuid;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // [ApplicationInfo] Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,8 +45,9 @@ ModuleInfo::GetVersion() const
 ApplicationInfo::ApplicationInfo(
   std::string const& organization,
   std::string const& title,
-  Version const& version)
-  : ModuleInfo{ title, version }
+  Version const& version,
+  std::string const& uuid)
+  : ModuleInfo{ title, version, uuid }
   , organization{ organization }
 {}
 
@@ -54,8 +65,11 @@ ApplicationInfo::Organization() const
 // [EngineInfo] Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-EngineInfo::EngineInfo(std::string const& title, Version const& version)
-  : ModuleInfo{ title, version }
+EngineInfo::EngineInfo(
+  std::string const& title,
+  Version const& version,
+  std::string const& uuid)
+  : ModuleInfo{ title, version, uuid }
 {}
 
 NAMESPACE_END(Application)

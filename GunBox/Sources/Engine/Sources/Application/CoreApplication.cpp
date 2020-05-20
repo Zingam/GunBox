@@ -29,13 +29,17 @@ CoreApplication::CoreApplication(ApplicationInfo const& applicationInfo)
                 Version::Version_t{ Engine_VersionMajor,
                                     Engine_VersionMinor,
                                     Engine_VersionPatch,
-                                    Engine_VersionBuildNumber } }
+                                    Engine_VersionBuildNumber },
+                applicationInfo.UUID() }
   , preferences{ std::make_unique<Preferences>(this->applicationInfo) }
 {
-  hostPlatform.FileSystem().Initialize(applicationInfo);
+  hostPlatform.ProcessSingleton().Initialize(applicationInfo.UUID());
 }
 
-CoreApplication::~CoreApplication() {}
+CoreApplication::~CoreApplication()
+{
+  hostPlatform.ProcessSingleton().Finalize();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Properties
@@ -60,6 +64,32 @@ CoreApplication::GetCommandLineArgs() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Methods
+////////////////////////////////////////////////////////////////////////////////
+
+bool
+CoreApplication::IsAlreadyRunning()
+{
+  auto isRunning = hostPlatform.ProcessSingleton().Running();
+
+  if (isRunning) {
+    using namespace std::string_literals;
+
+    std::stringstream errorMessage;
+    errorMessage << "The application is already running.\n"s
+                 << "Only a single instance is allowed.\n"s;
+
+    using namespace System::GUI;
+    AlertBox AlertBox{ applicationInfo.Title(),
+                       errorMessage.str(),
+                       Common::AlertBox_Base::AlertType_t::Error };
+    AlertBox.Show();
+  }
+
+  return isRunning;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Virtual methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -74,7 +104,7 @@ CoreApplication::Finalize()
 #if defined(_DEBUG)
     ELogI("Finalizing: "s, applicationInfo.Title());
 
-    if (nullptr != commandLineArgs) {
+    if (commandLineArgs.has_value()) {
       if (commandLineArgs->ShowSystemConsole()) {
         hostPlatform.SystemConsole().Hide();
       }
@@ -108,6 +138,8 @@ CoreApplication::Initialize()
     if (commandLineArgs->ShowHelp()) {
       hostPlatform.SystemConsole().Show();
 
+      using namespace std::string_literals;
+
       std::cout << commandLineArgs->AsString() << "\n"s;
 
       hostPlatform.SystemConsole().Pause();
@@ -123,6 +155,8 @@ CoreApplication::Initialize()
     }
 #endif
   }
+
+  using namespace std::string_literals;
 
   // clang-format off
   ELogI(
@@ -221,6 +255,7 @@ void
 CoreApplication::ProcessCommandLineArgs(int argc, char** argv)
 {
   commandLineArgs.emplace();
+
   auto hasParsingError = commandLineArgs->Parse(argc, argv);
   if (hasParsingError) {
     // There aren't any valid command line arguments

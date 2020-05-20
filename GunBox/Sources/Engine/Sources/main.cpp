@@ -12,17 +12,23 @@
 int
 main(int argc, char* argv[])
 {
+  auto exitCode = Application::ExitCode::NoError;
+
   // Initialize
   auto application = Application::Create();
-  application->ProcessCommandLineArgs(argc, argv);
-  auto exitCode = application->Initialize();
-  if (Application::ExitCode::NoError == exitCode) {
-    // TODO: Allow just one instance
-    // Execute the Main loop
-    exitCode = application->Execute();
-    // TODO: Error reporting on execution failure
+  auto isRunning = application->IsAlreadyRunning();
+
+  if (!isRunning) {
+    application->ProcessCommandLineArgs(argc, argv);
+
+    exitCode = application->Initialize();
+    if (Application::ExitCode::NoError == exitCode) {
+      // Execute the Main loop
+      exitCode = application->Execute();
+      // TODO: Error reporting on execution failure
+    }
+    application->Finalize();
   }
-  application->Finalize();
 
   return static_cast<int>(exitCode);
 }

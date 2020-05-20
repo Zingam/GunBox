@@ -9,9 +9,9 @@
 // Engine headers - Common
 #include "Common/Version.hpp"
 // Engine headers - Application
-#include "Application/ModuleInfo.hpp"
 #include "Application/CommandLineArgs.hpp"
 #include "Application/CoreApplication.hpp"
+#include "Application/ModuleInfo.hpp"
 
 #include <memory>
 
@@ -36,7 +36,8 @@ Create()
                      Version::Version_t{ Game_VersionMajor,
                                          Game_VersionMinor,
                                          Game_VersionPatch,
-                                         Game_VersionBuildNumber } });
+                                         Game_VersionBuildNumber },
+                     Game_UUID });
 }
 
 ////////////////////////////////////////////////////////////////////////////////

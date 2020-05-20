@@ -9,6 +9,7 @@
 #include "System/HostPlatform/FileSystem.hpp"
 #include "System/HostPlatform/GPUDevice_OpenGL.hpp"
 #include "System/HostPlatform/GPUDevice_Vulkan.hpp"
+#include "System/HostPlatform/ProcessSingleton.hpp"
 #include "System/HostPlatform/SubSystems.hpp"
 #include "System/HostPlatform/SystemConsole.hpp"
 #include "System/HostPlatform/SystemInfo.hpp"
@@ -26,6 +27,7 @@ public:
   HostPlatformClasses::FileSystem& FileSystem();
   HostPlatformClasses::GPUDevice_OpenGL& GPUDevice_OpenGL();
   HostPlatformClasses::GPUDevice_Vulkan& GPUDevice_Vulkan();
+  HostPlatformClasses::ProcessSingleton& ProcessSingleton();
   HostPlatformClasses::SubSystems& SubSystems();
   HostPlatformClasses::SystemConsole& SystemConsole();
   HostPlatformClasses::SystemInfo& SystemInfo();
@@ -35,6 +37,7 @@ private:
   HostPlatformClasses::FileSystem fileSystem;
   HostPlatformClasses::GPUDevice_OpenGL gpuDevice_OpenGL;
   HostPlatformClasses::GPUDevice_Vulkan gpuDevice_Vulkan;
+  HostPlatformClasses::ProcessSingleton processSingleton;
   HostPlatformClasses::SubSystems subSystems;
   HostPlatformClasses::SystemConsole systemConsole;
   HostPlatformClasses::SystemInfo systemInfo;
