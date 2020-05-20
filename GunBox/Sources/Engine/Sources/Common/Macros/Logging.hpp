@@ -22,9 +22,23 @@
 #  error ELogI is already defined...
 #endif
 
-#if !defined(ELogV)
+#if !defined(ELogVE)
 // Engine library logging macro
-#  define ELogV(...) reLogV("[Vulkan] ! ", __VA_ARGS__)
+#  define ELogVE(...) reLogE("[Engine] ! [Vulkan]: ", __VA_ARGS__)
 #else
-#  error ELogV is already defined...
+#  error ELogVE is already defined...
+#endif
+
+#if !defined(ELogVI)
+// Engine library logging macro
+#  define ELogVI(...) reLogI("[Engine] > [Vulkan]: ", __VA_ARGS__)
+#else
+#  error ELogVI is already defined...
+#endif
+
+#if !defined(ELogVL)
+// Engine library logging macro
+#  define ELogVL(...) reLogV("[Vulkan] - [Layer] :    ", __VA_ARGS__)
+#else
+#  error ELogVL is already defined...
 #endif
