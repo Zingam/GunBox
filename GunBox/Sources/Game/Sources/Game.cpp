@@ -60,10 +60,10 @@ Game::InitializeGraphicsRenderer()
                     "Press OK to quit the application!";
 
     using namespace System::GUI;
-    AlertBox AlertBox{ applicationInfo.Title(),
+    AlertBox alertBox{ applicationInfo.Title(),
                        errorMessage.str(),
                        Common::AlertBox_Base::AlertType_t::Error };
-    AlertBox.Show();
+    alertBox.Show();
 
     return false;
   }
