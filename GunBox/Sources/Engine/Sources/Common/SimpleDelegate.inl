@@ -23,32 +23,6 @@ SimpleDelegate<ClassName, MethodPointerType>::SimpleDelegate(
 template<typename ClassName, typename MethodPointerType>
 template<typename... Args>
 auto
-SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
-  -> std::enable_if_t<
-    std::is_same_v<void, decltype(this->Invoke(args...))>,
-    decltype(this->Invoke(args...))>
-{
-  this->Invoke(std::forward<Args>(args)...);
-}
-
-template<typename ClassName, typename MethodPointerType>
-template<typename... Args>
-auto
-SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
-  -> std::enable_if_t<
-    !std::is_same_v<void, decltype(this->Invoke(args...))>,
-    decltype(this->Invoke(args...))>
-{
-  return this->Invoke(std::forward<Args>(args)...);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Private method templates
-////////////////////////////////////////////////////////////////////////////////
-
-template<typename ClassName, typename MethodPointerType>
-template<typename... Args>
-auto
 SimpleDelegate<ClassName, MethodPointerType>::Invoke(Args... args)
   -> std::enable_if_t<
     std::is_same_v<void, decltype((object.*method)(args...))>,
@@ -66,6 +40,32 @@ SimpleDelegate<ClassName, MethodPointerType>::Invoke(Args... args)
     decltype((object.*method)(args...))>
 {
   return (object.*method)(std::forward<Args>(args)...);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Public operator templates
+////////////////////////////////////////////////////////////////////////////////
+
+template<typename ClassName, typename MethodPointerType>
+template<typename... Args>
+auto
+SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
+  -> std::enable_if_t<
+    std::is_same_v<void, decltype((object.*method)(args...))>,
+    decltype((object.*method)(args...))>
+{
+  this->Invoke(std::forward<Args>(args)...);
+}
+
+template<typename ClassName, typename MethodPointerType>
+template<typename... Args>
+auto
+SimpleDelegate<ClassName, MethodPointerType>::operator()(Args... args)
+  -> std::enable_if_t<
+    !std::is_same_v<void, decltype((object.*method)(args...))>,
+    decltype((object.*method)(args...))>
+{
+  return this->Invoke(std::forward<Args>(args)...);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

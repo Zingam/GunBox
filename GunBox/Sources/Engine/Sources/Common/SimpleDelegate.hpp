@@ -17,7 +17,11 @@ private:
   MethodPointerType method;
   ClassName& object;
 
-private:
+public:
+  SimpleDelegate(ClassName& object, MethodPointerType method);
+
+  // Public method templates
+public:
   template<typename... Args>
   auto Invoke(Args... args) -> std::enable_if_t<
     std::is_same_v<void, decltype((object.*method)(args...))>,
@@ -28,19 +32,17 @@ private:
     !std::is_same_v<void, decltype((object.*method)(args...))>,
     decltype((object.*method)(args...))>;
 
-public:
-  SimpleDelegate(ClassName& object, MethodPointerType method);
-
+  // Public operator templates
 public:
   template<typename... Args>
   auto operator()(Args... args) -> std::enable_if_t<
-    std::is_same_v<void, decltype(this->Invoke(args...))>,
-    decltype(this->Invoke(args...))>;
+    std::is_same_v<void, decltype((object.*method)(args...))>,
+    decltype((object.*method)(args...))>;
 
   template<typename... Args>
   auto operator()(Args... args) -> std::enable_if_t<
-    !std::is_same_v<void, decltype(this->Invoke(args...))>,
-    decltype(this->Invoke(args...))>;
+    !std::is_same_v<void, decltype((object.*method)(args...))>,
+    decltype((object.*method)(args...))>;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
