@@ -61,10 +61,14 @@ set (.Engine_SourceFiles
   "Sources/Renderer/Graphics/Vulkan/Objects/Utilities/Utilities.cpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/Instance.cpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/Instance.hpp"
+  "Sources/Renderer/Graphics/Vulkan/Objects/LogicalDevice.cpp"
+  "Sources/Renderer/Graphics/Vulkan/Objects/LogicalDevice.hpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/PhysicalDevice.cpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/PhysicalDevice.hpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/QueueFamily.cpp"
   "Sources/Renderer/Graphics/Vulkan/Objects/QueueFamily.hpp"
+  "Sources/Renderer/Graphics/Vulkan/Objects/Surface.cpp"
+  "Sources/Renderer/Graphics/Vulkan/Objects/Surface.hpp"
   "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.cpp"
   "Sources/Renderer/Graphics/Vulkan/GraphicsRenderer_Vulkan.hpp"
   "Sources/Renderer/Graphics/Vulkan/Vulkan.cpp"
@@ -145,6 +149,8 @@ set (.Engine_SourceFiles
   "Sources/System/HostPlatform/SystemInfo.hpp"
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Android/HostPlatform/GPUDevice_Vulkan_Base_Android.cpp>
   $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Android/HostPlatform/GPUDevice_Vulkan_Base_Android.hpp>
+  $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Android/HostPlatform/ProcessSingleton_Android.cpp>
+  $<$<PLATFORM_ID:Android>:Sources/System/Platforms/Android/HostPlatform/ProcessSingleton_Android.hpp>
   "Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.cpp"
   "Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base_Common.hpp"
   $<$<PLATFORM_ID:Windows>:Sources/System/Platforms/Common/HostPlatform/GPUDevice_Vulkan_Base.cpp>

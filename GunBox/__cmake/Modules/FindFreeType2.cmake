@@ -120,8 +120,11 @@ endif ()
 ################################################################################
 
 if (ANDROID)
-  if (NOT .ANDROID_SourcePath_FreeType2)
+  if (NOT DEFINED .ANDROID_SourcePath_FreeType2)
     message (FATAL_ERROR ".ANDROID_SourcePath_FreeType2 is not set")
+  endif ()
+  if ("${.ANDROID_SourcePath_FreeType2}" STREQUAL "")
+    message (FATAL_ERROR ".ANDROID_SourcePath_FreeType2 is empty")
   endif ()
 
   file (TO_CMAKE_PATH

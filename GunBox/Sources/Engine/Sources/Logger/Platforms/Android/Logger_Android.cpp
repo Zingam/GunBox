@@ -38,6 +38,10 @@ Logger_Android::WriteLog()
       logPriority = ANDROID_LOG_VERBOSE;
       break;
     }
+    case LogLevel_t::Validation: {
+      logPriority = ANDROID_LOG_INFO;
+      break;
+    }
     case LogLevel_t::Warning: {
       logPriority = ANDROID_LOG_WARN;
       break;
