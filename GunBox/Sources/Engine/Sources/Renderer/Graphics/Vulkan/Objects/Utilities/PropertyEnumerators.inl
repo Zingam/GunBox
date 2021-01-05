@@ -11,7 +11,7 @@
 // C++ Standard Library
 #include <type_traits>
 
-NAMESPACE_BEGIN(Renderer::Graphics)
+NAMESPACE_BEGIN(Renderer::Graphics::Vulkan::Objects::Utilities)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Function templates
@@ -70,21 +70,23 @@ EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
   return queueFamilies;
 }
 
+//template<typename T>
+//inline std::vector<T>
+//EnumeratePhysicalDevices(Instance const& instance)
+//{
+//  static_assert(
+//    std::is_same_v<T, VkPhysicalDevice> || std::is_same_v<T, PhysicalDevice>,
+//    "Unsupported typename!");
+//
+//  return std::vector<T>{};
+//}
+
 template<typename T>
-inline std::vector<T>
-EnumeratePhysicalDevices(Instance const& instance)
-{
-  static_assert(
-    std::is_same_v<T, VkPhysicalDevice> || std::is_same_v<T, PhysicalDevice>,
-    "Unsupported typename!");
-
-  return std::vector<T>{};
-}
-
-template<>
 inline auto
-EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
-  -> std::vector<VkPhysicalDevice>
+EnumeratePhysicalDevices(Instance const& instance)
+  -> std::enable_if_t<
+    std::is_same_v<T, VkPhysicalDevice>,
+    std::vector<VkPhysicalDevice>>
 {
   assert(IsInstance(instance.Get()) && "Vulkan instance is not initialized!");
 
@@ -101,10 +103,12 @@ EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
   return {};
 }
 
-template<>
-inline std::vector<PhysicalDevice>
-EnumeratePhysicalDevices<PhysicalDevice>(Instance const& instance)
-
+template<typename T>
+inline auto
+EnumeratePhysicalDevices(Instance const& instance)
+  ->std::enable_if_t<
+    std::is_same_v<T, PhysicalDevice>,
+    std::vector<PhysicalDevice>>
 {
   auto physicalDeviceHandles =
     EnumeratePhysicalDevices<VkPhysicalDevice>(instance);
@@ -116,4 +120,4 @@ EnumeratePhysicalDevices<PhysicalDevice>(Instance const& instance)
   return physicalDevices;
 }
 
-NAMESPACE_END(Renderer::Graphics)
+NAMESPACE_END(Renderer::Graphics::Vulkan::Objects::Utilities)

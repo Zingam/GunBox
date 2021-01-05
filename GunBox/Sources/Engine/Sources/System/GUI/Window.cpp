@@ -152,4 +152,10 @@ Window::Show()
   return isCreated;
 }
 
+std::string const&
+Window::Title() const 
+{
+  return this->title;
+}
+
 NAMESPACE_END(System)

@@ -2,7 +2,8 @@
 # https://clang.llvm.org/docs/ClangFormatStyleOptions.html
 ################################################################################
 
-# Available default styles: LLVM, Google, Chromium, Mozilla, WebKit
+# Available default styles:
+#   LLVM, Google, Chromium, Mozilla, WebKit, Microsoft, GNU
 BasedOnStyle: Mozilla
 # Preprocessor directive indenting style to use
 IndentPPDirectives: AfterHash

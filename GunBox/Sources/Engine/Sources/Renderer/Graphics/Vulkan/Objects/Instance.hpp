@@ -3,8 +3,11 @@
 #include <Engine/Base>
 ////////////////////////////////////////////////////////////////////////////////
 
+// Project headers - Common
+#include "Common/Version.hpp"
 // Project headers - Renderer
 #include "Renderer/Graphics/Vulkan/Objects/PhysicalDevice.hpp"
+#include "Renderer/Graphics/Vulkan/Objects/Surface.hpp"
 #include "Renderer/Graphics/Vulkan/Vulkan.hpp"
 
 // C++ Standard Library
@@ -19,6 +22,13 @@
 
 template<typename T>
 using optional_ref = std::optional<std::reference_wrapper<T>>;
+
+template<typename T>
+T&
+get(optional_ref<T> const& optionalRef)
+{
+  return optionalRef->get();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
@@ -62,6 +72,10 @@ public:
   /// Returns the currently selected physical device.
   /// </summary>
   auto SelectedPhysicalDevice() const -> optional_ref<PhysicalDevice const>;
+  /// <summary>
+  /// Returns the currently selected physical device.
+  /// </summary>
+  static auto MinimalRequiredVersion() -> Version;
 
   // Methods
 public:
@@ -111,6 +125,7 @@ private:
   std::vector<PhysicalDevice> physicalDevices;
   std::vector<VkLayerProperties> layers;
   optional_ref<PhysicalDevice const> selectedPhysicalDevice;
+  std::unique_ptr<Surface> surface = nullptr;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

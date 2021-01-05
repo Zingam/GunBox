@@ -106,3 +106,11 @@ Version::AsString() const
 {
   return versionString;
 }
+
+auto
+GreaterOrEqual(Version const& lhs, Version const& rhs) -> bool
+{
+  return (lhs.Major() >= rhs.Major()) && (lhs.Minor() >= rhs.Minor()) &&
+         (lhs.PatchLevel() >= rhs.PatchLevel()) &&
+         (lhs.BuildNumber() >= rhs.BuildNumber());
+}

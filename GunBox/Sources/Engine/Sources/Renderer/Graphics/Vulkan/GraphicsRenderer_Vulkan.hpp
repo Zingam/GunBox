@@ -57,10 +57,6 @@ public:
 
   // Friend functions
 public:
-  //friend std::unique_ptr<Renderer::Graphics::GraphicsRenderer_Interface> Create(
-  //  Application::CoreApplication const& coreApplication,
-  //  Application::Preferences& preferences,
-  //  System::HostPlatform& hostPlatform);
   friend std::unique_ptr<GraphicsRenderer_Interface> Create(
     Application::CoreApplication const& coreApplication,
     Application::Preferences& preferences,

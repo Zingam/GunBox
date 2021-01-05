@@ -64,6 +64,7 @@ public:
   auto Destroy() -> void;
   auto Hide() -> void;
   auto Show() -> bool;
+  auto Title() const -> std::string const&;
 
   // Member variables
 private:

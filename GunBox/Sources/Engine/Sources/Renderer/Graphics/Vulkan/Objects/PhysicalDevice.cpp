@@ -31,8 +31,10 @@ PhysicalDevice::PhysicalDevice(
   : instance{ instance }
   , physicalDevice{ physicalDevice }
 {
-  vkGetPhysicalDeviceProperties(physicalDevice, &properties);
-  queueFamilies = EnumeratePhysicalDeviceQueueFamilies<QueueFamily>(*this);
+  vkGetPhysicalDeviceProperties(this->physicalDevice, &properties);
+  queueFamilies =
+    Vulkan::Objects::Utilities::EnumeratePhysicalDeviceQueueFamilies<
+      QueueFamily>(*this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,49 +104,46 @@ PhysicalDevice::TypeAsString() const
   }
 }
 
-std::any
+PhysicalDevice::QueueFamilyResult_t
 PhysicalDevice::FindComputeQueueFamily() const
 {
-  // Get all compute capable queue families
-  std::vector<std::reference_wrapper<QueueFamily const>>
-    computeCapableQueueFamilies;
+  // Find the first compute only capable queue family
   for (auto const& queueFamily : queueFamilies) {
-    if (queueFamily.IsCapable(QueueFamily::Capability_t::Compute)) {
-      computeCapableQueueFamilies.push_back(
-        std::reference_wrapper<QueueFamily const>{ queueFamily });
+    if (
+      queueFamily.IsCapable(QueueFamily::Capability_t::Compute) &&
+      !queueFamily.IsCapable(QueueFamily::Capability_t::Graphics)) {
+      return std::reference_wrapper<QueueFamily const>{ queueFamily };
     }
   }
 
-  // Get a compute only capable queue family
-  for (auto const& computeCapableQueueFamily : computeCapableQueueFamilies) {
-    auto const& queueFamily = computeCapableQueueFamily.get();
-    auto isComputeOnly =
-      !queueFamily.IsCapable(QueueFamily::Capability_t::Graphics) &&
-      !queueFamily.IsCapable(QueueFamily::Capability_t::Protected) &&
-      !queueFamily.IsCapable(QueueFamily::Capability_t::SparseBinding) &&
-      !queueFamily.IsCapable(QueueFamily::Capability_t::Transfer);
-    if (isComputeOnly) {
-      return (std::reference_wrapper<QueueFamily const>{ queueFamily });
-    }
-  }
-
-  // Return the first compute capable queue family if no compute only capable
-  // queue family has not been found
-  if (!computeCapableQueueFamilies.empty()) {
-    return computeCapableQueueFamilies[0];
-  } else {
-
-    return std::string{ "Unable to find a compute capable queue family" };
-  }
+  // Graphics queues families always support compute operations
+  return FindGraphicsQueueFamily();
 }
 
-std::any
+PhysicalDevice::QueueFamilyResult_t
 PhysicalDevice::FindGraphicsQueueFamily() const
 {
   return FindQueueFamily(QueueFamily::Capability_t::Graphics);
 }
 
-std::any
+PhysicalDevice::QueueFamilyResult_t
+PhysicalDevice::FindTransferQueueFamily() const
+{
+  // Get the first transfer only capable queue
+  for (auto const& queueFamily : queueFamilies) {
+    if (
+      queueFamily.IsCapable(QueueFamily::Capability_t::Transfer) &&
+      !queueFamily.IsCapable(QueueFamily::Capability_t::Graphics) &&
+      !queueFamily.IsCapable(QueueFamily::Capability_t::Compute)) {
+      return std::reference_wrapper<QueueFamily const>{ queueFamily };
+    }
+  }
+
+  // Graphics queue families always support tranfer operations
+  return FindGraphicsQueueFamily();
+}
+
+PhysicalDevice::QueueFamilyResult_t
 PhysicalDevice::FindQueueFamily(
   QueueFamily::CapabilityFlags queueCapabilityFlags) const
 {
@@ -199,7 +198,7 @@ PhysicalDevice::FindQueueFamily(
   return ss.str();
 }
 
-std::any
+PhysicalDevice::QueueFamilyResult_t
 PhysicalDevice::FindQueueFamily(QueueFamily::Capability_t queueCapability) const
 {
   return FindQueueFamily(
@@ -209,6 +208,45 @@ PhysicalDevice::FindQueueFamily(QueueFamily::Capability_t queueCapability) const
 ////////////////////////////////////////////////////////////////////////////////
 // Free functions
 ////////////////////////////////////////////////////////////////////////////////
+
+std::vector<VkExtensionProperties>
+EnumeratePhysicalDeviceExtensions(PhysicalDevice const& physicalDevice)
+{
+  auto physicalDeviceExtensionCount = 0u;
+  if (vkCallSuccess(vkEnumerateDeviceExtensionProperties(
+        physicalDevice.Get(),
+        nullptr,
+        &physicalDeviceExtensionCount,
+        nullptr))) {
+    std::vector<VkExtensionProperties> physicalDeviceExtensions(
+      physicalDeviceExtensionCount);
+    if (vkCallSuccess(vkEnumerateDeviceExtensionProperties(
+          physicalDevice.Get(),
+          nullptr,
+          &physicalDeviceExtensionCount,
+          physicalDeviceExtensions.data()))) {
+
+      return physicalDeviceExtensions;
+    }
+  }
+
+  return {};
+}
+
+void
+ListPhysicalDeviceExtensions(PhysicalDevice const& physicalDevice)
+{
+  using namespace std::string_literals;
+
+  auto const physicalDeviceExtensions =
+    EnumeratePhysicalDeviceExtensions(physicalDevice);
+  // clang-format off
+  ELogI("            + Available extensions: ("s, physicalDeviceExtensions.size(), ")"s);
+  // clang-format on
+  for ([[maybe_unused]] auto const& extension : physicalDeviceExtensions) {
+    ELogI("                "s, extension.extensionName);
+  }
+}
 
 void
 ListQueueFamilies(PhysicalDevice const& physicalDevice)
@@ -223,17 +261,18 @@ PrintQueueFamilyInfo(QueueFamily const& queueFamily)
 {
   using namespace std::string_literals;
 
-  auto const& caps = queueFamily.Capabilities();
+  [[maybe_unused]] auto const& caps = queueFamily.Capabilities();
 
   // clang-format off
-  ELogI("          + Queue family:"s);
-  ELogI("              Index:           "s, queueFamily.Index());
-  ELogI("              Capabilities:"s);
-  ELogI("                Compute:       "s, std::boolalpha, caps.Compute);
-  ELogI("                Graphics:      "s, std::boolalpha, caps.Graphics);
-  ELogI("                Protected:     "s, std::boolalpha, caps.ProtectedMemory);
-  ELogI("                SparseBinding: "s, std::boolalpha, caps.SparseBinding);
-  ELogI("                Transfer:      "s, std::boolalpha, caps.Transfer);
+  ELogI("            + Queue family:"s);
+  ELogI("                Index:           "s, queueFamily.Index());
+  ELogI("                Queue count:     "s, queueFamily.QueueCount());
+  ELogI("                Capabilities:"s);
+  ELogI("                  Compute:       "s, std::boolalpha, caps.Compute);
+  ELogI("                  Graphics:      "s, std::boolalpha, caps.Graphics);
+  ELogI("                  Protected:     "s, std::boolalpha, caps.ProtectedMemory);
+  ELogI("                  SparseBinding: "s, std::boolalpha, caps.SparseBinding);
+  ELogI("                  Transfer:      "s, std::boolalpha, caps.Transfer);
   // clang-format on
 }
 

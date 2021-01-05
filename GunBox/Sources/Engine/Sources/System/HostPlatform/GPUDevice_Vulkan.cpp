@@ -1,6 +1,9 @@
 // Self
 #include "GPUDevice_Vulkan.hpp"
 
+// Project headers - Renderer
+#include "Renderer/Graphics/Vulkan/Objects/Surface.hpp"
+
 NAMESPACE_BEGIN(System::HostPlatformClasses)
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -42,9 +45,29 @@ GPUDevice_Vulkan::ValidationLayerNames() const
 ////////////////////////////////////////////////////////////////////////////////
 
 bool
-GPUDevice_Vulkan::Initialize(System::Window const& window)
+GPUDevice_Vulkan::EnumerateInstanceExtensions()
 {
-  return o_ptr->Initialize(window);
+  return o_ptr->EnumerateInstanceExtensions();
+}
+
+std::unique_ptr<Renderer::Graphics::Surface>
+GPUDevice_Vulkan::CreateSurface(
+  Renderer::Graphics::Instance const& instance,
+  System::Window const& window) const
+{
+  return o_ptr->CreateSurface(instance, window);
+}
+
+bool
+GPUDevice_Vulkan::Initialize()
+{
+  return o_ptr->Initialize();
+}
+
+std::optional<Version>
+GPUDevice_Vulkan::InstanceVersion() const
+{
+  return o_ptr->InstanceVersion();
 }
 
 NAMESPACE_END(System::HostPlatformClasses)

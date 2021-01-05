@@ -7,11 +7,13 @@
 #include "Renderer/Graphics/Vulkan/Objects/Instance.hpp"
 #include "Renderer/Graphics/Vulkan/Objects/PhysicalDevice.hpp"
 
+#include <type_traits>
+
 ////////////////////////////////////////////////////////////////////////////////
 // Function templates
 ////////////////////////////////////////////////////////////////////////////////
 
-NAMESPACE_BEGIN(Renderer::Graphics)
+NAMESPACE_BEGIN(Renderer::Graphics::Vulkan::Objects::Utilities)
 
 template<typename T>
 auto
@@ -28,21 +30,21 @@ auto
 EnumeratePhysicalDeviceQueueFamilies(PhysicalDevice const& physicalDevice)
   -> std::vector<QueueFamily>;
 
+//template<typename T>
+//auto
+//EnumeratePhysicalDevices(Instance const& instance) -> std::vector<T>;
+
 template<typename T>
-auto
-EnumeratePhysicalDevices(Instance const& instance) -> std::vector<T>;
-
-template<>
 inline auto
-EnumeratePhysicalDevices<VkPhysicalDevice>(Instance const& instance)
-  -> std::vector<VkPhysicalDevice>;
+EnumeratePhysicalDevices(Instance const& instance)
+  -> std::enable_if_t<std::is_same_v<T, VkPhysicalDevice>, std::vector<VkPhysicalDevice>>;
 
-template<>
+template<typename T>
 inline auto
-EnumeratePhysicalDevices<PhysicalDevice>(Instance const& instance)
-  -> std::vector<PhysicalDevice>;
+EnumeratePhysicalDevices(Instance const& instance)
+  -> std::enable_if_t<std::is_same_v<T, PhysicalDevice>, std::vector<PhysicalDevice>>;
 
-NAMESPACE_END(Renderer::Graphics)
+NAMESPACE_END(Renderer::Graphics::Vulkan::Objects::Utilities)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Inline method implementations

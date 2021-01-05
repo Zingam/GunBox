@@ -10,15 +10,25 @@
 // C++ Standard Library
 #include <any>
 #include <string>
+#include <variant>
 #include <vector>
 #include <iostream>
+
+////////////////////////////////////////////////////////////////////////////////
+// Forward declarations
+////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(Renderer::Graphics)
+
+class Instance;
+
+NAMESPACE_END(Renderer::Graphics)
 
 ////////////////////////////////////////////////////////////////////////////////
 // Class declarations
 ////////////////////////////////////////////////////////////////////////////////
 
 NAMESPACE_BEGIN(Renderer::Graphics)
-class Instance;
 
 class PhysicalDevice
 {
@@ -33,6 +43,8 @@ public:
     Other,
     Unknown
   };
+
+  using QueueFamilyResult_t = std::variant<QueueFamily_Ref_t, std::string>;
 
   // Constructors & Destructors
 public:
@@ -58,19 +70,31 @@ public:
   // clang-format off
   /// <summary>
   /// Searches for the first compute only capable queue family if available
-  /// otherwise returns the first compute capable queue family.
+  /// otherwise returns the first graphics capable queue family.
   /// </summary>
   auto FindComputeQueueFamily() const
-    -> std::any;
+    -> QueueFamilyResult_t;
   /// <summary>
   /// Searches for the first graphics capable queue family.
   /// </summary>
   auto FindGraphicsQueueFamily() const
-    -> std::any;
+    -> QueueFamilyResult_t;
+  /// <summary>
+  /// Searches for the first transfer only capable queue family if available
+  /// otherwise returns the first graphics capable queue family.
+  /// </summary>
+  auto FindTransferQueueFamily() const
+    -> QueueFamilyResult_t;
+  /// <summary>
+  /// Searches for the first queue family with the required capability.
+  /// </summary>
   auto FindQueueFamily(QueueFamily::CapabilityFlags queueCapabilityFlags) const
-    -> std::any;
+    -> QueueFamilyResult_t;
+  /// <summary>
+  /// Searches for the first queue family with the required capability.
+  /// </summary>
   auto FindQueueFamily(QueueFamily::Capability_t queueCapability) const
-    -> std::any;
+    -> QueueFamilyResult_t;
   // clang-format on
 
   // Private data members
@@ -81,14 +105,30 @@ private:
   std::vector<QueueFamily> queueFamilies;
 };
 
+NAMESPACE_END(Renderer::Graphics)
+
 ////////////////////////////////////////////////////////////////////////////////
 // Free functions
 ////////////////////////////////////////////////////////////////////////////////
 
+NAMESPACE_BEGIN(Renderer::Graphics)
+
+// clang-format off
 auto
-ListQueueFamilies(PhysicalDevice const& physicalDevice) -> void;
+EnumeratePhysicalDeviceExtensions(PhysicalDevice const& physicalDevice)
+  -> std::vector<VkExtensionProperties>;
 
 auto
-PrintQueueFamilyInfo(QueueFamily const& queueFamily) -> void;
+ListPhysicalDeviceExtensions(PhysicalDevice const& physicalDevice)
+  -> void;
+
+auto
+ListQueueFamilies(PhysicalDevice const& physicalDevice)
+  -> void;
+
+auto
+PrintQueueFamilyInfo(QueueFamily const& queueFamily)
+  -> void;
+// clang-format on
 
 NAMESPACE_END(Renderer::Graphics)

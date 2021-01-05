@@ -10,11 +10,19 @@
 #include "Common/implementedBy.hpp"
 
 // C++ Standard Library
+#include <memory>
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Forward declarations
 ////////////////////////////////////////////////////////////////////////////////
+
+NAMESPACE_BEGIN(Renderer::Graphics)
+
+class Instance;
+class Surface;
+
+NAMESPACE_END(Renderer::Graphics)
 
 NAMESPACE_BEGIN(System)
 
@@ -40,7 +48,13 @@ public:
 
   // Methods
 public:
-  auto Initialize(System::Window const& window) -> bool;
+  auto EnumerateInstanceExtensions() -> bool;
+  auto CreateSurface(
+    Renderer::Graphics::Instance const& instance,
+    System::Window const& window) const
+    -> std::unique_ptr<Renderer::Graphics::Surface>;
+  auto Initialize() -> bool;
+  auto InstanceVersion() const -> std::optional<Version>;
 };
 
 NAMESPACE_END(System::HostPlatformClasses)

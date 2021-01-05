@@ -53,6 +53,7 @@ public:
 public:
   auto Capabilities() const -> Capabilities_t const&;
   auto Index() const -> std::uint32_t;
+  auto QueueCount() const -> std::uint32_t;
 
   // Methods
 public:
@@ -71,6 +72,8 @@ private:
   std::uint32_t queueCount = 0;
   VkQueueFamilyProperties queueFamily{};
 };
+
+using QueueFamily_Ref_t = std::reference_wrapper<QueueFamily const>;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Free functions
