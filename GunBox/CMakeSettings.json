@@ -31,7 +31,10 @@
           "type": "BOOL",
           "value": "YES"
         }
-      ]
+      ],
+      "addressSanitizerEnabled": true,
+      "enableClangTidyCodeAnalysis": true,
+      "enableMicrosoftCodeAnalysis": true,
     },
     {
       "name": "Ninja-Clang-MSVC-CLI-x64-Debug",
