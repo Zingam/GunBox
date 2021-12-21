@@ -57,7 +57,7 @@ private:
 struct SurfaceInfo
 {
   VkBool32 canPresent = VK_FALSE;
-  VkSurfaceCapabilitiesKHR capabilities;
+  VkSurfaceCapabilitiesKHR capabilities{};
   std::vector<VkSurfaceFormatKHR> formats;
   VkSurfaceKHR handle = nullptr;
   std::vector<VkPresentModeKHR> presentModes;
