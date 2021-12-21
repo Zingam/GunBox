@@ -1,10 +1,23 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*'
-WarningsAsErrors: ''
-HeaderFilterRegex: ''
+Checks: >
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  clang-diagnostic-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  google-*,
+  hicpp-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*
+WarningsAsErrors:      ''
+HeaderFilterRegex:     ''
 AnalyzeTemporaryDtors: false
-FormatStyle:     none
-User:            HGH
+FormatStyle:           none
+User:                  HGH
 CheckOptions:
   - key:             llvm-else-after-return.WarnOnConditionVariables
     value:           'false'
