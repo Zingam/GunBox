@@ -24,7 +24,7 @@ NAMESPACE_BEGIN(Application)
 ////////////////////////////////////////////////////////////////////////////////
 
 CoreApplication::CoreApplication(ApplicationInfo const& applicationInfo)
-  : applicationInfo{ std::move(applicationInfo) }
+  : applicationInfo{ applicationInfo }
   , engineInfo{ Engine_Title,
                 Version::Version_t{ Engine_VersionMajor,
                                     Engine_VersionMinor,
