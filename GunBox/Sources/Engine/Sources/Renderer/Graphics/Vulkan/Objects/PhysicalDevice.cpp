@@ -17,6 +17,7 @@
 #include <cstdint>
 // C++ Standard Library
 #include <memory>
+#include <set>
 #include <sstream>
 
 NAMESPACE_BEGIN(Renderer::Graphics)
@@ -243,7 +244,18 @@ ListPhysicalDeviceExtensions(PhysicalDevice const& physicalDevice)
   // clang-format off
   ELogI("            + Available extensions: ("s, physicalDeviceExtensions.size(), ")"s);
   // clang-format on
-  for ([[maybe_unused]] auto const& extension : physicalDeviceExtensions) {
+
+  auto const compare =
+    [](VkExtensionProperties const& lhs, VkExtensionProperties const& rhs) {
+      return std::strcmp(lhs.extensionName, rhs.extensionName) < 1;
+    };
+  std::set<VkExtensionProperties, decltype(compare)> extensions{
+    std::begin(physicalDeviceExtensions),
+    std::end(physicalDeviceExtensions),
+    compare
+  };
+
+  for ([[maybe_unused]] auto const& extension : extensions) {
     ELogI("                "s, extension.extensionName);
   }
 }
