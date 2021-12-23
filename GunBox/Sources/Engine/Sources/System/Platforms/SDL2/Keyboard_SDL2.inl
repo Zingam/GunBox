@@ -7,6 +7,7 @@
 NAMESPACE_BEGIN(System::Platforms::Keyboard)
 
 inline System::DeviceTypes::Input::ScanCode_t
+#pragma warning(suppress: 26812) // Allow unscoped enum
 ConvertScanCode(SDL_Scancode scancode)
 {
   using namespace System::DeviceTypes::Input;

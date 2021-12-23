@@ -56,7 +56,7 @@ NAMESPACE_BEGIN(System::HostPlatformClasses)
 // Constructors & Destructors
 ////////////////////////////////////////////////////////////////////////////////
 
-GPUDevice_Vulkan_SDL::GPUDevice_Vulkan_SDL() {}
+GPUDevice_Vulkan_SDL::GPUDevice_Vulkan_SDL() = default;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Properties
@@ -119,7 +119,7 @@ GPUDevice_Vulkan_SDL::EnumerateInstanceExtensions()
     IsFalse(this->platformName.empty()) &&
     "GPUDevice_Vulkan_SDL is not initialized");
 
-  if (std::uint32_t extensionsCount = 0u; IsSuccess(
+  if (std::uint32_t extensionsCount = 0U; IsSuccess(
         SDL_Vulkan_GetInstanceExtensions(nullptr, &extensionsCount, nullptr))) {
     surfaceCreationExtensionNames.resize(extensionsCount);
 
@@ -145,7 +145,7 @@ GPUDevice_Vulkan_SDL::CreateSurface(
   Renderer::Graphics::Instance const& instance,
   System::Window const& window) const
 {
-  VkSurfaceKHR handle;
+  VkSurfaceKHR handle{};
   if (IsSuccess(
         SDL_Vulkan_CreateSurface(window.Id(), instance.Get(), &handle))) {
     return std::make_unique<Renderer::Graphics::Surface>(window, instance, handle);
@@ -170,13 +170,14 @@ GPUDevice_Vulkan_SDL::Initialize()
       reinterpret_cast<PFN_vkEnumerateInstanceVersion>(
         GetInstanceProcAddr(VK_NULL_HANDLE, "vkEnumerateInstanceVersion"));
     if (IsInstance(EnumerateInstanceVersion)) {
-      std::uint32_t apiVersion = 0;
+      std::uint32_t apiVersion = 0U;
+      #pragma warning(suppress: 26812) // Allow unscoped enum
       if (VK_SUCCESS == EnumerateInstanceVersion(&apiVersion)) {
         this->instanceVersion.emplace(
           Version::Version_t{ VK_VERSION_MAJOR(apiVersion),
                               VK_VERSION_MINOR(apiVersion),
                               VK_VERSION_PATCH(apiVersion),
-                              0 });
+                              0U });
       } else {
         using namespace std::string_literals;
 

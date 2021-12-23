@@ -138,6 +138,7 @@ GraphicsRenderer_Vulkan::Initialize()
   // Check if the device can present to the surface
   VkBool32 isSupported = VK_FALSE;
   if (
+    #pragma warning(suppress: 26812) // Allow unscoped enum
     VK_SUCCESS != (vkGetPhysicalDeviceSurfaceSupportKHR(
                     physicalDevice.Get(),
                     queueFamily->get().Index(),

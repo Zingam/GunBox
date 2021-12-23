@@ -7,6 +7,7 @@
 NAMESPACE_BEGIN(System::Platforms::Gamepad)
 
 inline System::DeviceTypes::Input::GamepadAxis_t
+#pragma warning(suppress: 26812) // Allow unscoped enum
 ConvertGamepadAxis(SDL_GameControllerAxis axis)
 {
   using namespace System::DeviceTypes::Input;
@@ -37,6 +38,7 @@ ConvertGamepadAxis(SDL_GameControllerAxis axis)
 }
 
 inline System::DeviceTypes::Input::GamepadButton_t
+#pragma warning(suppress: 26812) // Allow unscoped enum
 ConvertGamepadButton(SDL_GameControllerButton button)
 {
   using namespace System::DeviceTypes::Input;

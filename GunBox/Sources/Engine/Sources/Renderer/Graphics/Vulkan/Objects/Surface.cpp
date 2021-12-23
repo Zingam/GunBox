@@ -75,6 +75,7 @@ EnumerateSurfaceProperties(
     "vkGetPhysicalDeviceSurfacePresentModesKHR function pointer is not loaded");
   SurfaceInfo surfaceInfo;
   // Surface capabilities
+  #pragma warning(suppress: 26812) // Allow unscoped enum
   vkGetPhysicalDeviceSurfaceCapabilitiesKHR(
     physicalDevice.Get(), surface.handle, &surfaceInfo.capabilities);
 
@@ -106,6 +107,7 @@ EnumerateSurfaceProperties(
         physicalDevice.Get(), surface.handle, &presentModesCount, nullptr))) {
     if (presentModesCount > 0) {
       surfaceInfo.presentModes.resize(presentModesCount);
+      #pragma warning(suppress: 26812) // Allow unscoped enum
       if (vkCallFail(vkGetPhysicalDeviceSurfacePresentModesKHR(
             physicalDevice.Get(),
             surface.handle,

@@ -27,8 +27,9 @@ AlertBox_SDL::Initialize(
 void
 AlertBox_SDL::Show()
 {
-  using namespace System::GUI::Common;
+  using System::GUI::Common::AlertBox_Base;
 
+  #pragma warning(suppress: 26812) // Allow unscoped enum
   auto alertType = SDL_MESSAGEBOX_WARNING;
   switch (this->alertType) {
     case AlertBox_Base::AlertType_t::Error: {
@@ -40,9 +41,8 @@ AlertBox_SDL::Show()
       break;
     }
     case AlertBox_Base::AlertType_t::Warning: {
-      [[fallthrough]];
+      break;
     }
-    default: {}
   }
 
   SDL_ShowSimpleMessageBox(

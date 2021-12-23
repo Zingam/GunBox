@@ -30,6 +30,7 @@ LogicalDevice::LogicalDevice(
   createInfo.ppEnabledExtensionNames = nullptr;
   createInfo.pEnabledFeatures = nullptr;
 
+  #pragma warning(suppress: 26812) // Allow unscoped enum
   vkCreateDevice(physicalDevice.Get(), &createInfo, nullptr, &handle); // !=
   //  VK_SUCCESS;
   vkGetDeviceQueue(handle, queueFamilyIndex, 0, &queue);

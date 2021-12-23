@@ -171,6 +171,7 @@ Instance::Create()
       .ppEnabledExtensionNames = extensionNamesToEnable.data(),
     };
 
+    #pragma warning(suppress: 26812) // Allow unscoped enum
     if (vkCallSuccess(
           vkCreateInstance(&instanceCreateInfo, nullptr, &instance))) {
 
@@ -370,6 +371,7 @@ Instance::GetRequiredLayerNames() const
 }
 
 VKAPI_ATTR VkBool32 VKAPI_CALL
+#pragma warning(suppress: 26812) // Allow unscoped enum
 Instance::DebugMessangerCallback(
   VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
   VkDebugUtilsMessageTypeFlagsEXT messageTypes,

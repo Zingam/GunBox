@@ -214,6 +214,7 @@ std::vector<VkExtensionProperties>
 EnumeratePhysicalDeviceExtensions(PhysicalDevice const& physicalDevice)
 {
   auto physicalDeviceExtensionCount = 0u;
+  #pragma warning(suppress: 26812) // Allow unscoped enum
   if (vkCallSuccess(vkEnumerateDeviceExtensionProperties(
         physicalDevice.Get(),
         nullptr,
