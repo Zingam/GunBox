@@ -32,9 +32,8 @@
           "value": "YES"
         }
       ],
-      "addressSanitizerEnabled": true,
       "enableClangTidyCodeAnalysis": true,
-      "enableMicrosoftCodeAnalysis": true,
+      "enableMicrosoftCodeAnalysis": true
     },
     {
       "name": "Ninja-Clang-MSVC-CLI-x64-Debug",
@@ -108,7 +107,9 @@
           "type": "BOOL",
           "value": "YES"
         }
-      ]
+      ],
+      "enableClangTidyCodeAnalysis": true,
+      "enableMicrosoftCodeAnalysis": true
     },
     {
       "name": "Ninja-MSVC-x64-RelWithDebInfo",
@@ -126,7 +127,8 @@
           "type": "BOOL",
           "value": "YES"
         }
-      ]
+      ],
+      "addressSanitizerEnabled": true
     },
     {
       "name": "VS2019-Clang-x64-Debug",

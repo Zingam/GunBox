@@ -1,5 +1,6 @@
 ---
 Checks: >
+  -*,
   bugprone-*,
   cert-*,
   clang-analyzer-*,
@@ -14,7 +15,7 @@ Checks: >
   portability-*,
   readability-*
 WarningsAsErrors:      ''
-HeaderFilterRegex:     ''
+HeaderFilterRegex:     'Sources/[^/]*\.(hpp|cpp|hxx|cxx)$'
 AnalyzeTemporaryDtors: false
 FormatStyle:           none
 User:                  HGH
@@ -56,4 +57,3 @@ CheckOptions:
   - key:             google-readability-function-size.StatementThreshold
     value:           '800'
 ...
-
